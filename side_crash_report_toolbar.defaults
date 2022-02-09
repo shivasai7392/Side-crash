@@ -1,0 +1,9 @@
+toolbar start SIDECRASH
+toolbar onoff :opt var add side_crash_toolbar_gui_mode True|
+toolbar minmaxbuttons off
+toolbar hsubgroup 
+toolbar sfiletext 2D Metadb:opt var add 2d_metadb_input {}
+toolbar filterfiletext METADB FILES ( *.metadb )
+toolbar endgroup
+toolbar button Apply:options session controldraw disable;script execute "run_wrapper.py::main()";   options session controldraw enable
+toolbar aligntextmid

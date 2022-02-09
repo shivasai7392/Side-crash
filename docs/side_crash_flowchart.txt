@@ -1,0 +1,20 @@
+
+"""
+##################################################
+#      Copyright BETA CAE Systems USA Inc.,      #
+#      2020 All Rights Reserved                  #
+#      UNPUBLISHED, LICENSED SOFTWARE.           #
+##################################################
+
+
+Flowchart for side crash report generation.
+
+
+Developer   : Naresh Medipalli and shiva sai
+Date        : Jan 03, 2022
+
+"""
+
+Start:
+    Inputs
+    Fetch all Variables Info from the metaDB Tools>Variables
