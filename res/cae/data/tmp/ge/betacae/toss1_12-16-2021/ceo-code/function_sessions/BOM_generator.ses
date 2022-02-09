@@ -1,0 +1,126 @@
+spreadsheet rename "Sheet1" "${comp_name}"
+
+//#!python
+# PYTHON script
+import os
+import re
+import meta
+from meta import *
+from difflib import get_close_matches
+
+def main():
+	run_dir = str(utils.MetaGetVariable('run_directory'))
+	file_name = str(utils.MetaGetVariable('file_name'))
+	total_output = os.path.join(run_dir,"Session_Report",file_name+"_BOM.xlsx")
+
+	print("GENERATING BOM : "+file_name)
+	part_ids = []
+	part_names = []
+	part_matsID = []
+	part_matsName = []
+	part_partThickness = []
+	part_list = parts.VisibleParts(0, 'MetaPost')
+	print('Number of parts identified = ', len(part_list))
+	for p in part_list:
+		part_ids.append(p.id)
+		part_names.append(p.name)
+		part_matsID.append(p.mat_id)
+		part_partThickness.append(round(p.shell_thick, 3))
+
+	#Set up excel sheet
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" A2 text 1')
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" A3 text 2')
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" A4 text 3')
+	utils.MetaCommand('spreadsheet selection "${comp_name}" A2:A4')
+	utils.MetaSetVariable('list_size', str(len(part_ids)+1))
+	utils.MetaSetVariable('list_length', str(len(part_ids)-3))
+	utils.MetaCommand('spreadsheet dragcells extend vertically "${comp_name}" A2:A4 ${list_length}')
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" A1 text PID')
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" B1 text Name')
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" C1 text Material')
+	utils.MetaCommand('spreadsheet cell richtext "${comp_name}" D1 text Thickness')
+	utils.MetaCommand('spreadsheet cell fontfamily "${comp_name}" A1:F200 "Helvetica"')
+	utils.MetaCommand('spreadsheet cell fontsize "${comp_name}" A1:F200 12')
+
+	#Create the list of material names based on each mat ID from part_matsID
+	iter = 0
+	while iter <= int(len(part_ids))-1:
+		m = materials.MaterialById(0, constants.MAT1, part_matsID[iter])
+		if m:
+			part_matsName.append(m.name)
+		iter += 1
+
+	#Adding parts LS-DYNA PIDs
+	iter = 0
+	while iter <= int(len(part_ids))-1:
+		cell_item = str('A')+str(2+iter)
+		utils.MetaSetVariable('cell_item', str(cell_item))
+		tmp_var = part_ids[iter]
+		utils.MetaSetVariable('tmp_var', str(tmp_var))
+		utils.MetaCommand('spreadsheet cell richtext "${comp_name}" ${cell_item} text ${tmp_var}')
+		iter += 1
+
+	#Adding parts name
+	iter = 0
+	while iter <= int(len(part_ids))-1:
+		cell_item = str('B')+str(2+iter)
+		utils.MetaSetVariable('cell_item', str(cell_item))
+		tmp_var = part_names[iter]
+		utils.MetaSetVariable('tmp_var', str(tmp_var))
+		utils.MetaCommand('spreadsheet cell richtext "${comp_name}" ${cell_item} text ${tmp_var}')
+		iter += 1
+
+	#Adding parts Material
+	iter = 0
+	while iter <= int(len(part_ids))-1:
+		cell_item = str('C')+str(2+iter)
+		utils.MetaSetVariable('cell_item', str(cell_item))
+		tmp_var = part_matsName[iter]
+		utils.MetaSetVariable('tmp_var', str(tmp_var))
+		utils.MetaCommand('spreadsheet cell richtext "${comp_name}" ${cell_item} text ${tmp_var}')
+		iter += 1
+
+	#Adding parts Thickness
+	iter = 0
+	while iter <= int(len(part_ids))-1:
+		cell_item = str('D')+str(2+iter)
+		utils.MetaSetVariable('cell_item', str(cell_item))
+		tmp_var = part_partThickness[iter]
+		utils.MetaSetVariable('tmp_var', str(tmp_var))
+		utils.MetaCommand('spreadsheet cell richtext "${comp_name}" ${cell_item} text ${tmp_var}')
+		iter += 1
+	
+	#Select all available data
+	dir = run_dir
+	spr= meta.spreadsheet.Spreadsheets()[0]
+	sheet = spr.get_active_sheet()
+	
+	for char_id in range(1,100):
+		cell = sheet.get_cell([1, char_id,]).get_text()
+		if not(len(cell) > 0):
+			max_column_int= int(char_id) - 1
+			max_column_chr = max_column_int + 64
+			break
+		
+	for row_id in range(1,1000000):
+		cell = sheet.get_cell([row_id,max_column_int]).get_text()
+		if not(len(cell) > 0):
+			max_row = int(row_id) - 1
+			break		
+	
+	first_cell = "A1"
+	last_cell = chr(max_column_chr)+str(max_row)
+	selection = first_cell+":"+last_cell
+	utils.MetaSetVariable('cell_selection', selection)
+
+	print("OUTPUT BOM : "+total_output)
+	print("CELLS WITH DATA : "+selection)
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+spreadsheet selection "${comp_name}" ${cell_selection}
+spreadsheet save ${run_directory}/Session_Report/${file_name}_BOM.xlsx
+spreadsheet clear

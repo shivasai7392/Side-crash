@@ -1,0 +1,229 @@
+$-- HORIZONTAL LINES FROM D3PLOT DATA -- Y VS X -- INTRUSION [mm] EVERY 10ms
+$
+$ opt var add d3plot_data MetaPost
+$ opt var add model 0
+$ opt var add window_id 3
+$ opt var string follow_nodes 7,8,9
+$ opt var add window "Rear Door - CAE Intrusion"
+$ opt var string name SKIN_HIP_
+$ opt var string plot_nodes "33618962/33620449/33622260/33701461/33703857/33628203/33630338/33632252/33634148/33635956/33637756/33639754/33641963/33644214/33646459/33648627/33650947/33653225/33655397/33657508/33659484/33661413/33663207/33664858"
+$ opt var string plot_states 0,1,2,3,4,0.00,0.01,0.02,0.03,4-11-2,0.03-0.08-0.01
+$ MAKE SURE plot_nodes IS SORTED IN X
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("---INTRUSION LINES Y VS X")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+window active  "$(d3plot_data)"
+model active ${model}
+view fo3 ${follow_nodes}
+options state variable "time=0"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}0MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "80_155_105"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.01"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}10MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "85_150_110"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.02"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}20MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "90_145_115"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.03"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}30MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "95_140_120"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.04"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}40MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "97_137_125"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.05"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}50MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "100_135_130"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.06"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}60MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "105_130_135"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.07"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}70MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "110_125_140"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.08"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}80MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "115_120_145"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.09"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}90MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "120_115_150"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.10"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}100MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "125_110_155"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.11"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}110MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "130_105_155"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.12"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}120MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "135_100_155"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.13"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}130MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "140_95_155"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.14"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}140MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "145_90_155"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+window active  "$(d3plot_data)"
+options state variable "time=0.15"
+window active none
+window active "${window}"
+xyplot plotactive "${window}" ${window_id}
+xyplot linepick nodes "${window}" ${model} ${plot_nodes} Y_coordinate XCoordinate current current
+xyplot curve set name "${window}" ${LAST_CURVE_ID} "${name}150MS"
+xyplot curve set linewidth "${window}" visible 3
+xyplot curve set color "${window}" visible "155_80_155"
+xyplot curve visible not "${window}" all
+xyplot plotdeactive "${window}" ${window_id}
+window active none
+
+opt var add formatting_window_name "${window}"
+
+window active "${formatting_window_name}"
+xyplot plotactive "${formatting_window_name}" all
+xyplot curve visible not "${formatting_window_name}" all
+xyplot curve deselect "${formatting_window_name}" all
+xyplot plotdeactive "${formatting_window_name}" all
+window active none

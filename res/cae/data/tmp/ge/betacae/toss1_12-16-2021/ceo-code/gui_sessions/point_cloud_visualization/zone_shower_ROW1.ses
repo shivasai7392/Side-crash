@@ -1,0 +1,622 @@
+
+$------------------
+opt var add code_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions"
+
+$-- CAE info
+opt var add b0 "binout*"
+opt var add d0 "d3plot"
+opt var add d3plot_data "MetaPost"
+opt var string follow_nodes 7,8,9
+opt var add model 0
+
+$--ROW1 DATA
+opt var string panel 32579
+
+opt var string pelvis_radius 80
+opt var string pelvis_center 1310.5,-850.3,290
+opt var string pelvis_name row1_pelvis_point_cloud
+
+opt var string abdomen_radius 60
+opt var string abdomen_center 1315,-850,550
+opt var string abdomen_name row1_abdomen_point_cloud
+
+opt var string femur_radius 80
+opt var string femur_center 1078.9,-842.8,344.3
+opt var string femur_name row1_femur_point_cloud
+
+opt var string shoulder_radius 60
+opt var string shoulder_center 1333.2, -831.14, 674.5
+opt var string shoulder_name row1_shoulder_point_cloud
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- SHOW THEM ZONES
+
+window active  "$(d3plot_data)"
+options state original
+erase all
+model active ${model}
+
+$-- FEMUR SPHERE ANALYSIS
+opt var add center ${femur_center}
+opt var add radius ${femur_radius}
+opt var add cloud_name ${femur_name}
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	user_input_radius = str(utils.MetaGetVariable('radius'))
+	user_input_center = str(utils.MetaGetVariable('center'))
+	user_input_panel = str(utils.MetaGetVariable('panel'))
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [chr(34) ,chr(39), chr(36), chr(123),chr(125)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; ]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59)]
+	for d in delimeters:
+		if (user_input_panel.find(d) != -1):
+			target_delimeter = d
+			break
+
+	# Split user input based on delimeter used
+	target_panels = []
+	try:
+		target_panels = user_input_panel.split(target_delimeter)
+	except:
+		target_panels.append(user_input_panel)
+
+	#Determine what the user input... ID's? full names? partial names?
+	number_flag = 0
+	letter_flag = 0
+
+	for thing in target_panels:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag = 1
+				continue
+		for letter in letter_characters:
+			if letter in thing:
+				letter_flag = 1
+				continue
+		location = target_panels.index(thing)
+		for s in stripped_characters:
+			target_panels[location] = target_panels[location].strip(s)
+
+	#If the target_curves are numbers then we can use (vertical tab) or (space) as delimeters
+	if number_flag == 1:
+		delimeters.append(chr(11))
+		delimeters.append(chr(32))
+		for d in delimeters:
+			if (user_input_panel.find(d) != -1):
+				target_delimeter = d
+				break
+		# Split user input based on delimeter used
+		target_panels = []
+		try:
+			target_panels = user_input_panel.split(target_delimeter)
+		except:
+			target_panels.append(user_input_panel)
+
+	m = models.Model(0)
+	w = windows.Window('MetaPost', 0)
+	og_user_input_panel = user_input_panel
+
+	print("")
+	group_name_og = str(utils.MetaGetVariable('cloud_name'))
+	print("NAME : "+group_name_og+" | CENTER : "+user_input_center+" | RADIUS : "+user_input_radius+" | PANEL ID : "+user_input_panel)
+	commands = []
+	commands.append('erase all')
+	commands.append('or element box near ${radius} ${center}')
+	commands.append('erase pid not "${panel}"')
+	commands.append('identify node act')
+	commands.append('identify element act')
+	commands.append('identify reset')
+	
+	for command in commands:
+		if command == commands[2]:
+			visible_target_panels = []
+			check_parts = m.get_parts('visible', window = w)
+			for part in check_parts:
+				if (part.name in target_panels) or (str(part.id) in target_panels):
+					visible_target_panels.append(part.id)
+			try:
+				check_nodes = m.get_nodes('visible', window = w)
+				check_elements = m.get_elements('visible', window = w)
+				check_nodes_length = len(check_nodes)
+				check_elements_length = len(check_elements)
+				print("# OF NODES IN CHECK : "+str(check_nodes_length)+" | # OF ELEMENTS IN CHECK : "+str(check_elements_length))
+				if check_elements_length == 0:
+					print("Nothing found in cloud!")
+					break
+				if check_nodes_length == 0:
+					print("Nothing found in cloud!")
+					break
+				for part in visible_target_panels:
+					if visible_target_panels.index(part) == 0:
+						target_panel = str(part)
+					else:
+						target_panel = target_panel + ',' + str(part)
+				print("VISIBLE PANEL PARTS : "+target_panel)
+				utils.MetaSetVariable('panel',target_panel)
+			except:
+				print("Nothing found in cloud!")
+				break
+			if len(visible_target_panels) == 0:
+				print("PANEL NOT FOUND IN ELEMENT CLOUD!")
+				break
+		if command == commands[5]:
+			model_nodes = m.get_nodes('identified', window = w)
+			group_name = group_name_og+"_nodes"
+			gn = groups.CreateGroupFromNodes(m.id, group_name, model_nodes)
+			model_elements = m.get_elements('identified', window = w)
+			check_nodes_length = len(model_nodes)
+			check_elements_length = len(model_elements)
+			print("# OF NODES IN CLOUD : "+str(check_nodes_length)+" | # OF ELEMENTS IN CLOUD : "+str(check_elements_length))
+			group_name = group_name_og+" elements"
+			ge = groups.CreateGroupFromElements(m.id, group_name, model_elements)
+			part_flag = 0
+			utils.MetaSetVariable('panel',og_user_input_panel)
+		utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$-- PELVIS SPHERE ANALYSIS
+opt var add center ${pelvis_center}
+opt var add radius ${pelvis_radius}
+opt var add cloud_name ${pelvis_name}
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	user_input_radius = str(utils.MetaGetVariable('radius'))
+	user_input_center = str(utils.MetaGetVariable('center'))
+	user_input_panel = str(utils.MetaGetVariable('panel'))
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [chr(34) ,chr(39), chr(36), chr(123),chr(125)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; ]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59)]
+	for d in delimeters:
+		if (user_input_panel.find(d) != -1):
+			target_delimeter = d
+			break
+
+	# Split user input based on delimeter used
+	target_panels = []
+	try:
+		target_panels = user_input_panel.split(target_delimeter)
+	except:
+		target_panels.append(user_input_panel)
+
+	#Determine what the user input... ID's? full names? partial names?
+	number_flag = 0
+	letter_flag = 0
+
+	for thing in target_panels:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag = 1
+				continue
+		for letter in letter_characters:
+			if letter in thing:
+				letter_flag = 1
+				continue
+		location = target_panels.index(thing)
+		for s in stripped_characters:
+			target_panels[location] = target_panels[location].strip(s)
+
+	#If the target_curves are numbers then we can use (vertical tab) or (space) as delimeters
+	if number_flag == 1:
+		delimeters.append(chr(11))
+		delimeters.append(chr(32))
+		for d in delimeters:
+			if (user_input_panel.find(d) != -1):
+				target_delimeter = d
+				break
+		# Split user input based on delimeter used
+		target_panels = []
+		try:
+			target_panels = user_input_panel.split(target_delimeter)
+		except:
+			target_panels.append(user_input_panel)
+
+	m = models.Model(0)
+	w = windows.Window('MetaPost', 0)
+	og_user_input_panel = user_input_panel
+
+	print("")
+	group_name_og = str(utils.MetaGetVariable('cloud_name'))
+	print("NAME : "+group_name_og+" | CENTER : "+user_input_center+" | RADIUS : "+user_input_radius+" | PANEL ID : "+user_input_panel)
+	commands = []
+	commands.append('erase all')
+	commands.append('or element box near ${radius} ${center}')
+	commands.append('erase pid not "${panel}"')
+	commands.append('identify node act')
+	commands.append('identify element act')
+	commands.append('identify reset')
+	
+	for command in commands:
+		if command == commands[2]:
+			visible_target_panels = []
+			check_parts = m.get_parts('visible', window = w)
+			for part in check_parts:
+				if (part.name in target_panels) or (str(part.id) in target_panels):
+					visible_target_panels.append(part.id)
+			try:
+				check_nodes = m.get_nodes('visible', window = w)
+				check_elements = m.get_elements('visible', window = w)
+				check_nodes_length = len(check_nodes)
+				check_elements_length = len(check_elements)
+				print("# OF NODES IN CHECK : "+str(check_nodes_length)+" | # OF ELEMENTS IN CHECK : "+str(check_elements_length))
+				if check_elements_length == 0:
+					print("Nothing found in cloud!")
+					break
+				if check_nodes_length == 0:
+					print("Nothing found in cloud!")
+					break
+				for part in visible_target_panels:
+					if visible_target_panels.index(part) == 0:
+						target_panel = str(part)
+					else:
+						target_panel = target_panel + ',' + str(part)
+				print("VISIBLE PANEL PARTS : "+target_panel)
+				utils.MetaSetVariable('panel',target_panel)
+			except:
+				print("Nothing found in cloud!")
+				break
+			if len(visible_target_panels) == 0:
+				print("PANEL NOT FOUND IN ELEMENT CLOUD!")
+				break
+		if command == commands[5]:
+			model_nodes = m.get_nodes('identified', window = w)
+			group_name = group_name_og+"_nodes"
+			gn = groups.CreateGroupFromNodes(m.id, group_name, model_nodes)
+			model_elements = m.get_elements('identified', window = w)
+			check_nodes_length = len(model_nodes)
+			check_elements_length = len(model_elements)
+			print("# OF NODES IN CLOUD : "+str(check_nodes_length)+" | # OF ELEMENTS IN CLOUD : "+str(check_elements_length))
+			group_name = group_name_og+" elements"
+			ge = groups.CreateGroupFromElements(m.id, group_name, model_elements)
+			part_flag = 0
+			utils.MetaSetVariable('panel',og_user_input_panel)
+		utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$-- ABDOMEN SPHERE ANALYSIS
+opt var add center ${abdomen_center}
+opt var add radius ${abdomen_radius}
+opt var add cloud_name ${abdomen_name}
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	user_input_radius = str(utils.MetaGetVariable('radius'))
+	user_input_center = str(utils.MetaGetVariable('center'))
+	user_input_panel = str(utils.MetaGetVariable('panel'))
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [chr(34) ,chr(39), chr(36), chr(123),chr(125)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; ]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59)]
+	for d in delimeters:
+		if (user_input_panel.find(d) != -1):
+			target_delimeter = d
+			break
+
+	# Split user input based on delimeter used
+	target_panels = []
+	try:
+		target_panels = user_input_panel.split(target_delimeter)
+	except:
+		target_panels.append(user_input_panel)
+
+	#Determine what the user input... ID's? full names? partial names?
+	number_flag = 0
+	letter_flag = 0
+
+	for thing in target_panels:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag = 1
+				continue
+		for letter in letter_characters:
+			if letter in thing:
+				letter_flag = 1
+				continue
+		location = target_panels.index(thing)
+		for s in stripped_characters:
+			target_panels[location] = target_panels[location].strip(s)
+
+	#If the target_curves are numbers then we can use (vertical tab) or (space) as delimeters
+	if number_flag == 1:
+		delimeters.append(chr(11))
+		delimeters.append(chr(32))
+		for d in delimeters:
+			if (user_input_panel.find(d) != -1):
+				target_delimeter = d
+				break
+		# Split user input based on delimeter used
+		target_panels = []
+		try:
+			target_panels = user_input_panel.split(target_delimeter)
+		except:
+			target_panels.append(user_input_panel)
+
+	m = models.Model(0)
+	w = windows.Window('MetaPost', 0)
+	og_user_input_panel = user_input_panel
+
+	print("")
+	group_name_og = str(utils.MetaGetVariable('cloud_name'))
+	print("NAME : "+group_name_og+" | CENTER : "+user_input_center+" | RADIUS : "+user_input_radius+" | PANEL ID : "+user_input_panel)
+	commands = []
+	commands.append('erase all')
+	commands.append('or element box near ${radius} ${center}')
+	commands.append('erase pid not "${panel}"')
+	commands.append('identify node act')
+	commands.append('identify element act')
+	commands.append('identify reset')
+	
+	for command in commands:
+		if command == commands[2]:
+			visible_target_panels = []
+			check_parts = m.get_parts('visible', window = w)
+			for part in check_parts:
+				if (part.name in target_panels) or (str(part.id) in target_panels):
+					visible_target_panels.append(part.id)
+			try:
+				check_nodes = m.get_nodes('visible', window = w)
+				check_elements = m.get_elements('visible', window = w)
+				check_nodes_length = len(check_nodes)
+				check_elements_length = len(check_elements)
+				print("# OF NODES IN CHECK : "+str(check_nodes_length)+" | # OF ELEMENTS IN CHECK : "+str(check_elements_length))
+				if check_elements_length == 0:
+					print("Nothing found in cloud!")
+					break
+				if check_nodes_length == 0:
+					print("Nothing found in cloud!")
+					break
+				for part in visible_target_panels:
+					if visible_target_panels.index(part) == 0:
+						target_panel = str(part)
+					else:
+						target_panel = target_panel + ',' + str(part)
+				print("VISIBLE PANEL PARTS : "+target_panel)
+				utils.MetaSetVariable('panel',target_panel)
+			except:
+				print("Nothing found in cloud!")
+				break
+			if len(visible_target_panels) == 0:
+				print("PANEL NOT FOUND IN ELEMENT CLOUD!")
+				break
+		if command == commands[5]:
+			model_nodes = m.get_nodes('identified', window = w)
+			group_name = group_name_og+"_nodes"
+			gn = groups.CreateGroupFromNodes(m.id, group_name, model_nodes)
+			model_elements = m.get_elements('identified', window = w)
+			check_nodes_length = len(model_nodes)
+			check_elements_length = len(model_elements)
+			print("# OF NODES IN CLOUD : "+str(check_nodes_length)+" | # OF ELEMENTS IN CLOUD : "+str(check_elements_length))
+			group_name = group_name_og+" elements"
+			ge = groups.CreateGroupFromElements(m.id, group_name, model_elements)
+			part_flag = 0
+			utils.MetaSetVariable('panel',og_user_input_panel)
+		utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+
+$-- SHOULDER SPHERE ANALYSIS
+opt var add center ${shoulder_center}
+opt var add radius ${shoulder_radius}
+opt var add cloud_name ${shoulder_name}
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	user_input_radius = str(utils.MetaGetVariable('radius'))
+	user_input_center = str(utils.MetaGetVariable('center'))
+	user_input_panel = str(utils.MetaGetVariable('panel'))
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [chr(34) ,chr(39), chr(36), chr(123),chr(125)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; ]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59)]
+	for d in delimeters:
+		if (user_input_panel.find(d) != -1):
+			target_delimeter = d
+			break
+
+	# Split user input based on delimeter used
+	target_panels = []
+	try:
+		target_panels = user_input_panel.split(target_delimeter)
+	except:
+		target_panels.append(user_input_panel)
+
+	#Determine what the user input... ID's? full names? partial names?
+	number_flag = 0
+	letter_flag = 0
+
+	for thing in target_panels:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag = 1
+				continue
+		for letter in letter_characters:
+			if letter in thing:
+				letter_flag = 1
+				continue
+		location = target_panels.index(thing)
+		for s in stripped_characters:
+			target_panels[location] = target_panels[location].strip(s)
+
+	#If the target_curves are numbers then we can use (vertical tab) or (space) as delimeters
+	if number_flag == 1:
+		delimeters.append(chr(11))
+		delimeters.append(chr(32))
+		for d in delimeters:
+			if (user_input_panel.find(d) != -1):
+				target_delimeter = d
+				break
+		# Split user input based on delimeter used
+		target_panels = []
+		try:
+			target_panels = user_input_panel.split(target_delimeter)
+		except:
+			target_panels.append(user_input_panel)
+
+	m = models.Model(0)
+	w = windows.Window('MetaPost', 0)
+	og_user_input_panel = user_input_panel
+
+	print("")
+	group_name_og = str(utils.MetaGetVariable('cloud_name'))
+	print("NAME : "+group_name_og+" | CENTER : "+user_input_center+" | RADIUS : "+user_input_radius+" | PANEL ID : "+user_input_panel)
+	commands = []
+	commands.append('erase all')
+	commands.append('or element box near ${radius} ${center}')
+	commands.append('erase pid not "${panel}"')
+	commands.append('identify node act')
+	commands.append('identify element act')
+	commands.append('identify reset')
+	
+	for command in commands:
+		if command == commands[2]:
+			visible_target_panels = []
+			check_parts = m.get_parts('visible', window = w)
+			for part in check_parts:
+				if (part.name in target_panels) or (str(part.id) in target_panels):
+					visible_target_panels.append(part.id)
+			try:
+				check_nodes = m.get_nodes('visible', window = w)
+				check_elements = m.get_elements('visible', window = w)
+				check_nodes_length = len(check_nodes)
+				check_elements_length = len(check_elements)
+				print("# OF NODES IN CHECK : "+str(check_nodes_length)+" | # OF ELEMENTS IN CHECK : "+str(check_elements_length))
+				if check_elements_length == 0:
+					print("Nothing found in cloud!")
+					break
+				if check_nodes_length == 0:
+					print("Nothing found in cloud!")
+					break
+				for part in visible_target_panels:
+					if visible_target_panels.index(part) == 0:
+						target_panel = str(part)
+					else:
+						target_panel = target_panel + ',' + str(part)
+				print("VISIBLE PANEL PARTS : "+target_panel)
+				utils.MetaSetVariable('panel',target_panel)
+			except:
+				print("Nothing found in cloud!")
+				break
+			if len(visible_target_panels) == 0:
+				print("PANEL NOT FOUND IN ELEMENT CLOUD!")
+				break
+		if command == commands[5]:
+			model_nodes = m.get_nodes('identified', window = w)
+			group_name = group_name_og+"_nodes"
+			gn = groups.CreateGroupFromNodes(m.id, group_name, model_nodes)
+			model_elements = m.get_elements('identified', window = w)
+			check_nodes_length = len(model_nodes)
+			check_elements_length = len(model_elements)
+			print("# OF NODES IN CLOUD : "+str(check_nodes_length)+" | # OF ELEMENTS IN CLOUD : "+str(check_elements_length))
+			group_name = group_name_og+" elements"
+			ge = groups.CreateGroupFromElements(m.id, group_name, model_elements)
+			part_flag = 0
+			utils.MetaSetVariable('panel',og_user_input_panel)
+		utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+
+//#!EOF

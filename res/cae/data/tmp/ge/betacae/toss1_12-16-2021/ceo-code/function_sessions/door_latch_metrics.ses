@@ -1,0 +1,149 @@
+$-- DOOR LATCH METRICS
+$
+$ opt var string attack_window "FrontDoor"
+$ opt var string d3plot_data
+$ opt var string SASH_PARTS 33001/33051/33092
+$ opt var string OUTER-HANDLE_PARTS 65328/65386-65387/65469-65494
+$ opt var string LATCH-PATCH_PARTS 33021/37802/37803/65525
+$ opt var string COUNTERWEIGHT_PART 65416
+$ opt var string LOCK-ROD_PART 65415
+$ opt var string DOOR-SKIN_PART 33005
+$ opt var string latch-body_nodes 38405870,38405819,38405356
+$ opt var string latch-angle_nodes 38406218,38406067,38080761
+$ opt var string lever_nodes 38405600,38409709
+$
+$-- Initialize
+$
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("---LATCH ANALYSIS")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+group delete SASH
+groups create pids SASH "${SASH_PARTS}"
+group delete OH
+groups create pids OH "${OUTER-HANDLE_PARTS}"
+group delete LP
+groups create pids LP "${LATCH-PATCH_PARTS}"
+group delete CW
+groups create pids CW "${COUNTERWEIGHT_PART}"
+group delete DOOR-SKIN
+groups create pids DOOR-SKIN "${DOOR-SKIN_PART}"
+group delete LR
+groups create pids LR "${LOCK-ROD_PART}"
+window active "${d3plot_data}"
+view foff
+window active "${attack_window}"
+xyplot rlayout "${attack_window}" 24
+xyplot plotactive "${attack_window}" all
+xyplot curve visible not "${attack_window}" all
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Counterweight to sash
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pg "${COUNTERWEIGHT_PART}" SASH
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 0
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "CW to sash"
+xyplot plotoptions title set "${attack_window}" 0 "CW to sash"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Counterweight to door skin
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pp "${COUNTERWEIGHT_PART}" "${DOOR-SKIN_PART}"
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 1
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "CW to door skin"
+xyplot plotoptions title set "${attack_window}" 1 "CW to door skin"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Lock Rod to door skin
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pp "${LOCK-ROD_PART}" "${DOOR-SKIN_PART}"
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 2
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "LR to Door Skin"
+xyplot plotoptions title set "${attack_window}" 2 "LR to Door Skin"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Lock Rod to outer handle
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pg "${LOCK-ROD_PART}" OH
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 4
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "LR to outer handle"
+xyplot plotoptions title set "${attack_window}" 4 "LR to outer handle"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Lock Rod to latch patch
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pg "${LOCK-ROD_PART}" LP
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 6
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "LR to latch patch"
+xyplot plotoptions title set "${attack_window}" 6 "LR to latch patch"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Latch opening angle
+$
+window active "${d3plot_data}"
+view fo3 ${latch-body_nodes}
+identify reset
+identify angle ${latch-angle_nodes}
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 5
+xyplot frommodel angles "${attack_window}" 1 Angle Time all all dlabel "Displacements"
+xyplot curve fillvar INITIAL_LATCH_ANGLE `w[${attack_window}]c${LAST_CURVE_ID}.y[x=0]`
+xyplot curve rfunction newshift down "${attack_window}" ${LAST_CURVE_ID} ${INITIAL_LATCH_ANGLE}
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "Latch opening angle"
+xyplot plotoptions title set "${attack_window}" 5 "Latch opening angle"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Lever stroke
+$
+window active "${d3plot_data}"
+view fo3 ${latch-body_nodes}
+identify reset
+identify distance ${lever_nodes}
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 3
+xyplot frommodel distances "${attack_window}" 1 Z_elongation_value Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "Lever stroke"
+xyplot plotoptions title set "${attack_window}" 3 "Lever stroke"
+xyplot plotdeactive "${attack_window}" all
+$
+$-- Clean up
+$
+window active "${d3plot_data}"
+view foff
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" all
+xyplot curve visible not "${attack_window}" all
+xyplot curve deselect "${attack_window}" all
+xyplot plotdeactive "${attack_window}" all
+window active none
+$-- END
+$

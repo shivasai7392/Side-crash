@@ -1,0 +1,331 @@
+$-- POINT CLOUD BOX DISPLACEMENT AND INTRUSION SAMPLING -- DISP [mm] / INTRUSION [mm]
+$
+$ opt var add d3plot_data MetaPost
+$ opt var add attack_window "Rear Door - CAE Displacement"
+$ opt var add model 0
+$ opt var string follow_nodes 7,8,9
+$ opt var add prefix "Rear Door Femur"
+$ opt var add window_id 3
+$ opt var string panel 33830
+$ opt var string box -1000,-5000,650,5000,0,700
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("")
+	print("---POLE POINT BOX >> AXIS 0")
+	print("")
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	try:
+		model_id = int(utils.MetaGetVariable('model'))
+		m = models.Model(model_id)
+	except:
+		print("No Model ID input!")
+	
+	try:
+		window_name  = str(utils.MetaGetVariable('d3plot_data'))
+		w = windows.Window(window_name , model_id)
+	except:
+		print("No d3plot window name input!")
+
+	problem_characters = []
+	problem_characters.append(chr(36)) # TARGET 
+	problem_characters.append(chr(123))
+	problem_characters.append(chr(125))
+
+	user_input_box = str(utils.MetaGetVariable('box'))
+	problems = 0
+	for problem in problem_characters:
+		if problem  in user_input_box:
+			user_input_box = user_input_box.strip(problem)
+			problems = 1
+
+	if problems == 1:
+		user_input_box = str(utils.MetaGetVariable(user_input_box))
+		utils.MetaSetVariable('box', user_input_box)
+
+	user_input_panel = str(utils.MetaGetVariable('panel'))
+	problems = 0
+	for problem in problem_characters:
+		if problem  in user_input_panel:
+			user_input_panel = user_input_panel.strip(problem)
+			problems = 1
+
+	if problems == 1:
+		user_input_panel = str(utils.MetaGetVariable(user_input_panel))
+		utils.MetaSetVariable('panel', panel)
+
+	og_user_input_panel = str(user_input_panel)
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [chr(34) ,chr(39), chr(36), chr(123),chr(125)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; ]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59)]
+	for d in delimeters:
+		if (user_input_panel.find(d) != -1):
+			target_delimeter = d
+			break
+
+	# Split user input based on delimeter used
+	target_panels = []
+	try:
+		target_panels = user_input_panel.split(target_delimeter)
+	except:
+		target_panels.append(user_input_panel)
+
+	#Determine what the user input... ID's? full names? partial names?
+	number_flag = 0
+	letter_flag = 0
+
+	for thing in target_panels:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag = 1
+				continue
+		for letter in letter_characters:
+			if letter in thing:
+				letter_flag = 1
+				continue
+		location = target_panels.index(thing)
+		for s in stripped_characters:
+			target_panels[location] = target_panels[location].strip(s)
+
+	#If the target_curves are numbers then we can use (vertical tab) or (space) as delimeters
+	if number_flag == 1:
+		delimeters.append(chr(11))
+		delimeters.append(chr(32))
+		for d in delimeters:
+			if (user_input_panel.find(d) != -1):
+				target_delimeter = d
+				break
+		# Split user input based on delimeter used
+		target_panels = []
+		try:
+			target_panels = user_input_panel.split(target_delimeter)
+		except:
+			target_panels.append(user_input_panel)
+
+	group_name_og = str(utils.MetaGetVariable('prefix'))
+	problems = 0
+	for problem in problem_characters:
+		if problem  in group_name_og:
+			group_name_og = group_name_og.strip(problem)
+			problems = 1
+
+	if problems == 1:
+		group_name_og = str(utils.MetaGetVariable(group_name_og))
+
+	print("NAME : "+group_name_og+" | BOX : "+user_input_box+" | PANEL ID : "+user_input_panel)
+	commands = []
+	commands.append('window active  "${d3plot_data}"')
+	commands.append('options state original')
+	commands.append('model active ${model}')
+	commands.append('view fo3 ${follow_nodes}')
+	commands.append('erase all')
+	commands.append('identify reset')
+	commands.append('or element box ${box}')
+	commands.append('erase pid not ${panel}')
+	commands.append('identify node act')
+	commands.append('identify element act')
+
+	for command in commands:
+		if command == 'erase pid not ${panel}':
+			visible_target_panels = []
+			check_parts = m.get_parts('visible', window = w)
+			for part in check_parts:
+				if (part.name in target_panels) or (str(part.id) in target_panels):
+					visible_target_panels.append(part.id)
+
+			if len(visible_target_panels) == 0:
+				print("USER INPUT PANEL NOT FOUND IN ELEMENT CLOUD!")
+				break
+			else:
+				for part in visible_target_panels:
+					if visible_target_panels.index(part) == 0:
+						target_panel = str(part)
+					else:
+						target_panel = target_panel + ',' + str(part)
+				print("VISIBLE PANEL PARTS : "+target_panel)
+				utils.MetaSetVariable('panel',target_panel)
+			try:
+				check_nodes = m.get_nodes('visible', window = w)
+				check_elements = m.get_elements('visible', window = w)
+				check_nodes_length = len(check_nodes)
+				check_elements_length = len(check_elements)
+				print("TOTAL # OF NODES IN CLOUD (ALL PARTS) : "+str(check_nodes_length)+" | TOTAL # OF ELEMENTS IN CHECK (ALL PARTS) : "+str(check_elements_length))
+				if check_elements_length == 0:
+					print("No elements found in cloud!")
+					break
+				if check_nodes_length == 0:
+					print("No nodes found in cloud!")
+					break
+			except:
+				print("Nothing found in cloud!")
+				break
+
+		utils.MetaCommand(command)
+
+		if command == 'identify element act':
+
+			model_nodes = m.get_nodes('identified', window = w)
+			group_name = group_name_og+"_nodes"
+			gn = groups.CreateGroupFromNodes(m.id, group_name, model_nodes)
+			
+			model_elements = m.get_elements('identified', window = w)
+			group_name = group_name_og+" elements"
+			ge = groups.CreateGroupFromElements(m.id, group_name, model_elements)
+
+			check_nodes_length = len(model_nodes)
+			check_elements_length = len(model_elements)
+
+			print("# OF NODES IN CLOUD (PANEL ONLY) : "+str(check_nodes_length)+" | # OF ELEMENTS IN CLOUD (PANEL ONLY) : "+str(check_elements_length))
+			print("")
+			utils.MetaSetVariable('panel',og_user_input_panel)
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+window active  "${attack_window}" 
+xyplot plotactive "${attack_window}" all
+xyplot curve visible not "${attack_window}" all
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+
+xyplot frommodel nodes act act identified Y_coordinate Time all all dlabel "Displacements"
+
+//#!python
+# PYTHON script
+import meta
+from meta import utils
+from meta import plot2d
+
+def main():
+
+	window_name = utils.MetaGetVariable('attack_window')
+	page_id = int(0)
+	plot_id =  int(utils.MetaGetVariable('window_id'))
+
+	plot = plot2d.Plot(plot_id, window_name, page_id)
+
+	curves = plot.get_curves('visible')
+
+	working_min = 50000000000
+	for c in curves:
+		function ="`w[${attack_window}]c"+str(c.id)+".y[x=0.06]`"
+		min = utils.EvalBuiltInFunction(function)
+		min = abs(float(min))
+		if (min < working_min):
+			working_min = min
+			node_id = int(c.entity_id)
+			working_curve = str(c.id)
+	utils.MetaSetVariable('coord_curve', working_curve)
+	utils.MetaSetVariable('coord_node', str(node_id))
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot curve set assign yaxis "${attack_window}" visible 2
+
+xyplot curve visible not "${attack_window}" "${coord_curve}"
+
+xyplot curve set name "${attack_window}" "${coord_curve}" "${prefix} ${coord_node} CBU Y-Coord"
+xyplot curve set color "${attack_window}" "${coord_curve}" "SteelBlue"
+xyplot curve set linewidth "${attack_window}" "${coord_curve}" 3
+xyplot curve set style "${attack_window}" "${coord_curve}" 5
+
+xyplot curve fillvar TEST_60MS `w[${attack_window}]c${coord_curve}.y[x=0.06]`
+
+//#!python
+
+import meta
+import string
+from meta import *
+
+metric = float(utils.MetaGetVariable("TEST_60MS"))
+display = str(round(metric,1))
+utils.MetaSetVariable("TEST_DISP",display)
+
+//#!EOF
+
+xyplot curve set name "${attack_window}" ${coord_curve} "Node ${coord_node} | 60MS Y-COORD ${TEST_DISP}mm"
+
+xyplot curve delete "${attack_window}" visible
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+window active  "${d3plot_data}"
+identify reset
+view fo3 ${follow_nodes}
+identify node ${coord_node}
+
+window active "${attack_window}"
+xyplot curve visible not "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot frommodel nodes act act identified Y_Node_Data Time all all dlabel "Displacements"
+xyplot curve set assign yaxis "${attack_window}" visible 2
+opt var add intrusion_curve ${LAST_CURVE_ID}
+
+xyplot curve set name "${attack_window}" "${intrusion_curve}" "${prefix} ${coord_node} Intrusion"
+xyplot curve set linewidth "${attack_window}" "${intrusion_curve}" 3
+xyplot curve set color "${attack_window}" "${intrusion_curve}" "IndianRed"
+xyplot curve set style "${attack_window}" "${intrusion_curve}" 5
+
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+window active  "${d3plot_data}"
+view foff
+
+window active "${attack_window}"
+xyplot curve visible not "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot frommodel nodes act act identified Y_Node_Data Time all all dlabel "Displacements"
+xyplot curve set assign yaxis "${attack_window}" visible 2
+opt var add disp_curve ${LAST_CURVE_ID}
+
+xyplot curve visible not "${attack_window}" "${disp_curve}"
+
+xyplot curve set name "${attack_window}" "${disp_curve}" "${prefix}${coord_node} Displacement"
+xyplot curve set linewidth "${attack_window}" "${disp_curve}" 3
+xyplot curve set color "${attack_window}" "${disp_curve}" "MediumPurple"
+xyplot curve set style "${attack_window}" "${disp_curve}" 5
+
+xyplot plotdeactive "${attack_window}" "${window_id}"
+window active  "${d3plot_data}"
+add all
+plane new "PANEL_SECTION" node1 ${coord_node}
+plane edit normal 0.000000/0.000000/-1.000000 PANEL_SECTION
+plane options width 5.000000 PANEL_SECTION
+erase all
+identify reset
+$identify node ${coord_node}
+$options state variable "time=0.06"
+
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" all
+xyplot curve visible not "${attack_window}" all
+xyplot curve deselect "${attack_window}" all
+xyplot plotdeactive "${attack_window}" all
+window active none

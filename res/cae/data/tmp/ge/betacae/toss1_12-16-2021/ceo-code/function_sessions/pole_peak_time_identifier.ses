@@ -1,0 +1,159 @@
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+	
+	#Get the target model ID
+	model_id = int(utils.MetaGetVariable('model'))
+
+	#Generate model and part objects
+	m = models.Model(model_id)
+	all_parts = m.get_parts('all')
+	
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	problem_characters = []
+	problem_characters.append(chr(36)) # TARGET 
+	problem_characters.append(chr(123))
+	problem_characters.append(chr(125))
+
+	user_input_panel = str(utils.MetaGetVariable('panel'))
+	problems = 0
+	for problem in problem_characters:
+		if problem  in user_input_panel:
+			user_input_panel = user_input_panel.strip(problem)
+			problems = 1
+
+	if problems == 1:
+		user_input_panel = str(utils.MetaGetVariable(user_input_panel))
+		
+	og_user_input_panel = str(user_input_panel)
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [chr(34) ,chr(39), chr(36), chr(123),chr(125)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; ]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59)]
+	for d in delimeters:
+		if (user_input_panel.find(d) != -1):
+			target_delimeter = d
+			break
+
+	# Split user input based on delimeter used
+	target_panels = []
+	try:
+		target_panels = user_input_panel.split(target_delimeter)
+	except:
+		target_panels.append(user_input_panel)
+
+	#Determine what the user input... ID's? full names? partial names?
+	number_flag = 0
+	letter_flag = 0
+
+	for thing in target_panels:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag = 1
+				continue
+		for letter in letter_characters:
+			if letter in thing:
+				letter_flag = 1
+				continue
+		location = target_panels.index(thing)
+		for s in stripped_characters:
+			target_panels[location] = target_panels[location].strip(s)
+
+	#If the target_curves are numbers then we can use (vertical tab) or (space) as delimeters
+	if number_flag == 1:
+		delimeters.append(chr(11))
+		delimeters.append(chr(32))
+		for d in delimeters:
+			if (user_input_panel.find(d) != -1):
+				target_delimeter = d
+				break
+		# Split user input based on delimeter used
+		target_panels = []
+		try:
+			target_panels = user_input_panel.split(target_delimeter)
+		except:
+			target_panels.append(user_input_panel)
+
+
+	#Get Follow nodes
+	utils.MetaSetVariable('target_variable','follow_nodes')
+	utils.MetaCommand('read session ${code_source_path}/in_development/node_string_generator.ses')
+	follow_nodes = str(utils.MetaGetVariable('dem_nodes')).split(chr(47))
+
+	#Check if the follow nodes list has a length different than 3, if so throw error messsage
+	if not(len(follow_nodes) == 3):
+			print('More or less than 3 nodes input for follow nodes! Data will be wrong!')
+
+	#Apply follow nodes to the model
+	nodes.ApplyFollowNodes(m.id, follow_nodes)
+
+	#Get results object
+	all_results = m.get_resultsets()
+
+	#Determine the minimum and final survival space and when it occurs
+	max = -10000000000000000000000000000000
+	final_max = -10000000000000000000000000000000
+
+	for result in all_results:
+		for part_id in target_panels:
+			part = parts.Part(int(part_id), type=constants.PSHELL, model_id=m.id)
+			all_nodes = part.get_nodes('all')
+			for node in all_nodes:
+				nd = node.get_coordinates(result)
+				panel_coord = nd.y
+			if (len(all_results)-1) == all_results.index(result):
+				if panel_coord > final_max:
+					final_max = panel_coord
+					final_node_id = node.id
+					final_node_z = nd.z
+					final_node_y = nd.y
+					final_node_x = nd.x
+					final_time = result.time
+			else:
+				if panel_coord > max:
+					max = panel_coord
+					node_id = node.id
+					node_z = nd.z
+					node_y = nd.y
+					node_x = nd.x
+					peak_time = result.time
+
+	#Print computed data for the users viewing pleasure
+	print("PEAK PANEL DEFORMATION : "+str(max))
+	print("PEAK TIME : "+str(peak_time))
+	print("PEAK NODE : "+str(node_id)+' | X : '+str(node_x)+' | Y : '+str(node_y)+' | Z : '+str(node_z))
+	print("")
+	print("FINAL PANEL DEFORMATION : "+str(final_max))
+	print("FINAL NODE : "+str(final_node_id)+' | X : '+str(final_node_x)+' | Y : '+str(final_node_y)+' | Z : '+str(final_node_z))
+
+	#Pass the data back to meta
+	utils.MetaSetVariable('peak_time', str(peak_time))
+	utils.MetaSetVariable('final_time', str(final_time))
+	utils.MetaSetVariable('target_state', str(peak_time))
+	utils.MetaSetVariable('peak_panel_deformation', str(max))
+	utils.MetaSetVariable('final_panel_deformation', str(final_max))
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+

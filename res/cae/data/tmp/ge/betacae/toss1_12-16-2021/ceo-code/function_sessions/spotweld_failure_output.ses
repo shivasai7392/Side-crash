@@ -1,0 +1,12 @@
+$-- EXAMPLE INPUT VARIABLES
+$  opt var add dem_welds 45,48,50
+$  opt var add target_window ${rrdr_mount}
+$  opt var add start_id 0
+$  opt var add b0 "binout*"
+$  opt var add pA "${PWD}/${b0}"
+
+xyplot plotactive "${target_window}" ${window_id}
+xyplot read lsdyna "${target_window}" "${pA}"  swforc-SpotweldAssmy ${dem_welds} failure_(f)
+xyplot curve set linewidth "${target_window}" visible 0
+xyplot curve visible not "${target_window}" all
+xyplot plotdeactive "${target_window}" ${window_id}

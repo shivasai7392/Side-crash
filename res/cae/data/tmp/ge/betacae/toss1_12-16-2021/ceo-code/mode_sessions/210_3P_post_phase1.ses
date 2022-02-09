@@ -1,0 +1,762 @@
+$
+$ SESSION FOR COMPILING DATA USED TO COMPARE COUNTERMEASURES FOR 2LL V1_2
+$ TEST EXAMPLE ON 210 3R 2LL | /cae/data/tmp/fr2/Srini_29017/2LL_V1/02_3R_210/02_FlatFloor_Base/GO1_Update
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- VARIABLES
+$
+
+$------------------
+$-- GENERAL info
+opt var add b0 "binout*"
+opt var add d0 "d3plot"
+opt var add pA "${PWD}/${b0}"
+opt var add pD "${PWD}/${d0}"
+opt var add dat_pi_tho 3.141592653589793238462643383279502884197169399375105820974944592307816406286
+
+opt var string follow_nodes 1,2,3
+
+opt var add stock_dia 14
+opt var add bolt_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/bolt_curves/"
+
+opt var add belt_force "Belt - Force"
+opt var add seat_force "Seat - Force"
+opt var add seat_accel "Seat - Displacement"
+
+opt var string left_belt_elements "8424186/8424188"
+opt var string left_mount_nodes "594/7095177/7105990"
+opt var string left_seat_nodes "7100301/7100398/7100758/7101119"
+
+opt var string right_belt_elements "8424189/8447992"
+opt var string right_mount_nodes "6856353/7103321/7105664/7108323"
+opt var string right_seat_nodes "7101478/7101839/7102236/7102483"
+
+opt var string center_belt_elements "8499822/8448112"
+opt var string center_mount_nodes "6850027/7104238/7104273/7104884"
+
+$
+$-- Everything here needs MORE THAN 1 INPUT
+$
+opt var string left_seat_sections "1-2/5-6/10/12"
+opt var string right_seat_sections "3-4/7-8/11/13"
+opt var string center_seat_sections "9/14-15"
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+
+$ -- INTIALIZING
+
+$ -- CREATE REPORTING FOLDER
+//#!python
+# PYTHON script
+import os
+
+def main():
+	path = os.getcwd()
+	var2 = path+"/Session_Report"
+	if not os.path.exists(var2):
+		os.makedirs(var2)
+	
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- SEAT BOLT SECTION FORCES
+
+xyplot create "${seat_force}"
+window active "${seat_force}"
+xyplot rlayout "${seat_force}" 19
+
+opt var add attack_window ${seat_force}
+
+xyplot plotactive "${seat_force}" 0
+opt var add left_area_start 1
+xyplot read lsdyna "${seat_force}" "${pA}" secforc-Section ${left_seat_sections} Area_(a)
+opt var add left_area_end ${LAST_CURVE_ID}
+xyplot curve function averof "${seat_force}" ${left_area_start}-${left_area_end}
+xyplot curve fillvar left_area `w[${seat_force}]c${LAST_CURVE_ID}.y[x=0.001]`
+opt var add left_area_over_pi ${left_area}/${dat_pi_tho}
+opt var add left_rad sqrt(${left_area_over_pi})
+opt var add left_dia ${left_rad}*2
+opt var add left_scale ${left_dia}/${stock_dia}
+xyplot curve delete "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 0
+
+xyplot plotactive "${seat_force}" 0
+opt var add right_area_start 1
+xyplot read lsdyna "${seat_force}" "${pA}" secforc-Section ${right_seat_sections} Area_(a)
+opt var add right_area_end ${LAST_CURVE_ID}
+xyplot curve function averof "${seat_force}" ${right_area_start}-${right_area_end}
+xyplot curve fillvar right_area `w[${seat_force}]c${LAST_CURVE_ID}.y[x=0.001]`
+opt var add right_area_over_pi ${right_area}/${dat_pi_tho}
+opt var add right_rad sqrt(${right_area_over_pi})
+opt var add right_dia ${right_rad}*2
+opt var add right_scale ${right_dia}/${stock_dia}
+xyplot curve delete "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 0
+
+xyplot plotactive "${seat_force}" 0
+opt var add center_area_start 1
+xyplot read lsdyna "${seat_force}" "${pA}" secforc-Section ${center_seat_sections} Area_(a)
+opt var add center_area_end ${LAST_CURVE_ID}
+xyplot curve function averof "${seat_force}" ${center_area_start}-${center_area_end}
+xyplot curve fillvar center_area `w[${seat_force}]c${LAST_CURVE_ID}.y[x=0.001]`
+opt var add center_area_over_pi ${right_area}/${dat_pi_tho}
+opt var add center_rad sqrt(${right_area_over_pi})
+opt var add center_dia ${right_rad}*2
+opt var add center_scale ${right_dia}/${stock_dia}
+xyplot curve delete "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 0
+
+xyplot plotactive "${seat_force}" 0
+opt var add normal_start 1
+xyplot read lsdyna "${seat_force}" "${pA}" secforc-Section ${left_seat_sections} X_force_(xf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${seat_force}" visible 0
+xyplot curve visible not "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 0
+
+xyplot plotactive "${seat_force}" 1
+opt var add shear_comp_start ${LAST_CURVE_ID}+1
+xyplot read lsdyna "${seat_force}" "${pA}" secforc-Section ${left_seat_sections} Z_force_(zf),Y_force_(yf)
+opt var add shear_comp_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${seat_force}" visible 0
+xyplot curve visible not "${seat_force}" all
+opt var add shear_start ${LAST_CURVE_ID}+1
+
+opt var add scale ${left_scale}
+
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('shear_comp_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('shear_comp_end')
+	end = float(end)
+	end = int(end)
+	span = int(float(end) - float(start))
+	mid = float(start)+span/2
+	mid = int(mid+0.5)
+	r = int(float(mid) - float(start))
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Resultant Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.x" "sqrt(c'
+	         command = command + 	s
+	         command = command + 	 ".y*c"
+	         command = command + 	 s
+	         command = command + 	 ".y+c"
+	         command = command + 	 o
+	         command = command + 	 ".y*c"
+	         command = command + 	 o
+	         command = command + '.y)" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+opt var add shear_end ${LAST_CURVE_ID}
+xyplot curve delete "${seat_force}" "${shear_comp_start}-${shear_comp_end}"
+xyplot plotdeactive "${seat_force}" 1
+
+xyplot plotactive "${seat_force}" 2
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('normal_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('normal_end')
+	end = float(end)
+	end = int(end)
+	mid = utils.MetaGetVariable('shear_start')
+	mid = float(mid)
+	mid = int(mid)
+	r = int(float(end) - float(start)+1)
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Normal vs Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.y" "c'
+	         command = command + 	 o
+	         command = command + 	 '.y" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/normal_v_shear_format.ses
+
+xyplot curve visible not "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 2
+
+xyplot plotactive "${seat_force}" 3
+opt var add normal_start ${LAST_CURVE_ID}+1
+xyplot read lsdyna "${seat_force}" "${pA}"  secforc-Section ${right_seat_sections} X_force_(xf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${seat_force}" visible 0
+xyplot curve visible not "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 3
+
+xyplot plotactive "${seat_force}" 4
+opt var add shear_comp_start ${LAST_CURVE_ID}+1
+xyplot read lsdyna "${seat_force}" "${pA}"  secforc-Section ${right_seat_sections} Z_force_(zf),Y_force_(yf)
+opt var add shear_comp_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${seat_force}" visible 0
+xyplot curve visible not "${seat_force}" all
+opt var add shear_start ${LAST_CURVE_ID}+1
+
+opt var add scale ${right_scale}
+
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('shear_comp_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('shear_comp_end')
+	end = float(end)
+	end = int(end)
+	span = int(float(end) - float(start))
+	mid = float(start)+span/2
+	mid = int(mid+0.5)
+	r = int(float(mid) - float(start))
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Resultant Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.x" "sqrt(c'
+	         command = command + 	s
+	         command = command + 	 ".y*c"
+	         command = command + 	 s
+	         command = command + 	 ".y+c"
+	         command = command + 	 o
+	         command = command + 	 ".y*c"
+	         command = command + 	 o
+	         command = command + '.y)" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+opt var add shear_end ${LAST_CURVE_ID}
+xyplot curve delete "${seat_force}" "${shear_comp_start}-${shear_comp_end}"
+xyplot plotdeactive "${seat_force}" 4
+
+xyplot plotactive "${seat_force}" 5
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('normal_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('normal_end')
+	end = float(end)
+	end = int(end)
+	mid = utils.MetaGetVariable('shear_start')
+	mid = float(mid)
+	mid = int(mid)
+	r = int(float(end) - float(start)+1)
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Normal vs Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.y" "c'
+	         command = command + 	 o
+	         command = command + 	 '.y" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/normal_v_shear_format.ses
+
+xyplot curve visible not "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 5
+
+xyplot plotactive "${seat_force}" 6
+opt var add normal_start ${LAST_CURVE_ID}+1
+xyplot read lsdyna "${seat_force}" "${pA}"  secforc-Section ${center_seat_sections} X_force_(xf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${seat_force}" visible 0
+xyplot curve visible not "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 6
+
+xyplot plotactive "${seat_force}" 7
+opt var add shear_comp_start ${LAST_CURVE_ID}+1
+xyplot read lsdyna "${seat_force}" "${pA}"  secforc-Section ${center_seat_sections} Z_force_(zf),Y_force_(yf)
+opt var add shear_comp_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${seat_force}" visible 0
+xyplot curve visible not "${seat_force}" all
+opt var add shear_start ${LAST_CURVE_ID}+1
+
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('shear_comp_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('shear_comp_end')
+	end = float(end)
+	end = int(end)
+	span = int(float(end) - float(start))
+	mid = float(start)+span/2
+	mid = int(mid+0.5)
+	r = int(float(mid) - float(start))
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Resultant Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.x" "sqrt(c'
+	         command = command + 	s
+	         command = command + 	 ".y*c"
+	         command = command + 	 s
+	         command = command + 	 ".y+c"
+	         command = command + 	 o
+	         command = command + 	 ".y*c"
+	         command = command + 	 o
+	         command = command + '.y)" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+opt var add shear_end ${LAST_CURVE_ID}
+xyplot curve delete "${seat_force}" "${shear_comp_start}-${shear_comp_end}"
+xyplot plotdeactive "${seat_force}" 7
+
+opt var add scale ${center_scale}
+
+xyplot plotactive "${seat_force}" 8
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('normal_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('normal_end')
+	end = float(end)
+	end = int(end)
+	mid = utils.MetaGetVariable('shear_start')
+	mid = float(mid)
+	mid = int(mid)
+	r = int(float(end) - float(start)+1)
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Normal vs Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.y" "c'
+	         command = command + 	 o
+	         command = command + 	 '.y" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/normal_v_shear_format.ses
+
+xyplot curve visible not "${seat_force}" all
+xyplot plotdeactive "${seat_force}" 8
+
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('shear_comp_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('shear_comp_end')
+	end = float(end)
+	end = int(end)
+	span = int(float(end) - float(start))
+	mid = float(start)+span/2
+	mid = int(mid+0.5)
+	r = int(float(mid) - float(start))
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${seat_force}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Resultant Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.x" "sqrt(c'
+	         command = command + 	s
+	         command = command + 	 ".y*c"
+	         command = command + 	 s
+	         command = command + 	 ".y+c"
+	         command = command + 	 o
+	         command = command + 	 ".y*c"
+	         command = command + 	 o
+	         command = command + '.y)" "Seat - Force"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+opt var add shear_end ${LAST_CURVE_ID}
+xyplot curve delete "${seat_force}" "${shear_comp_start}-${shear_comp_end}"
+xyplot plotdeactive "${seat_force}" 7
+
+$ -- FORMATTING
+
+opt var add formatting_window_name "${seat_force}"
+
+opt var add x_label "Time [ms]"
+opt var add x_max 0.4
+opt var add x_min 0.0
+opt var add x_space 0.05
+opt var add x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add picture_size 488x488
+
+opt var add window_number 0
+opt var add title_label "Left seat bolt normal"
+opt var add y_label "Section Force [kN]"
+opt var add y_max ${x_axis_max}
+opt var add y_min 0
+opt var add y_step 10000
+opt var add y_multiplier 3
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+
+opt var add window_number 1
+opt var add y_max ${y_axis_max}
+opt var add title_label "Left seat bolt resultant shear"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 3
+opt var add y_max ${x_axis_max}
+opt var add title_label "Right seat bolt normal"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 4
+opt var add y_max ${y_axis_max}
+opt var add title_label "Right seat bolt resultant shear"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 6
+opt var add y_max ${x_axis_max}
+opt var add title_label "Center seat bolt normal"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 7
+opt var add y_max ${y_axis_max}
+opt var add title_label "Center seat bolt resultant shear"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+
+opt var add x_label "Normal Force [kN]"
+opt var add x_max ${x_axis_max}
+opt var add x_min 0.0
+opt var add x_space 10000
+opt var add x_multiplier 3
+opt var add y_label "Shear Force [kN]"
+opt var add y_max ${y_axis_max}
+opt var add y_min 0
+opt var add y_step 10000
+opt var add y_multiplier 3
+
+opt var add window_number 2
+opt var add title_label "Left Seat Normal vs Shear"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 5
+opt var add title_label "Right Seat Normal vs Shear"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 8
+opt var add title_label "Center Seat Normal vs Shear"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- SEAT BOLT DISPLACEMENT
+$ 
+
+xyplot create "${seat_accel}"
+window active "${seat_accel}"
+xyplot rlayout "${seat_accel}" 18
+xyplot plotdeactive "${seat_accel}" all
+window active none
+
+$ -- CAE DATA PROCESSING
+opt var add attack_window "${seat_accel}"
+opt var add window "${attack_window}"
+opt var add window_id 0
+opt var string dem_nodes ${left_seat_nodes}
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/components_crash_nodout.ses
+
+opt var add window_id 2
+opt var string dem_nodes ${right_seat_nodes}
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/components_crash_nodout.ses
+
+opt var add window_id 1
+opt var string dem_nodes ${left_mount_nodes}
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/components_crash_nodout.ses
+
+opt var add window_id 3
+opt var string dem_nodes ${right_mount_nodes}
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/components_crash_nodout.ses
+
+opt var add window_id 5
+opt var string dem_nodes ${center_mount_nodes}
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/components_crash_nodout.ses
+
+
+opt var add formatting_window_name "${attack_window}"
+
+opt var add x_label "Time [ms]"
+opt var add x_max 0.4
+opt var add x_min 0.0
+opt var add x_space 0.05
+opt var add x_multiplier -3
+$-- Y0
+opt var add y0_max 100
+opt var add y0_min 0
+opt var add y0_step 5
+opt var add y0_multiplier 0
+opt var add y0_label "Displacement / Intrusion [mm]"
+$-- Y1
+opt var add y1_max 10000
+opt var add y1_min 0
+opt var add y1_step 1000
+opt var add y1_multiplier 3
+opt var add y1_label "Velocity [m/s]"
+$-- Y2
+opt var add y2_max 600
+opt var add y2_min -400
+opt var add y2_step 50
+opt var add y2_multiplier 0
+opt var add y2_label "Acceleration [G]"
+
+opt var add window_number 0
+opt var add title_label "Left seat bolt nodes"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting_multi.ses
+xyplot plotactive "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis active "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 1
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotoptions margin default "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotdeactive "${formatting_window_name}" ${window_number}
+
+opt var add window_number 2
+opt var add title_label "Right seat bolt nodes"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting_multi.ses
+xyplot plotactive "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis active "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 1
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotoptions margin default "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotdeactive "${formatting_window_name}" ${window_number}
+
+opt var add window_number 1
+opt var add title_label "Left seat mount nodes"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting_multi.ses
+xyplot plotactive "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis active "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 1
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotoptions margin default "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotdeactive "${formatting_window_name}" ${window_number}
+
+opt var add window_number 3
+opt var add title_label "Right seat mount nodes"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting_multi.ses
+xyplot plotactive "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis active "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 1
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotoptions margin default "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotdeactive "${formatting_window_name}" ${window_number}
+
+opt var add window_number 5
+opt var add title_label "Center seat mount nodes"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting_multi.ses
+xyplot plotactive "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis active "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis hideaxis "${formatting_window_name}" ${window_number} 1
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotoptions margin default "${formatting_window_name}" ${window_number}
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 2
+xyplot axisoptions yaxis deactive "${formatting_window_name}" ${window_number} 1
+xyplot plotdeactive "${formatting_window_name}" ${window_number}
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- BELT FORCES
+
+xyplot create "${belt_force}"
+window active "${belt_force}"
+xyplot rlayout "${belt_force}" 6
+
+xyplot plotactive "${belt_force}" 0
+opt var add normal_start 1
+xyplot read lsdyna "${belt_force}" "${pA}" sbtout-Seatbelt ${left_belt_elements} Belt_force_(bf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${belt_force}" visible 0
+xyplot curve visible not "${belt_force}" all
+xyplot plotdeactive "${belt_force}" 0
+
+xyplot plotactive "${belt_force}" 1
+opt var add normal_start 1
+xyplot read lsdyna "${belt_force}" "${pA}" sbtout-Seatbelt ${right_belt_elements} Belt_force_(bf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${belt_force}" visible 0
+xyplot curve visible not "${belt_force}" all
+xyplot plotdeactive "${belt_force}" 1
+
+xyplot plotactive "${belt_force}" 2
+opt var add normal_start 1
+xyplot read lsdyna "${belt_force}" "${pA}" sbtout-Seatbelt ${center_belt_elements} Belt_force_(bf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${belt_force}" visible 0
+xyplot curve visible not "${belt_force}" all
+xyplot plotdeactive "${belt_force}" 2
+
+$ -- FORMATTING
+
+opt var add formatting_window_name "${belt_force}"
+opt var add window_number 0
+opt var add title_label "Left Seat Belt Forces"
+opt var add y_label "Belt Force [kN]"
+opt var add y_max 20000
+opt var add y_min 0
+opt var add y_step 1000
+opt var add y_multiplier 3
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 1
+opt var add title_label "Right Seat Belt Forces"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 2
+opt var add title_label "Center Seat Belt Forces"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- SAVE PLOT PROJECT FILE
+
+options session controldraw enable
+
+write options Project references 2dplot enable
+write options Project typesave 2d
+write options Project pagesave all
+write project "label" "${PWD}/Session_Report/210_3P_phase1.metadb"
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- END

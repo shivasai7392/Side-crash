@@ -1,0 +1,1199 @@
+$
+$ SESSION FOR COMPILING REAR CRASH DATA | DEVELOPED ON /cae/data/tmp/fr2/ra026347/2LL/DAN0/01_RearCrash/01_RR301/01_4WD/01_185GL_Tub_TempSpare/LH_AWD_185GL_Nominal
+$
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- USER INPUT VARIABLES
+$
+
+$------------------
+$-- Window names
+opt var add d3plot_data "MetaPost"
+opt var add global_accel "Global Barrier & CBU"
+opt var add frame_intrusion_data "Frame - Intrusion"
+opt var add frame_section_data "Frame - Sections"
+opt var add bumper_section_data "Bumper - Sections"
+opt var add fuel_measurement_data "Fuel measurements"
+opt var add bolt_data "Bolt loads"
+opt var add spotweld_data "Spotweld loads"
+opt var add internal_energy_data "Internal Energy"
+
+$------------------
+$--MISC SOURCE info
+opt var add dat_pi_tho 3.141592653589793238462643383279502884197169399375105820974944592307816406286
+
+$-- BOLT SOURCE PATH NEEDS / AT THE END
+opt var add bolt_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/bolt_curves/"
+opt var add stock_dia 14
+
+$-- CODE PATH NEEDS NO / AT THE END
+opt var add code_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions"
+opt var add excel_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_to_excel_sessions/mode_sessions"
+opt var add pptx_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/powerpoint_sessions"
+
+$------------------
+$-- CAE INPUT DATA
+
+$-- BINOUT FILE WILD CARD
+opt var add b0 "binout*"
+
+$-- GEOMETRY FILE WILD CARD
+opt var add g0 "d3plot"
+
+$-- DISPLACEMENT FILE WILD CARD
+opt var add d0 "d3plot"
+
+$-- RELATIVE PATHS TO THE LOCATION WHERE META IS LAUNCHED
+opt var add pA "${PWD}/${b0}"
+opt var add pD "${PWD}/${d0}"
+opt var add pG "${PWD}/${g0}"
+
+$------------------
+$-- CAE OUTPUT DATA
+
+$-- PATH TO THE DIRECTORY WHERE THE EXCEL FILE WILL BE MAINTAINED
+opt var add pM "/cae/data/active/2ll/v3/vs3/Associates/ra067381/04_REAR-CRASH/excel_sheet"
+
+$-- 2D DATA OUTPUT FILE NAME
+opt var add save_filename rear_crash_phase1.metadb
+
+$------------------
+$--FOLLOW NODES & T-MAX FOR 2D PLOTS
+opt var string follow_nodes 1,2,3
+opt var string t_max 0.1
+
+$------------------
+$--BARRIER USER INPUT
+opt var add barrier_node_id 95000001
+
+$------------------
+$--CBU GLOBAL USER INPUT
+opt var string vehicle_node_id UNIT1
+
+opt var string subframe_left_bolt Subframe_Left_Bolt
+opt var string subframe_left_rr_bolt Subframe_Left-RR_Bolt
+
+opt var string subframe_right_bolt Subframe_Right_Bolt
+opt var string subframe_right_rr_bolt Subframe_Right-RR_Bolt
+
+$------------------
+$--REAR FRAME INTRUSION LINES USER INPUT
+opt var string right_frame_intrusion_nodes R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13,R14,R15,R16,R17,R19,R19,R20,R21,R22,R23,R24,R25,R26,R27,R28,R29
+opt var string left_frame_intrusion_nodes L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,L17,L19,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29
+
+$------------------
+$--SECTION USER INPUT
+opt var string left_frame_section_ids LFrame_2400T,LFrame_2650T,LFrame_2650T,LFrame_2850T,LFrame_3050T,LFrame_3300T,LFrame_3050T,LFrame_3500T
+opt var string right_frame_section_ids RFrame_2400T,RFrame_2650T,RFrame_2650T,RFrame_2850T,RFrame_3050T,RFrame_3300T,RFrame_3050T,RFrame_3500T
+opt var string bumper_beam_section_ids BumperBeam_0B,BumperBeam_100B,BumperBeam_200B,BumperBeam_300B,BumperBeam_400B,BumperBeam_500B,BumperBeam_600B,BumperBeam_N100B,BumperBeam_N200B,BumperBeam_N300B,BumperBeam_N400B,BumperBeam_N500B,BumperBeam_N600B
+opt var string left_sill_section_ids LSill_1750T,LSill_2000T
+opt var string right_sill_section_ids RSill_1750T,RSill_2000T
+
+$------------------
+$--FUEL MEASUREMENT USER INPUT
+opt var add fft_zone_pid1 1566
+opt var add fft_zone_pid2 18007
+opt var add fft_zone_target 48
+
+opt var add tank_zone_node 227416
+opt var add tank_zone_target -30
+
+opt var add icv_zone_pid1 13133
+opt var add icv_zone_pid2 12693
+opt var add icv_zone_target 20
+
+opt var add quick_connect_zone_pid1 1501
+opt var add quick_connect_zone_pid2 13090
+opt var add quick_connect_zone_target 10
+
+opt var add v-return_zone_pid1 13031
+opt var add v-return_zone_pid2 12689
+opt var add v-return_zone_target 0
+
+$------------------
+$--CRITICAL CONNECTIONS USER INPUT
+opt var string critical_lhs_spotwelds 18839/19075/18838/19077
+opt var string critical_rhs_spotwelds 18831/18851/18832/18853
+opt var string critical_lhs_bolts 45,48,50
+opt var string critical_rhs_bolts 46,47,49
+
+$------------------
+$--INTERNAL ENERGY USER INPUT
+opt var add subframe_pid 12690
+opt var add crossmember_d_pid 1603
+opt var add center_frame_pid null
+
+opt var add left_frame_A_pid 1550
+opt var add left_frame_B1_pid 1551
+opt var add left_frame_B2_pid 1552
+opt var add left_frame_C_pid 1553
+
+opt var add right_frame_C_pid 1518
+
+$------------------
+$-- AVI USER INPUT
+opt var string non_hess_show 13304-13302,12029-12035
+opt var string non_hess_erase 1636
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- INTIALIZING
+$
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("")
+	print("--------------")
+	print("---INTIAILIZING---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+$ -- CREATE REPORTING FOLDER
+//#!python
+# PYTHON script
+import os
+import subprocess as sub
+import meta
+from meta import *
+
+def main():
+	path = os.getcwd()
+	utils.MetaSetVariable('run_directory', path)
+	print("RUN DIR : "+path)
+	var2 = path+"/Session_Report"
+	if not(os.path.exists(var2)):
+		os.makedirs(var2)
+	var3 = path+"/pptx_report"
+	if not(os.path.exists(var3)):
+		os.makedirs(var3)
+	source_path = path + "/"
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+	utils.MetaSetVariable('verification_mode', test_mode)
+	print("TEST MODE : "+test_mode)
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+window active  "$(d3plot_data)"
+read geom Dyna3d "${pG}"
+opt var add model ${CUR_MODEL}
+opt var add target_model ${CUR_MODEL}
+opt var add target_sort null
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- GLOBAL DATA
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---GLOBAL DATA---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${global_accel}"
+window active "${global_accel}"
+xyplot rlayout "${global_accel}" 4
+xyplot plotdeactive "${global_accel}" all
+window active none
+
+$ -- CAE DATA PROCESSING
+opt var add attack_window "${global_accel}"
+opt var add target_window "${global_accel}"
+opt var add window "${attack_window}"
+opt var add window_id 0
+opt var add target_variable vehicle_node_id
+
+read session ${code_source_path}/in_development/node_string_generator.ses
+read session ${code_source_path}/src/crash_nodout.ses
+
+opt var add window_id 1
+
+window active  "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" glstat-Global , Kinetic_energy_(ke),Internal_energy_(ie),Spring_&_Damper_energy_(spde),Hourglass_energy_(he),System_damping_energy_(syde),Sliding_interface_energy_(sie),Total_energy_(te)
+xyplot curve visible not "${attack_window}" all
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add window_id 2
+opt var add target_variable barrier_node_id
+
+read session ${code_source_path}/in_development/node_string_generator.ses
+read session ${code_source_path}/src/crash_nodout.ses
+
+window active  "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot curve function cfc060 "Global Barrier & CBU" 20
+xyplot curve visible not "${attack_window}" all
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add window_id 3
+
+window active  "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot curve function userdef "Barrier GvS" "c29.y*-1" "c32.y" "${attack_window}"
+xyplot curve visible not "${attack_window}" all
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+$-- FORMATTING --
+$-- GENERAL
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+$-- Y0
+opt var add y2_step 50
+opt var add y2_multiplier 0
+opt var add y2_label "Displacement / Intrusion [mm]"
+$-- Y1
+opt var add y1_step 1000
+opt var add y1_multiplier 3
+opt var add y1_label "Velocity [m/s]"
+$-- Y2
+opt var add y0_step 20
+opt var add y0_multiplier 0
+opt var add y0_label "Acceleration [G]"
+
+opt var add window_number 0
+opt var add title_label "UNIT"
+read session ${code_source_path}/src/2d_plot_formatting_multi_autoy.ses
+
+opt var add window_number 1
+opt var add title_label "GLOBAL ENERGY"
+opt var add y_label "Energy [kN-m]"
+opt var add y_multiplier 6
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 2
+opt var add title_label "MDB"
+read session ${code_source_path}/src/2d_plot_formatting_multi_autoy.ses
+
+opt var add window_number 3
+opt var add title_label "MDB G over Stroke"
+opt var add y_label "Acceleration [G]"
+opt var add y_multiplier 0
+opt var add x_label "Displacement / Intrusion [mm]"
+opt var string x_multiplier 0
+opt var add x_space 100
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- SECTION FORCES
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---FRAME SECTIONS---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${frame_section_data}"
+window active "${frame_section_data}"
+xyplot rlayout "${frame_section_data}" 24
+xyplot plotdeactive "${frame_section_data}" all
+window active none
+
+opt var add target_window "${frame_section_data}"
+opt var add attack_window "${frame_section_data}"
+opt var add window "${frame_section_data}"
+
+opt var add start_id 0
+opt var add target_section_variable left_frame_section_ids
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/no_resultant_X_yz_section_output.ses
+
+opt var add start_id 2
+opt var add target_section_variable right_frame_section_ids
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/no_resultant_X_yz_section_output.ses
+
+opt var add start_id 4
+opt var add target_section_variable left_sill_section_ids
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/no_resultant_X_yz_section_output.ses
+
+opt var add start_id 6
+opt var add target_section_variable right_sill_section_ids
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/no_resultant_X_yz_section_output.ses
+
+$-- FORMATTING --
+$-- GENERAL
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+
+opt var add window_number 0
+opt var add title_label "LEFT FRAME AXIAL"
+opt var add y_label "Section force [kN]"
+opt var add y_step 20000
+opt var add y_multiplier 3
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 1
+opt var add title_label "LEFT FRAME SHEAR"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 2
+opt var add title_label "RIGHT FRAME AXIAL"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 3
+opt var add title_label "RIGHT FRAME SHEAR"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 4
+opt var add title_label "LEFT SILL AXIAL"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 5
+opt var add title_label "LEFT SILL SHEAR"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 6
+opt var add title_label "RIGHT SILL AXIAL"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 7
+opt var add title_label "RIGHT SILL SHEAR"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---BUMPER SECTIONS---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${bumper_section_data}"
+window active "${bumper_section_data}"
+xyplot rlayout "${bumper_section_data}" 2
+xyplot plotdeactive "${bumper_section_data}" all
+window active none
+
+opt var add target_window "${bumper_section_data}"
+opt var add attack_window "${bumper_section_data}"
+opt var add window "${bumper_section_data}"
+
+opt var add start_id 0
+opt var add target_section_variable bumper_beam_section_ids
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/no_resultant_Y_zx_section_output.ses
+
+$-- FORMATTING --
+$-- GENERAL
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+
+opt var add window_number 0
+opt var add title_label "BUMPER AXIAL"
+opt var add y_label "Section force [kN]"
+opt var add y_multiplier 3
+opt var add y_step 20000
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 1
+opt var add title_label "BUMPER SHEAR"
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- BOLT LOADS
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---BOLT LOADS---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${bolt_data}"
+window active "${bolt_data}"
+xyplot rlayout "${bolt_data}" 17
+xyplot plotdeactive "${bolt_data}" all
+window active none
+
+opt var add attack_window "${bolt_data}"
+opt var add target_window "${bolt_data}"
+opt var add window "${bolt_data}"
+
+opt var add start_id 0
+opt var add target_section_variable critical_lhs_bolts
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/bolt_section_output.ses
+
+opt var add start_id 3
+opt var add target_section_variable critical_rhs_bolts
+
+read session ${code_source_path}/in_development/section_string_generator.ses
+opt var add sections ${section_string}
+read session ${code_source_path}/src/bolt_section_output.ses
+
+$-- FORMATTING --
+$-- GENERAL
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+
+opt var add window_number 0
+opt var add title_label "LHS BOLTS AXIAL"
+opt var add y_label "Normal force [kN]"
+opt var add y_multiplier 3
+opt var add y_step 20000
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 1
+opt var add title_label "LHS BOLTS SHEAR"
+opt var add y_label "Shear force [kN]"
+opt var add y_step 5000
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 2
+opt var add title_label "LHS BOLTS NORMAL VS SHEAR"
+opt var string x_multiplier 3
+opt var add x_label "Normal force [kN]"
+opt var add x_space 20000
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+
+opt var add window_number 3
+opt var add title_label "RHS BOLTS AXIAL"
+opt var add y_label "Normal force [kN]"
+opt var add y_multiplier 3
+opt var add y_step 20000
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 4
+opt var add title_label "RHS BOLTS SHEAR"
+opt var add y_label "Shear force [kN]"
+opt var add y_step 5000
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+opt var add window_number 5
+opt var add title_label "RHS BOLTS NORMAL VS SHEAR"
+opt var string x_multiplier 3
+opt var add x_label "Normal force [kN]"
+opt var add x_space 20000
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- SPOT WELD LOADS
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---SPOT WELD LOADS---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${spotweld_data}"
+window active "${spotweld_data}"
+xyplot rlayout "${spotweld_data}" 2
+xyplot plotdeactive "${spotweld_data}" all
+window active none
+
+opt var add attack_window "${spotweld_data}"
+opt var add target_window "${spotweld_data}"
+opt var add window "${spotweld_data}"
+
+opt var add window_id 0
+opt var add target_spotweld_variable critical_lhs_spotwelds
+
+read session ${code_source_path}/in_development/spotweld_string_generator.ses
+read session ${code_source_path}/src/spotweld_failure_output.ses
+
+opt var add window_id 1
+opt var add target_spotweld_variable critical_rhs_spotwelds
+
+read session ${code_source_path}/in_development/spotweld_string_generator.ses
+read session ${code_source_path}/src/spotweld_failure_output.ses
+
+$-- FORMATTING --
+$-- GENERAL
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+
+opt var add window_number 0
+opt var add title_label "LHS WELDS"
+opt var add y_label "Spotweld failure [1 = FAIL]"
+opt var add y_multiplier 0
+opt var add y_step 0.2
+opt var add y_min 0
+opt var add y_max 1
+read session ${code_source_path}/src/2d_plot_formatting.ses
+
+opt var add window_number 1
+opt var add title_label "RHS WELDS"
+read session ${code_source_path}/src/2d_plot_formatting.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- INTERNAL ENERGY
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---INTERNAL ENERGY---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${internal_energy_data}"
+window active "${internal_energy_data}"
+xyplot plotdeactive "${internal_energy_data}" all
+window active none
+
+opt var add attack_window "${internal_energy_data}"
+opt var add window "${attack_window}"
+opt var add window_id 0
+
+opt var add internal_energy_pids ${left_frame_A_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add left_frame_A_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${left_frame_B1_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add left_frame_B1_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${left_frame_B2_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add left_frame_B2_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+$-- B TOTAL
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot curve function sumof "${attack_window}" ${left_frame_B1_curve_id},${left_frame_B2_curve_id}
+opt var add left_frame_B_total_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${left_frame_C_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add left_frame_C_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${right_frame_C_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add right_frame_C_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${crossmember_d_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add cross_member_D_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${center_frame_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add center_frame_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+$-- Frame C area total
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot curve function sumof "${attack_window}" ${cross_member_D_curve_id},${center_frame_curve_id},${right_frame_C_curve_id},${left_frame_C_curve_id}
+opt var add frame_C_total_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add internal_energy_pids ${subframe_pid}
+
+window active "${attack_window}"
+xyplot plotdeactive "${attack_window}" all
+xyplot plotactive "${attack_window}" "${window_id}"
+xyplot curve visible not "${attack_window}" all
+xyplot read lsdyna "${attack_window}" "${pA}" matsum-Material ${internal_energy_pids} Internal_Energy_(ie)
+xyplot curve rfunction newscale y "${attack_window}" ${LAST_CURVE_ID} 1.E-6
+opt var add subframe_curve_id ${LAST_CURVE_ID}
+xyplot plotdeactive "${attack_window}" "${window_id}"
+
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add formatting_window_name "${attack_window}"
+
+opt var add window_number 0
+opt var add title_label "INTERNAL ENERGY"
+opt var add y_label "Energy [kJ]"
+opt var add y_multiplier 0
+opt var add y_step 5
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- IMPORT DISPLACEMENT DATA
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---LOADING DISPLACEMENTS---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+window active  "${d3plot_data}"
+read dis Dyna3d "${pD}" all Displacements
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- FUEL MEASUREMENTS
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---FUEL MEASUREMENTS---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${fuel_measurement_data}"
+window active "${fuel_measurement_data}"
+xyplot rlayout "${fuel_measurement_data}" 17
+xyplot plotdeactive "${fuel_measurement_data}" all
+window active none
+
+opt var add attack_window "${fuel_measurement_data}"
+opt var add target_window "${fuel_measurement_data}"
+opt var add window "${fuel_measurement_data}"
+
+$
+$-- ICV Zone
+$
+window active "${d3plot_data}"
+view fo3 ${follow_nodes}
+identify reset
+identify distance pp "${icv_zone_pid1}" "${icv_zone_pid2}"
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 0
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "ICV Zone"
+xyplot plotoptions title set "${attack_window}" 0 "ICV Zone"
+xyplot plotdeactive "${attack_window}" all
+
+$
+$-- Quick connect zone
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pp "${quick_connect_zone_pid1}" "${quick_connect_zone_pid2}"
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 1
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "Quick connect Zone"
+xyplot plotoptions title set "${attack_window}" 1 "Quick connect Zone"
+xyplot plotdeactive "${attack_window}" all
+
+$
+$-- Tank zone
+$
+window active "${d3plot_data}"
+identify reset
+identify node ${tank_zone_node}
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 2
+xyplot frommodel nodes "${attack_window}" 0 "${tank_zone_node}" X_Node_Data Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "Tank Zone"
+xyplot plotoptions title set "${attack_window}" 2 "Tank Zone"
+xyplot plotdeactive "${attack_window}" all
+
+$
+$-- FFT Zone
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pp "${fft_zone_pid1}" "${fft_zone_pid2}"
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 3
+xyplot frommodel distances "${attack_window}" 1 X_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "FFT Zone"
+xyplot plotoptions title set "${attack_window}" 3 "FFT Zone"
+xyplot plotdeactive "${attack_window}" all
+
+$
+$-- V/Return Zone
+$
+window active "${d3plot_data}"
+identify reset
+identify distance pp "${v-return_zone_pid1}" "${v-return_zone_pid2}"
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 4
+xyplot frommodel distances "${attack_window}" 1 Total_distance Time all all dlabel "Displacements"
+xyplot curve set name "${attack_window}" "${LAST_CURVE_ID}" "V/Return Zone"
+xyplot plotoptions title set "${attack_window}" 4 "V/Return Zone"
+xyplot plotdeactive "${attack_window}" all
+
+$Below code adds target lines to the fuel graphs--------------
+$ICV Zone Target
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 0
+xyplot curve function datum act horizontal 20 on on
+xyplot plotdeactive "${attack_window}" all
+$Q/C Zone Target
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 1
+xyplot curve function datum act horizontal 10 on on
+xyplot plotdeactive "${attack_window}" all
+$Tank Zone Target
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 2
+xyplot curve function datum act horizontal -30 on on
+xyplot plotdeactive "${attack_window}" all
+$FFT Zone Target
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 3
+xyplot curve function datum act horizontal 48 on on
+xyplot plotdeactive "${attack_window}" all
+$V/Return Zone Target
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" 4
+xyplot curve function datum act horizontal 0 on on
+
+$-- FORMATTING --
+$-- X AXIS GENERAL INFO
+opt var add x_label "Time [ms]"
+opt var add x_max ${t_max}
+opt var add x_min 0.0
+opt var add x_space 0.01
+opt var string x_multiplier -3
+
+$-- Y AXIS GENERAL INFO
+opt var add y_label "Part-to-Part distance [mm]"
+opt var add y_multiplier 0
+opt var add y_step 5
+
+$-- OUTPUT INFO
+opt var add formatting_window_name "${attack_window}"
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add picture_size 600x600
+opt var add tmp_window "TEMP_PICTURE_WINDOW"
+opt var add picture_window ${fuel_measurement_data}
+
+$-- ICV ZONE FORMATTING AND PICTURE OUTPUT
+opt var string window_number 0
+opt var add title_label "ICV Zone"
+opt var add file_name icv_zone
+opt var add target_curves 1
+read session ${pptx_source_path}/function_sessions/curve_picture_single-axis_autoy_generator.ses
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+$-- QUICK CONNECT FORMATTING AND PICTURE OUTPUT
+opt var string window_number 1
+opt var add title_label "Quick Connect Zone"
+opt var add file_name quick_connect
+opt var add target_curves 2
+read session ${pptx_source_path}/function_sessions/curve_picture_single-axis_autoy_generator.ses
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+$-- TANK ZONE FORMATTING AND PICTURE OUTPUT
+opt var string window_number 2
+opt var add title_label "Tank Zone"
+opt var add y_step 100
+opt var add file_name tank_zone
+opt var add target_curves 3
+read session ${pptx_source_path}/function_sessions/curve_picture_single-axis_autoy_generator.ses
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+$-- FFT ZONE FORMATTING AND PICTURE OUTPUT
+opt var string window_number 3
+opt var add title_label "FFT Zone"
+opt var add y_step 5
+opt var add file_name fft_zone
+opt var add target_curves 4
+read session ${pptx_source_path}/function_sessions/curve_picture_single-axis_autoy_generator.ses
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+
+$-- VAPOR RETURN ZONE FORMATTING AND PICTURE OUTPUT
+opt var add window_number 4
+opt var add title_label "V/Return Zone"
+opt var add file_name vapor_return_zone
+opt var add target_curves 5
+read session ${code_source_path}/src/2d_plot_formatting_autoy.ses
+read session ${pptx_source_path}/function_sessions/curve_picture_single-axis_autoy_generator.ses
+
+$-- TOTAL FUEL MEASUREMENTS WINDOW PICTURE
+window active "${attack_window}"
+window maximize "${attack_window}"
+
+xyplot plotactive "${attack_window}" all
+xyplot curve set linewidth act all 4
+xyplot curve visible all "${attack_window}"
+xyplot plotoptions title show off "${attack_window}" 5
+xyplot plotdeactive act all
+
+write options outputsize specify 2200x1200
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+
+write jpeg "${run_directory}/pptx_report/FuelTank_Measurements.jpeg" 100
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- REAR FRAME INTRUSION
+$ 
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---FRAME INTRUSION---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot create "${frame_intrusion_data}"
+window active "${frame_intrusion_data}"
+xyplot rlayout "${frame_intrusion_data}" 4
+xyplot plotdeactive "${frame_intrusion_data}" all
+window active none
+
+opt var add attack_window "${frame_intrusion_data}"
+opt var add target_window "${frame_intrusion_data}"
+opt var add window "${frame_intrusion_data}"
+
+$-- LEFT FRAME -- Y VS X
+opt var add window_id 0
+opt var add target_sort x
+opt var string name LEFT_FRAME_YX_
+opt var add target_variable left_frame_intrusion_nodes
+
+read session ${code_source_path}/in_development/node_string_generator.ses
+opt var string plot_nodes ${dem_nodes}
+read session ${code_source_path}/src/YoverX.ses
+
+$-- RIGHT FRAME -- Y VS X
+opt var add window_id 1
+opt var string name RIGHT_FRAME_YX_
+opt var add target_variable right_frame_intrusion_nodes
+
+read session ${code_source_path}/in_development/node_string_generator.ses
+opt var string plot_nodes ${dem_nodes}
+read session ${code_source_path}/src/YoverX.ses
+
+$-- LEFT FRAME -- Z VS X
+opt var add window_id 2
+opt var string name LEFT_FRAME_ZX_
+opt var add target_variable left_frame_intrusion_nodes
+
+read session ${code_source_path}/in_development/node_string_generator.ses
+opt var string plot_nodes ${dem_nodes}
+read session ${code_source_path}/src/ZoverX.ses
+
+$-- RIGHT FRAME -- Z VS X
+opt var add window_id 3
+opt var string name RIGHT_FRAME_ZX_
+opt var add target_variable right_frame_intrusion_nodes
+
+read session ${code_source_path}/in_development/node_string_generator.ses
+opt var string plot_nodes ${dem_nodes}
+read session ${code_source_path}/src/ZoverX.ses
+
+$ -- FORMATTING
+
+opt var add formatting_window_name "${attack_window}"
+opt var add window_number 0
+opt var add title_label "Left frame Y vs X"
+opt var add y_label "Y Coordinate [mm]"
+opt var add y_step 50
+opt var add y_multiplier 0
+opt var add x_label "X Coordinate [mm]"
+opt var add x_space 200
+opt var string x_multiplier 0
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+opt var add window_number 1
+opt var add title_label "Right frame Y vs X"
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+opt var add window_number 2
+opt var add y_label "Z Coordinate [mm]"
+opt var add title_label "Left frame Z vs X"
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+opt var add window_number 3
+opt var add title_label "Right frame Z vs X"
+read session ${code_source_path}/src/2d_plot_formatting_autoxy.ses
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- PICTURES
+$
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("--------------")
+	print("---SIDE VIEW AVI---")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+window active  "${d3plot_data}"
+identify reset
+view fo3 ${follow_nodes}
+options state original
+view default top
+
+add all
+add invert
+add advfilter partoutput add:Parts:name:50[0-9]??[!0-9]*,F06:Keep All
+add advfilter partoutput add:Parts:name:16[0-9]??[!0-9]*,17[0-9]??[!0-9]*,F09,FUEL:Keep All
+add advfilter partoutput add:Parts:name:60[0-9]??[!0-9]*,61[0-2-4-9]??[!0-9]*,65[0-9]??[!0-9]*,F21:Keep All
+add advfilter partoutput add:Parts:name:71[0-9]??[!0-9]*:Keep All
+erase element box -2000,-2000,-5000,1300,5000,5000
+
+opt var string search 65549*,65599*,6578*,6575*,6535*,6538*
+erase advfilter partoutput add:Parts:name:${search}:Keep All
+
+opt var string search 7150*,7151*,7159*
+erase advfilter partoutput add:Parts:name:${search}:Keep All
+
+opt var add search ${non_hess_erase}
+erase pid ${search}
+
+opt var add search ${non_hess_show}
+add pid ${search}
+
+view default left
+
+options state original
+record avi fps 1
+record avi fps 10
+record avi quality 70
+record movie forward loop 1 avi "${PWD}/Session_Report/side_view.avi"
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- BRING IT ALL BACK
+$
+
+xyplot list allwindows off
+window active  "${d3plot_data}"
+identify reset
+window maximize act
+view fo3 ${follow_nodes}
+options state variable "time=0"
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- SAVE PLOT PROJECT FILE
+$
+
+options session controldraw enable
+
+write options Project references 2dplot enable
+write options Project typesave 2d
+write options Project pagesave all
+write project "label" "${PWD}/Session_Report/${save_filename}"
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	working_dir = str(utils.MetaGetVariable('PWD'))
+	filename = str(utils.MetaGetVariable('save_filename'))
+	save_path = working_dir+"/Session_Report/"+filename
+	print("")
+	print("--------------")
+	print("")
+	print("SAVE LOCATION : "+save_path)
+	print("")
+	print("--------------")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- LOG UPLOAD
+$
+
+read session ${excel_source_path}/REAR_windows_parse.ses

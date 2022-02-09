@@ -1,0 +1,35 @@
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	curve_start = utils.MetaGetVariable('curve_start')
+	curve_start = float(curve_start)
+	curve_start = int(curve_start)
+	span = utils.MetaGetVariable('span')
+	span = float(span)
+	span = int(span)
+	ascii_start = utils.MetaGetVariable('ascii_start')
+	ascii_start = float(ascii_start)
+	ascii_start = int(ascii_start)
+	row_id = utils.MetaGetVariable('row_id')
+	row_id = float(row_id)
+	row_id = int(row_id)
+	row_id_plus = row_id+1
+	for i in range(0,span):
+		curve_target = curve_start+i
+		ascii_target = ascii_start+i
+		command ='spreadsheet cell text "${excel_sheet}" '
+		command = command + chr(65)
+		command = command + chr(ascii_target)
+		command = command + str(row_id)
+		command = command + " \`w[${attack_window}]c"
+		command = command + str(curve_target)
+		command = command + ".y[max]\`"
+		utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+//#!EOF

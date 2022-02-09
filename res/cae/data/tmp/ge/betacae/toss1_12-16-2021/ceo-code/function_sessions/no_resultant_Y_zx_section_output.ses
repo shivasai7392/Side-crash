@@ -1,0 +1,71 @@
+$-- EXAMPLE INPUT VARIABLES
+$  opt var add sections ${rrdr_hinges}
+$  opt var add target_window ${rrdr_mount}
+$  opt var add start_id 0
+$  opt var add b0 "binout*"
+$  opt var add pA "${PWD}/${b0}"
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("---SECTION ANALYSIS")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot plotactive "${target_window}" ${start_id}
+
+//#!python
+# PYTHON script
+import meta
+import string
+import fnmatch
+from meta import *
+
+def main():
+	window_name = str(utils.MetaGetVariable('target_window'))
+	win = windows.Window(window_name, page_id=0)
+	curvelist = win.get_curves('all')
+	
+	last_curve=0
+	max=0
+	gap_flag=0
+
+	for curve in curvelist:
+		if (curve.id > max):
+			max = curve.id
+		gap=curve.id-last_curve
+		if (gap > 1) and (gap_flag==0):
+			gap_start=curve.id
+			gap_flag=1
+		else:
+			gap_flag=0
+		last_curve=int(curve.id)
+	max=max+1
+	utils.MetaSetVariable('curve_start', str(max))
+
+	start_id = int(utils.MetaGetVariable('start_id'))
+	mid = str(start_id+1)
+	utils.MetaSetVariable('mid', str(mid))
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot plotactive "${target_window}" ${start_id}
+xyplot read lsdyna "${target_window}" "${pA}"  secforc-Section ${sections} Y_force_(yf)
+xyplot curve set linewidth "${target_window}" visible 3
+xyplot curve visible not "${target_window}" all
+xyplot plotdeactive "${target_window}" ${start_id}
+
+xyplot plotactive "${target_window}" ${mid}
+xyplot read lsdyna "${target_window}" "${pA}"  secforc-Section ${sections} Z_force_(zf),X_force_(xf)
+xyplot curve set linewidth "${target_window}" visible 3
+xyplot curve visible not "${target_window}" all
+xyplot plotdeactive "${target_window}" ${mid}

@@ -1,0 +1,29 @@
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$
+$        >> SESSION FOR DETERMINING WHICH LOG SESSION TO USE BASED ON MODE
+$        >> ASSUMES USER INPUT DATA HAS BEEN COMPILED
+$
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ 
+//#!python
+# PYTHON script
+import os
+from meta import *
+
+def main():
+
+	test_mode = utils.MetaGetVariable('verification_mode')
+	log_source = utils.MetaGetVariable('log_source_path')
+	if (test_mode == 'suv_mdb_50kmh') or (test_mode=='ssm_suv_mdb') or (test_mode=='214_mdb_62kmh'):
+		session_file = 'sice-sincap_die-go_file_upload_v3p0.ses'
+		utils.MetaSetVariable('log_session_file',session_file)
+	if (test_mode == '32kmh_214_pole_am50') or (test_mode=='32kmh_214_pole_af5'):
+		session_file = 'sice-sincap_die-go_file_upload_v3p0.ses'
+		utils.MetaSetVariable('log_session_file',session_file)
+
+	print('SOURCED LOG SESSION : '+os.path.join(log_source,session_file))
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF

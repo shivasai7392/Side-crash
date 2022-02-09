@@ -1,0 +1,169 @@
+$---------- SCRIPT TO GENERATE SECTION STRING (section_string) TO EXTRACT DATA WITH BASED ON WHATEVER THE USER WANTS
+$
+$-- Model ID to extract the data from
+$opt var add target_model 0
+$
+$-- Target sections can be a list of IDs or names
+$-- Delimeters >> , \ / : ; (vertical tab) (space)
+$opt var string target_sections SST1910,SST1790,SST1400
+$opt var string target_sections 1700-1705,1709
+$opt var string target_sections 1700,1703,1705,1709
+$opt var add target_section_variable target_sections
+$
+$-- Path to the binout file
+$opt var add b0 "binout*"
+$opt var add pA "${PWD}/${b0}"
+$opt var add pA "/cae/data/tmp/fr2/ra067381/3NT/02_SIDE/01_SICE_2p0_CORRELATION/115_OUTER-HANDLE_SOFT2/binout*"
+$
+$--
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	error_flag = 0
+
+	# Import target mode ID -- needs to be integer
+	target_model = int(utils.MetaGetVariable('target_model'))
+	m = models.Model(target_model)
+	
+
+	# Import target node list
+	try:
+		target_section_variable = str(utils.MetaGetVariable('target_section_variable'))
+		section_user_input = str(utils.MetaGetVariable(target_section_variable))
+		print("---")
+		print("")
+		print("SECTION USER INPUT : "+section_user_input+" | FROM VARIABLE : "+target_section_variable)
+	except:
+		target_section_variable = str(utils.MetaGetVariable('target_section_variable'))
+		section_user_input = str(utils.MetaGetVariable('target_sections'))
+		print("---")
+		print("")
+		print("TRIED AND FAILED TO UTILIZE : "+target_section_variable)
+	
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ']
+	stripped_characters = [chr(34) ,chr(39)]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ , / \ : ; (vertical tab) (space)]
+	delimeters = [chr(44) ,chr(47) ,chr(92) ,chr(58) ,chr(59) ,chr(11), chr(32)]
+	for d in delimeters:
+		if (section_user_input.find(d) != -1):
+			target_delimeter = d
+			if (target_delimeter != chr(32)):
+				stripped_characters.append(chr(32))
+			break
+
+	# Split user input based on delimeter used
+	target_sections = []
+	try:
+		target_sections = section_user_input.split(target_delimeter)
+	except:
+		target_sections.append(section_user_input)
+
+	python_node_db = []
+	
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+	
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	number_flag = 0
+	for thing in target_sections:
+		# Determine the type of list the user made
+		for number in number_characters:
+			if number in thing:
+				number_flag=1
+				break
+		for letter in letter_characters:
+			if letter in thing:
+				number_flag=0
+				break
+		
+		# If that list is a number list, check for ranges like 100-105
+		if number_flag == 1:
+			if chr(45) in thing:
+				cell_index = target_sections.index(thing)
+				broken_thing = thing.split(chr(45))
+				target_sections[cell_index] = broken_thing[0]
+				section_range = range(int(broken_thing[0])+1 , int(broken_thing[1]))
+				for intermediate in section_range:
+					target_sections.append(str(intermediate))
+				break
+		location = target_sections.index(thing)
+		for s in stripped_characters:
+			target_sections[location] = target_sections[location].strip(s)
+
+	# Sort the list based on its type
+	if number_flag == 1:
+		target_sections.sort(key = int)
+		utils.MetaSetVariable('section_string_type', 'int')
+	if number_flag == 0:
+		target_sections.sort(key = str)
+		utils.MetaSetVariable('section_string_type', 'str')
+
+	# Search the binout
+	filename = str(utils.MetaGetVariable('pA'))
+	curve_types = plot2d.CurvesTypesDynaWithNames(filename)
+	search_sections = []
+
+	for one_type in curve_types:
+		type = one_type[0]
+		#print(type)
+		if (type == 'secforc-Section'):
+			entities = one_type[1] #List with entities ids
+			for one_entity in entities:
+				entity_id = one_entity[0] # Id of entity
+				entity_name = one_entity[1] # Name of entity
+				#print(entity_id)
+				if (entity_name in target_sections) and (number_flag == 0):
+					try:
+						is_it_real = target_sections.index(entity_name)
+						search_sections.append(str(entity_id))
+					except:
+						false_positive = 1
+				if (entity_id) in target_sections:
+					try:
+						is_it_real = target_sections.index(entity_id)
+						search_sections.append(str(entity_id))
+					except:
+						false_positive = 1
+	
+	output_section_string = ''
+	python_index = len(search_sections)
+
+	if python_index == 0:
+		print("Cannot find user input sections!")
+		error_flag = 1
+
+	# Section string is always delimeted by ,
+	section_string_delimeter = chr(44)
+
+	# Generate the output string
+	for s in search_sections:
+		if search_sections.index(s) == (python_index-1):
+			output_section_string = output_section_string + str(s)
+		else:
+			output_section_string = output_section_string + str(s) + section_string_delimeter
+
+	#Pass the output string to meta
+	utils.MetaSetVariable('section_string', output_section_string)
+
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF

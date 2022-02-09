@@ -1,0 +1,254 @@
+$
+$ Session File written by META_post version:19.1.1
+$ For processing the aPLI Leg provided by HUMANETICS:
+$    (HUMANETICS_APLI_SBL_B_V0.5_S2_EXTERIOR.k)
+$
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- VARIABLES
+
+$------------------
+$-- GENERAL info
+
+$-- Window names
+opt var add moment_window "Moment"
+opt var add knee_lig "Knee - Ligaments"
+opt var add knee_accel "Knee Accelerometer"
+opt var add force_window "Force"
+
+$-- Formatting info
+opt var add x_label "Time [ms]"
+opt var add x_max 0.05
+opt var add x_space 0.005
+opt var add x_multiplier -3
+opt var add font_info "Nimbus Sans [UKWN],20,-1,5,75,0,0,0,0,0"
+opt var add picture_size 488x488
+opt var add nXwindow "4"
+
+$------------------
+$-- Scale Factors
+$ mm/s^2 to g conversion (acceleration)
+opt var add pXscale "0.000101971621"
+opt var add pXnscale "-0.000101971621"
+$ Nmm to Nm conversion (moment)
+opt var add fXscale "0.001"
+
+$------------------
+$-- NODOUT names
+
+$-- KNEE NODES
+opt var add n1 "58000001"
+opt var add n2 "58000001"
+
+$------------------
+$-- DEFORC names
+
+$-- SECTIONS
+opt var add t1 "58060001"
+opt var add t2 "58060002"
+opt var add t3 "58060003"
+
+$------------------
+$-- BEAM names
+opt var add f1 "58000001"
+opt var add f2 "58000002"
+
+
+$-- DETERMINE DIRECTORY AND SET AS p0
+
+//#!python
+# PYTHON script
+import os
+import meta
+
+def main():
+	path = os.getcwd()
+	meta.utils.MetaCommand ('opt var add p0 '+path+'')
+	var2 = path+"/Session_Report"
+	if not os.path.exists(var2):
+		os.makedirs(var2)
+	
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+$------METAPOST ENVIRONMENT SET UP------------------------------------------------------------------
+$
+$-- BINOUT VARIABLES
+opt var add b0 "binout*"
+opt var add pA "${PWD}/${b0}"
+#
+$ Load the binout files
+$
+xyplot model load uniq_dyna ${pA}
+$
+$ Binout read settings
+$
+xyplot options abscissa lsdyna time
+xyplot options read filename off
+
+$ --------KNEE ACCELEROMETER + ARS WINDOW-----------------------------------------------------------
+
+xyplot create "${knee_accel}"
+window active "${knee_accel}"
+xyplot rlayout "${knee_accel}" ${nXwindow}
+
+$
+$ --------First Sub-Window (y-acceleration)-------
+xyplot loadtomodel active
+xyplot plotactive "${knee_accel}" 0
+xyplot read lsdyna "${knee_accel}" ${pA} nodout-Node ${n1} X_acceleration_(xa)
+xyplot curve function cfc180 "${knee_accel}" ${LAST_CURVE_ID}
+xyplot curve rfunction scale y "${knee_accel}" ${LAST_CURVE_ID} ${pXnscale}
+xyplot curve set name "${knee_accel}" ${LAST_CURVE_ID} " Knee Accel (g)"
+xyplot plotdeactive "${knee_accel}" 0
+
+$ --------Second Sub-Window (y-displacement)------
+xyplot loadtomodel active
+xyplot plotactive "${knee_accel}" 1
+xyplot read lsdyna "${knee_accel}" ${pA} nodout-Node ${n2} X_displacement_(xd)
+xyplot curve function cfc180 "${knee_accel}" ${LAST_CURVE_ID}
+xyplot curve set name "${knee_accel}" ${LAST_CURVE_ID} " Knee Stroke (mm)"
+
+xyplot curve fillvar KNEE_MAX `w[${knee_accel}]c${LAST_CURVE_ID}.y[y=max]`
+opt var add add_stuff ${KNEE_MAX}+10
+opt var add scale_down ${add_stuff}/10
+opt var rounded round(${scale_down})
+opt var knee_stroke_max ${rounded}*10
+
+xyplot loadtomodel active
+xyplot plotactive "${knee_accel}" 2
+xyplot curve function userdef "${knee_accel}" "c4.y" "c2.y" "Knee Accelerometer"
+xyplot curve set name "${knee_accel}" ${LAST_CURVE_ID} " Knee Accel (g) over Knee Stroke (mm)"
+
+$
+$-- Window Formatting
+$
+xyplot curve visible not "${knee_accel}" 1,3,5
+xyplot curve set color "${knee_accel}" 1-4,6 "Blue"
+xyplot curve set linewidth "${knee_accel}" 1-4,6"3"
+
+opt var add formatting_window_name "${knee_accel}"
+opt var add window_number 0
+opt var add title_label "Knee - Acceleration X"
+opt var add y_label "Acceleration [g]"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 1
+opt var add title_label "Knee - Displacement X"
+opt var add y_label "Stroke [mm]"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 2
+opt var add title_label "Knee - Accel X over Disp X"
+opt var add y_label "Acceleration [g]"
+opt var add x_label "Stroke [mm]"
+opt var add x_min 0
+opt var add x_max ${knee_stroke_max}
+opt var add x_space 10
+opt var add x_multiplier 0
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add x_label "Time [ms]"
+opt var add x_max 0.05
+opt var add x_space 0.005
+opt var add x_multiplier -3
+
+$ --------MOMENT WINDOW-----------------------------------------------------------------
+
+xyplot create "${moment_window}"
+window active "${moment_window}"
+xyplot rlayout "${moment_window}" ${nXwindow}
+
+$ --------First Sub-Window (x-moment)-------------
+xyplot loadtomodel active
+xyplot plotactive "${moment_window}" 0
+xyplot read lsdyna "${moment_window}" ${pA} deforc-SpringDamper  ${t1} Relative_displacement/rotation_(dis)
+xyplot curve rfunction newscale y "${moment_window}" ${LAST_CURVE_ID} 274195
+xyplot curve rfunction cfc180 "${moment_window}" ${LAST_CURVE_ID}
+xyplot plotdeactive "${moment_window}" 0
+
+$ --------Second Sub-Window (x-moment)------------
+xyplot loadtomodel active
+xyplot plotactive "${moment_window}" 1
+xyplot read lsdyna "${moment_window}" ${pA} deforc-SpringDamper ${t2} Relative_displacement/rotation_(dis)
+xyplot curve rfunction newscale y "${moment_window}" ${LAST_CURVE_ID} 277963
+xyplot curve rfunction cfc180 "${moment_window}" ${LAST_CURVE_ID}
+xyplot plotdeactive "${moment_window}" 1
+
+$ --------Third Sub-Window (x-moment)-------------
+xyplot loadtomodel active
+xyplot plotactive "${moment_window}" 2
+xyplot read lsdyna "${moment_window}" ${pA} deforc-SpringDamper ${t3} Relative_displacement/rotation_(dis)
+xyplot curve rfunction newscale y "${moment_window}" ${LAST_CURVE_ID} 274195
+xyplot curve rfunction cfc180 "${moment_window}" ${LAST_CURVE_ID}
+xyplot plotdeactive "${moment_window}" 2
+
+$
+$-- Window Formatting
+$
+
+xyplot curve set color "${moment_window}" all "Blue"
+xyplot curve set linewidth "${moment_window}" all "3"
+
+opt var add formatting_window_name "${moment_window}"
+opt var add window_number 0
+opt var add title_label "Upper Moment"
+opt var add y_label "Moment [N-m]"
+opt var add y_multiplier 0
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 1
+opt var add title_label "Mid Moment"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 2
+opt var add title_label "Lower Moment"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+$ --------FORCE WINDOW-----------------------------------------------------------------
+
+xyplot create "${force_window}"
+window active "${force_window}"
+xyplot rlayout "${force_window}" 2
+
+$ --------First Sub-Window (Upper Force)-------------
+xyplot loadtomodel active
+xyplot plotactive "${force_window}" 0
+xyplot read lsdyna "${force_window}" ${pA} elout-Beams ${f1} Axial_Force_Resultant_(afr)
+xyplot curve rfunction cfc180 "${force_window}" ${LAST_CURVE_ID}
+xyplot plotdeactive "${force_window}" 0
+
+$ --------Second Sub-Window (Lower Force)------------
+xyplot loadtomodel active
+xyplot plotactive "${force_window}" 1
+xyplot read lsdyna "${force_window}" ${pA} elout-Beams ${f2} Axial_Force_Resultant_(afr)
+xyplot curve rfunction cfc180 "${force_window}" ${LAST_CURVE_ID}
+xyplot plotdeactive "${force_window}" 1
+
+xyplot curve set color "${force_window}" all "Blue"
+xyplot curve set linewidth "${force_window}" all "3"
+
+opt var add formatting_window_name "${force_window}"
+opt var add window_number 0
+opt var add title_label "Upper Force"
+opt var add y_label "Force [N]"
+opt var add y_multiplier 0
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_number 1
+opt var add title_label "Lower Force"
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- SAVE PLOT PROJECT FILE
+
+options session controldraw enable
+
+write options Project references 2dplot enable
+write options Project typesave 2d
+write options Project pagesave all
+write project "label" "${p0}/Session_Report/upper_leg_summary.metadb"
+
+$-- END

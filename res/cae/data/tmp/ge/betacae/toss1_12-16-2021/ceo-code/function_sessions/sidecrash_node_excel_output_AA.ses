@@ -1,0 +1,31 @@
+//#!python
+# PYTHON script
+import os
+import meta
+import string
+import fnmatch
+from meta import utils
+def main():
+	start = utils.MetaGetVariable('ascii_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('ascii_end')
+	end = float(end)
+	end = int(end)+1
+	row_id = utils.MetaGetVariable('row_id')
+	row_id = float(row_id)
+	row_id = int(row_id)
+	for i in range(start,end):
+		time = 0.01*(i-start)+0.03
+		command ='spreadsheet cell text "${excel_sheet}" '
+		command = command + chr(65)
+		command = command + chr(i)
+		command = command + str(row_id)
+		command = command + " \`w[${attack_window}]c${target}.y[x="
+		command = command + str(time)
+		command = command + "]\`"
+		utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF

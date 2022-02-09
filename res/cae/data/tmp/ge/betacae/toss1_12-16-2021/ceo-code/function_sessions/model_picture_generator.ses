@@ -1,0 +1,344 @@
+
+
+//#!python
+# PYTHON script
+import meta
+import os
+from meta import *
+
+def main():
+
+
+	print("--- 3D MODEL IMAGE GENERATOR INITIAL AND PEAK")
+	print("")
+	picture_window = str(utils.MetaGetVariable('picture_window'))
+	print("SOURCE WINDOW : "+picture_window)
+
+	model = str(utils.MetaGetVariable('model'))
+	print("SOURCE MODEL : "+model)
+
+	m = models.Model(int(model))
+	all_resultsets = m.get_resultsets()
+
+	min = 10000000000000000000000000
+	for res in all_resultsets:
+		if res.time == 0.0:
+			initial_state = res
+			
+	print("INITIAL STATE : "+initial_state)
+	m.set_current_resultset(initial_state)
+
+	search = str(utils.MetaGetVariable('search'))
+	print("PID NAME SHOW FILTER : "+search)
+
+	hes_exceptions = str(utils.MetaGetVariable('hes_exceptions'))
+	print("ADDITIONAL PID'S SHOWN : "+hes_exceptions)
+
+	exclude = str(utils.MetaGetVariable('exclude'))
+	print("PID NAME ERASE FILTER : "+hes_exceptions)
+
+	erase_pids = str(utils.MetaGetVariable('erase_pids'))
+	print("PID'S TO ERASE : "+erase_pids)
+
+	erase_box = str(utils.MetaGetVariable('erase_box'))
+	print("ERASE BOX : "+erase_box)
+
+	comp_view = str(utils.MetaGetVariable('comp_view'))
+	print("IMAGE VIEW : "+comp_view)
+
+	transparency_level = str(utils.MetaGetVariable('transparency_level'))
+	print("TRANSPARENCY LEVEL : "+transparency_level)
+
+	transparent_pids = str(utils.MetaGetVariable('transparent_pids'))
+	print("TRANSPARENT PID'S : "+transparent_pids)
+
+	comp_name = str(utils.MetaGetVariable('comp_name'))
+	print("COMP NAME : "+comp_name)
+
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+
+window active "${picture_window}"
+model active ${model}
+window size ${picture_size}
+or advfilter partoutput add:Parts:name:${search}:Keep All
+add pid ${hes_exceptions}
+erase advfilter partoutput add:Parts:name:${exclude}:Keep All
+erase pid ${erase_pids}
+erase shells box ${erase_box}
+erase solids box ${erase_box}
+view default ${comp_view}
+view center
+color pid transparency ${transparency_level} ${transparent_pids}
+lock store "${comp_name}"
+
+window active none
+
+$-- OUTPUT INITIAL PID NO TITLE PICTURE
+
+window active "${picture_window}"
+options title off
+options fringebar off
+grstyle scalarfringe disable
+model active ${model}
+style pident enabled pid
+model active none
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_INITIAL-PID.jpeg" 100
+
+$-- OUTPUT INITIAL PID TITLED PICTURE
+
+window active "${picture_window}"
+options title on
+options title font ${font_info}
+options fringebar off
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_INITIAL-PID_TITLED.jpeg" 100
+
+window active "${picture_window}"
+window size ${picture_size}
+color pid transparency 0 ${transparent_pids}
+window active none
+
+$-- OUTPUT INITIAL MODEL PICTURE
+
+window active "${picture_window}"
+options title off
+options fringebar off
+grstyle scalarfringe disable
+model active ${model}
+style pident enabled model
+model active none
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_INITIAL-MODEL.jpeg" 100
+
+$-- OUTPUT INITIAL MODEL TITLED PICTURE
+
+window active "${picture_window}"
+options title on
+options title font ${font_info}
+options fringebar off
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_INITIAL-MODEL_TITLED.jpeg" 100
+
+window active "${picture_window}"
+window size ${picture_size}
+color pid transparency 0 ${transparent_pids}
+window active none
+
+
+//#!python
+# PYTHON script
+import meta
+import os
+from meta import *
+
+def main():
+
+
+	model = str(utils.MetaGetVariable('model'))
+
+	m = models.Model(int(model))
+	all_resultsets = m.get_resultsets()
+	
+	peak = float(utils.MetaGetVariable('survival-space_peak_time'))
+
+	min = 10000000000000000000000000
+	for res in all_resultsets:
+			
+		if abs(res.time - peak) < min:
+			peak_state = res
+			min = abs(res.time - peak)
+
+	print("PEAK STATE : "+peak_state)
+	m.set_current_resultset(peak_state)
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+window active none
+
+$-- OUTPUT PEAK PID NO TITLE PICTURE
+
+window active "${picture_window}"
+options title off
+options fringebar off
+grstyle scalarfringe disable
+model active ${model}
+view fo3 ${follow_nodes}
+style pident enabled pid
+model active none
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_PEAK-PID.jpeg" 100
+
+$-- OUTPUT PEAK PID TITLED PICTURE
+
+window active "${picture_window}"
+options title on
+options title font ${font_info}
+options fringebar off
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_PEAK-PID_TITLED.jpeg" 100
+
+window active "${picture_window}"
+window size ${picture_size}
+color pid transparency 0 ${transparent_pids}
+window active none
+
+$-- OUTPUT PEAK MODEL PICTURE
+
+window active "${picture_window}"
+options title off
+options fringebar off
+grstyle scalarfringe disable
+model active ${model}
+style pident enabled model
+model active none
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_PEAK-MODEL.jpeg" 100
+
+$-- OUTPUT PEAK MODEL TITLED PICTURE
+
+window active "${picture_window}"
+options title on
+options title font ${font_info}
+options fringebar off
+window active none
+
+write options outputsize specify ${picture_size}
+write options savebg enable
+write options transparent enable
+write options outputsize dpi ${dpi}
+write options scalefonts enable
+write options scalefonts 1 100
+write options scalefonts 100 100
+write options scalefonts disable
+write jpeg "${run_directory}/Session_Report/${picture_window}_${file_name}_PEAK-MODEL_TITLED.jpeg" 100
+
+window active "${picture_window}"
+window size ${picture_size}
+color pid transparency 0 ${transparent_pids}
+window active none
+
+//#!python
+# PYTHON script
+import meta
+import os
+from meta import *
+
+def main():
+
+
+	model = str(utils.MetaGetVariable('model'))
+
+	m = models.Model(int(model))
+	labels = m.get_scalar_labels()
+	for scalar in labels:
+		if 'PlasticStrain' in scalar:
+			
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+//#!python
+# PYTHON script
+import meta
+import os
+from meta import *
+
+def main():
+
+	image_size = str(utils.MetaGetVariable('picture_size'))
+	print("OUTPUT IMAGE SIZE (PIXELS) : "+str(image_size))
+
+	run_dir = str(utils.MetaGetVariable('run_directory'))
+	picture_window = str(utils.MetaGetVariable('picture_window'))
+	file_name = str(utils.MetaGetVariable('file_name'))
+	output1 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_INITIAL-PID.jpeg")
+	output2 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_INITIAL-PID_TITLED.jpeg")
+	output3 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_INITIAL-MODEL.jpeg")
+	output4 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_INITIAL-MODEL_TITLED.jpeg")
+	output5 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_PEAK-PID.jpeg")
+	output6 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_PEAK-PID_TITLED.jpeg")
+	output5 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_PEAK-MODEL.jpeg")
+	output7 = os.path.join(run_dir,"Session_Report",picture_window+"_"+file_name+"_PEAK-MODEL_TITLED.jpeg")
+	if os.path.exists(output1):
+		print("OUTPUT MODEL IMAGES : ")
+		print(output1)
+		print(output2)
+		print("")
+	else:
+		print("IMAGE FAILED TO OUTPUT!")
+
+
+if __name__ == '__main__':
+	main()
+//#!EOF

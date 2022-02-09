@@ -1,0 +1,581 @@
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$
+$          >> SESSION FOR COMPILING USER INPUT DATA <<
+$      >> WHEN CONFUSED OR NOT CLEAR ASK THE DEVELOPER <<
+$
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- PHASE 1 REPORT USER INPUT VARIABLES
+
+$------------------
+$-- Window names
+
+opt var add rrdoor_accel "Rear Door -Accel"
+opt var add rrdr_latch "Rear Door - Latch"
+opt var add rrdr_mount "Rear Door - Mount"
+opt var add frdoor_accel "Front Door - Accel"
+opt var add frdr_latch "Front Door - Latch"
+opt var add frdr_mount "Front Door - Mount"
+opt var add global_accel "BIW - Accel"
+opt var add global_sections "BIW - Sections"
+opt var add suspension_accel "Suspension - Accel"
+opt var add seat_mount "Seat - Mount"
+opt var add survival_space "Survival Space"
+opt var add sill_roof_intrusion "Side sill & Roof intrusion"
+opt var add door_skin_intrusion "Door skin intrusion"
+opt var add door_panel_intrusion "Door panel intrusion"
+opt var add panoroof_metrics "Panoroof"
+opt var add d3plot_data "MetaPost"
+
+$------------------
+$--MISC SOURCE info
+opt var add dat_pi_tho 3.141592653589793238462643383279502884197169399375105820974944592307816406286
+
+$-- BOLT SOURCE PATH NEEDS / AT THE END
+opt var add bolt_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/bolt_curves/"
+opt var add stock_dia 14
+
+$-- CODE PATH NEEDS NO / AT THE END
+opt var add code_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions"
+opt var add mode_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/mode_sessions/in_development"
+opt var add log_source_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_to_excel_sessions/mode_sessions/in_development"
+
+$------------------
+$-- CAE INPUT DATA
+
+$-- BINOUT FILE WILD CARD
+opt var add b0 "binout*"
+
+$-- DISPLACEMENT FILE WILD CARD
+opt var add d0 "d3plot"
+
+$--FOLLOW NODES
+opt var string follow_nodes 7,8,9
+
+$------------------
+$-- CAE OUTPUT DATA
+
+$-- 2D DATA OUTPUT FILE NAME
+opt var add save_filename 2tn_side_cae_phase1_v3p0.metadb
+
+$------------------
+$--ROW2 USER INPUT DATA
+
+$-- PANEL PART ID/IDS
+opt var string row2_panel 32559
+
+$-- HINGE & STRIKER SECTION IDS/NAMES
+opt var string rrdr_hinges 31001-31008
+opt var string rrdr_striker null
+
+$-- INJURY REGION ACCELEROMETERS IDS/NAMES & POINT CLOUD
+opt var string row2_pelvis_node ROW2_L_RR_LWR_G_Y1/ROW2_L_RR_LWR_G_Y2
+opt var string row2_pelvis_radius 80
+opt var string row2_pelvis_center 2288,-834.9,338.2
+
+opt var string row2_femur_node null
+opt var string row2_femur_radius 60
+opt var string row2_femur_center 2202.4,-838.2,386.2
+
+opt var string row2_abdomen_nodes ROW2_L_RR_MID_G_Y1
+opt var string row2_abdomen_radius 60
+opt var string row2_abdomen_center 2360.8,-836.7,540
+
+opt var string row2_shoulder_node ROW2_RR_UPR_G_Y1/ROW2_RR_UPR_G_Y2
+opt var string row2_shoulder_radius 60
+opt var string row2_shoulder_center 2409.9,-818.2,675.7
+
+$-- LATCH INFORMATION CRITICAL PIDS AND MEASUREMENT NODE IDS
+opt var string row2_SASH_PARTS 32176/32184
+opt var string row2_OUTER-HANDLE 36059/36089
+opt var string row2_LATCH-PATCH_PARTS 36185
+opt var string row2_COUNTERWEIGHT_PART 36090
+opt var string row2_LOCK-ROD_PART 36060
+opt var string row2_DOOR-SKIN_PART 32564
+opt var string row2_latch-body_nodes 39084890,39084893,39084966
+opt var string row2_latch-angle_nodes 39084551,39013059,39018581
+opt var string row2_lever_nodes 39085372,39145841
+
+$------------------
+$--ROW1 USER INPUT DATA
+
+$-- PANEL PART ID/IDS
+opt var string row1_panel 32579
+
+$-- BOX USED TO MAKE SLICE IN AM50
+opt var string row1_panel_box -10000,-50000,735,50000,0,745
+
+$-- HINGE & STRIKER SECTION IDS/NAMES
+opt var string frdr_hinges 35037,35039,35065,35055,35034,35035,35051,35054
+opt var string frdr_striker 36019,36023,36024
+
+$-- INJURY REGION ACCELEROMETERS IDS/NAMES & POINT CLOUD
+opt var string row1_pelvis_node ROW1_L_RR_LWR_G_Y1/ROW1_L_RR_LWR_G_Y2
+opt var string row1_pelvis_radius 80
+opt var string row1_pelvis_center 1310.5,-850.3,290
+
+opt var string row1_femur_node null
+opt var string row1_femur_radius 80
+opt var string row1_femur_center 1078.9,-842.8,344.3
+
+opt var string row1_abdomen_nodes ROW1_L_RR_MID_G_Y1
+opt var string row1_abdomen_radius 60
+opt var string row1_abdomen_center 1315,-850,550
+
+opt var string row1_shoulder_node ROW1_L_RR_UPR_G_Y1/ROW1_L_RR_UPR_G_Y2
+opt var string row1_shoulder_radius 60
+opt var string row1_shoulder_center 1333.2, -831.14, 674.5
+
+$-- LATCH INFORMATION CRITICAL PIDS AND MEASUREMENT NODE IDS
+opt var string row1_SASH_PARTS 32177/32182
+opt var string row1_OUTER-HANDLE 31699/36043
+opt var string row1_LATCH-PATCH_PARTS 32585
+opt var string row1_COUNTERWEIGHT_PARTS 36033
+opt var string row1_LOCK-ROD_PART 36055
+opt var string row1_DOOR-SKIN_PART 32585
+opt var string row1_latch-body_nodes 32207791,32506569,32506640
+opt var string row1_latch-angle_nodes 32419054,32449678,32457751
+opt var string row1_lever_nodes 32207801,32450006
+
+$------------------------
+$--USER INPUT DOOR INTRUSION 
+
+$-- NODE ID/NAME LISTS (SORTED OR UNSORTED)
+opt var string door_skin_upper_nodes 31077367,31077511,31079283,31125932,31125965,31126003,31126042,31145717,31147219,31147635,31147756,31147790,31147815,31147865,31147997,31148213,31148407,31161630,31161896,31162142,31162386,31162596,31162806,31163051,31163279,31163543,31163687,31164040,31164265,31164547,31164752,31241602,31244402
+opt var string door_skin_mid_nodes 31048864,31078059,31078996,31116805,31127327,31129888,31130536,31131387,31132397,31133738,31135025,31136563,31138669,31140747,31142545,31166907,31168295,31169757,31171399,31173169,31174923,31176094,31178353,31180522,31182129,31241793,31241808
+opt var string door_skin_lower_nodes 31077445,31077477,31079546,31116638,31118504,31118943,31119168,31119541,31119915,31120315,31120724,31121138,31121515,31121874,31122175,31127798,31190150,31190410,31190657,31190989,31191355,31191828,31192181,31192625,31193051,31193392
+
+opt var string row2_torso_line_nodes 31095799,31096318,31100264,31100589,31110870,31111061
+
+opt var string row1_pelvis_line_nodes 31066697,31068064,31068178,31071828,31195892,31197116,31205053,31205146,31205319,31221780,31238739
+opt var string row1_shoulder_line_nodes 31069832,31074105,31196034,31201971,31204518,31204763,31209283,31217428,31225712,31235867,31238180,31239367
+
+opt var string row1_torso_line_nodes 31056307,31204796,31204929,31205088,31205271,31209893,31221565,31221645
+
+opt var string row2_pelvis_line_nodes 31030660,31033938,31036728,31042399,31073237,31088764,31090113,31090502,31095277,31098066,31230334
+opt var string row2_shoulder_line_nodes 31033399,31042724,31097502,31099102,31102086,31104072,31110754,31111176,31234168,31234904
+
+
+$------------------
+$--PANOROOF USER INPUT DATA
+
+$-- BOLT SECTION IDS/NAMES
+opt var string panoroof_sections null
+
+$-- NODES USED TO MAKE LIFTER ANGLE MEASUREMENT
+opt var string panoroof_struck_angle_nodes null
+opt var string panoroof_unstruck_angle_nodes null
+
+$-- PART IDS FOR STRUCK TO UNSTRUCK EXTRUSION MEASUREMENT
+opt var string panoroof_struck_part null
+opt var string panoroof_unstruck_part null
+
+$------------------
+$--SUSPENSION USER INPUT DATA
+
+$-- SUBFRAME ACCELEROMETER IDS/NAMES
+opt var string struck_subframe_nodes 11460487/13474616
+opt var string unstruck_subframe_nodes 11460980/13474615
+
+$-- CHASSIS ACCELEROMETER IDS/NAMES
+opt var string struck_chassis_nodes null
+opt var string unstruck_chassis_nodes null
+
+$-- SHOCK TOWER DISCRETE ELEMENT IDS
+opt var string struck_damper_elements null
+opt var string unstruck_damper_elements null
+
+$------------------
+$--BIW USER INPUT DATA
+
+$-- CBU ACCELEROMETER IDS/NAMES
+opt var string unit_floor_nodes "7747848/7747839"
+opt var string sis_row_r_nodes "1380464/1346770/2392287"
+opt var string MDB_node 94000001
+opt var string bplr_nodes "2921855/4125401/7747633/"
+
+$-- CBU SECTION IDS/NAMES
+opt var string bplr_sections 1715-1735
+opt var string sill_sections 1684-1693
+opt var string wheelhouse_sections null
+
+$------------------------
+$--USER INPUT BIW INTRUSION LINES
+
+$-- NODE ID/NAME LISTS (SORTED OR UNSORTED)
+opt var string bplr_ss_nodes BP_Center_CAE_1, BP_Center_CAE_2, BP_Center_CAE_3, BP_Center_CAE_4, BP_Center_CAE_5, BP_Center_CAE_6, BP_Center_CAE_7, BP_Center_CAE_8, BP_Center_CAE_9, BP_Center_CAE_10, BP_Center_CAE_11, BP_Center_CAE_12, BP_Center_CAE_13, BP_Center_CAE_14, BP_Center_CAE_15, BP_Center_CAE_16, BP_Center_CAE_18, BP_Center_CAE_19,ELR_1,ELR_2,ELR_3,ELR_4,ELR_5,ELR_6,ELR_7,ELR_8
+opt var string side_sill_nodes CSS_CAE_1, CSS_CAE_2, CSS_CAE_3, CSS_CAE_4, CSS_CAE_5, CSS_CAE_6, CSS_CAE_7, CSS_CAE_8, CSS_CAE_9, CSS_CAE_10, CSS_CAE_11, CSS_CAE_12, CSS_CAE_13, CSS_CAE_14, CSS_CAE_15, CSS_CAE_16, CSS_CAE_17, CSS_CAE_18, CSS_CAE_19, CSS_CAE_20, CSS_CAE_21, CSS_CAE_22, CSS_CAE_23, CSS_CAE_24, CSS_CAE_25, CSS_CAE_26, CSS_CAE_27, CSS_CAE_28, CSS_CAE_29, CSS_CAE_30, CSS_CAE_31, CSS_CAE_32, CSS_CAE_33, CSS_CAE_34
+opt var string roof_line_nodes RFLN_CAE_1, RFLN_CAE_2, RFLN_CAE_3, RFLN_CAE_4, RFLN_CAE_5, RFLN_CAE_6, RFLN_CAE_7, RFLN_CAE_8, RFLN_CAE_9, RFLN_CAE_10, RFLN_CAE_11, RFLN_CAE_12, RFLN_CAE_13, RFLN_CAE_14, RFLN_CAE_15, RFLN_CAE_16, RFLN_CAE_17, RFLN_CAE_18, RFLN_CAE_19, RFLN_CAE_20, RFLN_CAE_21, RFLN_CAE_22, RFLN_CAE_23, RFLN_CAE_24, RFLN_CAE_25, RFLN_CAE_26, RFLN_CAE_27, RFLN_CAE_28, RFLN_CAE_29, RFLN_CAE_30, RFLN_CAE_31, RFLN_CAE_32, RFLN_CAE_33, RFLN_CAE_34
+
+$------------------------
+$--SURVIVAL SPACE INFORMATION
+opt var add ss_scale -1
+opt var add ss_offset 420
+opt var add ss_upper_bound 855
+opt var add ss_lower_bound 214
+
+$------------------
+$--SEAT USER INPUT DATA
+
+$-- BOLT SECTION IDS/NAMES
+opt var string fr_seat_sections 1311,1312,1309,1306
+opt var string rr_seat_sections 1295,1291,1294,1289
+
+$------------------
+$--X AXIS USER INPUT DATA
+opt var add ui_x_label "Time [ms]"
+opt var add ui_x_max 0.08
+opt var add ui_x_min 0.0
+opt var add ui_x_space 0.01
+opt var string ui_x_multiplier -3
+
+$------------------
+$--MEASUREMENT AXIS USER INPUT DATA
+opt var add ui_x-axis_space 200
+opt var add ui_y-axis_space 50
+opt var add ui_z-axis_space 100
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- EXCEL LOG FILE USER INPUT VARIABLES
+$
+
+$--SYSTEM INFORMATION
+opt var add pM "/cae/data/tmp/fr2/ra067381/test_output_folder/pptx_automation_report/excel_log"
+opt var string excel_prefix 2TN_MP_log_
+opt var add master_excel_sheet "Critical Metrics Log File"
+
+opt var string bplr_accels_hes 64621*
+opt var add model 0
+opt var add target_model 0
+
+$-- ROW 1 INTRUSION CURVE ID'S
+opt var add ROW-1_SHOULDER 1695
+opt var add ROW-1_PELVIS 2290
+opt var add ROW-1_ABDOMEN 497
+opt var add ROW-1_FEMUR 4172
+
+$-- ROW 1 LATCH CURVE ID'S
+opt var add ROW-1_PART-TO-PART_START 1
+opt var add ROW-1_PART-TO-PART_SPAN 4
+opt var add ROW-1_LR-TO-OH 5
+opt var add ROW-1_LATCH-ANGLE 6
+opt var add ROW-1_LEVER-STROKE 7
+
+$-- ROW 2 INTRUSION CURVE ID'S
+opt var add ROW-2_SHOULDER 1519
+opt var add ROW-2_PELVIS 2653
+opt var add ROW-2_ABDOMEN 445
+opt var add ROW-2_FEMUR 2654
+
+$-- ROW 2 LATCH CURVE ID'S
+opt var add ROW-2_PART-TO-PART_START 1
+opt var add ROW-2_PART-TO-PART_SPAN 4
+opt var add ROW-2_LR-TO-OH 5
+opt var add ROW-2_LATCH-ANGLE 6
+opt var add ROW-2_LEVER-STROKE 7
+
+$-- PANOROOF CURVE ID'S
+opt var add PANO_STRUCK-ANGLE null
+opt var add PANO_UNSTRUCK-ANGLE null
+opt var add PANO_STRUCK-TO-UNSTRUCK null
+
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- REPORT GENERATION USER INPUT VARIABLES
+$
+
+$------------------
+$-- SOURCE DATA USER INPUT
+
+$-- PPTX TEMPLATE
+opt var add pptx_template_path "/cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/powerpoint_sessions/template_powerpoints"
+opt var add pptx_filename side_MDB_Report_template.pptx
+
+$-- 2D REPORT TARGETS FILE NAME
+opt var add project_targets_path "/cae/data/tmp/fr2/ra067381/test_output_folder/pptx_automation_report/target_file"
+opt var add t0 2tn_mp_targets.metadb
+
+$-- SPOTWELD FAILURE THRESHOLD (ABOVE THIS WILL BE FLAGGED)
+opt var add threshold 0.8
+
+$------------------
+$-- OUTPUT USER INPUT
+
+$-- SET UP FOR THE TEMPLATE FILE
+opt var add dpi 300
+
+$-- FONT INFO FOR PICTURES
+opt var add font_info_1x1 "Arial,40,-1,5,75,0,0,0,0,0"
+opt var add font_info_2x2 "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add font_info_3x3 "Arial,16,-1,5,75,0,0,0,0,0"
+
+$-- IMAGE VIEWER XLSX FILE HAS ALL THE DETAILS
+opt var string image1x1_size 4329x2467
+opt var string image2x1_size 2146x2467
+opt var string image1x2_size 4329x1215
+opt var string image2x2_size 2146x1215
+opt var string image3x1_size 1418x2467
+opt var string image3x3_size 1418x798
+
+$-- VIDEO INFO
+opt var add frames_per_second 5
+
+$-- TRANSPARENCY
+opt var string transparency_level 50
+
+$------------------
+$-- CRITICAL SECTION USER INPUT
+
+opt var string f21_roof_hes 621*
+opt var string f21_roof_hes_exceptions null
+opt var string f21_roof_erase_pids null
+opt var string f21_roof_transparent_pids 1921
+opt var string f21_roof_view top
+opt var string f21_roof_name ROOF
+opt var string f21_roof_erase_box null
+
+opt var string f21_upb_outer_hes 60265*,635*,636*
+opt var string f21_upb_outer_hes_exceptions null
+opt var string f21_upb_outer_erase_pids null
+opt var string f21_upb_outer_transparent_pids 2041,2042,2044,2046,2057,2061,2069-2074
+opt var string f21_upb_outer_view left
+opt var string f21_upb_outer_name UPR_OUTER
+opt var string f21_upb_outer_erase_box null
+
+opt var string f21_upb_inner_hes 645*,646*
+opt var string f21_upb_inner_hes_exceptions null
+opt var string f21_upb_inner_erase_pids null
+opt var string f21_upb_inner_transparent_pids  2217,2223-2224,2226,2230
+opt var string f21_upb_inner_view right
+opt var string f21_upb_inner_name UPR_INNER
+opt var string f21_upb_inner_erase_box -10000,0,-10000,10000,100000,10000
+
+opt var string f21_rear_floor_hes 655*,656*,657*
+opt var string f21_rear_floor_hes_exceptions null
+opt var string f21_rear_floor_erase_pids null
+opt var string f21_rear_floor_transparent_pids 1533,1553,1559,1615,1616,1620,1621,1624
+opt var string f21_rear_floor_view top
+opt var string f21_rear_floor_name REAR_FLOOR
+opt var string f21_rear_floor_erase_box -10000,-10000,-10000,170,10000,10000
+
+opt var string f21_front_floor_hes 651*,653*
+opt var string f21_front_floor_hes_exceptions null
+opt var string f21_front_floor_erase_pids 1625-1633,
+opt var string f21_front_floor_transparent_pids 1636,1644,1657-1658,1669,1670,1679,1685
+opt var string f21_front_floor_view top
+opt var string f21_front_floor_name FRONT_FLOOR
+opt var string f21_front_floor_erase_box null
+
+opt var string f28_front_door_hes 671*,672*,673*
+opt var string f28_front_door_hes_exceptions null
+opt var string f28_front_door_erase_pids 32464
+opt var string f28_front_door_transparent_pids 32585
+opt var string f28_front_door_view left
+opt var string f28_front_door_name FRONT_DOOR
+opt var string f28_front_door_erase_box -10000,0,-10000,10000,100000,10000
+
+opt var string f28_rear_door_hes 676*,677*,678*
+opt var string f28_rear_door_hes_exceptions null
+opt var string f28_rear_door_erase_pids null
+opt var string f28_rear_door_transparent_pids 32564
+opt var string f28_rear_door_view left
+opt var string f28_rear_door_name REAR_DOOR
+opt var string f28_rear_door_erase_box -10000,0,-10000,10000,100000,10000
+
+$------------------
+$-- BODY-IN-WHITE USER INPUT
+
+opt var string bplr_disp_window "BIW - Accel"
+opt var string bplr_accels_hes 64621*
+opt var string bplr_accels_hes_exceptions 9927,9928,9929,9930,9931
+opt var string bplr_accels_erase_pids null
+opt var string bplr_accels_transparent_pids 9927,9928,9929,9930,9931
+opt var string bplr_accels_view left
+opt var string bplr_accels_name bplr_accels
+
+opt var string cbu_hes 60265*,621*,635*,636*,641*,642*645*,646*,651*,653*,655*,656*,657*
+opt var string cbu_hes_exceptions null
+opt var string cbu_erase_pids null
+opt var string cbu_transparent_pids 2001,621133
+opt var string cbu_view isometric
+opt var string cbu_name CBU_DEFORM_ISO
+
+opt var string barrier_hes_exceptions 94000-95000
+opt var string barrier_accels_transparent_pids null
+opt var string barrier_and_cbu_name CBU-BARRIER_DEFORM_ISO
+
+opt var string roof_joint_hes john_doe
+opt var string roof_joint_hes_exceptions null
+opt var string roof_joint_erase_pids null
+opt var string roof_joint_transparent_pids null
+opt var string roof_joint_view isometric
+opt var string roof_joint_name ROOF JOINT
+
+$------------------
+$-- ENCLOSURES USER INPUT
+
+$-- FRONT DOOR
+
+opt var string front_shoulder_intrusion_curve ROW1_SHOULDER_SPHERE_ Intrusion
+opt var string front_abdomen_intrusion_curve ROW1_ABDOMEN_SPHERE_ Intrusion
+opt var string front_pelvis_intrusion_curve ROW1_PELVIS_SPHERE_ Intrusion
+opt var string front_femur_intrusion_curve ROW1_FEMUR_SPHERE_ Intrusion
+
+opt var string front_door_hinge_striker_hes 674*,679*
+opt var string front_door_hinge_striker_hes_exceptions null
+opt var string front_door_hinge_striker_erase_pids 36512,36513,36514,36515,36516,36517,36518,36519,37029,37030,37031,37032,37033,37034,37035,37036,37538,37539,37540,37541,37542,37543,37545,37548
+opt var string front_door_hinge_striker_transparent_pids null
+opt var string front_door_hinge_striker_view left
+opt var string front_door_hinge_striker_erase_box -10000,0,-10000,10000,100000,10000
+opt var string front_door_hinge_striker_name front_door_mount
+
+opt var string front_door_latch_hes john_doe
+opt var string front_door_latch_hes_exceptions null
+opt var string front_door_latch_erase_pids null
+opt var string front_door_latch_transparent_pids null
+opt var string front_door_latch_view left
+opt var string front_door_latch_erase_box -10000,0,-10000,10000,100000,10000
+opt var string front_door_hlatch_name front_door_latch
+
+$-- REAR DOOR
+
+opt var string rear_shoulder_intrusion_curve ROW2_SHOULDER_SPHERE_ Intrusion
+opt var string rear_abdomen_intrusion_curve ROW2_ABDOMEN_SPHERE_ Intrusion
+opt var string rear_pelvis_intrusion_curve ROW2_PELVIS_SPHERE_ Intrusion
+opt var string rear_femur_intrusion_curve ROW2_FEMUR_SPHERE_ Intrusion
+
+opt var string rear_door_hinge_striker_hes 674*,679*
+opt var string rear_door_hinge_striker_hes_exceptions null
+opt var string rear_door_hinge_striker_erase_pids 37029,37030,37031,37032,37033,37034,37035,37036,37538,37539,37540,37541,37542,37543,37545,37548,36001,36013,36015,36016,36025,36026,36027,36033
+opt var string rear_door_hinge_striker_transparent_pids null
+opt var string rear_door_hinge_striker_view left
+opt var string rear_door_hinge_striker_erase_box -10000,0,-10000,10000,100000,10000
+opt var string rear_door_hinge_striker_name front_door_mount
+
+opt var string rear_door_latch_hes john_doe
+opt var string rear_door_latch_hes_exceptions null
+opt var string rear_door_latch_erase_pids null
+opt var string rear_door_latch_transparent_pids null
+opt var string rear_door_latch_view left
+opt var string rear_door_latch_erase_box -10000,0,-10000,10000,100000,10000
+opt var string rear_door_hlatch_name front_door_latch
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- INTIALIZING
+$
+//#!python
+# PYTHON script
+import os
+import subprocess as sub
+import datetime
+import meta
+from meta import *
+
+def main():
+
+	print("")
+	print("--------------")
+	print("---INTIAILIZING USER INPUT VARIABLES---")
+	logtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+	print("START TIME : "+str(logtime))
+	print("")
+
+	bplr_ss_nodes = str(utils.MetaGetVariable('bplr_ss_nodes'))
+	utils.MetaSetVariable('original_bplr_ss_nodes',bplr_ss_nodes)
+
+	path = os.getcwd()
+	utils.MetaSetVariable('run_directory', path)
+	print("RUN DIR : "+path)
+	var2 = path+"/Session_Report"
+	if not os.path.exists(var2):
+		os.makedirs(var2)
+		print("SET UP NEW SESSION REPORT FOLDER : "+var2)
+	else:
+		modified_time = datetime.datetime.fromtimestamp(os.path.getmtime(var2)).strftime('%Y-%m-%d_%H-%M-%S')
+		modified_name = var2+'_'+modified_time
+		os.rename(var2,modified_name)
+		print("MOVED EXISTING SESSION REPORT FOLDER TO : "+modified_name)
+		os.makedirs(var2)
+		print("SET UP NEW SESSION REPORT FOLDER : "+var2)
+
+	source_path = path + "/"
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+	utils.MetaSetVariable('verification_mode', test_mode)
+	print("TEST MODE FROM _MET.QSCRIPT: "+test_mode)
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$-- DETERMINE MASTER KEYFILE
+read session "${code_source_path}/src/search_keyfile.ses"
+
+$-- RELATIVE PATHS TO SOURCE DATA
+opt var add pG "${run_directory}/${master_file}"
+opt var add pA "${run_directory}/${b0}"
+opt var add pD "${run_directory}/${d0}"
+opt var add pR "${run_directory}/Session_Report/${save_filename}"
+opt var add pT "${project_targets_path}/${t0}"
+
+$-- DETERMINE WHAT PHASE 1 SESSION TO RUN
+read session "${code_source_path}/src/type_of_mode.ses"
+
+$-- DETERMINE WHAT LOG SESSION TO RUN
+read session "${code_source_path}/src/type_of_log.ses"
+
+$-- RUN PHASE 1 SESSION
+read session "${mode_source_path}/${phase1_session_file}"
+
+opt var add prefix ${excel_prefix}
+
+$-- RUN LOG SESSION
+read session "${log_source_path}/${log_session_file}"
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- SAVE PLOT PROJECT FILE
+$
+
+//#!python
+# PYTHON script
+import datetime
+import os
+import meta
+from meta import *
+
+def main():
+
+	working_dir = str(utils.MetaGetVariable('run_directory'))
+	filename = str(utils.MetaGetVariable('save_filename'))
+	save_path = os.path.join(working_dir,'Session_Report',filename)
+
+	if os.path.exists(save_path):
+		modified_time = datetime.datetime.fromtimestamp(os.path.getmtime(save_path)).strftime('%Y-%m-%d_%H-%M-%S')
+		modified_name = save_path+'_'+modified_time
+		os.rename(save_path,modified_name)
+
+	commands = []
+	commands.append('options session controldraw enable')
+	commands.append('write options Project references 2dplot enable')
+	commands.append('write options Project typesave 2d')
+	commands.append('write options Project pagesave all')
+	commands.append('write project "label" "${run_directory}/Session_Report/${save_filename}"')
+
+	for command in commands:
+		utils.MetaCommand(command)
+
+	print("")
+	print("--------------")
+	print("")
+	print("SAVE LOCATION : "+save_path)
+	print("")
+	print("--------------")
+
+if __name__ == '__main__':
+	main()
+//#!EOF

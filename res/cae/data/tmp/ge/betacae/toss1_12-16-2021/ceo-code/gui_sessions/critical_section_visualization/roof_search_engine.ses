@@ -1,0 +1,31 @@
+opt var string f21_roof_hes 621*
+opt var string f21_roof_hes_exceptions null
+opt var string f21_roof_erase_pids null
+opt var string f21_roof_transparent_pids 1921
+opt var string f21_roof_view top
+opt var string f21_roof_name ROOF
+opt var string f21_roof_erase_box null
+
+opt var string transparency_level 50
+
+$-- F21 ROOF
+opt var add search ${f21_roof_hes}
+opt var add hes_exceptions ${f21_roof_hes_exceptions}
+opt var string exclude null
+opt var add erase_pids ${f21_roof_erase_pids}
+opt var string erase_box ${f21_roof_erase_box}
+opt var add comp_view ${f21_roof_view}
+opt var add transparent_pids ${f21_roof_transparent_pids}
+opt var add comp_name "${f21_roof_name}"
+opt var add file_name "${f21_roof_name}"
+
+or advfilter partoutput add:Parts:name:${search}:Keep All
+add pid ${hes_exceptions}
+erase advfilter partoutput add:Parts:name:${exclude}:Keep All
+erase pid ${erase_pids}
+erase shells box ${erase_box}
+erase solids box ${erase_box}
+view default ${comp_view}
+view center
+color pid transparency ${transparency_level} ${transparent_pids}
+lock store "${comp_name}"

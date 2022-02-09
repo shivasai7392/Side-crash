@@ -1,0 +1,131 @@
+$-- EXAMPLE INPUT VARIABLES
+$  opt var add sections ${rrdr_hinges}
+$  opt var add target_window ${rrdr_mount}
+$  opt var add start_id 0
+$  opt var add b0 "binout*"
+$  opt var add pA "${PWD}/${b0}"
+
+//#!python
+# PYTHON script
+import meta
+from meta import *
+
+def main():
+
+	print("---CRITICAL SECTION ANALYSIS")
+	print("")
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot plotactive "${target_window}" ${start_id}
+
+//#!python
+# PYTHON script
+import meta
+import string
+import fnmatch
+from meta import *
+
+def main():
+	window_name = str(utils.MetaGetVariable('target_window'))
+	win = windows.Window(window_name, page_id=0)
+	curvelist = win.get_curves('all')
+	
+	last_curve=0
+	max=0
+	gap_flag=0
+
+	for curve in curvelist:
+		if (curve.id > max):
+			max = curve.id
+		gap=curve.id-last_curve
+		if (gap > 1) and (gap_flag==0):
+			gap_start=curve.id
+			gap_flag=1
+		else:
+			gap_flag=0
+		last_curve=int(curve.id)
+	max=max+1
+	utils.MetaSetVariable('curve_start', str(max))
+
+	start_id = int(utils.MetaGetVariable('start_id'))
+	mid = str(start_id+1)
+	utils.MetaSetVariable('mid', str(mid))
+
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+xyplot plotactive "${target_window}" ${start_id}
+opt var add normal_start ${curve_start}
+xyplot read lsdyna "${target_window}" "${pA}"  secforc-Section ${sections} X_force_(xf)
+opt var add normal_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${target_window}" visible 0
+xyplot curve visible not "${target_window}" all
+xyplot plotdeactive "${target_window}" ${start_id}
+
+xyplot plotactive "${target_window}" ${mid}
+opt var add shear_comp_start ${LAST_CURVE_ID}+1
+xyplot read lsdyna "${target_window}" "${pA}"  secforc-Section ${sections} Z_force_(zf),Y_force_(yf)
+opt var add shear_comp_end ${LAST_CURVE_ID}
+xyplot curve set linewidth "${target_window}" visible 0
+xyplot curve visible not "${target_window}" all
+opt var add shear_start ${LAST_CURVE_ID}+1
+
+//#!python
+# PYTHON script
+import meta
+import string
+import fnmatch
+from meta import *
+
+def main():
+	target_window = utils.MetaGetVariable('target_window')
+	target_window = str(target_window)
+	start = utils.MetaGetVariable('shear_comp_start')
+	start = float(start)
+	start = int(start)
+	end = utils.MetaGetVariable('shear_comp_end')
+	end = float(end)
+	end = int(end)
+	span = int(float(end) - float(start))
+	mid = float(start)+span/2
+	mid = int(mid+0.5)
+	r = int(float(mid) - float(start))
+	r = float(r)
+	r = int(r)
+	for i in range(0,r):
+	         s = start+i
+	         s = str(s)
+	         o = mid+i	 
+	         o = str(o)
+	         function = '`w[${target_window}]c'+s+'.attr[name=Entity id]`'
+	         name = utils.EvalBuiltInFunction(function)
+	         utils.MetaSetVariable('section_name', name)
+	         command ="xyplot curve function userdef"
+	         command = command + ' "Section ${section_name} Resultant Shear" "c'
+	         command = command + 	 s
+	         command = command + 	 '.x" "sqrt(c'
+	         command = command + 	s
+	         command = command + 	 ".y*c"
+	         command = command + 	 s
+	         command = command + 	 ".y+c"
+	         command = command + 	 o
+	         command = command + 	 ".y*c"
+	         command = command + 	 o
+	         command = command + 	 '.y)" "'
+	         command = command + 	 target_window
+	         command = command + 	 '"'
+	         utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+//#!EOF
+
+opt var add shear_end ${LAST_CURVE_ID}
+xyplot curve delete "${target_window}" "${shear_comp_start}-${shear_comp_end}"
+xyplot plotdeactive "${target_window}" ${mid}
+
+xyplot plotdeactive "${target_window}" ${final}

@@ -1,0 +1,448 @@
+$
+$ SESSION FOR COMPILING HEAD IMPACT SINGLE RUN DATA
+$
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- VARIABLES
+$
+
+$------------------
+$-- GENERAL info
+opt var add b0 "binout*"
+opt var add d0 "d3plot"
+opt var add pA "${PWD}/${b0}"
+opt var add pD "${PWD}/${d0}"
+
+$-- Formatting info
+opt var add x_label "Time [ms]"
+opt var add x_max 0.03
+opt var add x_min 0.0
+opt var add x_space 0.005
+opt var add x_multiplier -3
+opt var add font_info "Arial,16,-1,5,75,0,0,0,0,0"
+opt var add picture_size 488x488
+
+opt var add head_accel "Head - G"
+
+opt var add follow_nodes "1,2,3"
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+
+$ -- INTIALIZING
+
+$ -- CREATE REPORTING FOLDER
+//#!python
+# PYTHON script
+import meta
+import os
+import string
+import subprocess as sub
+from meta import utils
+
+def main():
+	path = os.getcwd()
+	var2 = path+"/Session_Report"
+	if not os.path.exists(var2):
+		os.makedirs(var2)
+	
+	#FIND VERIFICATION VERSION:
+	sim_data = []
+	source_path = utils.MetaGetVariable('project_path')
+	
+
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+	print(test_mode)
+
+	if test_mode == 'ped_head_impact':
+		target_node = "56000001"
+		target_plane = "56005272,56001584,56006305"
+		target_label = "HIC"
+	elif test_mode == 'fmvss_201u':
+		target_node = "51500001"
+		target_plane = "51534107,51534104,51534031"
+		target_label = "HICd"
+	elif test_mode == 'ip_impact_201':
+		target_node = "9000003"
+		target_plane = "9010391,9010091,9000003"
+		target_label = "G3"
+	utils.MetaSetVariable('head_node_id', target_node)
+	utils.MetaSetVariable('plane_nodes', target_plane)
+	utils.MetaSetVariable('METRIC_LABEL', target_label)
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- D3PLOT DATA
+$ 
+
+window active  "$(d3plot_data)"
+read geom Dyna3d "${pD}"
+read dis Dyna3d "${pD}" all Displacements
+opt var add model ${CUR_MODEL}
+view fo3 ${follow_nodes}
+
+//#!python
+# PYTHON script
+import meta
+import os
+import string
+import subprocess as sub
+from meta import utils
+
+def main():
+	#FIND VERIFICATION VERSION:
+	sim_data = []
+	source_path = utils.MetaGetVariable('project_path')
+
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+
+	if test_mode == 'ped_head_impact':
+		command='plane new "HEADFORM_SECTION" node1 ${head_node_id}'
+		utils.MetaCommand(command)
+		command='plane edit normal 0.000000/1.000000/0.000000 HEADFORM_SECTION'
+		utils.MetaCommand(command)
+		command='plane toggleopts enable sectionclip HEADFORM_SECTION '
+		utils.MetaCommand(command)
+	elif test_mode == 'fmvss_201u':
+		command='plane new "HEADFORM_SECTION" node3 ${plane_nodes}'
+		utils.MetaCommand(command)
+	elif test_mode == 'ip_impact_201':
+		command='plane new "HEADFORM_SECTION" node3 ${plane_nodes}'
+		utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+plane best HEADFORM_SECTION
+plane options onlysection enable "HEADFORM_SECTION"
+identify reset
+window active none
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$ -- HEADFORM DISPLACEMENT
+$ 
+
+xyplot create "${head_accel}"
+window active "${head_accel}"
+xyplot rlayout "${head_accel}" 2
+xyplot plotdeactive "${head_accel}" all
+window active none
+
+$ -- CAE DATA PROCESSING
+opt var add attack_window "${head_accel}"
+opt var add window "${attack_window}"
+opt var add window_id 0
+opt var add dem_nodes ${head_node_id}
+
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/crash_nodout.ses
+unitsystem apply mmts
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" ${window_id}
+
+//#!python
+# PYTHON script
+import os
+import subprocess as sub
+from meta import utils
+
+def main():
+	#FIND VERIFICATION VERSION:
+	sim_data = []
+	source_path = utils.MetaGetVariable('project_path')
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+
+	if (test_mode == 'ped_head_impact'):
+		command = 'opt var add T_ZERO 0'
+	elif (test_mode == 'fmvss_201u'):
+		command = 'xyplot curve fillvar T_ZERO `w[${attack_window}]c1.x[y=-1]`'
+	elif test_mode == 'ip_impact_201':
+		command = 'xyplot curve fillvar T_ZERO `w[${attack_window}]c1.x[y=-1]`'
+	utils.MetaCommand(command)
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+opt var add column_raw ${T_ZERO}*10000
+opt var add column_id round(${column_raw})-1
+
+//#!python
+# PYTHON script
+import os
+from meta import utils
+
+def main():
+	t_zero = utils.MetaGetVariable('T_ZERO')
+	t_zero = float(t_zero)
+	if t_zero > 0:
+		for i in range (1,10):
+			command = 'xyplot curve pointmodify delete "${attack_window}" ' + str(i) + ' 0-${column_id}'
+			utils.MetaCommand(command)
+			command = 'xyplot curve function newshift left "${attack_window}" ' + str(i) + ' ${T_ZERO}'
+			utils.MetaCommand(command)
+		command = 'xyplot curve delete "${attack_window}" 1-9'
+		utils.MetaCommand(command)
+		command = 'xyplot curve function userdef "${attack_window}" "c10.x" "c10.y*-1" "${attack_window}"'
+		utils.MetaCommand(command)
+	else:
+		command = 'xyplot curve function userdef "${attack_window}" "c1.x" "c1.y*-1" "${attack_window}"'
+		utils.MetaCommand(command)
+	
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+opt var add GvT_curve ${LAST_CURVE_ID}
+
+xyplot curve function cfc1000 "${attack_window}" ${GvT_curve}
+
+opt var add filtered_GvT_curve ${LAST_CURVE_ID}
+
+//#!python
+# PYTHON script
+import meta
+import os
+import string
+import subprocess as sub
+from meta import utils
+
+def main():
+
+	#FIND VERIFICATION VERSION: 
+	sim_data = []
+	source_path = utils.MetaGetVariable('project_path')
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+	
+	command = 'xyplot curve function filterhic "${attack_window}" cfc1000'
+	utils.MetaCommand(command)
+	command = 'xyplot options read filter wdcfc saej211'
+	utils.MetaCommand(command)
+
+	if (test_mode == 'ped_head_impact'):
+		command = 'xyplot curve function acchic "${attack_window}" ${head_node_id} 15'
+	elif (test_mode == 'fmvss_201u'):
+		command = 'xyplot curve function acchid "${attack_window}" ${head_node_id} 36'
+	elif test_mode == 'ip_impact_201':
+		command = 'xyplot curve function clip3ms curve "${attack_window}" ${LAST_CURVE_ID}'
+
+	utils.MetaCommand(command)
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+xyplot curve fillvar METRIC `w[${attack_window}]c${LAST_CURVE_ID}.y[y=max]`
+xyplot curve fillvar T2 `w[${attack_window}]c${LAST_CURVE_ID}.x[x=max]`
+xyplot curve fillvar T1 `w[${attack_window}]c${LAST_CURVE_ID}.x[x=min]`
+xyplot axisoptions yaxis deactive "${attack_window}" ${window_id} 1
+xyplot axisoptions yaxis hideaxis "${attack_window}" ${window_id} 1
+xyplot axisoptions yaxis deactive "${attack_window}" ${window_id} 2
+xyplot axisoptions yaxis hideaxis "${attack_window}" ${window_id} 2
+
+xyplot curve fillvar G_MAX `w[${attack_window}]c${filtered_GvT_curve}.y[y=max]`
+
+//#!python
+
+import meta
+import string
+from meta import *
+g_max = float(utils.MetaGetVariable("G_MAX"))
+display = str(round(g_max,1))
+utils.MetaSetVariable("G_DISP",display)
+
+metric = float(utils.MetaGetVariable("METRIC"))
+display = str(round(metric,1))
+utils.MetaSetVariable("METRIC_ROUNDED",display)
+
+t2 = float(utils.MetaGetVariable("T2")) * 1000
+display = str(round(t2,1))
+utils.MetaSetVariable("T2_CLEAN",display)
+
+t1 = float(utils.MetaGetVariable("T1")) * 1000
+display = str(round(t1,1))
+utils.MetaSetVariable("T1_CLEAN",display)
+
+//#!EOF
+
+xyplot curve set name "${attack_window}" ${filtered_GvT_curve} "${METRIC_LABEL} - ${METRIC_ROUNDED} | PEAK - ${G_DISP} | ${T1_CLEAN}ms - ${T2_CLEAN}ms"
+
+opt var add add_stuff ${G_MAX}+10
+opt var add scale_down ${add_stuff}/10
+opt var rounded round(${scale_down})
+opt var g_y_max ${rounded}*10
+
+xyplot curve fillvar T_MAX `w[${attack_window}]c${filtered_GvT_curve}.x[x=max]`
+
+opt var g_t_max ${T_MAX}
+
+xyplot curve set color "${attack_window}" ${filtered_GvT_curve} "Black"
+xyplot curve set linewidth "${attack_window}" ${filtered_GvT_curve} 3
+xyplot curve set sync model "${attack_window}" ${filtered_GvT_curve} ${model}
+xyplot curve set sync axis "${attack_window}" ${filtered_GvT_curve} TRange
+xyplot curve set sync range  "${attack_window}" ${filtered_GvT_curve} ${T_ZERO} ${g_t_max}
+
+
+annotation extparam all shape off
+annotation position all setxy 0.75 0.75
+annotation pointer all off
+xyplot curve delete "${attack_window}" ${LAST_CURVE_ID}
+annotation delete all
+xyplot plotoptions legend on "${head_accel}" ${window_id}
+
+xyplot plotdeactive "${head_accel}" ${window_id}
+
+//#!python
+# PYTHON script
+import meta
+import os
+import string
+import subprocess as sub
+from meta import utils
+
+def main():
+
+	#FIND VERIFICATION VERSION:
+	sim_data = []
+	source_path = utils.MetaGetVariable('project_path')
+	command_line = "grep 'grep -i abaqus' " + source_path + "*_met.qscript -A 4 | grep 'VER_FILENAME=' | sed -e s/^'   VER_FILENAME='// | awk -F '.' '{print $1}'"
+	cmd_data=sub.Popen(command_line, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+	(out,err)=cmd_data.communicate()
+	out = str(out)
+	line = out.split("'")[1]
+	size = len(line)
+	test_mode = line[:size - 2]
+
+	t_zero = utils.MetaGetVariable('T_ZERO')
+	t_zero = float(t_zero)
+
+	last_curve = utils.MetaGetVariable('LAST_CURVE_ID')
+	last_curve = int(last_curve)
+
+	if (test_mode == 'ped_head_impact') or (test_mode == 'fmvss_201u'):
+		command = 'xyplot curve delete "${attack_window}" '
+		if t_zero > 0:
+			extra = last_curve + 1
+		else:
+			extra = last_curve - 1
+		command = command + str(extra)
+		utils.MetaCommand(command)
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$ -- FORMATTING
+
+opt var add formatting_window_name "${attack_window}"
+opt var add window_number 0
+opt var add title_label "Acceleration over Time"
+opt var add y_label "Acceleration [G]"
+opt var add y_max ${g_y_max}
+opt var add y_min 0
+opt var add y_step 10
+opt var add y_multiplier 0
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+opt var add window_id 1
+window active "${attack_window}"
+xyplot plotactive "${attack_window}" ${window_id}
+
+//#!python
+# PYTHON script
+import os
+from meta import *
+
+def main():
+	t_zero = utils.MetaGetVariable('T_ZERO')
+	t_zero = float(t_zero)
+	if t_zero > 0:
+		command = 'xyplot curve function userdef "GvS" "c16.y" "c8.y" "${attack_window}"'
+		utils.MetaCommand(command)
+		command = 'options var D_ZERO `w[${attack_window}]c${LAST_CURVE_ID}.x[p=first]`'
+		utils.MetaCommand(command)
+		command = 'xyplot curve rfunction newshift left "${attack_window}" ${LAST_CURVE_ID} ${D_ZERO}'
+		utils.MetaCommand(command)
+	else:
+		command = 'xyplot curve function userdef "GvS" "c7.y" "c11.y" "${attack_window}"'
+		utils.MetaCommand(command)
+
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+xyplot curve set color "${attack_window}" ${LAST_CURVE_ID} "Black"
+xyplot curve set linewidth "${attack_window}" ${LAST_CURVE_ID} 3
+xyplot curve set sync model "${attack_window}" ${LAST_CURVE_ID} ${model}
+xyplot curve set sync axis "${attack_window}" ${LAST_CURVE_ID} TRange
+xyplot curve set sync range  "${attack_window}" ${LAST_CURVE_ID} ${T_ZERO} ${g_t_max}
+
+xyplot curve fillvar DISP_MAX `w[${attack_window}]c${LAST_CURVE_ID}.x[x=max]`
+xyplot curve set name "${attack_window}" ${LAST_CURVE_ID} "${METRIC_LABEL} - ${METRIC_ROUNDED} | PEAK - ${G_DISP} | ${T1_CLEAN}ms - ${T2_CLEAN}ms "
+xyplot plotoptions legend on "${head_accel}" ${window_id}
+opt var add add_stuff ${DISP_MAX}+10
+opt var add scale_down ${add_stuff}/10
+opt var rounded round(${scale_down})
+opt var disp_x_max ${rounded}*10
+
+opt var add window_number 1
+opt var add title_label "Acceleration over Stroke"
+opt var add x_label "Stroke [mm]"
+opt var add x_max ${disp_x_max}
+opt var add x_min 0.0
+opt var add x_space 5
+opt var add x_multiplier 0
+read session /cae/data/reference/fr2/_DevelopmentCAE/04_Scripts/phase1_sessions/function_sessions/src/2d_plot_formatting.ses
+
+$ -- SCRUB AND EXIT
+
+window active "${formatting_window_name}"
+xyplot plotactive "${formatting_window_name}" all
+xyplot curve deselect "${formatting_window_name}" all
+xyplot plotdeactive "${formatting_window_name}" all
+window active none
+
+window vtile
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- SAVE PLOT PROJECT FILE
+
+options session controldraw enable
+
+write options Project references 2dplot enable
+write options Project typesave 2d
+write options Project pagesave all
+write project "label" "${PWD}/Session_Report/head_phase1.metadb"
+
+$------------------------------------------------------------------------------------------------------------------------------------------------------
+$-- END

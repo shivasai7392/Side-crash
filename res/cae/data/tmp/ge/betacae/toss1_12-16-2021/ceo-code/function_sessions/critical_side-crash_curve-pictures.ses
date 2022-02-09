@@ -1,0 +1,360 @@
+
+$-- SURVIVAL SPACE
+
+$-- SOURCE DATA INFO
+opt var add window_number 0
+opt var add target_raw_curves SS_0MS,SS_150MS
+opt var add picture_window "Survival Space"
+opt var add target_window "Survival Space"
+opt var add target_variable target_raw_curves
+
+read session ${code_source_path}/src/curve_string_generator.ses
+
+$-- OUTPUT INFO
+opt var add file_name survival_space_final
+opt var add font_info ${font_info_1x1}
+opt var add picture_size ${image3x1_size}
+
+$-- FORMATING
+opt var add title_label "SURVIVAL SPACE 0MS AND 150MS"
+
+opt var add x_label "Survival space [mm]"
+opt var add x_space 10
+opt var string x_multiplier 0
+
+opt var add y_label "Z Coordinate [mm]"
+opt var add y_multiplier 0
+opt var add y_step 100
+
+$-- PROCESSING INFO
+opt var add tmp_window "TEMP_PICTURE_WINDOW"
+
+read session ${code_source_path}/src/curve_picture_single-axis_autoxy_generator.ses
+
+$-- DOOR INTRUSION
+
+opt var add picture_size ${image3x3_size}
+
+$-- Y0
+opt var add y_step 20
+opt var add y_multiplier 0
+opt var add y_label "Intrusion [mm]"
+
+opt var add x_label ${ui_x_label}
+opt var add x_max ${ui_x_max}
+opt var add x_min ${ui_x_min}
+opt var add x_space ${ui_x_space}
+opt var string x_multiplier ${ui_x_multiplier}
+
+$-- FRONT DOOR
+$-- PLEASE USE ; FOR A DELIMETER
+$-- NEED TO CALL VARAIBLES AND CANNOT PUT CURVE INFORMATION DIRECTLY IN TARGET ARRAY
+
+opt var add target_window_array frdoor_accel;frdoor_accel;frdoor_accel;frdoor_accel
+opt var add target_title_array ROW 1 SHOULDER;ROW 1 PELVIS;ROW 1 ABDOMEN;ROW 1 FEMUR
+opt var add target_file_name_array row_1_shoulder;row_1_pelvis;row_1_abdomen;row_1_femur
+opt var add target_variable_array front_shoulder_intrusion_curve;front_pelvis_intrusion_curve;front_abdomen_intrusion_curve;front_femur_intrusion_curve
+
+//#!python
+# PYTHON script
+import meta
+import os
+from meta import *
+
+def main():
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [ chr(34) , chr(39) , chr(36) , chr(123) , chr(125) ]
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ : ; / \ ]
+	delimeters = [chr(58) ,chr(59) ,chr(47) ,chr(92)]
+
+	# Import target data
+	total_target_array = []
+	total_target_array_names = []
+
+	try:
+		target_window_array = str(utils.MetaGetVariable('target_window_array'))
+		print("TARGET WINDOW ARRAY : "+target_window_array)
+		total_target_array.append(target_window_array)
+		total_target_array_names.append('WINDOW')
+	except:
+		print("Was not able to import target window array!")
+
+	try:
+		target_variable_array = str(utils.MetaGetVariable('target_variable_array'))
+		print("TARGET VARIABLE ARRAY : "+target_variable_array)
+		total_target_array.append(target_variable_array)
+		total_target_array_names.append('VARIABLE')
+	except:
+		print("Was not able to import target variable array!")
+
+	try:
+		target_file_name_array = str(utils.MetaGetVariable('target_file_name_array'))
+		print("TARGET FILE NAME ARRAY : "+target_file_name_array)
+		total_target_array.append(target_file_name_array)
+		total_target_array_names.append('FILENAME')
+	except:
+		print("Was not able to import target file name array!")
+
+	try:
+		target_title_array = str(utils.MetaGetVariable('target_title_array'))
+		print("TARGET TITLE ARRAY : "+target_title_array)
+		total_target_array.append(target_title_array)
+		total_target_array_names.append('TITLE')
+	except:
+		print("Was not able to import target title array!")
+
+	print('---PROCESSING USER INPUT')
+
+	#Strip and split all the different input arrays
+
+	for tmp_array in total_target_array:
+
+		tmp_location = int(total_target_array.index(tmp_array))
+		tmp_name = total_target_array_names[tmp_location]
+
+		for s in stripped_characters:
+			tmp_array = tmp_array.strip(s)
+
+		for d in delimeters:
+			if (tmp_array.find(d) != -1):
+				tmp_delimeter = d
+				break
+
+		# Split user input based on delimeter used
+		target_curves = []
+		try:
+			split_array = tmp_array.split(tmp_delimeter)
+		except:
+			split_array.append(tmp_array)
+		
+		if tmp_name == 'WINDOW':
+			processed_window_array = split_array
+		
+		if tmp_name == 'VARIABLE':
+			processed_variable_array = split_array
+
+		if tmp_name == 'FILENAME':
+			processed_file_name_array = split_array
+
+		if tmp_name == 'TITLE':
+			processed_title_array = split_array
+
+	curve_picture_commands = []
+	curve_picture_commands.append('read session ${code_source_path}/src/curve_string_generator.ses')
+	curve_picture_commands.append('read session ${code_source_path}/src/curve_picture_single-axis_autoy_generator.ses')
+
+	page = pages.Page(0)
+	wins = page.get_windows('all')
+	window_array = []
+	iter = 0
+	for wt in processed_window_array:
+		for w in wins:
+			if wt in w.name:
+				match = windows.Window(w.name,page_id=0)
+				window_array.append(match)
+				utils.MetaSetVariable('target_window',str(match.name))
+				utils.MetaSetVariable('picture_window',str(match.name))
+				break
+			try:
+				wvt = utils.MetaGetVariable(wt)
+				if wvt in w.name:
+					match = windows.Window(w.name,page_id=0)
+					window_array.append(match)
+					utils.MetaSetVariable('target_window',str(match.name))
+					utils.MetaSetVariable('picture_window',str(match.name))
+					break
+			except:
+				print('CANNOT FIND WINDOW ITEM : '+wt)
+		output_location = iter
+		utils.MetaSetVariable('target_variable',str(processed_variable_array[output_location]))
+		utils.MetaSetVariable('title_label',str(processed_title_array[output_location]))
+		utils.MetaSetVariable('file_name',str(processed_file_name_array[output_location]))
+		for command in curve_picture_commands:
+			utils.MetaCommand(command)
+		iter = iter + 1
+if __name__ == '__main__':
+	main()
+
+//#!EOF
+
+$-- REAR DOOR
+$-- PLEASE USE ; FOR A DELIMETER
+$-- NEED TO CALL VARAIBLES AND CANNOT PUT CURVE INFORMATION DIRECTLY IN TARGET ARRAY
+
+opt var add target_window_array rrdoor_accel;rrdoor_accel;rrdoor_accel;rrdoor_accel
+opt var add target_title_array ROW 2 SHOULDER;ROW 2 PELVIS;ROW 2 ABDOMEN;ROW 2 FEMUR
+opt var add target_file_name_array row_2_shoulder;row_2_pelvis;row_2_abdomen;row_2_femur
+opt var add target_variable_array rear_shoulder_intrusion_curve;rear_pelvis_intrusion_curve;rear_abdomen_intrusion_curve;rear_femur_intrusion_curve
+
+//#!python
+# PYTHON script
+import meta
+import os
+from meta import *
+
+def main():
+
+	# Generating list of numbers to search against
+	number_characters = []
+	for i in range(48,57):
+		number_characters.append(chr(i))
+
+	print('NUMBERS')
+	print(number_characters)
+	print()
+
+	letter_characters = []
+	# Generating list of upper case letters to search against
+	for i in range(65,90):
+		letter_characters.append(chr(i))
+	# Adding lower case numbers to letter search list
+	for i in range(97,122):
+		letter_characters.append(chr(i))
+
+	print('LETTERS')
+	print(letter_characters)
+	print()
+
+	# STRIP OFF QUOTATIONS OR ANY OTHER CORRUPTING CHARACTERS
+	# STRIPPED CHARACTERS : [ " ' $ { } ]
+	stripped_characters = [ chr(34) , chr(39) , chr(36) , chr(123) , chr(125) ]
+
+	print('STRIPPED CHARACTERS')
+	print(stripped_characters)
+	print()
+
+	# SEARCHS DELIMETERS FIRST TO LAST AND BREAKS WHEN ONE IS FOUND
+	# DELIMETERS SEARCH : [ : ; / \ ]
+	delimeters = [chr(58) ,chr(59) ,chr(47) ,chr(92)]
+
+	print('DELIMETERS')
+	print(delimeters)
+	print()
+
+	# Import target data
+	total_target_array = []
+	total_target_array_names = []
+
+	try:
+		target_window_array = str(utils.MetaGetVariable('target_window_array'))
+		print("TARGET WINDOW ARRAY : "+target_window_array)
+		total_target_array.append(target_window_array)
+		total_target_array_names.append('WINDOW')
+	except:
+		print("Was not able to import target window array!")
+
+	try:
+		target_variable_array = str(utils.MetaGetVariable('target_variable_array'))
+		print("TARGET VARIABLE ARRAY : "+target_variable_array)
+		total_target_array.append(target_variable_array)
+		total_target_array_names.append('VARIABLE')
+	except:
+		print("Was not able to import target variable array!")
+
+	try:
+		target_file_name_array = str(utils.MetaGetVariable('target_file_name_array'))
+		print("TARGET FILE NAME ARRAY : "+target_file_name_array)
+		total_target_array.append(target_file_name_array)
+		total_target_array_names.append('FILENAME')
+	except:
+		print("Was not able to import target file name array!")
+
+	try:
+		target_title_array = str(utils.MetaGetVariable('target_title_array'))
+		print("TARGET TITLE ARRAY : "+target_title_array)
+		total_target_array.append(target_title_array)
+		total_target_array_names.append('TITLE')
+	except:
+		print("Was not able to import target title array!")
+
+	print('---PROCESSING USER INPUT')
+
+	#Strip and split all the different input arrays
+
+	for tmp_array in total_target_array:
+
+		tmp_location = int(total_target_array.index(tmp_array))
+		tmp_name = total_target_array_names[tmp_location]
+
+		for s in stripped_characters:
+			tmp_array = tmp_array.strip(s)
+
+		for d in delimeters:
+			if (tmp_array.find(d) != -1):
+				tmp_delimeter = d
+				break
+
+		# Split user input based on delimeter used
+		target_curves = []
+		try:
+			split_array = tmp_array.split(tmp_delimeter)
+		except:
+			split_array.append(tmp_array)
+		
+		if tmp_name == 'WINDOW':
+			processed_window_array = split_array
+		
+		if tmp_name == 'VARIABLE':
+			processed_variable_array = split_array
+
+		if tmp_name == 'FILENAME':
+			processed_file_name_array = split_array
+
+		if tmp_name == 'TITLE':
+			processed_title_array = split_array
+
+	curve_picture_commands = []
+	curve_picture_commands.append('read session ${code_source_path}/src/curve_string_generator.ses')
+	curve_picture_commands.append('read session ${code_source_path}/src/curve_picture_single-axis_autoy_generator.ses')
+
+	page = pages.Page(0)
+	wins = page.get_windows('all')
+	window_array = []
+	iter = 0
+	for wt in processed_window_array:
+		for w in wins:
+			if wt in w.name:
+				match = windows.Window(w.name,page_id=0)
+				window_array.append(match)
+				utils.MetaSetVariable('target_window',str(match.name))
+				utils.MetaSetVariable('picture_window',str(match.name))
+				break
+			try:
+				wvt = utils.MetaGetVariable(wt)
+				if wvt in w.name:
+					match = windows.Window(w.name,page_id=0)
+					window_array.append(match)
+					utils.MetaSetVariable('target_window',str(match.name))
+					utils.MetaSetVariable('picture_window',str(match.name))
+					break
+			except:
+				print('CANNOT FIND WINDOW ITEM : '+wt)
+		output_location = iter
+		utils.MetaSetVariable('target_variable',str(processed_variable_array[output_location]))
+		utils.MetaSetVariable('title_label',str(processed_title_array[output_location]))
+		utils.MetaSetVariable('file_name',str(processed_file_name_array[output_location]))
+		for command in curve_picture_commands:
+			utils.MetaCommand(command)
+		iter = iter + 1
+
+if __name__ == '__main__':
+	main()
+
+//#!EOF
