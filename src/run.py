@@ -41,7 +41,10 @@ def main(*args):
     metadb_3d_input_info = Meta3DInfo().get_info()
     threed_metadb_file = os.path.join(os.path.dirname(os.path.dirname(__file__)),"res",general_input_info.threed_metadb_file.replace("/","",1).replace("/",os.sep))
     utils.MetaCommand('read project overlay "{}" ""'.format(threed_metadb_file))
-    #utils.MetaCommand('read onlyfun MetaDB {} 33 lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(threed_metadb_file))
+
+    utils.MetaCommand('read options boundary materials')
+    utils.MetaCommand('read dis MetaDB {} 33 lossy_compressed:0:Displacements'.format(threed_metadb_file))
+    utils.MetaCommand('read onlyfun MetaDB {} 33 lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(threed_metadb_file))
 
     new_windows = windows.CollectNewWindowsEnd()
 

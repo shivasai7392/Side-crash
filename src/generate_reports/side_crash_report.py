@@ -47,9 +47,12 @@ class SideCrashReport():
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=template_file)
         self.report_composer.create_prs_obj()
 
+        utils.MetaCommand('options title off')
+        utils.MetaCommand('options axis off')
         self.edit_title_slide(self.report_composer.prs_obj.slides[0])
         self.edit_cae_quality_slide(self.report_composer.prs_obj.slides[1])
-        #self.edit_executive_slide(self.report_composer.prs_obj.slides[2])
+        self.edit_executive_slide(self.report_composer.prs_obj.slides[2])
+        self.edit_cbu_and_barrier_position_slide(self.report_composer.prs_obj.slides[3])
 
         output_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"res",self.ppt_report_folder.replace("/","",1)).replace("/",os.sep)
         if not os.path.exists(output_directory):
@@ -57,6 +60,38 @@ class SideCrashReport():
         file_name = os.path.join(output_directory,"output.pptx")
         self.report_composer.save_pptx(file_name)
 
+        return 0
+
+    def edit_cbu_and_barrier_position_slide(self, slide):
+
+        from PIL import ImageGrab
+
+        for shape in slide.shapes:
+            if shape.name == "Image 4":
+                #data = self.metadb_3d_input.critical_sections["barrier_and_cbu"]
+                data = self.metadb_3d_input.critical_sections["cbu"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    utils.MetaCommand('0:options state original')
+                    utils.MetaCommand('view default top')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"cbu".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
         return 0
 
     def edit_executive_slide(self,slide):
