@@ -53,6 +53,7 @@ class SideCrashReport():
         self.edit_cae_quality_slide(self.report_composer.prs_obj.slides[1])
         self.edit_executive_slide(self.report_composer.prs_obj.slides[2])
         self.edit_cbu_and_barrier_position_slide(self.report_composer.prs_obj.slides[3])
+        self.body_in_white_kinematics_slide(self.report_composer.prs_obj.slides[6])
 
         output_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"res",self.ppt_report_folder.replace("/","",1)).replace("/",os.sep)
         if not os.path.exists(output_directory):
@@ -62,9 +63,93 @@ class SideCrashReport():
 
         return 0
 
+    def body_in_white_kinematics_slide(self, slide):
+        from PIL import ImageGrab,Image
+        utils.MetaCommand('window maximize "MetaPost"')
+
+        for shape in slide.shapes:
+            if shape.name == "Image 1":
+                utils.MetaCommand('add all')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('view default front')
+                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                utils.MetaCommand('color fringebar scalarset default')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+
+            elif shape.name == "Image 2":
+                utils.MetaCommand('add all')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('view default top')
+                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                utils.MetaCommand('color fringebar scalarset default')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+
+            elif shape.name == "Image 3":
+                utils.MetaCommand('add all')
+                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('view default front')
+                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                utils.MetaCommand('color fringebar scalarset default')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+
+            elif shape.name == "Image 4":
+                utils.MetaCommand('add all')
+                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('view default top')
+                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                utils.MetaCommand('color fringebar scalarset default')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+
     def edit_cbu_and_barrier_position_slide(self, slide):
 
-        from PIL import ImageGrab
+        from PIL import ImageGrab,Image
+        utils.MetaCommand('window maximize "MetaPost"')
 
         for shape in slide.shapes:
             if shape.name == "Image 4":
@@ -74,8 +159,9 @@ class SideCrashReport():
                 re_props = prop_names.split(",")
                 entities = []
                 for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
                     utils.MetaCommand('0:options state original')
+                    utils.MetaCommand('add all')
+                    utils.MetaCommand('view default isometric')
                     utils.MetaCommand('view default top')
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
@@ -83,8 +169,40 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                img = img.transpose(Image.ROTATE_90)
                 src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
                 image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"cbu".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+
+            if shape.name == "Image 3":
+                #data = self.metadb_3d_input.critical_sections["barrier_and_cbu"]
+                data = self.metadb_3d_input.critical_sections["cbu"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('0:options state variable "serial=1"')
+                    utils.MetaCommand('add all')
+                    utils.MetaCommand('view default isometric')
+                    utils.MetaCommand('grstyle deform off')
+                    utils.MetaCommand('color fringebar scalarset Critical')
+                    utils.MetaCommand('view default left')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                utils.MetaCommand('grstyle deform on')
+                utils.MetaCommand('color fringebar scalarset default')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"cbu_critical".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -99,22 +217,86 @@ class SideCrashReport():
         from PIL import ImageGrab
 
         for shape in slide.shapes:
-            if shape.name == "Image 2":
+            if shape.name == "Image 3":
+                data = self.metadb_3d_input.critical_sections["f28_front_door"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    utils.MetaCommand('add all')
+                    utils.MetaCommand('view default isometric')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('grstyle scalarfringe enable')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            elif shape.name == "Image 4":
+                data = self.metadb_3d_input.critical_sections["f28_rear_door"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    utils.MetaCommand('add all')
+                    utils.MetaCommand('view default isometric')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('grstyle scalarfringe enable')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            elif shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                 prop_names = data["hes"]
                 re_props = prop_names.split(",")
                 entities = []
                 for re_prop in re_props:
                     utils.MetaCommand('window maximize "MetaPost"')
-                    utils.MetaCommand('plane options onlysection enable DEFAULT_PLANE_YZ')
-                    utils.MetaCommand('plane options slicewidth 500.000000 DEFAULT_PLANE_YZ ')
+                    utils.MetaCommand('add all')
+                    utils.MetaCommand('view default isometric')
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('grstyle scalarfringe enable')
+                utils.MetaCommand('plane new default yz')
+                utils.MetaCommand('plane toggleopts enable sectionclip DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane toggleopts disable stateauto DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane options cut autovisible DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane options onlysection enable DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane toggleopts enable clip DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane toggleopts disable sectionclip DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane toggleopts enable slice DEFAULT_PLANE_YZ')
+                utils.MetaCommand('plane options slicewidth 500.000000 DEFAULT_PLANE_YZ')
                 utils.MetaCommand('view default front')
-
+                utils.MetaCommand('grstyle scalarfringe enable')
+                utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
