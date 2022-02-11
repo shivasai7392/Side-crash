@@ -54,12 +54,77 @@ class SideCrashReport():
         self.edit_executive_slide(self.report_composer.prs_obj.slides[2])
         self.edit_cbu_and_barrier_position_slide(self.report_composer.prs_obj.slides[3])
         self.body_in_white_kinematics_slide(self.report_composer.prs_obj.slides[6])
+        self.edit_bill_of_materials_f21_upb(self.report_composer.prs_obj.slides[8])
 
         output_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"res",self.ppt_report_folder.replace("/","",1)).replace("/",os.sep)
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
         file_name = os.path.join(output_directory,"output.pptx")
         self.report_composer.save_pptx(file_name)
+
+        return 0
+    def edit_bill_of_materials_f21_upb(self, slide):
+
+        from PIL import ImageGrab
+
+        for shape in slide.shapes:
+            if shape.name == "Image 2":
+                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                print("entities:", len(entities))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('view default right')
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            elif shape.name == "Image 1":
+                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                print("image1", len(entities))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('view default left')
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('clipboard copy image "MetaPost"')
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            if shape.name == "Table 1":
+                row = self.report_composer.add_row(shape.table)
+                print(type(row))
+                print(row)
+                print(row.cells)
+                print(row.cells[0])
+                print(type(row.cells[0]))
 
         return 0
 
@@ -432,6 +497,36 @@ class PPTXReportComposer():
     #     slide = self.prs_obj.slides.add_slide(layout_name)
 
     #     return slide
+
+    @staticmethod
+    def add_row(table):
+        """
+        add_row [summary]
+
+        [extended_summary]
+
+        Args:
+            table ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
+        table.rows.add()
+
+        return table.rows[-1]
+
+    @staticmethod
+    def remove_row(table,row_to_delete):
+        """
+        remove_row [summary]
+
+        [extended_summary]
+
+        Args:
+            table ([type]): [description]
+            row_to_delete ([type]): [description]
+        """
+        table._tbl.remove(row_to_delete._tr)
 
     def save_pptx(self, pptx_filepath, datestamp=""):
         """ Saves the PPTx at the given filepath
