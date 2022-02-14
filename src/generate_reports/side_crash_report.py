@@ -1,4 +1,3 @@
-from html import entities
 import os
 
 from meta import utils
@@ -9,19 +8,21 @@ import re
 
 class SideCrashReport():
 
-    def __init__(self,windows,general_input,metadb_2d_input,metadb_3d_input) -> None:
+    def __init__(self,windows,general_input,metadb_2d_input,metadb_3d_input,config_folder) -> None:
         self.windows = windows
         self.general_input = general_input
         self.metadb_2d_input = metadb_2d_input
         self.metadb_3d_input = metadb_3d_input
+        self.config_folder = config_folder
+        self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
         self.get_reporting_folders()
 
     def get_reporting_folders(self):
-        self.twod_images_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"2d-data-images")
-        self.threed_images_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"3d-data-images")
-        self.threed_videos_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"3d-data-videos")
-        self.excel_bom_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"excel-bom")
-        self.ppt_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"reports")
+        self.twod_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"2d-data-images").replace("\\",os.sep)
+        self.threed_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-images").replace("\\",os.sep)
+        self.threed_videos_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-videos").replace("\\",os.sep)
+        self.excel_bom_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"excel-bom").replace("\\",os.sep)
+        self.ppt_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"reports").replace("\\",os.sep)
 
         return 0
 
@@ -43,8 +44,7 @@ class SideCrashReport():
             [type]: [description]
         """
 
-        template_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("/",os.sep)
-        self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=template_file)
+        self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
 
         utils.MetaCommand('options title off')
@@ -53,19 +53,21 @@ class SideCrashReport():
         self.edit_cae_quality_slide(self.report_composer.prs_obj.slides[1])
         self.edit_executive_slide(self.report_composer.prs_obj.slides[2])
         self.edit_cbu_and_barrier_position_slide(self.report_composer.prs_obj.slides[3])
-        self.body_in_white_kinematics_slide(self.report_composer.prs_obj.slides[6])
+        self.edit_body_in_white_kinematics_slide(self.report_composer.prs_obj.slides[6])
         self.edit_bill_of_materials_f21_upb(self.report_composer.prs_obj.slides[8])
 
-        output_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"res",self.ppt_report_folder.replace("/","",1)).replace("/",os.sep)
-        if not os.path.exists(output_directory):
-            os.makedirs(output_directory)
-        file_name = os.path.join(output_directory,"output.pptx")
+        if not os.path.exists(self.ppt_report_folder):
+            os.makedirs(self.ppt_report_folder)
+        file_name = os.path.join(self.ppt_report_folder,"output.pptx")
         self.report_composer.save_pptx(file_name)
 
         return 0
+
     def edit_bill_of_materials_f21_upb(self, slide):
 
         from PIL import ImageGrab
+        from pptx.enum.text import MSO_AUTO_SIZE,MSO_ANCHOR
+        from pptx.util import Inches,Pt
 
         for shape in slide.shapes:
             if shape.name == "Image 2":
@@ -84,8 +86,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -109,8 +110,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -118,17 +118,26 @@ class SideCrashReport():
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-            if shape.name == "Table 1":
-                row = self.report_composer.add_row(shape.table)
-                print(type(row))
-                print(row)
-                print(row.cells)
-                print(row.cells[0])
-                print(type(row.cells[0]))
+            elif shape.name == "Table 1":
+                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                table_obj = shape.table
+                for id,prop in enumerate(entities[:15]):
+                    self.report_composer.add_row(table_obj)
+                    prop_row = table_obj.rows[id+1]
+                    text_frame = prop_row.cells[0].text_frame
+                    font = text_frame.paragraphs[0].font
+                    font.size = Pt(8)
+                    text_frame.paragraphs[0].text = str(prop.id)
 
         return 0
 
-    def body_in_white_kinematics_slide(self, slide):
+    def edit_body_in_white_kinematics_slide(self, slide):
         from PIL import ImageGrab,Image
         utils.MetaCommand('window maximize "MetaPost"')
 
@@ -142,8 +151,7 @@ class SideCrashReport():
                 utils.MetaCommand('color fringebar scalarset default')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -161,8 +169,7 @@ class SideCrashReport():
                 utils.MetaCommand('color fringebar scalarset default')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -181,8 +188,7 @@ class SideCrashReport():
                 utils.MetaCommand('color fringebar scalarset default')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -201,8 +207,7 @@ class SideCrashReport():
                 utils.MetaCommand('color fringebar scalarset default')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -235,8 +240,7 @@ class SideCrashReport():
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
                 img = img.transpose(Image.ROTATE_90)
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"cbu".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -266,8 +270,7 @@ class SideCrashReport():
                 utils.MetaCommand('color fringebar scalarset default')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"cbu_critical".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -275,6 +278,7 @@ class SideCrashReport():
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+
         return 0
 
     def edit_executive_slide(self,slide):
@@ -301,8 +305,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -329,8 +332,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -366,8 +368,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy image "MetaPost"')
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.threed_images_report_folder.replace("/","",1).replace("/",os.sep),"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -408,8 +409,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot.id))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-                image_path = os.path.join(src_parent_folder,"res",self.twod_images_report_folder.replace("/","",1).replace("/",os.sep),window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
                 img.save(image_path, 'PNG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -459,8 +459,7 @@ class SideCrashReport():
             utils.MetaCommand('xyplot plotactive "{}" {}'.format(window_name, plot.id))
             utils.MetaCommand('xyplot curve visible and "{}" selected'.format(window_name))
             #utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
-            src_parent_folder = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-            image_path = os.path.join(src_parent_folder,"res",self.twod_images_report_folder.replace("/","",1).replace("/",os.sep),window_name+"_"+curve.name.lower()+".jpeg")
+            image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+curve.name.lower()+".jpeg")
             if not os.path.exists(os.path.dirname(image_path)):
                 print(os.path.dirname(image_path))
                 os.makedirs(os.path.dirname(image_path))
@@ -511,9 +510,15 @@ class PPTXReportComposer():
         Returns:
             [type]: [description]
         """
-        table.rows.add()
+        from pptx.table import _Cell
+        from copy import deepcopy
 
-        return table.rows[-1]
+        new_row = deepcopy(table._tbl.tr_lst[-1])
+        # duplicating last row of the table as a new row to be added
+
+        table._tbl.append(new_row)
+
+        return 0
 
     @staticmethod
     def remove_row(table,row_to_delete):
