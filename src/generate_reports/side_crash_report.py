@@ -1,6 +1,6 @@
 import os
 
-from meta import utils
+from meta import utils,parts,constants
 from meta import windows
 from meta import plot2d
 import time
@@ -69,6 +69,7 @@ class SideCrashReport():
         from pptx.enum.text import MSO_AUTO_SIZE,MSO_ANCHOR
         from pptx.util import Inches,Pt
 
+        utils.MetaCommand('0:options state original')
         for shape in slide.shapes:
             if shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
@@ -78,7 +79,6 @@ class SideCrashReport():
                 for re_prop in re_props:
                     utils.MetaCommand('window maximize "MetaPost"')
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
-                print("entities:", len(entities))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('view default right')
@@ -94,7 +94,7 @@ class SideCrashReport():
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-            elif shape.name == "Image 1":
+            if shape.name == "Image 1":
                 data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                 prop_names = data["hes"]
                 re_props = prop_names.split(",")
@@ -102,7 +102,6 @@ class SideCrashReport():
                 for re_prop in re_props:
                     utils.MetaCommand('window maximize "MetaPost"')
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
-                print("image1", len(entities))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('view default left')
@@ -119,7 +118,7 @@ class SideCrashReport():
                 picture.crop_left = 0
                 picture.crop_right = 0
             elif shape.name == "Table 1":
-                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                 prop_names = data["hes"]
                 re_props = prop_names.split(",")
                 entities = []
@@ -128,12 +127,139 @@ class SideCrashReport():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 table_obj = shape.table
                 for id,prop in enumerate(entities[:15]):
+                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
+                    materials = part.get_materials('all')
+
+                    self.report_composer.add_row(table_obj)
+                    prop_row = table_obj.rows[id+1]
+
+                    text_frame = prop_row.cells[0].text_frame
+                    font = text_frame.paragraphs[0].font
+                    font.size = Pt(8)
+                    text_frame.paragraphs[0].text = str(prop.id)
+
+                    text_frame_name = prop_row.cells[1].text_frame
+                    font_name = text_frame_name.paragraphs[0].font
+                    font_name.size = Pt(8)
+                    text_frame_name.paragraphs[0].text = str(prop.name)
+
+                    text_frame_material = prop_row.cells[2].text_frame
+                    font_material = text_frame_material.paragraphs[0].font
+                    font_material.size = Pt(8)
+                    for each_material in materials:
+                        text_frame_material.paragraphs[0].text = str(each_material.name)
+
+                    text_frame_thickness = prop_row.cells[3].text_frame
+                    font_thickness = text_frame_thickness.paragraphs[0].font
+                    font_thickness.size = Pt(8)
+                    thickness = round(prop.shell_thick,1)
+                    text_frame_thickness.paragraphs[0].text = str(thickness)
+
+
+            elif shape.name == "Table 2":
+                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+
+                entities_all = []
+                for each_entity in entities[15:]:
+                    if str(each_entity.id).startswith("2"):
+                        entities_all.append(each_entity)
+
+                table_obj = shape.table
+                for id,prop in enumerate(entities_all):
+
+                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
+                    materials = part.get_materials('all')
+
                     self.report_composer.add_row(table_obj)
                     prop_row = table_obj.rows[id+1]
                     text_frame = prop_row.cells[0].text_frame
                     font = text_frame.paragraphs[0].font
                     font.size = Pt(8)
                     text_frame.paragraphs[0].text = str(prop.id)
+
+                    text_frame_name = prop_row.cells[1].text_frame
+                    font_name = text_frame_name.paragraphs[0].font
+                    font_name.size = Pt(8)
+                    text_frame_name.paragraphs[0].text = str(prop.name)
+
+                    text_frame_material = prop_row.cells[2].text_frame
+                    font_material = text_frame_material.paragraphs[0].font
+                    font_material.size = Pt(8)
+                    for each_material in materials:
+                        text_frame_material.paragraphs[0].text = str(each_material.name)
+
+                    text_frame_thickness = prop_row.cells[3].text_frame
+                    font_thickness = text_frame_thickness.paragraphs[0].font
+                    font_thickness.size = Pt(8)
+                    thickness = round(prop.shell_thick,1)
+                    text_frame_thickness.paragraphs[0].text = str(thickness)
+            elif shape.name == "Table 3":
+                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+
+                entities_all = []
+                for each_entity in entities:
+                    if str(each_entity.id).startswith("2"):
+                        entities_all.append(each_entity)
+
+                table_obj = shape.table
+                for id,prop in enumerate(entities_all):
+
+                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
+                    materials = part.get_materials('all')
+
+                    self.report_composer.add_row(table_obj)
+                    prop_row = table_obj.rows[id+1]
+
+                    text_frame = prop_row.cells[0].text_frame
+                    font = text_frame.paragraphs[0].font
+                    font.size = Pt(8)
+                    text_frame.paragraphs[0].text = str(prop.id)
+
+                    text_frame_name = prop_row.cells[1].text_frame
+                    font_name = text_frame_name.paragraphs[0].font
+                    font_name.size = Pt(8)
+                    text_frame_name.paragraphs[0].text = str(prop.name)
+
+                    text_frame_material = prop_row.cells[2].text_frame
+                    font_material = text_frame_material.paragraphs[0].font
+                    font_material.size = Pt(8)
+                    for each_material in materials:
+                        text_frame_material.paragraphs[0].text = str(each_material.name)
+
+
+                    text_frame_thickness = prop_row.cells[3].text_frame
+                    font_thickness = text_frame_thickness.paragraphs[0].font
+                    font_thickness.size = Pt(8)
+                    thickness = round(prop.shell_thick,1)
+                    text_frame_thickness.paragraphs[0].text = str(thickness)
+
+            elif shape.name == "TextBox 1":
+                text_frame = shape.text_frame
+                text_frame.clear()
+                p = text_frame.paragraphs[0]
+                run = p.add_run()
+                run.text = "OUTER"
+            elif shape.name == "TextBox 2":
+                text_frame = shape.text_frame
+                text_frame.clear()
+                p = text_frame.paragraphs[0]
+                run = p.add_run()
+                run.text = "INNER"
+
+
+
 
         return 0
 
