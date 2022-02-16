@@ -216,6 +216,15 @@ class GeneralVarInfo:
     binout_directory_key = "pA"
     threed_metadb_key = "3D"
     cae_window_key = "quality_check"
+    verification_mode_key = "verification_mode"
+    termination_type_key = "trm_type"
+    computation_time_key = "compute_time"
+    core_count_key = "compute_proc"
+    compute_cluster_key = "cluster_node_1"
+    peak_time_key = ""
+    run_directory_key = "run_directory"
+
+
 
     def __init__(self):
 
@@ -241,6 +250,13 @@ class GeneralVarInfo:
         self.binout_directory = None
         self.threed_metadb_file = None
         self.cae_quality_window_name = None
+        self.verification_mode = None
+        self.termination_type = None
+        self.computation_time = None
+        self.core_count = None
+        self.compute_cluster = None
+        self.peak_time = None
+        self.run_directory = None
 
     def get_info(self):
         """[summary]
@@ -254,8 +270,8 @@ class GeneralVarInfo:
         get_var = lambda a: utils.MetaGetVariable(a)
 
         self.source_template_file_directory = get_var(GeneralVarInfo.source_template_file_directory_key)
-        #self.source_template_file_name = get_var(GeneralVarInfo.source_template_file_name_key)
-        self.source_template_file_name = "template.pptx"
+        self.source_template_file_name = get_var(GeneralVarInfo.source_template_file_name_key)
+        #self.source_template_file_name = "template.pptx"
         self.font_size_info = get_var(GeneralVarInfo.font_size_info_key)
         self.font1x1_size_info = get_var(GeneralVarInfo.font1x1_size_info_key)
         self.font2x2_size_info = get_var(GeneralVarInfo.font2x2_size_info_key)
@@ -277,6 +293,13 @@ class GeneralVarInfo:
         #self.threed_metadb_file = get_var(GeneralVarInfo.threed_metadb_key)
         self.threed_metadb_file = "/cae/data/tmp/fr2/ra067381/3NT/02_SIDE/05_SICE-2p0/CORRELATION-RERUN/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb"
         self.cae_quality_window_name = get_var(GeneralVarInfo.cae_window_key)
+        self.verification_mode = get_var(GeneralVarInfo.verification_mode_key)
+        self.termination_type = get_var(GeneralVarInfo.termination_type_key)
+        self.computation_time = get_var(GeneralVarInfo.computation_time_key)
+        self.core_count = get_var(GeneralVarInfo.core_count_key)
+        self.compute_cluster = get_var(GeneralVarInfo.compute_cluster_key)
+        self.peak_time = get_var(GeneralVarInfo.peak_time_key)
+        self.run_directory = get_var(GeneralVarInfo.run_directory_key)
 
         return self
 
