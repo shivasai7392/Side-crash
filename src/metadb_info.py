@@ -216,6 +216,7 @@ class GeneralVarInfo:
     binout_directory_key = "pA"
     threed_metadb_key = "3D"
     cae_window_key = "quality_check"
+    survival_space_window_key = "survival_space"
     verification_mode_key = "verification_mode"
     termination_type_key = "trm_type"
     computation_time_key = "compute_time"
@@ -223,6 +224,7 @@ class GeneralVarInfo:
     compute_cluster_key = "cluster_node_1"
     peak_time_key = ""
     run_directory_key = "run_directory"
+    survival_space_final_time_key="survival-space_final_time"
 
 
 
@@ -257,6 +259,8 @@ class GeneralVarInfo:
         self.compute_cluster = None
         self.peak_time = None
         self.run_directory = None
+        self.survival_space_window_name = None
+        self.survival_space_final_time = None
 
     def get_info(self):
         """[summary]
@@ -300,6 +304,8 @@ class GeneralVarInfo:
         self.compute_cluster = get_var(GeneralVarInfo.compute_cluster_key)
         self.peak_time = get_var(GeneralVarInfo.peak_time_key)
         self.run_directory = get_var(GeneralVarInfo.run_directory_key)
+        self.survival_space_window_name = get_var(GeneralVarInfo.survival_space_window_key)
+        self.survival_space_final_time = get_var(GeneralVarInfo.survival_space_final_time_key)
 
         return self
 

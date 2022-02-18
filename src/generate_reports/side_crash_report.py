@@ -409,11 +409,46 @@ class SideCrashReport():
     def edit_executive_slide(self,slide):
 
         from PIL import ImageGrab
+        from PIL import ImageGrab
+        from pptx.util import Pt
+
+        window_name = self.general_input.survival_space_window_name
+        utils.MetaCommand('window maximize "{}"'.format(window_name))
 
         for shape in slide.shapes:
-            if shape.name == "Image 3":
+            if shape.name == "Image 1":
+                final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
+                print(final_time_curve_name)
+                initial_time_curve_name = "SS_0MS"
+                plot_id = 0
+                page_id=0
+                plot = plot2d.Plot(plot_id, window_name, page_id)
+                title = plot.get_title()
+                org_name = title.get_text()
+                title.set_text("{} 0MS AND 150MS".format(org_name))
+                plot.activate()
+                final_curve = plot2d.CurvesByName(window_name, final_time_curve_name, 0)[0]
+                final_curve.show()
+                initial_curve = plot2d.CurvesByName(window_name, initial_time_curve_name, 0)[0]
+                initial_curve.show()
+                utils.MetaCommand('xyplot axisoptions xaxis active "Survival Space" 0 0')
+                utils.MetaCommand('xyplot gridoptions xspace "Survival Space" 0 20')
+                utils.MetaCommand('xyplot axisoptions axxrange "Survival Space" 0 0 175 400')
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                title.set_text(org_name)
+                picture.crop_left = 0
+                picture.crop_right = 0
+
+
+            elif shape.name == "Image 3":
                 data = self.metadb_3d_input.critical_sections["f28_front_door"]
                 prop_names = data["hes"]
+                erase_box = data["erase_box"]
                 re_props = prop_names.split(",")
                 entities = []
                 for re_prop in re_props:
@@ -423,7 +458,8 @@ class SideCrashReport():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('erase pid box {}'.format(erase_box))
+                utils.MetaCommand('view default left')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -441,6 +477,7 @@ class SideCrashReport():
             elif shape.name == "Image 4":
                 data = self.metadb_3d_input.critical_sections["f28_rear_door"]
                 prop_names = data["hes"]
+                erase_box = data["erase_box"]
                 re_props = prop_names.split(",")
                 entities = []
                 for re_prop in re_props:
@@ -450,7 +487,8 @@ class SideCrashReport():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('erase pid box {}'.format(erase_box))
+                utils.MetaCommand('view default left')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -468,6 +506,7 @@ class SideCrashReport():
             elif shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                 prop_names = data["hes"]
+                erase_box = data["erase_box"]
                 re_props = prop_names.split(",")
                 entities = []
                 for re_prop in re_props:
@@ -477,6 +516,7 @@ class SideCrashReport():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                #utils.MetaCommand('erase pid box {}'.format(erase_box))
                 utils.MetaCommand('plane new default yz')
                 utils.MetaCommand('plane toggleopts enable sectionclip DEFAULT_PLANE_YZ')
                 utils.MetaCommand('plane toggleopts disable stateauto DEFAULT_PLANE_YZ')
@@ -545,8 +585,8 @@ class SideCrashReport():
             if shape.name == "Image 2":
                 plot_id = 0
                 page_id=0
-                title = plot2d.Title(plot_id, window_name, page_id)
-                plot = title.get_plot()
+                plot = plot2d.Plot(plot_id, window_name, page_id)
+                title = plot.get_title()
                 plot.activate()
                 utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
@@ -581,8 +621,8 @@ class SideCrashReport():
             elif shape.name == "Image 3":
                 plot_id = 1
                 page_id=0
-                title = plot2d.Title(plot_id, window_name, page_id)
-                plot = title.get_plot()
+                plot = plot2d.Plot(plot_id, window_name, page_id)
+                title = plot.get_title()
                 plot.activate()
                 utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
@@ -600,8 +640,7 @@ class SideCrashReport():
             elif shape.name == "Table 1":
                 plot_id = 0
                 page_id=0
-                title = plot2d.Title(plot_id, window_name, page_id)
-                plot = title.get_plot()
+                plot = plot2d.Plot(plot_id, window_name, page_id)
                 curvelist = plot.get_curves('all')
                 index = 0
                 for curve in curvelist:
