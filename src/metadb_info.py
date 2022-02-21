@@ -225,6 +225,17 @@ class GeneralVarInfo:
     peak_time_key = ""
     run_directory_key = "run_directory"
     survival_space_final_time_key="survival-space_final_time"
+    front_door_accel_window_key = "frdoor_accel"
+    rear_door_accel_window_key = "rrdoor_accel"
+    front_abdomen_intrusion_curve_key = "front_abdomen_intrusion_curve"
+    front_femur_intrusion_curve_key = "front_femur_intrusion_curve"
+    front_pelvis_intrusion_curve_key = "front_pelvis_intrusion_curve"
+    front_shoulder_intrusion_curve_key = "front_shoulder_intrusion_curve"
+    rear_abdomen_intrusion_curve_key = "rear_abdomen_intrusion_curve"
+    rear_femur_intrusion_curve_key = "rear_femur_intrusion_curve"
+    rear_pelvis_intrusion_curve_key = "rear_pelvis_intrusion_curve"
+    rear_shoulder_intrusion_curve_key = "rear_shoulder_intrusion_curve"
+
 
 
 
@@ -261,6 +272,16 @@ class GeneralVarInfo:
         self.run_directory = None
         self.survival_space_window_name = None
         self.survival_space_final_time = None
+        self.front_door_accel_window_name = None
+        self.rear_door_accel_window_name = None
+        self.front_abdomen_intrusion_curve_name = None
+        self.front_femur_intrusion_curve_name = None
+        self.front_pelvis_intrusion_curve_name = None
+        self.front_shoulder_intrusion_curve_name = None
+        self.rear_abdomen_intrusion_curve_name = None
+        self.rear_femur_intrusion_curve_name = None
+        self.rear_pelvis_intrusion_curve_name = None
+        self.rear_shoulder_intrusion_curve_name = None
 
     def get_info(self):
         """[summary]
@@ -306,6 +327,16 @@ class GeneralVarInfo:
         self.run_directory = get_var(GeneralVarInfo.run_directory_key)
         self.survival_space_window_name = get_var(GeneralVarInfo.survival_space_window_key)
         self.survival_space_final_time = get_var(GeneralVarInfo.survival_space_final_time_key)
+        self.front_door_accel_window_name = get_var(GeneralVarInfo.front_door_accel_window_key)
+        self.rear_door_accel_window_name = get_var(GeneralVarInfo.rear_door_accel_window_key)
+        self.front_abdomen_intrusion_curve_name = get_var(GeneralVarInfo.front_abdomen_intrusion_curve_key)
+        self.front_femur_intrusion_curve_name = get_var(GeneralVarInfo.front_femur_intrusion_curve_key)
+        self.front_pelvis_intrusion_curve_name = get_var(GeneralVarInfo.front_pelvis_intrusion_curve_key)
+        self.front_shoulder_intrusion_curve_name = get_var(GeneralVarInfo.front_shoulder_intrusion_curve_key)
+        self.rear_abdomen_intrusion_curve_name = get_var(GeneralVarInfo.rear_abdomen_intrusion_curve_key)
+        self.rear_femur_intrusion_curve_name = get_var(GeneralVarInfo.rear_femur_intrusion_curve_key)
+        self.rear_pelvis_intrusion_curve_name = get_var(GeneralVarInfo.rear_pelvis_intrusion_curve_key)
+        self.rear_shoulder_intrusion_curve_name = get_var(GeneralVarInfo.rear_shoulder_intrusion_curve_key)
 
         return self
 
