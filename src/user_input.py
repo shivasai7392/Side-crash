@@ -35,13 +35,13 @@ class UserInput():
     def get_user_input_from_interactive_mode(self):
         """This method checks whether the script initiated in metapost or shell/bash command line
         """
-
         if "win" in sys.platform:
             ret = UserInput.continue_in_windows_cmd(self.args)
             if ret == 0: # Script is running in GUI mode in metapost, so no attributes setting is needed
                 print("Script is running in GUI mode")
                 self.get_user_input_from_gui()
             elif ret == -1:  # Multiple line arguments
+                print("Script is running in NON GUI mode")
                 self.run_interactive_mode()
 
         elif "linux" in sys.platform:
@@ -50,6 +50,7 @@ class UserInput():
                 print("Script is running in GUI mode")
                 self.get_user_input_from_gui()
             elif ret == -1: # Multiple line arguments
+                print("Script is running in NON GUI mode")
                 self.run_interactive_mode()
 
         return 0
