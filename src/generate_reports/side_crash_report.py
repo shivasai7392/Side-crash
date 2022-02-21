@@ -703,7 +703,7 @@ class SideCrashReport():
                 utils.MetaCommand('window maximize {}'.format(front_door_accel_window_name))
                 curve = plot2d.CurvesByName(front_door_accel_window_name, front_shoulder_intrusion_curve_name, 1)[0]
                 curve.show()
-                self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER",slide.shapes[1].table)
+                self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER")
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
@@ -836,25 +836,22 @@ class SideCrashReport():
 
         return 0
 
-    def intrusion_curve_format(self,source_window,curve,temporary_window_name,curve_name,table):
-        from pptx.util import Pt
+    @staticmethod
+    def intrusion_curve_format(source_window,curve,temporary_window_name,curve_name):
+        """
+        intrusion_curve_format _summary_
 
-        self.report_composer.add_row(table)
-        row = table.rows[2]
-        text_frame_1 = row.cells[0].text_frame
-        font_1 = text_frame_1.paragraphs[0].font
-        font_1.size = Pt(10)
-        font_1.bold = True
-        font_1.name = "Arial"
-        text_frame_1.paragraphs[0].text = str.title(str(curve_name).split(" ")[2])
-        X_values = [30,40,50,60,70,80]
-        for x in X_values:
-            ret = curve.get_y_values_from_x(specifier = 'all', xvalue = x/1000)
-            ret = curve.get_points_x_values()
-            ret = curve.get_points_y_values(type = 'real')
-            print(ret[17])
-            dlnvk
-            print([element * 1000 for element in ret])
+        _extended_summary_
+
+        Args:
+            source_window (_type_): _description_
+            curve (_type_): _description_
+            temporary_window_name (_type_): _description_
+            curve_name (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
         utils.MetaCommand('xyplot create "{}"'.format(temporary_window_name))
         utils.MetaCommand('xyplot curve paste "{}" 0 {}'.format(temporary_window_name,curve.id))
