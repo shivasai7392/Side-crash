@@ -224,6 +224,7 @@ class GeneralVarInfo:
     peak_time_key = ""
     run_directory_key = "run_directory"
 
+    biw_stiff_ring_deformation_key = "sill_roof_intrusion"
 
 
     def __init__(self):
@@ -257,6 +258,8 @@ class GeneralVarInfo:
         self.compute_cluster = None
         self.peak_time = None
         self.run_directory = None
+
+        self.biw_stiff_ring_deformation_name = None
 
     def get_info(self):
         """[summary]
@@ -300,6 +303,8 @@ class GeneralVarInfo:
         self.compute_cluster = get_var(GeneralVarInfo.compute_cluster_key)
         self.peak_time = get_var(GeneralVarInfo.peak_time_key)
         self.run_directory = get_var(GeneralVarInfo.run_directory_key)
+
+        self.biw_stiff_ring_deformation_name = get_var(GeneralVarInfo.biw_stiff_ring_deformation_key)
 
         return self
 
