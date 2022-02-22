@@ -145,7 +145,7 @@ class SideCrashReport():
 
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg").replace("&","and")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png").replace("&","and")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -199,6 +199,7 @@ class SideCrashReport():
                 utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(window_name,peak_time_id))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                 utils.MetaCommand('xyplot axisoptions yaxis active "{}" 1 0'.format(window_name))
+                utils.MetaCommand('xyplot axisoptions axyrange "{}" 1 0 -805 -770'.format(window_name))
                 utils.MetaCommand('xyplot axisoptions ylabel font "{}" 1 "Arial,32,-1,5,75,0,0,0,0,0"'.format(window_name))
                 utils.MetaCommand('xyplot axisoptions labels yfont "{}" 1 "Arial,32,-1,5,75,0,0,0,0,0"'.format(window_name))
                 utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" 1 0'.format(window_name))
@@ -209,7 +210,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot.id))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg").replace("&","and")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png").replace("&","and")
                 if not os.path.exists(os.path.dirname(image_path)):
                     print(os.path.dirname(image_path))
                     os.makedirs(os.path.dirname(image_path))
@@ -240,7 +241,7 @@ class SideCrashReport():
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('view default right')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -257,7 +258,7 @@ class SideCrashReport():
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('view default left')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -413,7 +414,7 @@ class SideCrashReport():
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('view default front')
                 utils.MetaCommand('color fringebar scalarset Critical')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -424,7 +425,7 @@ class SideCrashReport():
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('view default top')
                 utils.MetaCommand('color fringebar scalarset Critical')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -436,7 +437,7 @@ class SideCrashReport():
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('view default front')
                 utils.MetaCommand('color fringebar scalarset Critical')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -448,7 +449,7 @@ class SideCrashReport():
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('view default top')
                 utils.MetaCommand('color fringebar scalarset Critical')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -475,7 +476,7 @@ class SideCrashReport():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -498,7 +499,7 @@ class SideCrashReport():
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('grstyle deform on')
                 utils.MetaCommand('color fringebar scalarset default')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -537,11 +538,20 @@ class SideCrashReport():
             utils.MetaCommand('clipboard copy image "{}"'.format(window_name))
 
         img = ImageGrab.grabclipboard()
+        rgba_img = img.convert("RGBA")
+        rgba_data = rgba_img.getdata()
+        new_rgba_data = []
+        for item in rgba_data:
+            if item[0] == 255 and item[1] == 255 and item[2] == 255:
+                new_rgba_data.append((255, 255, 255, 0))
+            else:
+                new_rgba_data.append(item)
+        rgba_img.putdata(new_rgba_data)
         if rotate:
-            img.transpose(rotate)
+            rgba_img.transpose(rotate)
         if not os.path.exists(os.path.dirname(file_path)):
             os.makedirs(os.path.dirname(file_path))
-        img.save(file_path, 'JPEG')
+        rgba_img.save(file_path, 'PNG')
 
         utils.MetaCommand('window maximize {}'.format(window_name))
 
@@ -582,7 +592,8 @@ class SideCrashReport():
                 utils.MetaCommand('xyplot axisoptions xaxis active "Survival Space" 0 0')
                 utils.MetaCommand('xyplot gridoptions xspace "Survival Space" 0 20')
                 utils.MetaCommand('xyplot axisoptions axxrange "Survival Space" 0 0 175 400')
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                utils.MetaCommand('xyplot gridoptions line major style "Survival Space" 0 0')
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 self.capture_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 title.set_text(org_name)
@@ -606,7 +617,7 @@ class SideCrashReport():
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -629,7 +640,7 @@ class SideCrashReport():
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -662,7 +673,7 @@ class SideCrashReport():
                 utils.MetaCommand('view default front')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".png")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -678,7 +689,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -695,7 +706,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -712,7 +723,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -729,7 +740,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -746,7 +757,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -763,7 +774,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -780,7 +791,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -797,7 +808,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -898,7 +909,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot.id))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'PNG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -914,7 +925,7 @@ class SideCrashReport():
                 width = legend.get_width()
                 height = legend.get_height()
                 img_2 = img_2.crop((left,top,width+8,height+8))
-                image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".jpeg")
+                image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".png")
                 img_2.save(image2_path,"PNG")
                 shape2 = [shape for shape in slide.shapes if shape.name == "Image 1"][0]
                 picture = slide.shapes.add_picture(image2_path,shape2.left,shape2.top,width = shape2.width,height = shape2.height)
@@ -934,7 +945,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot.id))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 img.save(image_path, 'PNG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -1036,7 +1047,7 @@ class SideCrashReport():
             utils.MetaCommand('xyplot plotactive "{}" {}'.format(window_name, plot.id))
             utils.MetaCommand('xyplot curve visible and "{}" selected'.format(window_name))
             #utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
-            image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+curve.name.lower()+".jpeg")
+            image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+curve.name.lower()+".png")
             if not os.path.exists(os.path.dirname(image_path)):
                 print(os.path.dirname(image_path))
                 os.makedirs(os.path.dirname(image_path))
