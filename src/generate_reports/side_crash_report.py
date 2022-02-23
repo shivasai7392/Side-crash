@@ -1,4 +1,5 @@
 import os
+from platform import node
 import time
 
 
@@ -15,6 +16,7 @@ class SideCrashReport():
         self.metadb_3d_input = metadb_3d_input
         self.config_folder = config_folder
         self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
+        self.intrusion_areas = {"ROW 1":{},"ROW 2":{}}
         self.get_reporting_folders()
 
     def get_reporting_folders(self):
@@ -719,12 +721,17 @@ class SideCrashReport():
             _type_: _description_
         """
         from PIL import ImageGrab
+        from pptx.util import Pt
+
 
         window_name = self.general_input.survival_space_window_name
         utils.MetaCommand('window maximize "{}"'.format(window_name))
 
-        for shape in slide.shapes:
-            if shape.name == "Image 1":
+        shapes = [shape for shape in slide.shapes]
+        shapes.sort(key = lambda x:x.name)
+
+        for shape in shapes:
+            if shape.name == "Image":
                 final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
                 initial_time_curve_name = "SS_0MS"
                 plot_id = 0
@@ -748,6 +755,21 @@ class SideCrashReport():
                 title.set_text(org_name)
                 picture.crop_left = 0
                 picture.crop_right = 0
+            elif shape.name == "Table 1":
+                final_time = round(float(self.general_input.survival_space_final_value))
+                rows = shape.table.rows
+                text_frame_1 = rows[2].cells[0].text_frame
+                font = text_frame_1.paragraphs[0].font
+                font.size = Pt(11)
+                text_frame_2 = rows[2].cells[1].text_frame
+                font = text_frame_2.paragraphs[0].font
+                font.size = Pt(11)
+                text_frame_3 = rows[3].cells[1].text_frame
+                font = text_frame_3.paragraphs[0].font
+                font.size = Pt(11)
+                text_frame_1.paragraphs[0].text = " {}".format(final_time)
+                text_frame_2.paragraphs[0].text = str(round(float(self.general_input.survival_space_peak_value)))
+                text_frame_3.paragraphs[0].text = str(round(float(self.general_input.peak_time_display_value)))
             elif shape.name == "Image 3":
                 data = self.metadb_3d_input.critical_sections["f28_front_door"]
                 prop_names = data["hes"]
@@ -838,7 +860,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 SHOULDER".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -855,7 +877,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 ABDOMEN".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -872,7 +894,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 FEMUR".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -889,24 +911,24 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 PELVIS".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
-            elif shape.name == "Image 9":
+            elif shape.name == "Image 0":
                 temporary_window_name = "Temporary"
                 rear_shoulder_intrusion_curve_name = self.general_input.rear_shoulder_intrusion_curve_name
                 rear_door_accel_window_name = self.general_input.rear_door_accel_window_name
-                utils.MetaCommand('window maximize {}'.format(front_door_accel_window_name))
+                utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                 curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_shoulder_intrusion_curve_name, 1)[0]
                 curve.show()
                 self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 SHOULDER".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -923,7 +945,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 ABDOMEN".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -940,7 +962,7 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 FEMUR".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -957,18 +979,65 @@ class SideCrashReport():
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(temporary_window_name, 0))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 PELVIS".lower()+".png")
                 img.save(image_path, 'JPEG')
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+            elif shape.name == "Table 2":
+                table = shape.table
+                row_index = 2
+                node_index = 0
+                self.report_composer.add_row(table)
+                for iindex,(key,values) in enumerate(self.intrusion_areas["ROW 1"].items()):
+                    if iindex == 2:
+                        self.report_composer.add_row(table)
+                        row_index = row_index+1
+                    if iindex == 1 or iindex == 3:
+                        node_index = 7
+                    else:
+                        node_index = 0
+                    rows = table.rows
+                    text_frame_1 = rows[row_index].cells[node_index].text_frame
+                    font = text_frame_1.paragraphs[0].font
+                    font.bold = True
+                    font.size = Pt(11)
+                    text_frame_1.paragraphs[0].text = key.capitalize()
+                    for index,value in enumerate(values):
+                        text_frame = rows[row_index].cells[node_index+index+1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(value)
+            elif shape.name == "Table 3":
+                table = shape.table
+                row_index = 2
+                node_index = 0
+                self.report_composer.add_row(table)
+                for iindex,(key,values) in enumerate(self.intrusion_areas["ROW 2"].items()):
+                    if iindex == 2:
+                        self.report_composer.add_row(table)
+                        row_index = row_index+1
+                    if iindex == 1 or iindex == 3:
+                        node_index = 7
+                    else:
+                        node_index = 0
+                    rows = table.rows
+                    text_frame_1 = rows[row_index].cells[node_index].text_frame
+                    font = text_frame_1.paragraphs[0].font
+                    font.bold = True
+                    font.size = Pt(11)
+                    text_frame_1.paragraphs[0].text = key.capitalize()
+                    for index,value in enumerate(values):
+                        text_frame = rows[row_index].cells[node_index+index+1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(value)
 
 
         return 0
 
-    @staticmethod
-    def intrusion_curve_format(source_window,curve,temporary_window_name,curve_name):
+    def intrusion_curve_format(self,source_window,curve,temporary_window_name,curve_name):
         """
         intrusion_curve_format _summary_
 
@@ -983,9 +1052,16 @@ class SideCrashReport():
         Returns:
             _type_: _description_
         """
+
         utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
         utils.MetaCommand('xyplot create "{}"'.format(temporary_window_name))
         utils.MetaCommand('xyplot curve paste "{}" 0 {}'.format(temporary_window_name,curve.id))
+        win = windows.Window(temporary_window_name, page_id=0)
+        curve = win.get_curves('all')[0]
+        y_values = []
+        for x in [0.03,0.04,0.05,0.06,0.07,0.08]:
+            y_values.append(round(curve.get_y_values_from_x(specifier = 'first', xvalue =x)[0]))
+        self.intrusion_areas[curve_name.rsplit(" ",1)[0]][curve_name.rsplit(" ",1)[1]] = y_values
         utils.MetaCommand('xyplot gridoptions line major style "{}" 0 0'.format(temporary_window_name))
         utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(temporary_window_name))
         utils.MetaCommand('xyplot axisoptions labels yposition "{}" 0 left'.format(temporary_window_name))
