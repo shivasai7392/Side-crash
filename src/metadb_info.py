@@ -225,6 +225,7 @@ class GeneralVarInfo:
     peak_time_key = ""
     run_directory_key = "run_directory"
     survival_space_final_time_key="survival-space_final_time"
+    survival_space_final_key="survival-space_final"
     front_door_accel_window_key = "frdoor_accel"
     rear_door_accel_window_key = "rrdoor_accel"
     front_abdomen_intrusion_curve_key = "front_abdomen_intrusion_curve"
@@ -235,10 +236,10 @@ class GeneralVarInfo:
     rear_femur_intrusion_curve_key = "rear_femur_intrusion_curve"
     rear_pelvis_intrusion_curve_key = "rear_pelvis_intrusion_curve"
     rear_shoulder_intrusion_curve_key = "rear_shoulder_intrusion_curve"
-
-
+    survival_space_peak_key = "survival-space_peak"
     biw_stiff_ring_deformation_key = "sill_roof_intrusion"
     biw_accel_window_key = "bplr_disp_window"
+    peak_time_display_key = "peak_time_display"
 
 
     def __init__(self):
@@ -284,9 +285,11 @@ class GeneralVarInfo:
         self.rear_femur_intrusion_curve_name = None
         self.rear_pelvis_intrusion_curve_name = None
         self.rear_shoulder_intrusion_curve_name = None
-
+        self.survival_space_final_value = None
         self.biw_stiff_ring_deformation_name = None
         self.biw_accel_window_name = None
+        self.survival_space_peak_value = None
+        self.peak_time_display_value = None
 
     def get_info(self):
         """[summary]
@@ -342,10 +345,11 @@ class GeneralVarInfo:
         self.rear_femur_intrusion_curve_name = get_var(GeneralVarInfo.rear_femur_intrusion_curve_key)
         self.rear_pelvis_intrusion_curve_name = get_var(GeneralVarInfo.rear_pelvis_intrusion_curve_key)
         self.rear_shoulder_intrusion_curve_name = get_var(GeneralVarInfo.rear_shoulder_intrusion_curve_key)
-
+        self.survival_space_final_value = get_var(GeneralVarInfo.survival_space_final_key)
         self.biw_stiff_ring_deformation_name = get_var(GeneralVarInfo.biw_stiff_ring_deformation_key)
         self.biw_accel_window_name = get_var(GeneralVarInfo.biw_accel_window_key)
-
+        self.survival_space_peak_value = get_var(GeneralVarInfo.survival_space_peak_key)
+        self.peak_time_display_value = get_var(GeneralVarInfo.peak_time_display_key)
         return self
 
 class VerifyInfo:
