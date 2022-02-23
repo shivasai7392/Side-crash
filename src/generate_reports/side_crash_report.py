@@ -119,6 +119,8 @@ class SideCrashReport():
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('options fringebar off')
+
         return 0
     @staticmethod
     def closest(list_of_values, value):
@@ -154,7 +156,7 @@ class SideCrashReport():
             _type_: _description_
         """
         from PIL import ImageGrab
-
+        utils.MetaCommand('0:options state variable "serial=1"')
         for shape in slide.shapes:
             if shape.name == "Image 6":
                 window_name = self.general_input.biw_stiff_ring_deformation_name
@@ -216,7 +218,7 @@ class SideCrashReport():
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(window_name, layout))
-            if shape.name == "Image 7":
+            elif shape.name == "Image 7":
                 window_name = self.general_input.biw_stiff_ring_deformation_name
                 win = windows.Window(str(window_name), page_id=0)
                 layout = win.get_plot_layout()
@@ -281,6 +283,88 @@ class SideCrashReport():
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(window_name, layout))
+            elif shape.name == "Image 4":
+                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('view default right')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"deformed_peak_intrusion_inner".lower()+".png")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path)
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            elif shape.name == "Image 5":
+                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('grstyle deform off')
+                utils.MetaCommand('view default right')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"undeformed_peak_intrusion_inner".lower()+".png")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path)
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                utils.MetaCommand('grstyle deform on')
+            elif shape.name == "Image 2":
+                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('grstyle deform on')
+                utils.MetaCommand('view default left')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"deformed_peak_intrusion_outer".lower()+".png")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path, view = "left")
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            elif shape.name == "Image 3":
+                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
+                prop_names = data["hes"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('options fringebar off')
+                utils.MetaCommand('grstyle deform off')
+                utils.MetaCommand('view default left')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"undeformed_peak_intrusion_outer".lower()+".png")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path, view = "left")
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+            elif shape.name == "Image 1":
+                utils.MetaCommand('add all')
+                utils.MetaCommand('add invert')
+                utils.MetaCommand('options fringebar on')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"Fringe_bar".lower()+".jpeg")
+                utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                utils.MetaCommand('options fringebar off')
 
         return 0
 
@@ -570,7 +654,7 @@ class SideCrashReport():
         return 0
 
     @staticmethod
-    def capture_image(window_name,width,height,file_path,plot_id = None,smoothing = False,rotate = None):
+    def capture_image(window_name,width,height,file_path,plot_id = None,smoothing = False,rotate = None, view = None):
         """
         capture_image _summary_
 
@@ -590,6 +674,9 @@ class SideCrashReport():
 
         win_obj = windows.Window(window_name, page_id = 0)
         win_obj.set_size((round(width/9525),round(height/9525)))
+        if view is not None:
+            utils.MetaCommand('view default {}'.format(view))
+
         if smoothing:
             utils.MetaCommand('write options outputsize sizesmoothscale {},{}'.format(round(width/9525),round(height/9525)))
         else:
