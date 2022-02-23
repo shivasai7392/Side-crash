@@ -238,6 +238,7 @@ class GeneralVarInfo:
 
 
     biw_stiff_ring_deformation_key = "sill_roof_intrusion"
+    biw_accel_window_key = "bplr_disp_window"
 
 
     def __init__(self):
@@ -285,6 +286,7 @@ class GeneralVarInfo:
         self.rear_shoulder_intrusion_curve_name = None
 
         self.biw_stiff_ring_deformation_name = None
+        self.biw_accel_window_name = None
 
     def get_info(self):
         """[summary]
@@ -342,6 +344,7 @@ class GeneralVarInfo:
         self.rear_shoulder_intrusion_curve_name = get_var(GeneralVarInfo.rear_shoulder_intrusion_curve_key)
 
         self.biw_stiff_ring_deformation_name = get_var(GeneralVarInfo.biw_stiff_ring_deformation_key)
+        self.biw_accel_window_name = get_var(GeneralVarInfo.biw_accel_window_key)
 
         return self
 

@@ -1,7 +1,5 @@
 import os
 import time
-
-
 from meta import utils,parts,constants
 from meta import windows
 from meta import plot2d
@@ -551,8 +549,13 @@ class SideCrashReport():
         return 0
 
     def edit_body_in_white_kinematics_slide(self, slide):
-        from PIL import ImageGrab,Image
-        utils.MetaCommand('window maximize "MetaPost"')
+        from PIL import ImageGrab
+
+        biw_accel_window_name = self.general_input.biw_accel_window_name
+        biw_accel_window_name = biw_accel_window_name.replace("\"","")
+        utils.MetaCommand('window maximize "{}"'.format(biw_accel_window_name))
+        win = windows.Window(biw_accel_window_name, page_id = 0)
+        layout = win.get_plot_layout()
 
         for shape in slide.shapes:
             if shape.name == "Image 1":
@@ -601,6 +604,64 @@ class SideCrashReport():
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('color fringebar scalarset default')
+            elif shape.name == "Image 5":
+                plot_id = 3
+                page_id = 0
+                plot = plot2d.Plot(plot_id, biw_accel_window_name, page_id)
+                biw_accel_curves = plot.get_curves('all')
+                for each_biw_accel_curve in biw_accel_curves:
+                    if str(each_biw_accel_curve.name).endswith(("X velocity", "X displacement")):
+                        each_biw_accel_curve.show()
+                title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
+                plot.activate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, 1))
+                utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('xyplot gridoptions line major style "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,biw_accel_window_name+"_"+title.get_text().lower()+".png").replace("/", "_")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                rgba_img = SideCrashReport.image_transperent(img)
+                rgba_img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, layout))
+            elif shape.name == "Image 6":
+                plot_id = 0
+                page_id = 0
+                plot = plot2d.Plot(plot_id, biw_accel_window_name, page_id)
+                biw_accel_curves = plot.get_curves('all')
+                for each_biw_accel_curve in biw_accel_curves:
+                    if (str(each_biw_accel_curve.name).__contains__("UNIT")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
+                        each_biw_accel_curve.show()
+                title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
+                plot.activate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, 1))
+                utils.MetaCommand('xyplot plotoptions title set "BIW - Accel" 0 "UNIT"')
+                utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('xyplot gridoptions line major style "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,biw_accel_window_name+"_"+title.get_text().lower()+".png")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                rgba_img = SideCrashReport.image_transperent(img)
+                rgba_img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, layout))
+
 
     def edit_cbu_and_barrier_position_slide(self, slide):
 
@@ -687,15 +748,7 @@ class SideCrashReport():
             utils.MetaCommand('clipboard copy image "{}"'.format(window_name))
 
         img = ImageGrab.grabclipboard()
-        rgba_img = img.convert("RGBA")
-        rgba_data = rgba_img.getdata()
-        new_rgba_data = []
-        for item in rgba_data:
-            if item[0] == 255 and item[1] == 255 and item[2] == 255:
-                new_rgba_data.append((255, 255, 255, 0))
-            else:
-                new_rgba_data.append(item)
-        rgba_img.putdata(new_rgba_data)
+        rgba_img = SideCrashReport.image_transperent(img)
         if rotate:
             rgba_img.transpose(rotate)
         if not os.path.exists(os.path.dirname(file_path)):
@@ -705,6 +758,31 @@ class SideCrashReport():
         utils.MetaCommand('window maximize {}'.format(window_name))
 
         return 0
+
+    @staticmethod
+    def image_transperent(img):
+        """
+        image_transperent _summary_
+
+        _extended_summary_
+
+        Args:
+            img (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        rgba_img = img.convert("RGBA")
+        rgba_data = rgba_img.getdata()
+        new_rgba_data = []
+        for item in rgba_data:
+            if item[0] == 255 and item[1] == 255 and item[2] == 255:
+                new_rgba_data.append((255, 255, 255, 0))
+            else:
+                new_rgba_data.append(item)
+        rgba_img.putdata(new_rgba_data)
+        
+        return rgba_img
 
     def edit_executive_slide(self,slide):
         """
