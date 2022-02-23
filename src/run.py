@@ -47,6 +47,16 @@ def main(*args):
     utils.MetaCommand('read dis MetaDB {} 33 lossy_compressed:0:Displacements'.format(threed_metadb_file))
     utils.MetaCommand('read onlyfun MetaDB {} 33 lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(threed_metadb_file))
 
+    utils.MetaCommand('0:options state variable "serial=1"')
+    utils.MetaCommand('grstyle scalarfringe enable')
+    utils.MetaCommand('options fringebar on')
+    utils.MetaCommand('srange window "MetaPost" set .0,.15')
+    utils.MetaCommand('opt fringe visibility novaluecolor enabled off')
+    utils.MetaCommand('color fringebar update "StressTensor" "Red,255_92_0_255,255_185_0_255,231_255_0_255,139_255_0_255,46_255_0_255,0_255_46_255,0_255_139_255,0_255_231_255,0_185_255_255,0_92_255_255,LightGray"')
+    utils.MetaCommand('color fringebar scalarset StressTensor')
+    utils.MetaCommand('0:options state variable "serial=0"')
+
+
     new_windows = windows.CollectNewWindowsEnd()
 
     metadb_2d_input_info.prepare_info(new_windows)

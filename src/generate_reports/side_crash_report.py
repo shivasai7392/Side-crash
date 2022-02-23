@@ -54,17 +54,69 @@ class SideCrashReport():
         self.edit_executive_slide(self.report_composer.prs_obj.slides[2])
         self.edit_cbu_and_barrier_position_slide(self.report_composer.prs_obj.slides[3])
         self.edit_body_in_white_kinematics_slide(self.report_composer.prs_obj.slides[6])
+        self.edit_body_in_white_cbu_deformation_slide(self.report_composer.prs_obj.slides[7])
         self.edit_bill_of_materials_f21_upb(self.report_composer.prs_obj.slides[8])
         self.biw_stiff_ring_deformation(self.report_composer.prs_obj.slides[9])
-
         if not os.path.exists(self.ppt_report_folder):
             os.makedirs(self.ppt_report_folder)
         file_name = os.path.join(self.ppt_report_folder,"output.pptx")
         self.report_composer.save_pptx(file_name)
 
         return 0
+    def edit_body_in_white_cbu_deformation_slide(self, slide):
+        utils.MetaCommand('window maximize "MetaPost"')
+        for shape in slide.shapes:
+            if shape.name == "Image 1":
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('grstyle scalarfringe disable')
+                data = self.metadb_3d_input.critical_sections
+                entities = list()
+                for _key,value in data.items():
+                    if 'hes' in value.keys():
+                        prop_names = value['hes']
+                        re_props = prop_names.split(",")
+                        for re_prop in re_props:
+                            entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('options fringebar off')
 
-    def closest(self, lst, K):
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_deformation".lower()+".jpeg")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path)
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                utils.MetaCommand('grstyle scalarfringe enable')
+
+            elif shape.name == "Image 2":
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('grstyle scalarfringe enable')
+                data = self.metadb_3d_input.critical_sections
+                entities = list()
+                for _key,value in data.items():
+                    if 'hes' in value.keys():
+                        prop_names = value['hes']
+                        re_props = prop_names.split(",")
+                        for re_prop in re_props:
+                            entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('options fringebar off')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_deformation".lower()+".jpeg")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path)
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                utils.MetaCommand('0:options state variable "serial=0"')
+
+
+
+
+        return 0
+    @staticmethod
+    def closest(list_of_values, value):
         """
         closest _summary_
 
@@ -77,7 +129,12 @@ class SideCrashReport():
         Returns:
             _type_: _description_
         """
-        return lst[min(range(len(lst)), key = lambda i: abs(lst[i]-K))]
+        if type(value) == int:
+            nearest_value = list_of_values[min(range(len(list_of_values)), key = lambda i: abs(list_of_values[i]-value))]
+            return nearest_value
+
+        else:
+            return None
 
     def biw_stiff_ring_deformation(self,slide):
         """
