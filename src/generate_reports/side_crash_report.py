@@ -110,10 +110,15 @@ class SideCrashReport():
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('0:options state variable "serial=0"')
-
-
-
-
+            elif shape.name == "Image 3":
+                utils.MetaCommand('add all')
+                utils.MetaCommand('add invert')
+                utils.MetaCommand('options fringebar on')
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"Fringe_bar".lower()+".jpeg")
+                utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
         return 0
     @staticmethod
     def closest(list_of_values, value):
