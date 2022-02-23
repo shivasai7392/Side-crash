@@ -848,6 +848,7 @@ class SideCrashReport():
         utils.MetaCommand('xyplot axisoptions ylabel set "{}" 0 "Intrusion [mm]"'.format(temporary_window_name))
         utils.MetaCommand('xyplot curve select "{}" all'.format(temporary_window_name))
         utils.MetaCommand('xyplot curve set style "{}" selected 0'.format(temporary_window_name))
+        utils.MetaCommand('xyplot curve set linewidth "{}" selected 9'.format(temporary_window_name))
         utils.MetaCommand('xyplot axisoptions ylabel font "{}" 0 "Arial,44,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
         utils.MetaCommand('xyplot axisoptions labels yfont "{}" 0 "Arial,44,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
         utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" 0 0'.format(temporary_window_name))
