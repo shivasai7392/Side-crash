@@ -12,7 +12,7 @@ from src.user_input import UserInput
 from src.metadb_info import Meta2DInfo
 from src.metadb_info import GeneralVarInfo
 from src.metadb_info import Meta3DInfo
-from src.generate_reports.side_crash_report import SideCrashReport
+from src.generate_reports.reporter import Reporter
 from src.general_utilities import append_libs_path
 
 def main(*args):
@@ -61,7 +61,7 @@ def main(*args):
 
     metadb_2d_input_info.prepare_info(new_windows)
 
-    reporter = SideCrashReport(new_windows,general_input_info,metadb_2d_input_info,metadb_3d_input_info,app_config_dir)
+    reporter = Reporter(new_windows,general_input_info,metadb_2d_input_info,metadb_3d_input_info,app_config_dir)
     reporter.run_process()
 
     return 0

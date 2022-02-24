@@ -1,9 +1,37 @@
 # PYTHON script
+"""
+_summary_
+
+_extended_summary_
+
+Returns:
+    _type_: _description_
+"""
 
 import os
 import time
 import functools
 import sys
+
+def closest(list_of_values, value):
+    """
+    closest _summary_
+
+    _extended_summary_
+
+    Args:
+        lst (_type_): _description_
+        K (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    if type(value) == int:
+        nearest_value = list_of_values[min(range(len(list_of_values)), key = lambda i: abs(list_of_values[i]-value))]
+        return nearest_value
+
+    else:
+        return None
 
 def meta_block_redraws(func1):
     """ This decorator blocks redraws before
@@ -131,3 +159,37 @@ def append_libs_path():
         sys.path.append(site_pkgs_path)
 
     return 0
+
+def add_row(table):
+    """
+    add_row [summary]
+
+    [extended_summary]
+
+    Args:
+        table ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """
+    from pptx.table import _Cell
+    from copy import deepcopy
+
+    new_row = deepcopy(table._tbl.tr_lst[-1])
+    # duplicating last row of the table as a new row to be added
+
+    table._tbl.append(new_row)
+
+    return 0
+
+def remove_row(table,row_to_delete):
+    """
+    remove_row [summary]
+
+    [extended_summary]
+
+    Args:
+        table ([type]): [description]
+        row_to_delete ([type]): [description]
+    """
+    table._tbl.remove(row_to_delete._tr)
