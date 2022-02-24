@@ -82,7 +82,7 @@ class SideCrashReport():
                 utils.MetaCommand('view default isometric')
                 utils.MetaCommand('options fringebar off')
 
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_deformation".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_without_plastic_strain".lower()+".jpeg")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -104,7 +104,7 @@ class SideCrashReport():
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('view default isometric')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_deformation".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_with_plastic_strain".lower()+".jpeg")
                 self.capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -561,51 +561,57 @@ class SideCrashReport():
 
         for shape in slide.shapes:
             if shape.name == "Image 1":
-                utils.MetaCommand('add all')
+                utils.MetaCommand('window maximize "MetaPost"')
                 utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('view default front')
-                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('options fringebar off')
+                self.metadb_3d_input.show_all()
+                self.metadb_3d_input.hide_floor()
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
-                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
+                self.capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-                utils.MetaCommand('color fringebar scalarset default')
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
             elif shape.name == "Image 2":
-                utils.MetaCommand('add all')
+                utils.MetaCommand('window maximize "MetaPost"')
                 utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('view default top')
-                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('options fringebar off')
+                self.metadb_3d_input.show_all()
+                self.metadb_3d_input.hide_floor()
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
-                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
+                self.capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-                utils.MetaCommand('color fringebar scalarset default')
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
             elif shape.name == "Image 3":
-                utils.MetaCommand('add all')
-                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('window maximize "MetaPost"')
                 utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('view default front')
-                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('options fringebar off')
+                self.metadb_3d_input.show_all()
+                self.metadb_3d_input.hide_floor()
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
-                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
+                self.capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-                utils.MetaCommand('color fringebar scalarset default')
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
             elif shape.name == "Image 4":
-                utils.MetaCommand('add all')
-                utils.MetaCommand('view default isometric')
+                utils.MetaCommand('window maximize "MetaPost"')
                 utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('view default top')
-                utils.MetaCommand('color fringebar scalarset Critical')
+                utils.MetaCommand('options fringebar off')
+                self.metadb_3d_input.show_all()
+                self.metadb_3d_input.hide_floor()
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
-                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
+                self.capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-                utils.MetaCommand('color fringebar scalarset default')
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
             elif shape.name == "Image 5":
                 plot_id = 3
                 page_id = 0
@@ -781,51 +787,26 @@ class SideCrashReport():
 
         from PIL import ImageGrab,Image
         utils.MetaCommand('window maximize "MetaPost"')
-
+        utils.MetaCommand('0:options state original')
+        utils.MetaCommand('options fringebar off')
         for shape in slide.shapes:
             if shape.name == "Image 4":
-                #data = self.metadb_3d_input.critical_sections["barrier_and_cbu"]
-                data = self.metadb_3d_input.critical_sections["cbu"]
-                prop_names = data["hes"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('0:options state original')
-                    utils.MetaCommand('add all')
-                    utils.MetaCommand('view default isometric')
-                    utils.MetaCommand('view default top')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu".lower()+".png")
-                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
+                self.metadb_3d_input.show_all()
+                self.metadb_3d_input.hide_floor()
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_and_barrier".lower()+".png")
+                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90,view = "top")
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-            if shape.name == "Image 3":
-                #data = self.metadb_3d_input.critical_sections["barrier_and_cbu"]
-                data = self.metadb_3d_input.critical_sections["cbu"]
-                prop_names = data["hes"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('0:options state variable "serial=1"')
-                    utils.MetaCommand('add all')
-                    utils.MetaCommand('view default isometric')
-                    utils.MetaCommand('grstyle deform off')
-                    utils.MetaCommand('color fringebar scalarset Critical')
-                    utils.MetaCommand('view default left')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('grstyle deform on')
-                utils.MetaCommand('color fringebar scalarset default')
+            elif shape.name == "Image 3":
+                self.metadb_3d_input.show_all()
+                self.metadb_3d_input.hide_floor()
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".png")
-                self.capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90)
+                self.capture_image("MetaPost",shape.width,shape.height,image_path,view = "left")
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-
+        utils.MetaCommand('options fringebar on')
         return 0
     def kinematics_curve_format(self, biw_accel_window_name, plot_id):
         utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
@@ -852,7 +833,7 @@ class SideCrashReport():
         return 0
 
     @staticmethod
-    def capture_image(window_name,width,height,file_path,plot_id = None,smoothing = False,rotate = None, view = None):
+    def capture_image(window_name,width,height,file_path,plot_id = None,rotate = None, view = None):
         """
         capture_image _summary_
 
@@ -872,13 +853,10 @@ class SideCrashReport():
 
         win_obj = windows.Window(window_name, page_id = 0)
         win_obj.set_size((round(width/9525),round(height/9525)))
+
         if view is not None:
             utils.MetaCommand('view default {}'.format(view))
 
-        if smoothing:
-            utils.MetaCommand('write options outputsize sizesmoothscale {},{}'.format(round(width/9525),round(height/9525)))
-        else:
-            utils.MetaCommand('write options outputsize smoothscale 1')
         if plot_id is not None:
             utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot_id))
         else:
@@ -887,7 +865,8 @@ class SideCrashReport():
         img = ImageGrab.grabclipboard()
         rgba_img = SideCrashReport.image_transperent(img)
         if rotate:
-            rgba_img.transpose(rotate)
+            rgba_img = rgba_img.transpose(rotate)
+
         if not os.path.exists(os.path.dirname(file_path)):
             os.makedirs(os.path.dirname(file_path))
         rgba_img.save(file_path, 'PNG')

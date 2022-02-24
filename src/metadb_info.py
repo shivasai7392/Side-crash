@@ -135,6 +135,32 @@ class Meta3DInfo:
 
         return 0
 
+    def hide_floor(self):
+        """
+        hide_floor _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        utils.MetaCommand('0:era pid 14001/180000100')
+
+        return 0
+
+    def show_all(self):
+        """
+        show_all [summary]
+
+        [extended_summary]
+
+        Returns:
+            [type]: [description]
+        """
+        utils.MetaCommand("add all")
+
+        return 0
+
     def get_props(self,re_props,attr = "Name"):
         """
         get_props [summary]
