@@ -11,9 +11,7 @@ Returns:
 import os
 import time
 
-from meta import utils,parts,constants
-from meta import windows
-from meta import plot2d
+from meta import utils
 
 from src.generate_reports.report_slides.title_slide import TitleSlide
 from src.generate_reports.report_slides.cae_quality_slide import CAEQualitySlide

@@ -62,7 +62,7 @@ def capture_image(window_name,width,height,file_path,plot_id = None,rotate = Non
     Returns:
         _type_: _description_
     """
-    from PIL import ImageGrab
+    from PIL import Image
 
     win_obj = windows.Window(window_name, page_id = 0)
     win_obj.set_size((round(width/9525),round(height/9525)))
@@ -70,18 +70,18 @@ def capture_image(window_name,width,height,file_path,plot_id = None,rotate = Non
     if view is not None:
         utils.MetaCommand('view default {}'.format(view))
 
-    if plot_id is not None:
-        utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot_id))
-    else:
-        utils.MetaCommand('clipboard copy image "{}"'.format(window_name))
+    if not os.path.exists(os.path.dirname(file_path)):
+        os.makedirs(os.path.dirname(file_path))
+    utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
+    img = Image.open(file_path)
+    img.save(file_path, 'PNG')
+    img = Image.open(file_path)
 
-    img = ImageGrab.grabclipboard()
     rgba_img = image_transperent(img)
+
     if rotate:
         rgba_img = rgba_img.transpose(rotate)
 
-    if not os.path.exists(os.path.dirname(file_path)):
-        os.makedirs(os.path.dirname(file_path))
     rgba_img.save(file_path, 'PNG')
 
     utils.MetaCommand('window maximize {}'.format(window_name))
@@ -131,24 +131,24 @@ def capture_resized_image(window_name,width,height,file_path,plot_id = None,rota
     Returns:
         _type_: _description_
     """
-    from PIL import ImageGrab
+    from PIL import Image
 
     if view is not None:
         utils.MetaCommand('view default {}'.format(view))
 
-    if plot_id is not None:
-        utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot_id))
-    else:
-        utils.MetaCommand('clipboard copy image "{}"'.format(window_name))
-
-    img = ImageGrab.grabclipboard()
+    if not os.path.exists(os.path.dirname(file_path)):
+        os.makedirs(os.path.dirname(file_path))
+    utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
+    img = Image.open(file_path)
+    img.save(file_path, 'PNG')
+    img = Image.open(file_path)
     img = img.resize((round(width/9525),round(height/9525)))
+
     rgba_img = image_transperent(img)
+
     if rotate:
         rgba_img = rgba_img.transpose(rotate)
 
-    if not os.path.exists(os.path.dirname(file_path)):
-        os.makedirs(os.path.dirname(file_path))
     rgba_img.save(file_path, 'PNG')
 
     utils.MetaCommand('window maximize {}'.format(window_name))

@@ -114,7 +114,7 @@ class BIWStiffRingDeformationSlide():
                 utils.MetaCommand('xyplot axisoptions labels xfont "{}" 0 "Arial,32,-1,5,75,0,0,0,0,0"'.format(window_name))
                 utils.MetaCommand('xyplot plotoptions title font "{}" 0 "Arial,32,-1,5,75,0,0,0,0,0"'.format(window_name))
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png").replace("&","and")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg").replace("&","and")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -175,7 +175,7 @@ class BIWStiffRingDeformationSlide():
                 utils.MetaCommand('xyplot axisoptions labels xfont "{}" 1 "Arial,32,-1,5,75,0,0,0,0,0"'.format(window_name))
                 utils.MetaCommand('xyplot plotoptions title font "{}" 1 "Arial,32,-1,5,75,0,0,0,0,0"'.format(window_name))
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png").replace("&","and")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg").replace("&","and")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -194,7 +194,7 @@ class BIWStiffRingDeformationSlide():
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('view default right')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"deformed_peak_intrusion_inner".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"deformed_peak_intrusion_inner".lower()+".jpeg")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -212,7 +212,7 @@ class BIWStiffRingDeformationSlide():
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform off')
                 utils.MetaCommand('view default right')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"undeformed_peak_intrusion_inner".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"undeformed_peak_intrusion_inner".lower()+".jpeg")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -231,7 +231,7 @@ class BIWStiffRingDeformationSlide():
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform on')
                 utils.MetaCommand('view default left')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"deformed_peak_intrusion_outer".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"deformed_peak_intrusion_outer".lower()+".jpeg")
                 capture_image("MetaPost",shape.width,shape.height,image_path, view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -249,7 +249,7 @@ class BIWStiffRingDeformationSlide():
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform off')
                 utils.MetaCommand('view default left')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"undeformed_peak_intrusion_outer".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"undeformed_peak_intrusion_outer".lower()+".jpeg")
                 capture_image("MetaPost",shape.width,shape.height,image_path, view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0

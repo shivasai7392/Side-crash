@@ -63,7 +63,7 @@ class CAEQualitySlide():
 
         self.setup()
 
-        from PIL import ImageGrab
+        from PIL import Image
         from pptx.util import Pt
 
         window_name = self.general_input.cae_quality_window_name
@@ -80,7 +80,7 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                 utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -89,14 +89,16 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot legend hook left "CAE quality" 0')
                 utils.MetaCommand('xyplot legend hook hout "CAE quality" 0')
                 utils.MetaCommand('xyplot legend ymove "CAE quality" 0 1.060000')
-                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(window_name, plot.id))
-                img_2 = ImageGrab.grabclipboard()
+                image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".jpeg")
+                utils.MetaCommand('write jpeg "{}" 100'.format(image2_path))
+                img_2 = Image.open(image2_path)
+                img_2.save(image2_path, 'PNG')
+                img_2 = Image.open(image2_path)
                 legend = plot2d.Legend(plot_id, window_name, page_id)
                 left,top = legend.get_position()
                 width = legend.get_width()
                 height = legend.get_height()
                 img_2 = img_2.crop((left,top,width+8,height+8))
-                image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".png")
                 img_2.save(image2_path,"PNG")
                 shape2 = [shape for shape in self.slide.shapes if shape.name == "Image 1"][0]
                 picture = self.slide.shapes.add_picture(image2_path,shape2.left,shape2.top,width = shape2.width,height = shape2.height)
@@ -113,7 +115,7 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                 utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
