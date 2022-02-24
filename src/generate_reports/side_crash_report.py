@@ -556,8 +556,8 @@ class SideCrashReport():
         biw_accel_window_name = self.general_input.biw_accel_window_name
         biw_accel_window_name = biw_accel_window_name.replace("\"","")
         utils.MetaCommand('window maximize "{}"'.format(biw_accel_window_name))
-        win = windows.Window(biw_accel_window_name, page_id = 0)
-        layout = win.get_plot_layout()
+        window_biw_accel = windows.Window(biw_accel_window_name, page_id = 0)
+        layout = window_biw_accel.get_plot_layout()
 
         for shape in slide.shapes:
             if shape.name == "Image 1":
@@ -617,9 +617,7 @@ class SideCrashReport():
                 title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
                 plot.activate()
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, 1))
-                utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
-                utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
-                utils.MetaCommand('xyplot gridoptions line major style "BIW - Accel" {} 0'.format(plot_id))
+                self.kinematics_curve_format(biw_accel_window_name, plot_id)
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
@@ -644,11 +642,125 @@ class SideCrashReport():
                         each_biw_accel_curve.show()
                 title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
                 plot.activate()
-                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, 1))
-                utils.MetaCommand('xyplot plotoptions title set "BIW - Accel" 0 "UNIT"')
-                utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
-                utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
-                utils.MetaCommand('xyplot gridoptions line major style "BIW - Accel" {} 0'.format(plot_id))
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, plot.id))
+                utils.MetaCommand('xyplot plotoptions title set "{}" {} "UNIT"'.format(biw_accel_window_name, plot.id))
+                self.kinematics_curve_format(biw_accel_window_name, plot_id)
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,biw_accel_window_name+"_"+title.get_text().lower()+".png")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                rgba_img = SideCrashReport.image_transperent(img)
+                rgba_img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, layout))
+            elif shape.name == "Image 7":
+                plot_id = 1
+                page_id = 0
+                plot = plot2d.Plot(plot_id, biw_accel_window_name, page_id)
+                biw_accel_curves = plot.get_curves('all')
+                for each_biw_accel_curve in biw_accel_curves:
+                    if (str(each_biw_accel_curve.name).__contains__("APLR_R")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
+                        each_biw_accel_curve.show()
+                title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
+                plot.activate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, plot.id))
+                utils.MetaCommand('xyplot plotoptions title set "{}" {} "APLR_R"'.format(biw_accel_window_name, plot.id))
+                self.kinematics_curve_format(biw_accel_window_name, plot_id)
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,biw_accel_window_name+"_"+title.get_text().lower()+".png")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                rgba_img = SideCrashReport.image_transperent(img)
+                rgba_img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, layout))
+
+            elif shape.name == "Image 8":
+                plot_id = 1
+                page_id = 0
+                plot = plot2d.Plot(plot_id, biw_accel_window_name, page_id)
+                biw_accel_curves = plot.get_curves('all')
+                biw_accel_window_curves_all = window_biw_accel.get_curves('all')
+                window_biw_accel.hide_curves(biw_accel_window_curves_all)
+                for each_biw_accel_curve in biw_accel_curves:
+                    if (str(each_biw_accel_curve.name).__contains__("SIS_ROW2_R")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
+
+                        each_biw_accel_curve.show()
+                title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
+                plot.activate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, plot.id))
+                utils.MetaCommand('xyplot plotoptions title set "{}" {} "SS_BP_R"'.format(biw_accel_window_name, plot.id))
+                self.kinematics_curve_format(biw_accel_window_name, plot_id)
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,biw_accel_window_name+"_"+title.get_text().lower()+".png")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                rgba_img = SideCrashReport.image_transperent(img)
+                rgba_img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, layout))
+            elif shape.name == "Image 9":
+                plot_id = 1
+                page_id = 0
+                plot = plot2d.Plot(plot_id, biw_accel_window_name, page_id)
+                biw_accel_curves = plot.get_curves('all')
+                biw_accel_window_curves_all = window_biw_accel.get_curves('all')
+                window_biw_accel.hide_curves(biw_accel_window_curves_all)
+                for each_biw_accel_curve in biw_accel_curves:
+                    if (str(each_biw_accel_curve.name).__contains__("SS_R_RR_TOP_G_Y1")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
+
+                        each_biw_accel_curve.show()
+                title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
+                plot.activate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, plot.id))
+                utils.MetaCommand('xyplot plotoptions title set "{}" {} "SS_R_RR_TOP"'.format(biw_accel_window_name, plot.id))
+                self.kinematics_curve_format(biw_accel_window_name, plot_id)
+                utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
+                img = ImageGrab.grabclipboard()
+                img = img.resize((round(shape.width/9525),round(shape.height/9525)))
+                image_path = os.path.join(self.twod_images_report_folder,biw_accel_window_name+"_"+title.get_text().lower()+".png")
+                if not os.path.exists(os.path.dirname(image_path)):
+                    print(os.path.dirname(image_path))
+                    os.makedirs(os.path.dirname(image_path))
+                rgba_img = SideCrashReport.image_transperent(img)
+                rgba_img.save(image_path, 'PNG')
+                picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                picture.crop_left = 0
+                picture.crop_right = 0
+                plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, layout))
+            elif shape.name == "Image 10":
+                plot_id = 2
+                page_id = 0
+                plot = plot2d.Plot(plot_id, biw_accel_window_name, page_id)
+                biw_accel_curves = plot.get_curves('all')
+                for each_biw_accel_curve in biw_accel_curves:
+                    if (str(each_biw_accel_curve.name).__contains__("UPR")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
+
+                        each_biw_accel_curve.show()
+                title = plot2d.Title(plot_id, biw_accel_window_name, page_id)
+                plot.activate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_accel_window_name, plot.id))
+                utils.MetaCommand('xyplot plotoptions title set "{}" {} "BPLR_MID_R"'.format(biw_accel_window_name, plot.id))
+                self.kinematics_curve_format(biw_accel_window_name, plot_id)
                 utils.MetaCommand('clipboard copy plot image "{}" {}'.format(biw_accel_window_name, plot.id))
                 img = ImageGrab.grabclipboard()
                 img = img.resize((round(shape.width/9525),round(shape.height/9525)))
@@ -713,6 +825,29 @@ class SideCrashReport():
                 picture = slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+
+        return 0
+    def kinematics_curve_format(self, biw_accel_window_name, plot_id):
+        utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
+        utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
+        utils.MetaCommand('xyplot gridoptions line major style "BIW - Accel" {} 0'.format(plot_id))
+
+        utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(biw_accel_window_name, plot_id))
+
+        utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 1'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 1'.format(biw_accel_window_name, plot_id))
+
+        utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 2'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+        utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 2'.format(biw_accel_window_name, plot_id))
+
+        utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
 
         return 0
 
