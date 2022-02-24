@@ -551,7 +551,7 @@ class SideCrashReport():
         return 0
 
     def edit_body_in_white_kinematics_slide(self, slide):
-        from PIL import ImageGrab
+        from PIL import ImageGrab,Image
 
         biw_accel_window_name = self.general_input.biw_accel_window_name
         biw_accel_window_name = biw_accel_window_name.replace("\"","")
@@ -783,7 +783,7 @@ class SideCrashReport():
             else:
                 new_rgba_data.append(item)
         rgba_img.putdata(new_rgba_data)
-        
+
         return rgba_img
 
     def edit_executive_slide(self,slide):
@@ -1112,7 +1112,6 @@ class SideCrashReport():
                         font.size = Pt(11)
                         text_frame.paragraphs[0].text = str(value)
 
-
         return 0
 
     def intrusion_curve_format(self,source_window,curve,temporary_window_name,curve_name):
@@ -1172,7 +1171,6 @@ class SideCrashReport():
                 table_obj = shape.table
                 rows = table_obj.rows
                 ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
-                format_data = "%B %-d, %Y"
                 month = datetime.today().strftime('%B')
                 day = int(datetime.today().strftime('%d'))
                 year = datetime.today().strftime('%Y')
