@@ -119,16 +119,6 @@ class SideCrashPPTReport():
                                 self.threed_images_report_folder,
                                 self.ppt_report_folder)
         biw_cbu_deformation_slide.edit()
-        bom_f21_upb_slide = BOMF21UPBSlide(self.report_composer.prs_obj.slides[8],
-                                self.windows,
-                                self.general_input,
-                                self.metadb_2d_input,
-                                self.metadb_3d_input,
-                                self.template_file,
-                                self.twod_images_report_folder,
-                                self.threed_images_report_folder,
-                                self.ppt_report_folder)
-        bom_f21_upb_slide.edit()
         biw_stiff_ring_deformation_slide = BIWStiffRingDeformationSlide(self.report_composer.prs_obj.slides[9],
                                 self.windows,
                                 self.general_input,
@@ -139,6 +129,17 @@ class SideCrashPPTReport():
                                 self.threed_images_report_folder,
                                 self.ppt_report_folder)
         biw_stiff_ring_deformation_slide.edit()
+        bom_f21_upb_slide = BOMF21UPBSlide(self.report_composer.prs_obj.slides[8],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        bom_f21_upb_slide.edit()
+
 
         if not os.path.exists(self.ppt_report_folder):
             os.makedirs(self.ppt_report_folder)
