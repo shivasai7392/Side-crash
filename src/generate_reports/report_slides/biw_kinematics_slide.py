@@ -81,6 +81,7 @@ class BIWKinematicsSlide():
         else:
             utils.MetaCommand('window maximize "MetaPost"')
             utils.MetaCommand('0:options state variable "serial=1"')
+            utils.MetaCommand('grstyle scalarfringe disable')
             utils.MetaCommand('options fringebar off')
 
         return 0
@@ -134,11 +135,20 @@ class BIWKinematicsSlide():
         Returns:
             _type_: _description_
         """
+        from PIL import Image
         for shape in self.shapes:
             if shape.name == "Image 1":
                 self.setup(format_type="3d")
-                self.metadb_3d_input.show_all()
-                self.metadb_3d_input.hide_floor()
+                data = self.metadb_3d_input.critical_sections
+                entities = list()
+                for _key,value in data.items():
+                    if 'hes' in value.keys():
+                        prop_names = value['hes']
+                        re_props = prop_names.split(",")
+                        for re_prop in re_props:
+                            entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
@@ -147,18 +157,34 @@ class BIWKinematicsSlide():
                 self.revert(format_type="3d")
             elif shape.name == "Image 2":
                 self.setup(format_type="3d")
-                self.metadb_3d_input.show_all()
-                self.metadb_3d_input.hide_floor()
+                data = self.metadb_3d_input.critical_sections
+                entities = list()
+                for _key,value in data.items():
+                    if 'hes' in value.keys():
+                        prop_names = value['hes']
+                        re_props = prop_names.split(",")
+                        for re_prop in re_props:
+                            entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
-                capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")
+                capture_image("MetaPost",shape.width,shape.height,image_path,view = "top",rotate = Image.ROTATE_90)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
                 self.revert(format_type="3d")
             elif shape.name == "Image 3":
                 self.setup(format_type="3d")
-                self.metadb_3d_input.show_all()
-                self.metadb_3d_input.hide_floor()
+                data = self.metadb_3d_input.critical_sections
+                entities = list()
+                for _key,value in data.items():
+                    if 'hes' in value.keys():
+                        prop_names = value['hes']
+                        re_props = prop_names.split(",")
+                        for re_prop in re_props:
+                            entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
@@ -167,10 +193,18 @@ class BIWKinematicsSlide():
                 self.revert(format_type="3d")
             elif shape.name == "Image 4":
                 self.setup(format_type="3d")
-                self.metadb_3d_input.show_all()
-                self.metadb_3d_input.hide_floor()
+                data = self.metadb_3d_input.critical_sections
+                entities = list()
+                for _key,value in data.items():
+                    if 'hes' in value.keys():
+                        prop_names = value['hes']
+                        re_props = prop_names.split(",")
+                        for re_prop in re_props:
+                            entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
-                capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")
+                capture_image("MetaPost",shape.width,shape.height,image_path,view = "top",rotate = Image.ROTATE_90)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
@@ -323,5 +357,6 @@ class BIWKinematicsSlide():
         else:
             utils.MetaCommand('0:options state original')
             utils.MetaCommand('options fringebar on')
+            utils.MetaCommand('grstyle scalarfringe enable')
 
         return 0

@@ -156,3 +156,33 @@ def capture_resized_image(window_name,width,height,file_path,plot_id = None,rota
     utils.MetaCommand('window maximize {}'.format(window_name))
 
     return 0
+
+def visualize_3d_critical_section(data):
+    """
+    visualize_3d_critical_section _summary_
+
+    _extended_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    prop_names = data["hes"]
+    hes_exceptions = data["hes_exceptions"]
+    exclude = "null"
+    erase_pids = data["erase_pids"]
+    comp_view = data["view"]
+    transparency_level = '50'
+    transparent_pids = data["transparent_pids"]
+    erase_box = data["erase_box"]
+
+    utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
+    utils.MetaCommand('add pid {}'.format(hes_exceptions))
+    utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
+    utils.MetaCommand('erase pid {}'.format(erase_pids))
+    utils.MetaCommand('erase shells box {}'.format(erase_box))
+    utils.MetaCommand('erase solids box {}'.format(erase_box))
+    utils.MetaCommand('view default {}'.format(comp_view))
+    utils.MetaCommand('view center')
+    utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
+
+    return 0

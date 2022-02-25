@@ -14,7 +14,7 @@ from meta import utils
 from meta import plot2d
 from meta import windows
 
-from src.meta_utilities import capture_image
+from src.meta_utilities import capture_image,visualize_3d_critical_section
 from src.meta_utilities import capture_resized_image
 from src.general_utilities import add_row
 
@@ -163,19 +163,7 @@ class ExecutiveSlide():
                 text_frame_3.paragraphs[0].text = str(round(float(self.general_input.peak_time_display_value)))
             elif shape.name == "Image 3":
                 data = self.metadb_3d_input.critical_sections["f28_front_door"]
-                prop_names = data["hes"]
-                erase_box = data["erase_box"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
-                    utils.MetaCommand('add all')
-                    utils.MetaCommand('view default isometric')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('erase pid box {}'.format(erase_box))
-                utils.MetaCommand('view default left')
+                visualize_3d_critical_section(data)
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -186,19 +174,7 @@ class ExecutiveSlide():
                 picture.crop_right = 0
             elif shape.name == "Image 4":
                 data = self.metadb_3d_input.critical_sections["f28_rear_door"]
-                prop_names = data["hes"]
-                erase_box = data["erase_box"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
-                    utils.MetaCommand('add all')
-                    utils.MetaCommand('view default isometric')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('erase pid box {}'.format(erase_box))
-                utils.MetaCommand('view default left')
+                visualize_3d_critical_section(data)
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -209,18 +185,7 @@ class ExecutiveSlide():
                 picture.crop_right = 0
             elif shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                prop_names = data["hes"]
-                erase_box = data["erase_box"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
-                    utils.MetaCommand('add all')
-                    utils.MetaCommand('view default isometric')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
-                utils.MetaCommand('erase pid box {}'.format(erase_box))
+                visualize_3d_critical_section(data)
                 utils.MetaCommand('plane new DEFAULT_PLANE_YZ xyz 1657.996826,-16.504395,576.072754 1,0,0')
                 utils.MetaCommand('plane edit perpendicular 0/1/0 DEFAULT_PLANE_YZ')
                 utils.MetaCommand('plane toggleopts enable sectionclip DEFAULT_PLANE_YZ')
@@ -240,6 +205,7 @@ class ExecutiveSlide():
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
             elif shape.name == "Image 5":
                 temporary_window_name = "Temporary"
                 front_shoulder_intrusion_curve_name = self.general_input.front_shoulder_intrusion_curve_name
