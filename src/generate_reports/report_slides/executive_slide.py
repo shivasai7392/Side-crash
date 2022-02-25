@@ -172,6 +172,7 @@ class ExecutiveSlide():
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Image 4":
                 data = self.metadb_3d_input.critical_sections["f28_rear_door"]
                 visualize_3d_critical_section(data)
@@ -183,6 +184,7 @@ class ExecutiveSlide():
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                 visualize_3d_critical_section(data)
@@ -206,6 +208,7 @@ class ExecutiveSlide():
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
+                utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Image 5":
                 temporary_window_name = "Temporary"
                 front_shoulder_intrusion_curve_name = self.general_input.front_shoulder_intrusion_curve_name

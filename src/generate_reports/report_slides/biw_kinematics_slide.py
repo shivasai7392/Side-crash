@@ -149,11 +149,13 @@ class BIWKinematicsSlide():
                             entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid Gray act')
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid reset act')
                 self.revert(format_type="3d")
             elif shape.name == "Image 2":
                 self.setup(format_type="3d")
@@ -167,11 +169,13 @@ class BIWKinematicsSlide():
                             entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid Gray act')
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "top",rotate = Image.ROTATE_90)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid reset act')
                 self.revert(format_type="3d")
             elif shape.name == "Image 3":
                 self.setup(format_type="3d")
@@ -185,11 +189,13 @@ class BIWKinematicsSlide():
                             entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid Gray act')
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid reset act')
                 self.revert(format_type="3d")
             elif shape.name == "Image 4":
                 self.setup(format_type="3d")
@@ -203,11 +209,13 @@ class BIWKinematicsSlide():
                             entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid Gray act')
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "top",rotate = Image.ROTATE_90)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid reset act')
                 self.revert(format_type="3d")
             elif shape.name == "Image 5":
                 self.setup()

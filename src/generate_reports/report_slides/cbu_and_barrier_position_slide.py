@@ -76,11 +76,13 @@ class CBUAndBarrierPositionSlide():
             elif shape.name == "Image 3":
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
+                utils.MetaCommand('color pid Gray act')
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid reset act')
         utils.MetaCommand('options fringebar on')
 
         self.revert()

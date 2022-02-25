@@ -77,6 +77,7 @@ class BOMF21UPBSlide():
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid transparency reset act')
             if shape.name == "Image 1":
                 data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                 visualize_3d_critical_section(data)
@@ -87,6 +88,7 @@ class BOMF21UPBSlide():
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Table 1":
                 data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                 prop_names = data["hes"]

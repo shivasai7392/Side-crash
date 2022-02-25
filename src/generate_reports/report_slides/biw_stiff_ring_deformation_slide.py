@@ -191,6 +191,7 @@ class BIWStiffRingDeformationSlide():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -209,6 +210,7 @@ class BIWStiffRingDeformationSlide():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -229,6 +231,7 @@ class BIWStiffRingDeformationSlide():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -248,6 +251,7 @@ class BIWStiffRingDeformationSlide():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 self.metadb_3d_input.hide_all()
                 self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
@@ -257,6 +261,7 @@ class BIWStiffRingDeformationSlide():
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('grstyle deform on')
             elif shape.name == "Image 1":
                 utils.MetaCommand('add all')
                 utils.MetaCommand('add invert')
