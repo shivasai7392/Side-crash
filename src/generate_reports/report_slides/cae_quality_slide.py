@@ -85,10 +85,12 @@ class CAEQualitySlide():
                 picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
-                utils.MetaCommand('xyplot plotoptions legend on "CAE quality" 0')
-                utils.MetaCommand('xyplot legend hook left "CAE quality" 0')
-                utils.MetaCommand('xyplot legend hook hout "CAE quality" 0')
-                utils.MetaCommand('xyplot legend ymove "CAE quality" 0 1.060000')
+                system_damping_energy_curve = plot2d.CurvesByName(window_name, "System damping energy", 1)[0]
+                system_damping_energy_curve.hide()
+                utils.MetaCommand('xyplot plotoptions legend on "{}" 0'.format(window_name))
+                utils.MetaCommand('xyplot legend hook left "{}" 0'.format(window_name))
+                utils.MetaCommand('xyplot legend hook hout "{}" 0'.format(window_name))
+                utils.MetaCommand('xyplot legend ymove "{}" 0 1.060000'.format(window_name))
                 image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".jpeg")
                 utils.MetaCommand('write jpeg "{}" 100'.format(image2_path))
                 img_2 = Image.open(image2_path)
@@ -115,6 +117,7 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                 utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
+                utils.MetaCommand('xyplot curve set color "{}" 8 LightGreen'.format(window_name))
                 image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
