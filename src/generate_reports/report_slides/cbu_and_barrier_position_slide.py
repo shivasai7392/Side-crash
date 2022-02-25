@@ -68,7 +68,7 @@ class CBUAndBarrierPositionSlide():
             if shape.name == "Image 4":
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_and_barrier".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_and_barrier".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,rotate = Image.ROTATE_90,view = "top")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -76,7 +76,7 @@ class CBUAndBarrierPositionSlide():
             elif shape.name == "Image 3":
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_critical".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0

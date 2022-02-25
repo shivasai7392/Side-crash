@@ -63,7 +63,8 @@ class CAEQualitySlide():
 
         self.setup()
 
-        from PIL import Image
+        from PIL import Image,ImageFile
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
         from pptx.util import Pt
 
         window_name = self.general_input.cae_quality_window_name
@@ -80,7 +81,7 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                 utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -91,8 +92,8 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot legend hook left "{}" 0'.format(window_name))
                 utils.MetaCommand('xyplot legend hook hout "{}" 0'.format(window_name))
                 utils.MetaCommand('xyplot legend ymove "{}" 0 1.060000'.format(window_name))
-                image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".jpeg")
-                utils.MetaCommand('write jpeg "{}" 100'.format(image2_path))
+                image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+"_Legend"+".png")
+                utils.MetaCommand('write png "{}"'.format(image2_path))
                 img_2 = Image.open(image2_path)
                 img_2.save(image2_path, 'PNG')
                 img_2 = Image.open(image2_path)
@@ -118,7 +119,7 @@ class CAEQualitySlide():
                 utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                 utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
                 utils.MetaCommand('xyplot curve set color "{}" 8 LightGreen'.format(window_name))
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0

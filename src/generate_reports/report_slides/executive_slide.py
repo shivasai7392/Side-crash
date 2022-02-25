@@ -140,7 +140,7 @@ class ExecutiveSlide():
                 utils.MetaCommand('xyplot gridoptions xspace "Survival Space" 0 20')
                 utils.MetaCommand('xyplot axisoptions axxrange "Survival Space" 0 0 175 400')
                 utils.MetaCommand('xyplot gridoptions line major style "Survival Space" 0 0')
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                 capture_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 title.set_text(org_name)
@@ -179,7 +179,7 @@ class ExecutiveSlide():
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -202,7 +202,7 @@ class ExecutiveSlide():
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f28_front_door".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -235,7 +235,7 @@ class ExecutiveSlide():
                 utils.MetaCommand('view default front')
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -249,7 +249,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 SHOULDER".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 SHOULDER".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -264,7 +264,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 ABDOMEN")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 ABDOMEN".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 ABDOMEN".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -279,7 +279,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 FEMUR")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 FEMUR".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 FEMUR".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -294,7 +294,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 PELVIS")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 PELVIS".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 PELVIS".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -309,7 +309,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 SHOULDER".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 SHOULDER".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -324,7 +324,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 ABDOMEN".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 ABDOMEN".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -339,7 +339,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 FEMUR".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 FEMUR".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -354,7 +354,7 @@ class ExecutiveSlide():
                 curve.show()
                 self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS")
 
-                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 PELVIS".lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 PELVIS".lower()+".png")
                 capture_resized_image(temporary_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0

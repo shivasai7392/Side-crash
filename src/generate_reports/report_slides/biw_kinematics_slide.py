@@ -139,7 +139,7 @@ class BIWKinematicsSlide():
                 self.setup(format_type="3d")
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -149,7 +149,7 @@ class BIWKinematicsSlide():
                 self.setup(format_type="3d")
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -159,7 +159,7 @@ class BIWKinematicsSlide():
                 self.setup(format_type="3d")
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_front".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "front")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -169,7 +169,7 @@ class BIWKinematicsSlide():
                 self.setup(format_type="3d")
                 self.metadb_3d_input.show_all()
                 self.metadb_3d_input.hide_floor()
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"model_top".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -189,7 +189,7 @@ class BIWKinematicsSlide():
                 self.activated_plot = plot
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                 self.kinematics_curve_format(self.biw_accel_window_name, plot_id)
-                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -210,7 +210,7 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                 self.kinematics_curve_format(self.biw_accel_window_name, plot_id, title = "UNIT")
 
-                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -231,7 +231,7 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                 self.kinematics_curve_format(self.biw_accel_window_name, plot_id, title="APLR_R")
 
-                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -254,7 +254,7 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                 self.kinematics_curve_format(self.biw_accel_window_name, plot_id,title="SS_BP_R")
 
-                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -277,7 +277,7 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                 self.kinematics_curve_format(self.biw_accel_window_name, plot_id, title="SS_R_RR_TOP")
 
-                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -297,7 +297,7 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                 self.kinematics_curve_format(self.biw_accel_window_name, plot_id, title="BPLR_MID_R")
 
-                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".jpeg")
+                image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
                 capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0

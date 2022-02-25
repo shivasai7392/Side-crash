@@ -118,7 +118,8 @@ class Reporter():
         Returns:
             [type]: [description]
         """
-        from PIL import Image
+        from PIL import Image,ImageFile
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
 
         window_2d_objects = self.metadb_2d_input.window_objects
         for window in window_2d_objects:
@@ -133,13 +134,11 @@ class Reporter():
             utils.MetaCommand('xyplot plotactive "{}" {}'.format(window_name, plot.id))
             utils.MetaCommand('xyplot curve visible and "{}" selected'.format(window_name))
             utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
-            image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+curve.name.lower()+".jpeg")
+            image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+curve.name.lower()+".png")
 
             if not os.path.exists(os.path.dirname(image_path)):
                 os.makedirs(os.path.dirname(image_path))
-            utils.MetaCommand('write jpeg "{}" 100'.format(image_path))
-            img_2 = Image.open(image_path)
-            img_2.save(image_path, 'PNG')
+            utils.MetaCommand('write png "{}"'.format(image_path))
 
             utils.MetaCommand('xyplot rlayout "{}" {}'.format(window_name,window_layout))
 

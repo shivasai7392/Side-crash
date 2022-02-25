@@ -79,7 +79,7 @@ class BIWCBUDeformationSlide():
                 utils.MetaCommand('view default isometric')
                 utils.MetaCommand('options fringebar off')
 
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_without_plastic_strain".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_without_plastic_strain".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -101,7 +101,7 @@ class BIWCBUDeformationSlide():
                 self.metadb_3d_input.show_only_props(entities)
                 utils.MetaCommand('view default isometric')
                 utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_with_plastic_strain".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"cbu_with_plastic_strain".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -111,7 +111,7 @@ class BIWCBUDeformationSlide():
                 utils.MetaCommand('add all')
                 utils.MetaCommand('add invert')
                 utils.MetaCommand('options fringebar on')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"fringe_bar".lower()+".jpeg")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"fringe_bar".lower()+".png")
                 utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
