@@ -1,1 +1,1 @@
-/data/software/BETA/meta_post_v22.0.0/meta_post64.sh -foregr -b -s run_wrapper.py $1
+/data/software/BETA/meta_post_v22.1.0/meta_post64.sh -foregr -b -s run_wrapper.py $1

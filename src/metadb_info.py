@@ -200,7 +200,6 @@ class Meta3DInfo:
             [type]: [description]
         """
         pids_string = ",".join([str(entity.id) for entity in props])
-        print("add pid {}".format(pids_string))
         utils.MetaCommand("add pid {}".format(pids_string))
 
         return 0
