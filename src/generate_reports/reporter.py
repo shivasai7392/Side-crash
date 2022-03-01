@@ -67,9 +67,16 @@ class Reporter():
 
         self.twod_data_reporting()
         self.threed_data_reporting()
+        self.excel_bom_generation()
         self.thesis_report_generation()
 
         return 0
+    def excel_bom_generation(self,):
+        """
+        excel_bom_generation
+
+        _extended_summary_
+        """
 
     def thesis_report_generation(self):
         """
