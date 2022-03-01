@@ -187,7 +187,18 @@ class ExecutiveSlide():
                 utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                visualize_3d_critical_section(data)
+                prop_names = data["hes"]
+                erase_box = data["erase_box"]
+                re_props = prop_names.split(",")
+                entities = []
+                for re_prop in re_props:
+                    utils.MetaCommand('window maximize "MetaPost"')
+                    utils.MetaCommand('add all')
+                    utils.MetaCommand('view default isometric')
+                    entities.extend(self.metadb_3d_input.get_props(re_prop))
+                self.metadb_3d_input.hide_all()
+                self.metadb_3d_input.show_only_props(entities)
+                utils.MetaCommand('erase pid box {}'.format(erase_box))
                 utils.MetaCommand('plane new DEFAULT_PLANE_YZ xyz 1657.996826,-16.504395,576.072754 1,0,0')
                 utils.MetaCommand('plane edit perpendicular 0/1/0 DEFAULT_PLANE_YZ')
                 utils.MetaCommand('plane toggleopts enable sectionclip DEFAULT_PLANE_YZ')
