@@ -329,7 +329,6 @@ class GeneralVarInfo:
 
         self.source_template_file_directory = get_var(GeneralVarInfo.source_template_file_directory_key)
         self.source_template_file_name = get_var(GeneralVarInfo.source_template_file_name_key)
-        #self.source_template_file_name = "template.pptx"
         self.font_size_info = get_var(GeneralVarInfo.font_size_info_key)
         self.font1x1_size_info = get_var(GeneralVarInfo.font1x1_size_info_key)
         self.font2x2_size_info = get_var(GeneralVarInfo.font2x2_size_info_key)
