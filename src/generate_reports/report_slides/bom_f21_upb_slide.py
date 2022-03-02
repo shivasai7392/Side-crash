@@ -187,9 +187,14 @@ class BOMF21UPBSlide():
 
                 table_obj = shape.table
                 for id,prop in enumerate(entities_all):
+                    part_type = parts.StringPartType(prop.type)
+                    if part_type == "PSHELL":
+                        part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
+                        materials = part.get_materials('all')
+                    elif part_type == "PSOLID":
+                        part = parts.Part(id=prop.id,type = constants.PSOLID, model_id=0)
+                        materials = part.get_materials('all')
 
-                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
-                    materials = part.get_materials('all')
 
                     add_row(table_obj)
                     prop_row = table_obj.rows[id+1]

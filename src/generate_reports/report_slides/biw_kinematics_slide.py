@@ -100,8 +100,8 @@ class BIWKinematicsSlide():
         Returns:
             _type_: _description_
         """
-        velocity_min_max_values_round = [round(each_velocity_min_max_value) for each_velocity_min_max_value in velocity_min_max_values]
-        displacement_min_max_values_round = [round(each_displacement_min_max_value) for each_displacement_min_max_value in displacement_min_max_values]
+        velocity_values = [round(each_velocity_min_max_value) for each_velocity_min_max_value in velocity_min_max_values]
+        displacement_values = [round(each_displacement_min_max_value) for each_displacement_min_max_value in displacement_min_max_values]
 
         utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
         utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
@@ -116,14 +116,14 @@ class BIWKinematicsSlide():
 
         utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 1'.format(biw_accel_window_name, plot_id))
         utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
-        utils.MetaCommand('xyplot axisoptions axyrange "{}" {} 1 {} {}'.format(biw_accel_window_name, plot_id,str(round((min(velocity_min_max_values_round)-1000)//1000)*1000), str(round(((max(velocity_min_max_values_round)+1000)//1000)*1000))))
+        utils.MetaCommand('xyplot axisoptions axyrange "{}" {} 1 {} {}'.format(biw_accel_window_name, plot_id,str(round((min(velocity_values)-1000)//1000)*1000), str(round(((max(velocity_values)+1000)//1000)*1000))))
         utils.MetaCommand('xyplot gridoptions yspace "{}" {} 500'.format(biw_accel_window_name, plot_id))
         utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
         utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 1'.format(biw_accel_window_name, plot_id))
 
         utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 2'.format(biw_accel_window_name, plot_id))
         utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
-        utils.MetaCommand('xyplot axisoptions axyrange "{}" {} 2 {} {}'.format(biw_accel_window_name, plot_id,str(min(displacement_min_max_values_round)-100), str(max(displacement_min_max_values_round)+100)))
+        utils.MetaCommand('xyplot axisoptions axyrange "{}" {} 2 {} {}'.format(biw_accel_window_name, plot_id,str(min(displacement_values)-100), str(max(displacement_values)+100)))
         utils.MetaCommand('xyplot gridoptions yspace "{}" {} 50'.format(biw_accel_window_name, plot_id))
         utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
         utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 2'.format(biw_accel_window_name, plot_id))
@@ -224,7 +224,7 @@ class BIWKinematicsSlide():
                 picture.crop_right = 0
                 utils.MetaCommand('color pid reset act')
                 self.revert(format_type="3d")
-            if shape.name == "Image 5":
+            elif shape.name == "Image 5":
                 self.setup()
                 plot_id = 3
                 page_id = 0

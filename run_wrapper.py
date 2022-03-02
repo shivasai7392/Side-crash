@@ -34,6 +34,7 @@ DEL_ITEMS = [
     "src.generate_reports.report_slides.biw_cbu_deformation_slide",
     "src.generate_reports.report_slides.bom_f21_upb_slide",
     "src.generate_reports.report_slides.biw_stiff_ring_deformation_slide",
+    "src.generate_reports.excel_generator"
     ]
 
 for item in DEL_ITEMS:
