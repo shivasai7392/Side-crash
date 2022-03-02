@@ -1,0 +1,102 @@
+# PYTHON script
+"""
+    _summary_
+
+_extended_summary_
+
+Returns:
+    _type_: _description_
+"""
+
+import os
+
+from meta import utils
+
+from src.meta_utilities import visualize_3d_critical_section
+
+class ThreeDDataReport():
+    """
+    __init__ _summary_
+
+    _extended_summary_
+
+    Args:
+        metadb_3d_input (_type_): _description_
+        threed_images_report_folder (_type_): _description_
+        thrred_videos_report_folder (_type_): _description_
+    """
+
+    def __init__(self,
+                threed_window_name,
+                metadb_3d_input,
+                threed_images_report_folder,
+                threed_videos_report_folder) -> None:
+
+        self.threed_window_name = threed_window_name
+        self.critical_sections = metadb_3d_input.critical_sections
+        self.threed_images_report_folder = threed_images_report_folder
+        self.threed_videos_report_folder = threed_videos_report_folder
+
+    def run_process(self):
+        """
+        run_process _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        utils.MetaCommand('window maximize {}'.format(self.threed_window_name))
+        self.get_initial_state_images()
+        self.get_peak_state_images()
+        # self.get_spotweld_failure_images()
+
+        return 0
+
+    def get_initial_state_images(self):
+        """
+        get_initial_state_images _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        for section,value in self.critical_sections.items():
+            if "hes" in value.keys() and value["hes"] != "null":
+                image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
+                visualize_3d_critical_section(value)
+                utils.MetaCommand('write png "{}"'.format(image_path))
+
+        return 0
+
+    def get_peak_state_images(self):
+        """
+        get_initial_state_images _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        utils.MetaCommand('0:options state variable "serial=1"')
+        for section,value in self.critical_sections.items():
+            if "hes" in value.keys() and value["hes"] != "null":
+                image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
+                contour_image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+"_contour"+".png")
+                contour_with_out_deform_image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+"_contour_without_deformation"+".png")
+                model_color_image_path =  os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section .lower()+"_model_color"+".png")
+                visualize_3d_critical_section(value)
+                utils.MetaCommand('options fringebar on')
+                utils.MetaCommand('grstyle deform on')
+                utils.MetaCommand('write png "{}"'.format(contour_image_path))
+                utils.MetaCommand('grstyle deform off')
+                utils.MetaCommand('write png "{}"'.format(contour_with_out_deform_image_path))
+                utils.MetaCommand('grstyle scalarfringe disable')
+                utils.MetaCommand('write png "{}"'.format(image_path))
+                utils.MetaCommand('grstyle deform on')
+                utils.MetaCommand('color pid Gray act')
+                utils.MetaCommand('write png "{}"'.format(model_color_image_path))
+                utils.MetaCommand('color pid reset act')
+
+        return 0

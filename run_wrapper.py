@@ -25,6 +25,7 @@ DEL_ITEMS = [
     "src.meta_utilities",
     "src.general_utilities",
     "src.generate_reports.side_crash_ppt_report",
+    "src.generate_reports.threed_data_report",
     "src.generate_reports.reporter",
     "src.generate_reports.report_slides.title_slide",
     "src.generate_reports.report_slides.cae_quality_slide",

@@ -12,6 +12,7 @@ import os
 from meta import utils
 
 from src.generate_reports.side_crash_ppt_report import SideCrashPPTReport
+from src.generate_reports.threed_data_report import ThreeDDataReport
 
 class Reporter():
     """
@@ -36,6 +37,23 @@ class Reporter():
         self.config_folder = config_folder
         self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
         self.get_reporting_folders()
+        self.make_reporting_folders()
+
+    def make_reporting_folders(self):
+        """
+        make_reporting_folders _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+
+        reporting_folders = [self.twod_images_report_folder, self.threed_images_report_folder, self.threed_videos_report_folder, self.excel_bom_report_folder,self.ppt_report_folder]
+        for folder_path in reporting_folders:
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+        return 0
 
     def get_reporting_folders(self):
         """
@@ -102,10 +120,12 @@ class Reporter():
         Returns:
             [type]: [description]
         """
-        _critical_sections_data = self.metadb_3d_input.critical_sections
-        # for section,value in critical_sections_data.items():
-        #     for key,vvalue in value.items():
-        #         if key == "hes":
+        threed_data_report = ThreeDDataReport(self.general_input.threed_window_name,
+                                            self.metadb_3d_input,
+                                            self.threed_images_report_folder,
+                                            self.threed_videos_report_folder)
+        threed_data_report.run_process()
+
 
         return 0
 

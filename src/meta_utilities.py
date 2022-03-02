@@ -166,23 +166,31 @@ def visualize_3d_critical_section(data):
     Returns:
         _type_: _description_
     """
-    prop_names = data["hes"]
-    hes_exceptions = data["hes_exceptions"]
-    exclude = "null"
-    erase_pids = data["erase_pids"]
-    comp_view = data["view"]
-    transparency_level = '50'
-    transparent_pids = data["transparent_pids"]
-    erase_box = data["erase_box"]
+    get_var = lambda key: data[key] if key in data.keys() else None
 
-    utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
-    utils.MetaCommand('add pid {}'.format(hes_exceptions))
+    prop_names = get_var("hes")
+    hes_exceptions = get_var("hes_exceptions")
+    exclude = "null"
+    erase_pids = get_var("erase_pids")
+    comp_view = get_var("view")
+    transparency_level = '50'
+    transparent_pids = get_var("transparent_pids")
+    erase_box = get_var("erase_box")
+
+    if prop_names:
+        utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
+    if hes_exceptions:
+        utils.MetaCommand('add pid {}'.format(hes_exceptions))
     utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
-    utils.MetaCommand('erase pid {}'.format(erase_pids))
-    utils.MetaCommand('erase shells box {}'.format(erase_box))
-    utils.MetaCommand('erase solids box {}'.format(erase_box))
-    utils.MetaCommand('view default {}'.format(comp_view))
-    utils.MetaCommand('view center')
-    utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
+    if erase_pids:
+        utils.MetaCommand('erase pid {}'.format(erase_pids))
+    if erase_box:
+        utils.MetaCommand('erase shells box {}'.format(erase_box))
+        utils.MetaCommand('erase solids box {}'.format(erase_box))
+    if comp_view:
+        utils.MetaCommand('view default {}'.format(comp_view))
+        utils.MetaCommand('view center')
+    if transparent_pids:
+        utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
 
     return 0

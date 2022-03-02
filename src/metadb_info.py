@@ -266,7 +266,6 @@ class GeneralVarInfo:
     biw_accel_window_key = "bplr_disp_window"
     peak_time_display_key = "peak_time_display"
 
-
     def __init__(self):
 
         self.source_template_file_directory = None
@@ -315,6 +314,7 @@ class GeneralVarInfo:
         self.biw_accel_window_name = None
         self.survival_space_peak_value = None
         self.peak_time_display_value = None
+        self.threed_window_name = "MetaPost"
 
     def get_info(self):
         """[summary]

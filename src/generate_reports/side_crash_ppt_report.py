@@ -57,8 +57,6 @@ class SideCrashPPTReport():
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
 
-        utils.MetaCommand('options title off')
-        utils.MetaCommand('options axis off')
         title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
                                 self.windows,
                                 self.general_input,
