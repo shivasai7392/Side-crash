@@ -265,6 +265,17 @@ class GeneralVarInfo:
     biw_stiff_ring_deformation_key = "sill_roof_intrusion"
     biw_accel_window_key = "bplr_disp_window"
     peak_time_display_key = "peak_time_display"
+    peak_state_key = "peak_state"
+    final_state_key = "survival-space_final_state"
+    total_mass_key = "total_mass"
+    added_mass_key = "added_mass"
+    barrier_mass_key = "barrier_mass"
+    floor_mass_key = "floor_mass"
+    test_mass_key = "test_mass"
+    physical_mass_key = "physical_mass"
+    MDB_fr_node_key = "MDB_fr_node"
+    struck_subframe_nodes_key = "struck_subframe_nodes"
+    MDB_rr_node_key = "MDB_rr_node"
 
     def __init__(self):
 
@@ -315,6 +326,17 @@ class GeneralVarInfo:
         self.survival_space_peak_value = None
         self.peak_time_display_value = None
         self.threed_window_name = "MetaPost"
+        self.peak_state_value = None
+        self.final_state_value = None
+        self.total_mass_value = None
+        self.added_mass_value = None
+        self.barrier_mass_value = None
+        self.floor_mass_value = None
+        self.test_mass_value = None
+        self.physical_mass_value = None
+        self.MDB_fr_node_id = None
+        self.struck_subframe_node_ids = None
+        self.MDB_rr_node_id = None
 
     def get_info(self):
         """[summary]
@@ -374,6 +396,18 @@ class GeneralVarInfo:
         self.biw_accel_window_name = get_var(GeneralVarInfo.biw_accel_window_key)
         self.survival_space_peak_value = get_var(GeneralVarInfo.survival_space_peak_key)
         self.peak_time_display_value = get_var(GeneralVarInfo.peak_time_display_key)
+        self.peak_state_value = get_var(GeneralVarInfo.peak_state_key)
+        self.final_state_value = get_var(GeneralVarInfo.final_state_key)
+        self.total_mass_value = get_var(GeneralVarInfo.total_mass_key)
+        self.added_mass_value = get_var(GeneralVarInfo.added_mass_key)
+        self.barrier_mass_value = get_var(GeneralVarInfo.barrier_mass_key)
+        self.floor_mass_value = get_var(GeneralVarInfo.floor_mass_key)
+        self.test_mass_value = get_var(GeneralVarInfo.test_mass_key)
+        self.physical_mass_value = get_var(GeneralVarInfo.physical_mass_key)
+        self.MDB_fr_node_id = get_var(GeneralVarInfo.MDB_fr_node_key)
+        self.struck_subframe_node_ids = get_var(GeneralVarInfo.struck_subframe_nodes_key)
+        self.MDB_rr_node_id = get_var(GeneralVarInfo.MDB_rr_node_key)
+
         return self
 
 class VerifyInfo:
