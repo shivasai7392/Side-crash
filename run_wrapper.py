@@ -24,8 +24,12 @@ DEL_ITEMS = [
     "src.user_input",
     "src.meta_utilities",
     "src.general_utilities",
+    "src.generate_reports",
     "src.generate_reports.side_crash_ppt_report",
     "src.generate_reports.reporter",
+    "src.generate_reports.excel_generator"
+    "src.generate_reports.report_slides",
+    "sec.generate_reports.report_slides.biw_bplr_def_and_intr_slide",
     "src.generate_reports.report_slides.title_slide",
     "src.generate_reports.report_slides.cae_quality_slide",
     "src.generate_reports.report_slides.executive_slide",
@@ -34,7 +38,6 @@ DEL_ITEMS = [
     "src.generate_reports.report_slides.biw_cbu_deformation_slide",
     "src.generate_reports.report_slides.bom_f21_upb_slide",
     "src.generate_reports.report_slides.biw_stiff_ring_deformation_slide",
-    "src.generate_reports.excel_generator"
     ]
 
 for item in DEL_ITEMS:
