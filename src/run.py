@@ -47,6 +47,8 @@ def main(*args):
     utils.MetaCommand('read dis MetaDB {} 33 lossy_compressed:0:Displacements'.format(threed_metadb_file))
     utils.MetaCommand('read onlyfun MetaDB {} 33 lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(threed_metadb_file))
 
+    utils.MetaCommand('options title off')
+    utils.MetaCommand('options axis off')
     utils.MetaCommand('0:options state variable "serial=1"')
     utils.MetaCommand('grstyle scalarfringe enable')
     utils.MetaCommand('options fringebar on')

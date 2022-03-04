@@ -11,8 +11,6 @@ Returns:
 import os
 import time
 
-from meta import utils
-
 from src.generate_reports.report_slides.title_slide import TitleSlide
 from src.generate_reports.report_slides.cae_quality_slide import CAEQualitySlide
 from src.generate_reports.report_slides.executive_slide import ExecutiveSlide
@@ -56,8 +54,6 @@ class SideCrashPPTReport():
 
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
-        utils.MetaCommand('options title off')
-        utils.MetaCommand('options axis off')
         title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
                                 self.windows,
                                 self.general_input,
@@ -139,14 +135,14 @@ class SideCrashPPTReport():
                                 self.ppt_report_folder)
         biw_stiff_ring_deformation_slide.edit()
         biw_bplr_def_and_intr_slide = BIWBplrDeformationAndIntrusion(self.report_composer.prs_obj.slides[10],
-                                                                                self.windows,
-                                                                                self.general_input,
-                                                                                self.metadb_2d_input,
-                                                                                self.metadb_3d_input,
-                                                                                self.template_file,
-                                                                                self.twod_images_report_folder,
-                                                                                self.threed_images_report_folder,
-                                                                                self.ppt_report_folder)
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
         biw_bplr_def_and_intr_slide.edit()
 
         if not os.path.exists(self.ppt_report_folder):
