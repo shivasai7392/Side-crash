@@ -123,9 +123,9 @@ class Reporter():
         threed_data_report = ThreeDDataReport(self.general_input.threed_window_name,
                                             self.metadb_3d_input,
                                             self.threed_images_report_folder,
-                                            self.threed_videos_report_folder)
+                                            self.threed_videos_report_folder,
+                                            self.excel_bom_report_folder)
         threed_data_report.run_process()
-
 
         return 0
 
@@ -138,7 +138,7 @@ class Reporter():
         Returns:
             [type]: [description]
         """
-        from PIL import Image,ImageFile
+        from PIL import ImageFile
         ImageFile.LOAD_TRUNCATED_IMAGES = True
 
         window_2d_objects = self.metadb_2d_input.window_objects

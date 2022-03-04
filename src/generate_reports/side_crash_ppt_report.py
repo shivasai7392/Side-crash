@@ -11,8 +11,6 @@ Returns:
 import os
 import time
 
-from meta import utils
-
 from src.generate_reports.report_slides.title_slide import TitleSlide
 from src.generate_reports.report_slides.cae_quality_slide import CAEQualitySlide
 from src.generate_reports.report_slides.executive_slide import ExecutiveSlide
@@ -21,7 +19,7 @@ from src.generate_reports.report_slides.biw_kinematics_slide import BIWKinematic
 from src.generate_reports.report_slides.biw_cbu_deformation_slide import BIWCBUDeformationSlide
 from src.generate_reports.report_slides.bom_f21_upb_slide import BOMF21UPBSlide
 from src.generate_reports.report_slides.biw_stiff_ring_deformation_slide import BIWStiffRingDeformationSlide
-
+from src.generate_reports.report_slides.biw_bplr_def_and_intr_slide import BIWBplrDeformationAndIntrusion
 class SideCrashPPTReport():
 
     def __init__(self,
@@ -56,7 +54,6 @@ class SideCrashPPTReport():
 
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
-
         title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
                                 self.windows,
                                 self.general_input,
@@ -137,8 +134,16 @@ class SideCrashPPTReport():
                                 self.threed_images_report_folder,
                                 self.ppt_report_folder)
         biw_stiff_ring_deformation_slide.edit()
-
-
+        biw_bplr_def_and_intr_slide = BIWBplrDeformationAndIntrusion(self.report_composer.prs_obj.slides[10],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        biw_bplr_def_and_intr_slide.edit()
 
         if not os.path.exists(self.ppt_report_folder):
             os.makedirs(self.ppt_report_folder)

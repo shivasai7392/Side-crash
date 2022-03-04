@@ -13,6 +13,8 @@ import os
 from meta import utils
 
 from src.meta_utilities import visualize_3d_critical_section
+from src.generate_reports.excel_generator import ExcelBomGeneration
+
 
 class ThreeDDataReport():
     """
@@ -30,12 +32,15 @@ class ThreeDDataReport():
                 threed_window_name,
                 metadb_3d_input,
                 threed_images_report_folder,
-                threed_videos_report_folder) -> None:
+                threed_videos_report_folder,
+                excel_bom_report_folder) -> None:
 
         self.threed_window_name = threed_window_name
+        self.metadb_3d_input = metadb_3d_input
         self.critical_sections = metadb_3d_input.critical_sections
         self.threed_images_report_folder = threed_images_report_folder
         self.threed_videos_report_folder = threed_videos_report_folder
+        self.excel_bom_report_folder = excel_bom_report_folder
 
     def run_process(self):
         """
@@ -50,6 +55,8 @@ class ThreeDDataReport():
         self.get_initial_state_images()
         self.get_peak_state_images()
         # self.get_spotweld_failure_images()
+        excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder)
+        excel_bom_report.excel_bom_generation()
 
         return 0
 
