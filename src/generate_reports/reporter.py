@@ -12,6 +12,7 @@ import os
 from meta import utils
 
 from src.generate_reports.side_crash_ppt_report import SideCrashPPTReport
+from src.generate_reports.excel_generator import ExcelBomGeneration
 
 class Reporter():
     """
@@ -106,6 +107,8 @@ class Reporter():
         # for section,value in critical_sections_data.items():
         #     for key,vvalue in value.items():
         #         if key == "hes":
+        excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder)
+        excel_bom_report.excel_bom_generation()
 
         return 0
 
