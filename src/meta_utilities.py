@@ -71,8 +71,6 @@ def capture_image(window_name,width,height,file_path,plot_id = None,rotate = Non
     if view is not None:
         utils.MetaCommand('view default {}'.format(view))
 
-    if not os.path.exists(os.path.dirname(file_path)):
-        os.makedirs(os.path.dirname(file_path))
     utils.MetaCommand('write png "{}"'.format(file_path))
     img = Image.open(file_path)
     img.save(file_path, 'PNG')
@@ -138,8 +136,8 @@ def capture_resized_image(window_name,width,height,file_path,plot_id = None,rota
     if view is not None:
         utils.MetaCommand('view default {}'.format(view))
 
-    if not os.path.exists(os.path.dirname(file_path)):
-        os.makedirs(os.path.dirname(file_path))
+    # if not os.path.exists(os.path.dirname(file_path)):
+    #     os.makedirs(os.path.dirname(file_path))
     utils.MetaCommand('write png "{}"'.format(file_path))
     img = Image.open(file_path)
     img.save(file_path, 'PNG')

@@ -145,8 +145,6 @@ class SideCrashPPTReport():
                                 self.ppt_report_folder)
         biw_bplr_def_and_intr_slide.edit()
 
-        if not os.path.exists(self.ppt_report_folder):
-            os.makedirs(self.ppt_report_folder)
         file_name = os.path.join(self.ppt_report_folder,"output.pptx")
         self.report_composer.save_pptx(file_name)
 
