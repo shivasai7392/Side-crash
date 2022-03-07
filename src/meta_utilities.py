@@ -155,7 +155,7 @@ def capture_resized_image(window_name,width,height,file_path,plot_id = None,rota
 
     return 0
 
-def visualize_3d_critical_section(data):
+def visualize_3d_critical_section(data,and_filter = None):
     """
     visualize_3d_critical_section _summary_
 
@@ -176,7 +176,10 @@ def visualize_3d_critical_section(data):
     erase_box = get_var("erase_box")
 
     if prop_names:
-        utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
+        if and_filter:
+            utils.MetaCommand('add advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
+        else:
+            utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
     if hes_exceptions:
         utils.MetaCommand('add pid {}'.format(hes_exceptions))
     utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
