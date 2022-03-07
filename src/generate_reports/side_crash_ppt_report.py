@@ -29,6 +29,7 @@ from src.generate_reports.report_slides.enclosure_performance_skin_deformation_s
 from src.generate_reports.report_slides.bom_row2_f28_doors_slide import BOMRow2F28DoorsSlide
 from src.generate_reports.report_slides.enclosure_performance_front_door_panel_intrusion_slide import EnclosurePerformanceFrontDoorPanelIntrusionSlide
 from src.generate_reports.report_slides.enclosure_performance_front_door_panel_deformation_slide import EnclosurePerformanceFrontDoorPanelDeformationSlide
+from src.generate_reports.report_slides.enclosure_performance_rear_door_panel_deformation_slide import EnclosurePerformanceRearDoorPanelDeformationSlide
 
 class SideCrashPPTReport():
 
@@ -64,124 +65,122 @@ class SideCrashPPTReport():
 
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
-        # title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # title_slide.edit()
-        # cae_quality_slide = CAEQualitySlide(self.report_composer.prs_obj.slides[1],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # cae_quality_slide.edit()
-        # executive_slide = ExecutiveSlide(self.report_composer.prs_obj.slides[2],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # executive_slide.edit()
-        # cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # cbu_and_barrier_position_slide.edit()
-        # biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # biw_kinematics_slide.edit()
-        # biw_cbu_deformation_slide = BIWCBUDeformationSlide(self.report_composer.prs_obj.slides[7],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # biw_cbu_deformation_slide.edit()
-        # bom_f21_upb_slide = BOMF21UPBSlide(self.report_composer.prs_obj.slides[8],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # bom_f21_upb_slide.edit()
-        # biw_stiff_ring_deformation_slide = BIWStiffRingDeformationSlide(self.report_composer.prs_obj.slides[9],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # biw_stiff_ring_deformation_slide.edit()
-        # biw_bplr_def_and_intr_slide = BIWBplrDeformationAndIntrusion(self.report_composer.prs_obj.slides[10],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # biw_bplr_def_and_intr_slide.edit()
-        # bom_f21_roof_slide = BOMF21ROOFSlide(self.report_composer.prs_obj.slides[12],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # bom_f21_roof_slide.edit()
-        # biw_roof_def_and_spot_failure_slide = BIWROOFDeformationAndSpotWeldFailure(self.report_composer.prs_obj.slides[13],
-        #                             self.windows,
-        #                             self.general_input,
-        #                             self.metadb_3d_input,
-        #                             self.metadb_2d_input,
-        #                             self.template_file,
-        #                             self.twod_images_report_folder,
-        #                             self.threed_images_report_folder,
-        #                             self.ppt_report_folder)
-        # biw_roof_def_and_spot_failure_slide.edit()
-        # bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[25],
-        #                             self.windows,
-        #                             self.general_input,
-        #                             self.metadb_3d_input,
-        #                             self.template_file,
-        #                             self.threed_images_report_folder,
-        #                             self.ppt_report_folder)
-        # bom_f28_doors_slide.edit()
-
-
+        title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        title_slide.edit()
+        cae_quality_slide = CAEQualitySlide(self.report_composer.prs_obj.slides[1],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        cae_quality_slide.edit()
+        executive_slide = ExecutiveSlide(self.report_composer.prs_obj.slides[2],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        executive_slide.edit()
+        cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        cbu_and_barrier_position_slide.edit()
+        biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        biw_kinematics_slide.edit()
+        biw_cbu_deformation_slide = BIWCBUDeformationSlide(self.report_composer.prs_obj.slides[7],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        biw_cbu_deformation_slide.edit()
+        bom_f21_upb_slide = BOMF21UPBSlide(self.report_composer.prs_obj.slides[8],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        bom_f21_upb_slide.edit()
+        biw_stiff_ring_deformation_slide = BIWStiffRingDeformationSlide(self.report_composer.prs_obj.slides[9],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        biw_stiff_ring_deformation_slide.edit()
+        biw_bplr_def_and_intr_slide = BIWBplrDeformationAndIntrusion(self.report_composer.prs_obj.slides[10],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        biw_bplr_def_and_intr_slide.edit()
+        bom_f21_roof_slide = BOMF21ROOFSlide(self.report_composer.prs_obj.slides[12],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        bom_f21_roof_slide.edit()
+        biw_roof_def_and_spot_failure_slide = BIWROOFDeformationAndSpotWeldFailure(self.report_composer.prs_obj.slides[13],
+                                    self.windows,
+                                    self.general_input,
+                                    self.metadb_3d_input,
+                                    self.metadb_2d_input,
+                                    self.template_file,
+                                    self.twod_images_report_folder,
+                                    self.threed_images_report_folder,
+                                    self.ppt_report_folder)
+        biw_roof_def_and_spot_failure_slide.edit()
+        bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[25],
+                                    self.windows,
+                                    self.general_input,
+                                    self.metadb_3d_input,
+                                    self.template_file,
+                                    self.threed_images_report_folder,
+                                    self.ppt_report_folder)
+        bom_f28_doors_slide.edit()
         bom_f21_front_floor_slide = BOMF21FrontFloorSlide(self.report_composer.prs_obj.slides[15],
                                 self.windows,
                                 self.general_input,
@@ -242,6 +241,16 @@ class SideCrashPPTReport():
                                 self.threed_images_report_folder,
                                 self.ppt_report_folder)
         enclosure_performance_front_door_panel_deformation_slide.edit()
+        enclosure_performance_rear_door_panel_deformation_slide = EnclosurePerformanceRearDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[27],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        enclosure_performance_rear_door_panel_deformation_slide.edit()
 
         file_name = os.path.join(self.ppt_report_folder,"output.pptx")
         self.report_composer.save_pptx(file_name)

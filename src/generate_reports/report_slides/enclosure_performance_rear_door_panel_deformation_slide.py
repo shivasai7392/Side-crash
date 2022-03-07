@@ -17,7 +17,7 @@ from meta import windows
 from src.meta_utilities import capture_image,visualize_3d_critical_section,capture_resized_image
 from src.general_utilities import closest
 
-class EnclosurePerformanceFrontDoorPanelDeformationSlide():
+class EnclosurePerformanceRearDoorPanelDeformationSlide():
 
     def __init__(self,
                 slide,
@@ -77,13 +77,13 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                 utils.MetaCommand('options fringebar off')
             elif shape.name == "Image 2":
                 utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-                data = self.metadb_3d_input.critical_sections["f28_front_door"]
+                data = self.metadb_3d_input.critical_sections["f28_rear_door"]
                 visualize_3d_critical_section(data)
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform on')
-                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_front_door".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_rear_door".lower()+".png")
                 capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -91,13 +91,13 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                 utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Image 3":
                 utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-                data = self.metadb_3d_input.critical_sections["f28_front_door"]
+                data = self.metadb_3d_input.critical_sections["f28_rear_door"]
                 visualize_3d_critical_section(data,and_filter = True)
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform off')
-                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_front_door".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_rear_door".lower()+".png")
                 capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
@@ -109,7 +109,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                 utils.MetaCommand('window maximize {}'.format(door_panel_intrusion_window_name))
                 door_panel_intrusion_window = windows.Window(door_panel_intrusion_window_name, page_id=0)
                 door_panel_intrusion_window_layout = door_panel_intrusion_window.get_plot_layout()
-                door_skin_intrusion_window_plots = [plot2d.Plot(plot_id, door_panel_intrusion_window_name, 0) for plot_id in [0,2,4]]
+                door_skin_intrusion_window_plots = [plot2d.Plot(plot_id, door_panel_intrusion_window_name, 0) for plot_id in [1,3,5]]
                 for plot in door_skin_intrusion_window_plots:
                     plot.activate()
                     initial_curve_re  ="*0MS"
@@ -134,6 +134,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                 picture.crop_right = 0
                 utils.MetaCommand('xyplot rlayout "Door panel intrusion" {}'.format(door_panel_intrusion_window_layout))
                 utils.MetaCommand('xyplot plotdeactive "{}" all'.format(door_panel_intrusion_window_name))
+
         self.revert()
 
         return 0
