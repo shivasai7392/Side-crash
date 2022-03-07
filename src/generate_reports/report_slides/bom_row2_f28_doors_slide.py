@@ -10,7 +10,7 @@ Returns:
 
 import os
 
-from meta import utils,parts,constants
+from meta import utils,parts,constants, models
 
 from src.meta_utilities import capture_image,visualize_3d_critical_section
 from src.general_utilities import add_row
@@ -40,33 +40,28 @@ class BOMRow2F28DoorsSlide():
         Returns:
             _type_: _description_
         """
+        utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+        utils.MetaCommand('0:options state original')
+        utils.MetaCommand('options fringebar off')
+        data = self.metadb_3d_input.critical_sections["f28_rear_door"]
+        visualize_3d_critical_section(data)
+        m = models.Model(0)
+        self.visible_parts = m.get_parts('visible')
 
         return 0
     def edit(self):
-        self.setup()
         from pptx.util import Pt
-        utils.MetaCommand('0:options state original')
+        self.setup()
         for shape in self.shapes:
             if shape.name == "Image 1":
-                data = self.metadb_3d_input.critical_sections["f28_rear_door"]
-                visualize_3d_critical_section(data)
-                utils.MetaCommand('window maximize "MetaPost"')
-                utils.MetaCommand('options fringebar off')
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_rear_door".lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"row2_f28_rear_door".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
             elif shape.name == "Table 1":
-                data = self.metadb_3d_input.critical_sections["f28_rear_door"]
-                prop_names = data["hes"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
                 table_obj = shape.table
-                for _id,prop in enumerate(entities):
+                for id,prop in enumerate(self.visible_parts):
                     part_type = parts.StringPartType(prop.type)
                     if part_type == "PSHELL":
                         part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
@@ -98,5 +93,18 @@ class BOMRow2F28DoorsSlide():
                     font_thickness.size = Pt(8)
                     thickness = round(prop.shell_thick,1)
                     text_frame_thickness.paragraphs[0].text = str(thickness)
+        self.revert()
+
+        return 0
+    def revert(self):
+        """
+        revert _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        utils.MetaCommand('color pid transparency reset act')
 
         return 0
