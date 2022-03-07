@@ -99,8 +99,13 @@ class BOMF21UPBSlide():
                     entities.extend(self.metadb_3d_input.get_props(re_prop))
                 table_obj = shape.table
                 for id,prop in enumerate(entities[:15]):
-                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
-                    materials = part.get_materials('all')
+                    part_type = parts.StringPartType(prop.type)
+                    if part_type == "PSHELL":
+                        part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
+                        materials = part.get_materials('all')
+                    elif part_type == "PSOLID":
+                        part = parts.Part(id=prop.id,type = constants.PSOLID, model_id=0)
+                        materials = part.get_materials('all')
 
                     add_row(table_obj)
                     prop_row = table_obj.rows[id+1]
@@ -144,9 +149,13 @@ class BOMF21UPBSlide():
 
                 table_obj = shape.table
                 for id,prop in enumerate(entities_all):
-
-                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
-                    materials = part.get_materials('all')
+                    part_type = parts.StringPartType(prop.type)
+                    if part_type == "PSHELL":
+                        part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
+                        materials = part.get_materials('all')
+                    elif part_type == "PSOLID":
+                        part = parts.Part(id=prop.id,type = constants.PSOLID, model_id=0)
+                        materials = part.get_materials('all')
 
                     add_row(table_obj)
                     prop_row = table_obj.rows[id+1]
@@ -235,17 +244,5 @@ class BOMF21UPBSlide():
                 run.text = "INNER"
 
         self.revert()
-
-        return 0
-
-    def revert(self):
-        """
-        revert _summary_
-
-        _extended_summary_
-
-        Returns:
-            _type_: _description_
-        """
 
         return 0

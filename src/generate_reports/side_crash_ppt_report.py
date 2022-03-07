@@ -20,6 +20,9 @@ from src.generate_reports.report_slides.biw_cbu_deformation_slide import BIWCBUD
 from src.generate_reports.report_slides.bom_f21_upb_slide import BOMF21UPBSlide
 from src.generate_reports.report_slides.biw_stiff_ring_deformation_slide import BIWStiffRingDeformationSlide
 from src.generate_reports.report_slides.biw_bplr_def_and_intr_slide import BIWBplrDeformationAndIntrusion
+from src.generate_reports.report_slides.bom_f21_roof_slide import BOMF21ROOFSlide
+from src.generate_reports.report_slides.biw_roof_def_and_spot_failure import BIWROOFDeformationAndSpotWeldFailure
+from src.generate_reports.report_slides.bom_f28_doors_slide import BOMF28DoorsSlide
 class SideCrashPPTReport():
 
     def __init__(self,
@@ -144,6 +147,34 @@ class SideCrashPPTReport():
                                 self.threed_images_report_folder,
                                 self.ppt_report_folder)
         biw_bplr_def_and_intr_slide.edit()
+        bom_f21_roof_slide = BOMF21ROOFSlide(self.report_composer.prs_obj.slides[12],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        bom_f21_roof_slide.edit()
+        biw_roof_def_and_spot_failure_slide = BIWROOFDeformationAndSpotWeldFailure(self.report_composer.prs_obj.slides[13],
+                                    self.windows,
+                                    self.general_input,
+                                    self.metadb_3d_input,
+                                    self.metadb_2d_input,
+                                    self.template_file,
+                                    self.twod_images_report_folder,
+                                    self.threed_images_report_folder,
+                                    self.ppt_report_folder)
+        biw_roof_def_and_spot_failure_slide.edit()
+        bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[25],
+                                    self.windows,
+                                    self.general_input,
+                                    self.metadb_3d_input,
+                                    self.template_file,
+                                    self.threed_images_report_folder,
+                                    self.ppt_report_folder)
+        bom_f28_doors_slide.edit()
+
+
 
         if not os.path.exists(self.ppt_report_folder):
             os.makedirs(self.ppt_report_folder)

@@ -110,7 +110,7 @@ class BIWBplrDeformationAndIntrusion():
                 utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
                 utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle deform on')
-            if shape.name == "Image 3":
+            elif shape.name == "Image 3":
                 final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
                 initial_time_curve_name = "SS_0MS"
                 plot_id = 0
@@ -150,3 +150,4 @@ class BIWBplrDeformationAndIntrusion():
                 title.set_text(org_name)
                 picture.crop_left = 0
                 picture.crop_right = 0
+        return 0
