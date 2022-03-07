@@ -80,30 +80,30 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                 data = self.metadb_3d_input.critical_sections["f28_front_door"]
                 visualize_3d_critical_section(data)
                 utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform on')
-                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_front_and_rear_door".lower()+".png")
-                capture_image("MetaPost",shape.width,shape.height,image_path)
+                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_front_door".lower()+".png")
+                capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
+                utils.MetaCommand('color pid transparency reset act')
             elif shape.name == "Image 3":
                 utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                 data = self.metadb_3d_input.critical_sections["f28_front_door"]
                 visualize_3d_critical_section(data,and_filter = True)
                 utils.MetaCommand('0:options state variable "serial=1"')
-                utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('options fringebar off')
                 utils.MetaCommand('grstyle deform off')
-                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_front_and_rear_door".lower()+".png")
-                capture_image("MetaPost",shape.width,shape.height,image_path)
+                image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"f28_front_door".lower()+".png")
+                capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('grstyle deform on')
+                utils.MetaCommand('color pid transparency reset act')
             if shape.name == "Image 4":
                 door_panel_intrusion_window_name = self.general_input.door_panel_intrusion_window_name
                 utils.MetaCommand('window maximize {}'.format(door_panel_intrusion_window_name))
