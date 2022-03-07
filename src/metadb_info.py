@@ -276,6 +276,8 @@ class GeneralVarInfo:
     MDB_fr_node_key = "MDB_fr_node"
     struck_subframe_nodes_key = "struck_subframe_nodes"
     MDB_rr_node_key = "MDB_rr_node"
+    door_skin_intrusion_window_key = "door_skin_intrusion"
+    door_panel_intrusion_window_key = "door_panel_intrusion"
 
     def __init__(self):
 
@@ -337,6 +339,8 @@ class GeneralVarInfo:
         self.MDB_fr_node_id = None
         self.struck_subframe_node_ids = None
         self.MDB_rr_node_id = None
+        self.door_skin_intrusion_window_name = None
+        self.door_panel_intrusion_window_name = None
 
     def get_info(self):
         """[summary]
@@ -407,6 +411,8 @@ class GeneralVarInfo:
         self.MDB_fr_node_id = get_var(GeneralVarInfo.MDB_fr_node_key)
         self.struck_subframe_node_ids = get_var(GeneralVarInfo.struck_subframe_nodes_key)
         self.MDB_rr_node_id = get_var(GeneralVarInfo.MDB_rr_node_key)
+        self.door_skin_intrusion_window_name = get_var(GeneralVarInfo.door_skin_intrusion_window_key)
+        self.door_panel_intrusion_window_name = get_var(GeneralVarInfo.door_panel_intrusion_window_key)
 
         return self
 

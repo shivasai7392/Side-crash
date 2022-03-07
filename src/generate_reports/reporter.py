@@ -156,8 +156,6 @@ class Reporter():
             utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
             image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+curve.name.lower()+".png")
 
-            if not os.path.exists(os.path.dirname(image_path)):
-                os.makedirs(os.path.dirname(image_path))
             utils.MetaCommand('write png "{}"'.format(image_path))
 
             utils.MetaCommand('xyplot rlayout "{}" {}'.format(window_name,window_layout))
