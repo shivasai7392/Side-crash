@@ -173,14 +173,14 @@ class SideCrashPPTReport():
                                     self.threed_images_report_folder,
                                     self.ppt_report_folder)
         biw_roof_def_and_spot_failure_slide.edit()
-        bom_f28_doors_slide = BOMRow2F28DoorsSlide(self.report_composer.prs_obj.slides[25],
+        bom_row2_f28_doors_slide = BOMRow2F28DoorsSlide(self.report_composer.prs_obj.slides[25],
                                     self.windows,
                                     self.general_input,
                                     self.metadb_3d_input,
                                     self.template_file,
                                     self.threed_images_report_folder,
                                     self.ppt_report_folder)
-        bom_f28_doors_slide.edit()
+        bom_row2_f28_doors_slide.edit()
 
 
         bom_f21_front_floor_slide = BOMF21FrontFloorSlide(self.report_composer.prs_obj.slides[15],
