@@ -30,6 +30,7 @@ from src.generate_reports.report_slides.bom_row2_f28_doors_slide import BOMRow2F
 from src.generate_reports.report_slides.enclosure_performance_front_door_panel_intrusion_slide import EnclosurePerformanceFrontDoorPanelIntrusionSlide
 from src.generate_reports.report_slides.enclosure_performance_front_door_panel_deformation_slide import EnclosurePerformanceFrontDoorPanelDeformationSlide
 from src.generate_reports.report_slides.enclosure_performance_rear_door_panel_deformation_slide import EnclosurePerformanceRearDoorPanelDeformationSlide
+from src.generate_reports.report_slides.enclosures_performance_rear_door_panel_intrusion_slide import EnclosurePerformanceRearDoorPanelIntrusionSlide
 
 class SideCrashPPTReport():
 
@@ -173,14 +174,16 @@ class SideCrashPPTReport():
                                     self.threed_images_report_folder,
                                     self.ppt_report_folder)
         biw_roof_def_and_spot_failure_slide.edit()
-        bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[25],
+        bom_row2_f28_doors_slide = BOMRow2F28DoorsSlide(self.report_composer.prs_obj.slides[25],
                                     self.windows,
                                     self.general_input,
                                     self.metadb_3d_input,
                                     self.template_file,
                                     self.threed_images_report_folder,
                                     self.ppt_report_folder)
-        bom_f28_doors_slide.edit()
+        bom_row2_f28_doors_slide.edit()
+
+
         bom_f21_front_floor_slide = BOMF21FrontFloorSlide(self.report_composer.prs_obj.slides[15],
                                 self.windows,
                                 self.general_input,
@@ -251,6 +254,13 @@ class SideCrashPPTReport():
                                 self.threed_images_report_folder,
                                 self.ppt_report_folder)
         enclosure_performance_rear_door_panel_deformation_slide.edit()
+        enclosures_performance_rear_door_panel_intrusion_slide = EnclosurePerformanceRearDoorPanelIntrusionSlide(self.report_composer.prs_obj.slides[26],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.twod_images_report_folder,
+                                self.ppt_report_folder)
+        enclosures_performance_rear_door_panel_intrusion_slide.edit()
 
         file_name = os.path.join(self.ppt_report_folder,"output.pptx")
         self.report_composer.save_pptx(file_name)
