@@ -148,7 +148,6 @@ def capture_resized_image(window_name,width,height,file_path,plot_id = None,rota
 
     if rotate:
         rgba_img = rgba_img.transpose(rotate)
-
     rgba_img.save(file_path, 'PNG')
 
     utils.MetaCommand('window maximize {}'.format(window_name))
