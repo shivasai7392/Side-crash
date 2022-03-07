@@ -83,8 +83,13 @@ class BOMF21FrontFloorSlide():
             elif shape.name == "Table 1":
                 table_obj = shape.table
                 for index,prop in enumerate(self.visible_parts[:13]):
-                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
-                    materials = part.get_materials('all')
+                    part_type = parts.StringPartType(prop.type)
+                    if part_type == "PSHELL":
+                        part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
+                        materials = part.get_materials('all')
+                    elif part_type == "PSOLID":
+                        part = parts.Part(id=prop.id,type = constants.PSOLID, model_id=0)
+                        materials = part.get_materials('all')
 
                     add_row(table_obj)
                     prop_row = table_obj.rows[index+1]
@@ -112,8 +117,13 @@ class BOMF21FrontFloorSlide():
             elif shape.name == "Table 2":
                 table_obj = shape.table
                 for index,prop in enumerate(self.visible_parts[13:27]):
-                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
-                    materials = part.get_materials('all')
+                    part_type = parts.StringPartType(prop.type)
+                    if part_type == "PSHELL":
+                        part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
+                        materials = part.get_materials('all')
+                    elif part_type == "PSOLID":
+                        part = parts.Part(id=prop.id,type = constants.PSOLID, model_id=0)
+                        materials = part.get_materials('all')
 
                     add_row(table_obj)
                     prop_row = table_obj.rows[index+1]
@@ -141,8 +151,13 @@ class BOMF21FrontFloorSlide():
             elif shape.name == "Table 3":
                 table_obj = shape.table
                 for index,prop in enumerate(self.visible_parts[27:]):
-                    part = parts.Part(id=prop.id, type=constants.PSHELL, model_id=0)
-                    materials = part.get_materials('all')
+                    part_type = parts.StringPartType(prop.type)
+                    if part_type == "PSHELL":
+                        part = parts.Part(id=prop.id,type = constants.PSHELL, model_id=0)
+                        materials = part.get_materials('all')
+                    elif part_type == "PSOLID":
+                        part = parts.Part(id=prop.id,type = constants.PSOLID, model_id=0)
+                        materials = part.get_materials('all')
 
                     add_row(table_obj)
                     prop_row = table_obj.rows[index+1]
