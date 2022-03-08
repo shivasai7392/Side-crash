@@ -3,7 +3,7 @@ import os
 from meta import utils
 from meta import plot2d
 
-from src.meta_utilities import capture_image, capture_resized_image
+from src.meta_utilities import capture_image
 from src.general_utilities import closest
 
 class BIWBplrDeformationAndIntrusion():
@@ -147,7 +147,7 @@ class BIWBplrDeformationAndIntrusion():
                 utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(window_name, peak_curve.id))
 
                 image_path = os.path.join(self.twod_images_report_folder,window_name+"_with_peak_time"+title.get_text().lower()+".png")
-                capture_resized_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
+                capture_image(window_name,shape.width,shape.height,image_path,plot_id=plot.id)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 title.set_text(org_name)
                 picture.crop_left = 0
