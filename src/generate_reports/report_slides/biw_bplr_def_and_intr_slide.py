@@ -138,7 +138,19 @@ class BIWBplrDeformationAndIntrusion():
                 peak_curve = plot2d.CurvesByName(window_name, peak_curve_value[0].name, 0)[0]
                 peak_curve.show()
                 utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(window_name))
+                utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions yauto on "{}" {}'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name, plot_id))
+                utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
+
                 utils.MetaCommand('xyplot axisoptions axxrange "{}" 0 0 100 400'.format(window_name))
+
                 utils.MetaCommand('xyplot gridoptions line major style "{}" 0 5'.format(window_name))
                 utils.MetaCommand('xyplot gridoptions line major style "{}" 0 1'.format(window_name))
                 utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(window_name,window_name))
