@@ -246,3 +246,15 @@ class BOMF21UPBSlide():
         self.revert()
 
         return 0
+
+    def revert(self):
+        """
+        revert _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        pass
+        return 0

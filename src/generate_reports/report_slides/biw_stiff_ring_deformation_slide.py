@@ -15,7 +15,7 @@ from meta import plot2d
 from meta import windows
 
 from src.meta_utilities import capture_image
-from src.meta_utilities import capture_resized_image
+from src.meta_utilities import capture_resized_image,visualize_3d_critical_section
 from src.general_utilities import closest
 
 class BIWStiffRingDeformationSlide():
@@ -222,14 +222,7 @@ class BIWStiffRingDeformationSlide():
                 utils.MetaCommand('grstyle deform on')
             elif shape.name == "Image 2":
                 data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                prop_names = data["hes"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
+                visualize_3d_critical_section(data)
                 utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')
@@ -242,14 +235,7 @@ class BIWStiffRingDeformationSlide():
                 picture.crop_right = 0
             elif shape.name == "Image 3":
                 data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                prop_names = data["hes"]
-                re_props = prop_names.split(",")
-                entities = []
-                for re_prop in re_props:
-                    utils.MetaCommand('window maximize "MetaPost"')
-                    entities.extend(self.metadb_3d_input.get_props(re_prop))
-                self.metadb_3d_input.hide_all()
-                self.metadb_3d_input.show_only_props(entities)
+                visualize_3d_critical_section(data)
                 utils.MetaCommand('color pid transparency reset act')
                 utils.MetaCommand('grstyle scalarfringe enable')
                 utils.MetaCommand('0:options state variable "serial=1"')

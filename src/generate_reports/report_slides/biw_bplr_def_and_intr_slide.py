@@ -118,8 +118,6 @@ class BIWBplrDeformationAndIntrusion():
                 plot = plot2d.Plot(plot_id, window_name, page_id)
                 title = plot.get_title()
                 org_name = title.get_text()
-                org_name = title.get_text()
-                title.set_text("{} 0MS AND 150MS".format(org_name))
                 plot.activate()
                 final_curve = plot2d.CurvesByName(window_name, final_time_curve_name, 0)[0]
                 final_curve.show()
@@ -139,7 +137,11 @@ class BIWBplrDeformationAndIntrusion():
                 peak_curve_value = plot.get_curves('byname', name ="SS_"+str(peak_curve_value)+"MS")
                 peak_curve = plot2d.CurvesByName(window_name, peak_curve_value[0].name, 0)[0]
                 peak_curve.show()
-                utils.MetaCommand('xyplot plotoptions title set "{}" 0 "Survival Space[mm]"'.format(window_name))
+                utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(window_name))
+                utils.MetaCommand('xyplot axisoptions axxrange "{}" 0 0 100 400'.format(window_name))
+                utils.MetaCommand('xyplot gridoptions line major style "{}" 0 5'.format(window_name))
+                utils.MetaCommand('xyplot gridoptions line major style "{}" 0 1'.format(window_name))
+                utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(window_name,window_name))
                 utils.MetaCommand('xyplot curve set color "{}" {} "Cyan"'.format(window_name, initial_curve.id))
                 utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(window_name, initial_curve.id))
                 utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(window_name, peak_curve.id))
