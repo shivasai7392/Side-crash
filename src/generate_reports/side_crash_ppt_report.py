@@ -31,6 +31,7 @@ from src.generate_reports.report_slides.enclosure_performance_front_door_panel_i
 from src.generate_reports.report_slides.enclosure_performance_front_door_panel_deformation_slide import EnclosurePerformanceFrontDoorPanelDeformationSlide
 from src.generate_reports.report_slides.enclosure_performance_rear_door_panel_deformation_slide import EnclosurePerformanceRearDoorPanelDeformationSlide
 from src.generate_reports.report_slides.enclosures_performance_rear_door_panel_intrusion_slide import EnclosurePerformanceRearDoorPanelIntrusionSlide
+from src.generate_reports.report_slides.biw_stiff_ring_spotweld_failure_slide import BIWStiffRingSpotWeldFailureSlide
 
 class SideCrashPPTReport():
 
@@ -259,6 +260,14 @@ class SideCrashPPTReport():
                                 self.twod_images_report_folder,
                                 self.ppt_report_folder)
         enclosures_performance_rear_door_panel_intrusion_slide.edit()
+        biw_stiff_ring_spotweld_failure_slide = BIWStiffRingSpotWeldFailureSlide(self.report_composer.prs_obj.slides[11],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder,
+                                self.template_file,
+                                self.ppt_report_folder)
+        biw_stiff_ring_spotweld_failure_slide.edit()
 
         file_name = os.path.join(self.ppt_report_folder,"output.pptx")
         self.report_composer.save_pptx(file_name)
