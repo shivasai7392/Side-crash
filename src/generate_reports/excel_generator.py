@@ -22,7 +22,7 @@ from meta import parts,constants, models
 from src.meta_utilities import visualize_3d_critical_section
 
 class ExcelBomGeneration():
-    def __init__(self, metadb_3d_input, excel_bom_report_folder):
+    def __init__(self, metadb_3d_input, excel_bom_report_folder,logger):
         """
         __init__ _summary_
 
@@ -33,10 +33,13 @@ class ExcelBomGeneration():
         """
         self.metadb_3d_input = metadb_3d_input
         self.excel_bom_report_folder = excel_bom_report_folder
+        self.logger = logger
+
     def excel_bom_generation(self, ):
         critical_section_data = self.metadb_3d_input.critical_sections
         for key,value in critical_section_data.items():
             if 'hes' in value.keys() and value['hes'] != 'null':
+                self.logger.log.info("GENERATING BOM : {}".format(value["name"] if "name" in value.keys() else "null"))
                 workbook = Workbook()
                 spreedsheet = workbook.active
                 spreedsheet["A1"] = "PID"
@@ -62,3 +65,7 @@ class ExcelBomGeneration():
 
                 excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key.lower()+".xlsx").replace("\\","/")
                 workbook.save(excel_path)
+                self.logger.log.info("OUTPUT BOM : {}".format(excel_path))
+                self.logger.log.info("CELLS WITH DATA : A1:D{}".format(20))
+                self.logger.log.info("")
+                self.logger.log.info("")
