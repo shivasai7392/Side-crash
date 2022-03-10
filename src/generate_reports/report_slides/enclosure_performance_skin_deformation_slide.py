@@ -109,7 +109,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                 picture.crop_left = 0
                 picture.crop_right = 0
                 utils.MetaCommand('grstyle deform on')
-            if shape.name == "Image 4":
+            elif shape.name == "Image 4":
                 door_skin_intrusion_window_name = self.general_input.door_skin_intrusion_window_name
                 utils.MetaCommand('window maximize {}'.format(door_skin_intrusion_window_name))
                 door_skin_intrusion_window = windows.Window(door_skin_intrusion_window_name, page_id=0)
@@ -131,8 +131,33 @@ class EnclosurePerformanceSkinDeformationSlide():
                         curve.show()
                     curve.set_line_style(line_style = 5)
                     plot.deactivate()
+
+                # utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions ylabel font "{}" 0 "Arial,7,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" 0 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions yaxis active "{}" 1 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions ylabel font "{}" 1 "Arial,7,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" 1 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions yaxis active "{}" 2 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions ylabel font "{}" 2 "Arial,7,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" 2 0'.format(door_skin_intrusion_window_name))
+
+                # utils.MetaCommand('xyplot axisoptions xaxis active "{}" 0 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xlabel font "{}" 0 "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" 0 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xaxis active "{}" 1 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xlabel font "{}" 1 "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" 1 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xaxis active "{}" 2 0'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xlabel font "{}" 2 "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" 2 0'.format(door_skin_intrusion_window_name))
+
+                # utils.MetaCommand('xyplot plotoptions title font "{}" 0 "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot plotoptions title font "{}" 1 "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+                # utils.MetaCommand('xyplot plotoptions title font "{}" 2 "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name))
+
                 image_path = os.path.join(self.twod_images_report_folder,door_skin_intrusion_window_name.lower()+".png")
-                capture_resized_image(door_skin_intrusion_window_name,shape.width,shape.height,image_path)
+                capture_image(door_skin_intrusion_window_name,shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0

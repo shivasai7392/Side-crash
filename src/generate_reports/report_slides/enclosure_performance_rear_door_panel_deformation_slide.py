@@ -104,7 +104,7 @@ class EnclosurePerformanceRearDoorPanelDeformationSlide():
                 picture.crop_right = 0
                 utils.MetaCommand('grstyle deform on')
                 utils.MetaCommand('color pid transparency reset act')
-            if shape.name == "Image 4":
+            elif shape.name == "Image 4":
                 door_panel_intrusion_window_name = self.general_input.door_panel_intrusion_window_name
                 utils.MetaCommand('window maximize {}'.format(door_panel_intrusion_window_name))
                 door_panel_intrusion_window = windows.Window(door_panel_intrusion_window_name, page_id=0)
@@ -126,9 +126,34 @@ class EnclosurePerformanceRearDoorPanelDeformationSlide():
                         curve = plot.get_curves('byname', name = name)[0]
                         curve.show()
                     curve.set_line_style(line_style = 5)
+
+                # utils.MetaCommand('xyplot axisoptions yaxis active "Door panel intrusion" 1 0')
+                # utils.MetaCommand('xyplot axisoptions ylabel font "Door panel intrusion" 1 "Arial,8,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot axisoptions yaxis deactive "Door panel intrusion" 1 0')
+                # utils.MetaCommand('xyplot axisoptions yaxis active "Door panel intrusion" 3 0')
+                # utils.MetaCommand('xyplot axisoptions ylabel font "Door panel intrusion" 3 "Arial,8,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot axisoptions yaxis deactive "Door panel intrusion" 3 0')
+                # utils.MetaCommand('xyplot axisoptions yaxis active "Door panel intrusion" 5 0')
+                # utils.MetaCommand('xyplot axisoptions ylabel font "Door panel intrusion" 5 "Arial,8,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot axisoptions yaxis deactive "Door panel intrusion" 5 0')
+
+                # utils.MetaCommand('xyplot axisoptions xaxis active "Door panel intrusion" 1 0')
+                # utils.MetaCommand('xyplot axisoptions xlabel font "Door panel intrusion" 1 "Arial,12,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot axisoptions xaxis deactive "Door panel intrusion" 1 0')
+                # utils.MetaCommand('xyplot axisoptions xaxis active "Door panel intrusion" 3 0')
+                # utils.MetaCommand('xyplot axisoptions xlabel font "Door panel intrusion" 3 "Arial,12,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot axisoptions xaxis deactive "Door panel intrusion" 3 0')
+                # utils.MetaCommand('xyplot axisoptions xaxis active "Door panel intrusion" 5 0')
+                # utils.MetaCommand('xyplot axisoptions xlabel font "Door panel intrusion" 5 "Arial,12,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot axisoptions xaxis deactive "Door panel intrusion" 5 0')
+
+                # utils.MetaCommand('xyplot plotoptions title font "Door panel intrusion" 1 "Arial,12,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot plotoptions title font "Door panel intrusion" 3 "Arial,12,-1,5,75,0,0,0,0,0"')
+                # utils.MetaCommand('xyplot plotoptions title font "Door panel intrusion" 5 "Arial,12,-1,5,75,0,0,0,0,0"')
+
                 utils.MetaCommand('xyplot rlayout "Door panel intrusion" 6')
                 image_path = os.path.join(self.twod_images_report_folder,door_panel_intrusion_window_name.lower()+"deformation"+".png")
-                capture_resized_image(door_panel_intrusion_window_name,shape.width,shape.height,image_path)
+                capture_image(door_panel_intrusion_window_name,shape.width,shape.height,image_path)
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                 picture.crop_left = 0
                 picture.crop_right = 0

@@ -57,7 +57,6 @@ class BOMF28DoorsSlide():
         visualize_3d_critical_section(data)
         m = models.Model(0)
         self.visible_parts = m.get_parts('visible')
-        print("self.visible_parts",len(self.visible_parts))
 
         return 0
 
