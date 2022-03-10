@@ -74,29 +74,29 @@ class ThreeDDataReport():
         import PIL
         self.logger.log.info("--- 3D MODEL IMAGE GENERATOR")
         self.logger.log.info("")
-        self.logger.log.info("SOURCE WINDOW:", "Metapost")
-        self.logger.log.info("SOURCE MODEL:", "0")
-        self.logger.log.info("STATE:", "ORIGINAL STATE")
+        self.logger.log.info("SOURCE WINDOW : {} ".format(self.threed_window_name))
+        self.logger.log.info("SOURCE MODEL : 0")
+        self.logger.log.info("STATE : ORIGINAL STATE")
         for section,value in self.critical_sections.items():
             if "hes" in value.keys() and value["hes"] != "null":
                 image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
-                self.logger.log.info("PID NAME SHOW FILTER:", )
-                self.logger.log.info("ADDITIONAL PID'S SHOWN:", )
-                self.logger.log.info("PID NAME ERASE FILTER:", )
-                self.logger.log.info("PID'S TO ERASE:", )
-                self.logger.log.info("ERASE BOX:", )
-                self.logger.log.info("IMAGE VIEW:", )
-                self.logger.log.info("TRANSPARENCY LEVEL:", )
-                self.logger.log.info("TRANSPARENT PID'S:", )
-                self.logger.log.info("COMP NAME:", )
+                self.logger.log.info("PID NAME SHOW FILTER : {} ".format(value["hes"]))
+                self.logger.log.info("ADDITIONAL PID'S SHOWN : {} ".format(value['hes_exceptions'] ))
+                self.logger.log.info("PID NAME ERASE FILTER : {} ".format(value['hes_exceptions'] ))
+                self.logger.log.info("PID'S TO ERASE : {} ".format(value['erase_pids'] ))
+                self.logger.log.info("ERASE BOX : {} ".format(value['erase_box']))
+                self.logger.log.info("IMAGE VIEW : {} ".format(value["view"]))
+                self.logger.log.info("TRANSPARENCY LEVEL : 50" )
+                self.logger.log.info("TRANSPARENT PID'S : {} ".format(value["transparent_pids"]))
+                self.logger.log.info("COMP NAME : {} ".format(value["name"]))
 
                 visualize_3d_critical_section(value)
                 utils.MetaCommand('write png "{}"'.format(image_path))
 
                 image = PIL.Image.open(image_path)
                 width,height = image.size
-                self.logger.log.info("OUTPUT IMAGE SIZE (PIXELS) :", width,height)
-                self.logger.log.info("OUTPUT MODEL IMAGES:", image_path)
+                self.logger.log.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(width,height))
+                self.logger.log.info("OUTPUT MODEL IMAGES : {} ".format(image_path))
 
 
         return 0
