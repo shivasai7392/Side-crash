@@ -17,7 +17,6 @@ from src.generate_reports.reporter import Reporter
 from src.general_utilities import append_libs_path
 from src.side_crash_logger import SideCrashLogger
 
-@SideCrashLogger.excel_resource_log_decorator(Description = "MAIN METHOD")
 def main(*args):
     """
     apply [summary]

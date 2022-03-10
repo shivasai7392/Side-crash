@@ -71,34 +71,35 @@ class ThreeDDataReport():
         Returns:
             _type_: _description_
         """
-        import PIL
+        from PIL import Image
+
         self.logger.log.info("--- 3D MODEL IMAGE GENERATOR")
         self.logger.log.info("")
-        self.logger.log.info("SOURCE WINDOW : {} ".format(self.threed_window_name))
-        self.logger.log.info("SOURCE MODEL : 0")
-        self.logger.log.info("STATE : ORIGINAL STATE")
         for section,value in self.critical_sections.items():
             if "hes" in value.keys() and value["hes"] != "null":
+                self.logger.log.info("SOURCE WINDOW : {} ".format(self.threed_window_name))
+                self.logger.log.info("SOURCE MODEL : 0")
+                self.logger.log.info("STATE : ORIGINAL STATE")
                 image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
-                self.logger.log.info("PID NAME SHOW FILTER : {} ".format(value["hes"]))
-                self.logger.log.info("ADDITIONAL PID'S SHOWN : {} ".format(value['hes_exceptions'] ))
-                self.logger.log.info("PID NAME ERASE FILTER : {} ".format(value['hes_exceptions'] ))
-                self.logger.log.info("PID'S TO ERASE : {} ".format(value['erase_pids'] ))
-                self.logger.log.info("ERASE BOX : {} ".format(value['erase_box']))
-                self.logger.log.info("IMAGE VIEW : {} ".format(value["view"]))
+                self.logger.log.info("PID NAME SHOW FILTER : {} ".format(value["hes"] if "hes" in value.keys() else "null"))
+                self.logger.log.info("ADDITIONAL PID'S SHOWN : {} ".format(value["hes_exceptions"] if "hes_exceptions" in value.keys() else "null"))
+                self.logger.log.info("PID NAME ERASE FILTER : {} ".format(value["hes_exceptions"] if "hes_exceptions" in value.keys() else "null"))
+                self.logger.log.info("PID'S TO ERASE : {} ".format(value["erase_pids"] if "erase_pids" in value.keys() else "null"))
+                self.logger.log.info("ERASE BOX : {} ".format(value["erase_box"] if "erase_box" in value.keys() else "null"))
+                self.logger.log.info("IMAGE VIEW : {} ".format(value["view"] if "view" in value.keys() else "null"))
                 self.logger.log.info("TRANSPARENCY LEVEL : 50" )
-                self.logger.log.info("TRANSPARENT PID'S : {} ".format(value["transparent_pids"]))
-                self.logger.log.info("COMP NAME : {} ".format(value["name"]))
+                self.logger.log.info("TRANSPARENT PID'S : {} ".format(value["transparent_pids"] if "transparent_pids" in value.keys() else "null"))
+                self.logger.log.info("COMP NAME : {} ".format(value["name"] if "name" in value.keys() else "null"))
 
                 visualize_3d_critical_section(value)
                 utils.MetaCommand('write png "{}"'.format(image_path))
 
-                image = PIL.Image.open(image_path)
+                image = Image.open(image_path)
                 width,height = image.size
                 self.logger.log.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(width,height))
                 self.logger.log.info("OUTPUT MODEL IMAGES : {} ".format(image_path))
-
-
+                self.logger.log.info("")
+                self.logger.log.info("")
         return 0
 
     def get_peak_state_images(self):
