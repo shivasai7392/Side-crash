@@ -43,7 +43,8 @@ class SideCrashPPTReport():
                 template_file,
                 twod_images_report_folder,
                 threed_images_report_folder,
-                ppt_report_folder) -> None:
+                ppt_report_folder,
+                logger) -> None:
         self.windows = windows
         self.general_input = general_input
         self.metadb_2d_input = metadb_2d_input
@@ -53,6 +54,7 @@ class SideCrashPPTReport():
         self.threed_images_report_folder = threed_images_report_folder
         self.ppt_report_folder = ppt_report_folder
         self.report_composer = None
+        self.logger = logger
 
 
     def generate_ppt(self):

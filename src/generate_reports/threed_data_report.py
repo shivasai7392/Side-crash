@@ -33,7 +33,8 @@ class ThreeDDataReport():
                 metadb_3d_input,
                 threed_images_report_folder,
                 threed_videos_report_folder,
-                excel_bom_report_folder) -> None:
+                excel_bom_report_folder,
+                logger) -> None:
 
         self.threed_window_name = threed_window_name
         self.metadb_3d_input = metadb_3d_input
@@ -41,6 +42,7 @@ class ThreeDDataReport():
         self.threed_images_report_folder = threed_images_report_folder
         self.threed_videos_report_folder = threed_videos_report_folder
         self.excel_bom_report_folder = excel_bom_report_folder
+        self.logger = logger
 
     def run_process(self):
         """

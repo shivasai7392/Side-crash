@@ -15,7 +15,7 @@ from src.metadb_info import GeneralVarInfo
 from src.metadb_info import Meta3DInfo
 from src.generate_reports.reporter import Reporter
 from src.general_utilities import append_libs_path
-from src.logger import SideCrashLogger
+from src.side_crash_logger import SideCrashLogger
 
 @SideCrashLogger.excel_resource_log_decorator(Description = "MAIN METHOD")
 def main(*args):
@@ -27,11 +27,7 @@ def main(*args):
     Returns:
         [type]: [description]
     """
-
-    # beta_logger = BetaLogger()
-    # side_crash_logger = beta_logger.get_logger()
-    # side_crash_logger.debug("hvhgsvxghsvqhgxvghsvhgxvsghvxghsvxsxvhgqwvxghvwqhxvw")
-    # dddsw
+    logger = SideCrashLogger()
     append_libs_path()
     app_config_dir = os.path.join(constants.app_root_dir,"config")
     gui_mode = utils.MetaGetVariable("side_crash_toolbar_gui_mode")
@@ -69,7 +65,7 @@ def main(*args):
 
     metadb_2d_input_info.prepare_info(new_windows)
 
-    reporter = Reporter(new_windows,general_input_info,metadb_2d_input_info,metadb_3d_input_info,app_config_dir)
+    reporter = Reporter(new_windows,general_input_info,metadb_2d_input_info,metadb_3d_input_info,app_config_dir,logger)
     reporter.run_process()
 
     return 0
