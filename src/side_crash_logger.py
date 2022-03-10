@@ -33,7 +33,7 @@ Log Report {}
 --------------------------
 --------------------------
 
-""".format(current_datetime.strftime("%H-%M-%S"))
+""".format(current_datetime.strftime("%H:%M:%S"))
                 file_object.write(initial_str)
             file_object.close()
         else:
@@ -42,7 +42,7 @@ Log Report {}
 --------------------------
 --------------------------
 
-""".format(current_datetime.strftime("%H-%M-%S"))
+""".format(current_datetime.strftime("%H:%M:%S"))
             file_object.write(initial_str)
             file_object.close()
 
