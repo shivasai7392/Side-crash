@@ -88,9 +88,9 @@ class Reporter():
             _type_: _description_
         """
 
-        # self.twod_data_reporting()
-        # self.threed_data_reporting()
-        # self.thesis_report_generation()
+        self.twod_data_reporting()
+        self.threed_data_reporting()
+        self.thesis_report_generation()
         self.log_report_generation()
 
         return 0
