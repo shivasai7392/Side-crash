@@ -72,31 +72,31 @@ class ThreeDDataReport():
             _type_: _description_
         """
         import PIL
-        print("--- 3D MODEL IMAGE GENERATOR")
-        print("")
-        print("SOURCE WINDOW:", "Metapost")
-        print("SOURCE MODEL:", "0")
-        print("STATE:", "ORIGINAL STATE")
+        self.logger.log.info("--- 3D MODEL IMAGE GENERATOR")
+        self.logger.log.info("")
+        self.logger.log.info("SOURCE WINDOW:", "Metapost")
+        self.logger.log.info("SOURCE MODEL:", "0")
+        self.logger.log.info("STATE:", "ORIGINAL STATE")
         for section,value in self.critical_sections.items():
             if "hes" in value.keys() and value["hes"] != "null":
                 image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
-                print("PID NAME SHOW FILTER:", )
-                print("ADDITIONAL PID'S SHOWN:", )
-                print("PID NAME ERASE FILTER:", )
-                print("PID'S TO ERASE:", )
-                print("ERASE BOX:", )
-                print("IMAGE VIEW:", )
-                print("TRANSPARENCY LEVEL:", )
-                print("TRANSPARENT PID'S:", )
-                print("COMP NAME:", )
+                self.logger.log.info("PID NAME SHOW FILTER:", )
+                self.logger.log.info("ADDITIONAL PID'S SHOWN:", )
+                self.logger.log.info("PID NAME ERASE FILTER:", )
+                self.logger.log.info("PID'S TO ERASE:", )
+                self.logger.log.info("ERASE BOX:", )
+                self.logger.log.info("IMAGE VIEW:", )
+                self.logger.log.info("TRANSPARENCY LEVEL:", )
+                self.logger.log.info("TRANSPARENT PID'S:", )
+                self.logger.log.info("COMP NAME:", )
 
                 visualize_3d_critical_section(value)
                 utils.MetaCommand('write png "{}"'.format(image_path))
 
                 image = PIL.Image.open(image_path)
                 width,height = image.size
-                print("OUTPUT IMAGE SIZE (PIXELS) :", width,height)
-                print("OUTPUT MODEL IMAGES:", image_path)
+                self.logger.log.info("OUTPUT IMAGE SIZE (PIXELS) :", width,height)
+                self.logger.log.info("OUTPUT MODEL IMAGES:", image_path)
 
 
         return 0
