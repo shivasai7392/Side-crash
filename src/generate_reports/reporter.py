@@ -8,11 +8,13 @@ Returns:
     _type_: _description_
 """
 import os
+import datetime
 
 from meta import utils
 
 from src.generate_reports.side_crash_ppt_report import SideCrashPPTReport
 from src.generate_reports.threed_data_report import ThreeDDataReport
+from src.logger import SideCrashLogger
 
 class Reporter():
     """
@@ -27,7 +29,6 @@ class Reporter():
             metadb_3d_input (_type_): _description_
             config_folder (_type_): _description_
     """
-
     def __init__(self,windows,general_input,metadb_2d_input,metadb_3d_input,config_folder) -> None:
 
         self.windows = windows
@@ -39,6 +40,7 @@ class Reporter():
         self.get_reporting_folders()
         self.make_reporting_folders()
 
+    @SideCrashLogger.excel_resource_log_decorator(Description = "MAIN METHOD")
     def make_reporting_folders(self):
         """
         make_reporting_folders _summary_
@@ -49,12 +51,13 @@ class Reporter():
             _type_: _description_
         """
 
-        reporting_folders = [self.twod_images_report_folder, self.threed_images_report_folder, self.threed_videos_report_folder, self.excel_bom_report_folder,self.ppt_report_folder]
+        reporting_folders = [self.twod_images_report_folder, self.threed_images_report_folder, self.threed_videos_report_folder, self.excel_bom_report_folder,self.ppt_report_folder,self.log_report_folder]
         for folder_path in reporting_folders:
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
         return 0
 
+    @SideCrashLogger.excel_resource_log_decorator(Description = "MAIN METHOD")
     def get_reporting_folders(self):
         """
         get_reporting_folders _summary_
@@ -70,9 +73,11 @@ class Reporter():
         self.threed_videos_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-videos").replace("\\",os.sep)
         self.excel_bom_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"excel-bom").replace("\\",os.sep)
         self.ppt_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"reports").replace("\\",os.sep)
+        self.log_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.log_file_directory).replace("/","",1)).replace("\\",os.sep)
 
         return 0
 
+    @SideCrashLogger.excel_resource_log_decorator(Description = "MAIN METHOD")
     def run_process(self):
         """
         run_process _summary_
@@ -85,7 +90,8 @@ class Reporter():
 
         # self.twod_data_reporting()
         # self.threed_data_reporting()
-        self.thesis_report_generation()
+        # self.thesis_report_generation()
+        self.log_report_generation()
 
         return 0
 
@@ -108,6 +114,22 @@ class Reporter():
                                                    self.ppt_report_folder
                                                    )
         side_crash_report_ppt.generate_ppt()
+
+        return 0
+
+    @SideCrashLogger.excel_resource_log_decorator(Description = "MAIN METHOD")
+    def log_report_generation(self):
+        """
+        log_report_generation _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        current_datetime = datetime.datetime.now()
+        file_path = os.path.join(self.log_report_folder,"2TN_MP_log_{}.xlsx".format(current_datetime.strftime('%Y-%d-%m-%H-%M-%S')))
+        SideCrashLogger.save_workbook(file_path)
 
         return 0
 
