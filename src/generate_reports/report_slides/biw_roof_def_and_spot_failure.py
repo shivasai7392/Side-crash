@@ -10,7 +10,7 @@ Returns:
 import os
 from meta import utils,windows,plot2d,models
 
-from src.meta_utilities import capture_resized_image,visualize_3d_critical_section
+from src.meta_utilities import capture_resized_image,visualize_3d_critical_section, annotation
 from src.general_utilities import closest
 
 class BIWROOFDeformationAndSpotWeldFailure():
@@ -44,22 +44,22 @@ class BIWROOFDeformationAndSpotWeldFailure():
         """
 
         return 0
-    def annotation(self):
-        """
-        annotation
+    # def annotation(self):
+    #     """
+    #     annotation
 
-        _extended_summary_
-        """
-        utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-        utils.MetaCommand('0:options state original')
-        utils.MetaCommand('options fringebar off')
-        data = self.metadb_3d_input.critical_sections["f21_roof"]
-        visualize_3d_critical_section(data)
-        m = models.Model(0)
-        self.visible_parts = m.get_parts('visible')
-        utils.MetaCommand('add element connected')
+    #     _extended_summary_
+    #     """
+    #     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+    #     utils.MetaCommand('0:options state original')
+    #     utils.MetaCommand('options fringebar off')
+    #     data = self.metadb_3d_input.critical_sections["f21_roof"]
+    #     visualize_3d_critical_section(data)
+    #     m = models.Model(0)
+    #     self.visible_parts = m.get_parts('visible')
+    #     utils.MetaCommand('add element connected')
 
-        return 0
+    #     return 0
     def edit(self, ):
         from PIL import Image
         self.setup()
@@ -152,7 +152,15 @@ class BIWROOFDeformationAndSpotWeldFailure():
                 plot.deactivate()
                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(window_name, layout))
             elif shape.name == "Image 5":
-                self.annotation()
+                utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
+                data = self.metadb_3d_input.critical_sections["f21_roof"]
+                visualize_3d_critical_section(data)
+                m = models.Model(0)
+                visible_parts = m.get_parts('visible')
+                annotation(visible_parts)
+
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_roof_spotweld_failure".lower()+".png")
                 capture_resized_image("MetaPost",shape.width,shape.height,image_path,view = "top")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)

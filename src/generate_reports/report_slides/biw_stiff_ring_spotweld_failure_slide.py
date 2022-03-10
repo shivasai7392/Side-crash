@@ -11,7 +11,7 @@ Returns:
 import os
 
 from meta import utils, models
-from src.meta_utilities import capture_image,visualize_3d_critical_section
+from src.meta_utilities import capture_image,visualize_3d_critical_section, annotation
 
 class BIWStiffRingSpotWeldFailureSlide():
     def __init__(self,
@@ -41,22 +41,6 @@ class BIWStiffRingSpotWeldFailureSlide():
 
 
         return 0
-    def annotation(self,f21_upb_inner_outer):
-        """
-        annotation
-
-        _extended_summary_
-        """
-        utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-        utils.MetaCommand('0:options state original')
-        utils.MetaCommand('options fringebar off')
-        data = self.metadb_3d_input.critical_sections[f21_upb_inner_outer]
-        visualize_3d_critical_section(data)
-        m = models.Model(0)
-        self.visible_parts = m.get_parts('visible')
-        utils.MetaCommand('add element connected')
-
-        return 0
     def edit(self, ):
         """
         edit _summary_
@@ -68,7 +52,15 @@ class BIWStiffRingSpotWeldFailureSlide():
         """
         for shape in self.shapes:
             if shape.name == "Image 1":
-                self.annotation("f21_upb_outer")
+                utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
+                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
+                visualize_3d_critical_section(data)
+                m = models.Model(0)
+                visible_parts = m.get_parts('visible')
+                annotation(visible_parts)
+
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_outer_stiff_ring_spotweld_failure".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "left")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
@@ -76,7 +68,15 @@ class BIWStiffRingSpotWeldFailureSlide():
                 picture.crop_right = 0
                 self.revert()
             elif shape.name == "Image 2":
-                self.annotation("f21_upb_inner")
+                utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar off')
+                data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
+                visualize_3d_critical_section(data)
+                m = models.Model(0)
+                visible_parts = m.get_parts('visible')
+                annotation(visible_parts)
+
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner_stiff_ring_spotweld_failure".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "right")
                 picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)

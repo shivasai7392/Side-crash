@@ -194,3 +194,11 @@ def visualize_3d_critical_section(data,and_filter = None):
         utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
 
     return 0
+def annotation(visible_parts):
+    """
+        annotation
+
+        _extended_summary_
+    """
+    utils.MetaCommand('add element connected')
+    return 0

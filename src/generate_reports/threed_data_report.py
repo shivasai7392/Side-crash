@@ -56,7 +56,7 @@ class ThreeDDataReport():
         utils.MetaCommand('window maximize {}'.format(self.threed_window_name))
         self.get_initial_state_images()
         self.get_peak_state_images()
-        # self.get_spotweld_failure_images()
+        self.get_spotweld_failure_images()
         excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder)
         excel_bom_report.excel_bom_generation()
 
@@ -130,5 +130,9 @@ class ThreeDDataReport():
                 utils.MetaCommand('color pid Gray act')
                 utils.MetaCommand('write png "{}"'.format(model_color_image_path))
                 utils.MetaCommand('color pid reset act')
+
+        return 0
+
+    def get_spotweld_failure_images(self, ):
 
         return 0
