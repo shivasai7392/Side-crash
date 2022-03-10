@@ -12,7 +12,7 @@ import os
 
 from meta import utils
 
-from src.meta_utilities import visualize_3d_critical_section
+from src.meta_utilities import visualize_3d_critical_section,annotation
 from src.generate_reports.excel_generator import ExcelBomGeneration
 
 
@@ -58,7 +58,6 @@ class ThreeDDataReport():
         self.logger.log.info("")
         self.get_initial_state_images()
         self.get_peak_state_images()
-        self.get_spotweld_failure_images()
         excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder)
         self.logger.log.info("--- 3D MODEL BOM GENERATOR")
         excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder,self.logger)
@@ -76,7 +75,6 @@ class ThreeDDataReport():
             _type_: _description_
         """
         from PIL import Image
-
 
         for section,value in self.critical_sections.items():
             if "hes" in value.keys() and value["hes"] != "null":
@@ -108,7 +106,7 @@ class ThreeDDataReport():
                 self.logger.log.info("{}".format(titled_image_path))
                 self.logger.log.info("")
                 self.logger.log.info("")
-                break
+
         return 0
 
     def get_peak_state_images(self):
@@ -128,7 +126,8 @@ class ThreeDDataReport():
                 self.logger.log.info("SOURCE WINDOW : {} ".format(self.threed_window_name))
                 self.logger.log.info("SOURCE MODEL : 0")
                 self.logger.log.info("STATE : PEAK STATE")
-                image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
+                image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+"_Image"+".png")
+                spotweld_failure_image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+"_SpotWeld_Failure_Image"+".png")
                 contour_image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+"_Contour_Image"+".png")
                 contour_with_out_deform_image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+"_Contour_Without_Deformation_Image"+".png")
                 model_color_image_path =  os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section .lower()+"_Model_Color_Image"+".png")
@@ -157,6 +156,9 @@ class ThreeDDataReport():
                 utils.MetaCommand('color pid Gray act')
                 utils.MetaCommand('write png "{}"'.format(model_color_image_path))
 
+                annotation()
+                utils.MetaCommand('write png "{}"'.format(spotweld_failure_image_path))
+
                 utils.MetaCommand('color pid reset act')
 
                 image = Image.open(image_path)
@@ -167,10 +169,8 @@ class ThreeDDataReport():
                 self.logger.log.info("{}".format(model_color_image_path))
                 self.logger.log.info("{}".format(contour_image_path))
                 self.logger.log.info("{}".format(contour_with_out_deform_image_path))
+                self.logger.log.info("{}".format(spotweld_failure_image_path))
                 self.logger.log.info("")
                 self.logger.log.info("")
-        return 0
-
-    def get_spotweld_failure_images(self, ):
 
         return 0

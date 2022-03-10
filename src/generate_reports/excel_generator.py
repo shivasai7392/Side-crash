@@ -51,6 +51,7 @@ class ExcelBomGeneration():
                 m = models.Model(0)
                 visible_parts = m.get_parts('visible')
 
+                self.logger.log.info("Number of parts identified : {}".format(len(visible_parts)))
                 for each_prop_entity in visible_parts:
                     part_type = parts.StringPartType(each_prop_entity.type)
                     if part_type == "PSHELL":
