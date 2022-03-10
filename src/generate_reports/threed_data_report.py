@@ -71,11 +71,33 @@ class ThreeDDataReport():
         Returns:
             _type_: _description_
         """
+        import PIL
+        print("--- 3D MODEL IMAGE GENERATOR")
+        print("")
+        print("SOURCE WINDOW:", "Metapost")
+        print("SOURCE MODEL:", "0")
+        print("STATE:", "ORIGINAL STATE")
         for section,value in self.critical_sections.items():
             if "hes" in value.keys() and value["hes"] != "null":
                 image_path = os.path.join(self.threed_images_report_folder,self.threed_window_name+"_"+section.lower()+".png")
+                print("PID NAME SHOW FILTER:", )
+                print("ADDITIONAL PID'S SHOWN:", )
+                print("PID NAME ERASE FILTER:", )
+                print("PID'S TO ERASE:", )
+                print("ERASE BOX:", )
+                print("IMAGE VIEW:", )
+                print("TRANSPARENCY LEVEL:", )
+                print("TRANSPARENT PID'S:", )
+                print("COMP NAME:", )
+
                 visualize_3d_critical_section(value)
                 utils.MetaCommand('write png "{}"'.format(image_path))
+
+                image = PIL.Image.open(image_path)
+                width,height = image.size
+                print("OUTPUT IMAGE SIZE (PIXELS) :", width,height)
+                print("OUTPUT MODEL IMAGES:", image_path)
+
 
         return 0
 
