@@ -18,7 +18,7 @@ class SideCrashLogger():
         output_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)),"logs")
         if not os.path.exists(output_folder):
             os.mkdir(output_folder)
-        self.log_file = os.path.abspath(os.path.join(output_folder,"2TN_MP_log_{}.log".format(current_datetime.strftime('%Y-%d-%m-%H-%M-%S'))))
+        self.log_file = os.path.abspath(os.path.join(output_folder,"2TN_MP_log_{}.log".format(current_datetime.strftime('%Y-%d-%m'))))
         if not os.path.exists(self.log_file):
             file_object = open(self.log_file, 'w+')
             if os.stat(self.log_file).st_size == 0:
@@ -29,8 +29,21 @@ class SideCrashLogger():
 
 Side Crash Automation Log file
 
-"""
+Log Report {}
+--------------------------
+--------------------------
+
+""".format(current_datetime.strftime("%H-%M-%S"))
                 file_object.write(initial_str)
+            file_object.close()
+        else:
+            file_object = open(self.log_file, 'a')
+            initial_str = """Log Report {}
+--------------------------
+--------------------------
+
+""".format(current_datetime.strftime("%H-%M-%S"))
+            file_object.write(initial_str)
             file_object.close()
 
         #getting logger object as name 'beta_logger'
@@ -95,6 +108,7 @@ Side Crash Automation Log file
         Returns:
             _type_: _description_
         """
+        pass
         #shutil.move(self.log_file, os.path.join(log_folder,"2TN_MP_log.log"))
         #shutil.rmtree(os.path.dirname(self.log_file))
 
