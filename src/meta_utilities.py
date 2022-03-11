@@ -202,3 +202,41 @@ def annotation(visible_parts):
     """
     utils.MetaCommand('add element connected')
     return 0
+
+def deformation_plot_formmatter(window_name,plot1_id,plot2_id,plot3_id):
+    """
+    deformation_plot_formmatter _summary_
+
+    _extended_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name,plot1_id))
+    utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot1_id))
+    utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name,plot1_id))
+
+    utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name,plot2_id))
+    utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot2_id))
+    utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name,plot2_id))
+
+    utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name,plot3_id))
+    utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot3_id))
+    utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name,plot3_id))
+
+    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name,plot1_id))
+    utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot1_id))
+    utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name,plot1_id))
+
+    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name,plot2_id))
+    utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot2_id))
+    utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name,plot2_id))
+
+    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name,plot3_id))
+    utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot3_id))
+    utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name,plot3_id))
+
+    utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,14,-1,5,75,0,0,0,0,0"'.format(window_name,plot1_id))
+    utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,14,-1,5,75,0,0,0,0,0"'.format(window_name,plot2_id))
+    utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,14,-1,5,75,0,0,0,0,0"'.format(window_name,plot3_id))
+    return 0

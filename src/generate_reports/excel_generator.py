@@ -67,6 +67,6 @@ class ExcelBomGeneration():
                 excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key.lower()+".xlsx").replace("\\","/")
                 workbook.save(excel_path)
                 self.logger.log.info("OUTPUT BOM : {}".format(excel_path))
-                self.logger.log.info("CELLS WITH DATA : A1:D{}".format(20))
+                self.logger.log.info("CELLS WITH DATA : A1:D{}".format(str(len(visible_parts)+1)))
                 self.logger.log.info("")
                 self.logger.log.info("")

@@ -58,7 +58,6 @@ class ThreeDDataReport():
         self.logger.log.info("")
         self.get_initial_state_images()
         self.get_peak_state_images()
-        excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder)
         self.logger.log.info("--- 3D MODEL BOM GENERATOR")
         excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder,self.logger)
         excel_bom_report.excel_bom_generation()
@@ -97,6 +96,7 @@ class ThreeDDataReport():
                 utils.MetaCommand('write png "{}"'.format(image_path))
                 utils.MetaCommand('options title on')
                 utils.MetaCommand('write png "{}"'.format(titled_image_path))
+                utils.MetaCommand('options title off')
 
                 image = Image.open(image_path)
                 width,height = image.size
@@ -156,7 +156,7 @@ class ThreeDDataReport():
                 utils.MetaCommand('color pid Gray act')
                 utils.MetaCommand('write png "{}"'.format(model_color_image_path))
 
-                annotation()
+                annotation([])
                 utils.MetaCommand('write png "{}"'.format(spotweld_failure_image_path))
 
                 utils.MetaCommand('color pid reset act')
