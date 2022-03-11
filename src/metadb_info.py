@@ -14,13 +14,13 @@ Date        : Dec 31, 2021
 
 """
 
+import os
 
 from meta import utils
 from meta import models
 from meta import plot2d
 
 from src.meta_utilities import Meta2DWindow
-
 
 class Meta2DInfo:
     """ This module contains complete variable info of user provided 2d data .
@@ -342,6 +342,23 @@ class GeneralVarInfo:
         self.door_skin_intrusion_window_name = None
         self.door_panel_intrusion_window_name = None
 
+    def get_log_directory(self):
+        """
+        get_log_directory _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        get_var = lambda a: utils.MetaGetVariable(a)
+        #self.log_file = get_var(GeneralVarInfo.log_file_key)
+        self.log_file = "2TN_MP_log"
+        self.log_file_directory = get_var(GeneralVarInfo.log_file_directory_key)
+
+        return os.path.join(self.log_file_directory,self.log_file)
+
+
     def get_info(self):
         """[summary]
 
@@ -352,7 +369,6 @@ class GeneralVarInfo:
         """
 
         get_var = lambda a: utils.MetaGetVariable(a)
-
         self.source_template_file_directory = get_var(GeneralVarInfo.source_template_file_directory_key)
         self.source_template_file_name = get_var(GeneralVarInfo.source_template_file_name_key)
         self.font_size_info = get_var(GeneralVarInfo.font_size_info_key)
@@ -366,8 +382,6 @@ class GeneralVarInfo:
         self.image3x1_size = get_var(GeneralVarInfo.image3x1_size_key)
         self.image3x3_size = get_var(GeneralVarInfo.image3x3_size_key)
         self.frames_per_second = get_var(GeneralVarInfo.frames_per_second_key)
-        self.log_file = get_var(GeneralVarInfo.log_file_key)
-        self.log_file_directory = get_var(GeneralVarInfo.log_file_directory_key)
         self.target_2d_metadb = get_var(GeneralVarInfo.target_2d_metadb_key)
         self.geometry_file = get_var(GeneralVarInfo.geometry_key)
         self.report_directory = get_var(GeneralVarInfo.report_directory_key)

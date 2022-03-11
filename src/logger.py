@@ -3,10 +3,9 @@
 import os
 import logging
 import datetime
-import shutil
 
 class SideCrashLogger():
-    def __init__(self,name = "side_crash_logger"):
+    def __init__(self,file_path,name = "side_crash_logger"):
         #name of the logger
         self.name = name
 
@@ -15,10 +14,10 @@ class SideCrashLogger():
 
         #log output file preperation
         current_datetime = datetime.datetime.now()
-        output_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)),"logs")
+        output_folder = os.path.dirname(file_path)
         if not os.path.exists(output_folder):
             os.mkdir(output_folder)
-        self.log_file = os.path.abspath(os.path.join(output_folder,"2TN_MP_log_{}.log".format(current_datetime.strftime('%Y-%d-%m'))))
+        self.log_file = "{}_{}.log".format(file_path,current_datetime.strftime('%Y-%d-%m'))
         if not os.path.exists(self.log_file):
             file_object = open(self.log_file, 'w+')
             if os.stat(self.log_file).st_size == 0:
@@ -29,7 +28,7 @@ class SideCrashLogger():
 
 Side Crash Automation Log file
 
-Log Report {}
+Log Session Report {}
 --------------------------
 --------------------------
 
@@ -38,7 +37,21 @@ Log Report {}
             file_object.close()
         else:
             file_object = open(self.log_file, 'a')
-            initial_str = """Log Report {}
+            if os.stat(self.log_file).st_size == 0:
+                initial_str = """##################################################
+#      Copyright BETA CAE Systems USA Inc.,      #
+#      2022 All Rights Reserved                  #
+##################################################
+
+Side Crash Automation Log file
+
+Log Session Report {}
+--------------------------
+--------------------------
+
+""".format(current_datetime.strftime("%H:%M:%S"))
+            else:
+                initial_str = """Log Session Report {}
 --------------------------
 --------------------------
 
@@ -49,22 +62,19 @@ Log Report {}
         #getting logger object as name 'beta_logger'
         self.log = logging.getLogger(name)
 
+        if not self.log.handlers:
+            #setting log level as INFO
+            self.log.setLevel(logging.INFO)
 
-        #setting log level as INFO
-        self.log.setLevel(logging.INFO)
+            #adding console stream handler for logging
+            self.console_handler = self.get_console_handler()
+            self.set_formatter(self.console_handler,self.side_crash_logger_format if name == "side_crash_logger" else None)
+            self.log.addHandler(self.console_handler)
 
-        #adding console stream handler for logging
-        self.console_handler = self.get_console_handler()
-        self.set_formatter(self.console_handler,self.side_crash_logger_format if name == "side_crash_logger" else None)
-        self.log.addHandler(self.console_handler)
-
-        #adding file stream handler for logging
-        self.file_handler = self.get_file_handler(self.log_file)
-        self.set_formatter(self.file_handler,self.side_crash_logger_format if name == "side_crash_logger" else  None)
-        self.log.addHandler(self.file_handler)
-
-        #with this pattern, it's rarely necessary to propagate the error up to parent
-        self.propagate = False
+            #adding file stream handler for logging
+            self.file_handler = self.get_file_handler(self.log_file)
+            self.set_formatter(self.file_handler,self.side_crash_logger_format if name == "side_crash_logger" else  None)
+            self.log.addHandler(self.file_handler)
 
     def set_formatter(self,handler,format):
         """
@@ -74,6 +84,19 @@ Log Report {}
             int: 0
         """
         handler.setFormatter(format)
+        return 0
+
+    def shutdown(self):
+        """
+        shutdown _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        self.log.handlers = []
+
         return 0
 
     def get_console_handler(self):
@@ -95,24 +118,6 @@ Log Report {}
         """
         file_handler = logging.FileHandler(file)
         return file_handler
-
-    def save_log(self, log_folder):
-        """
-        save_log _summary_
-
-        _extended_summary_
-
-        Args:
-            log_folder (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        pass
-        #shutil.move(self.log_file, os.path.join(log_folder,"2TN_MP_log.log"))
-        #shutil.rmtree(os.path.dirname(self.log_file))
-
-        return 0
 
 class CustomFormatter(logging.Formatter):
     """ Custom Formatter does these 2 things:

@@ -112,45 +112,36 @@ def image_transperent(img):
     return rgba_img
 
 
-def capture_resized_image(window_name,width,height,file_path,plot_id = None,rotate = None, view = None):
+def capture_image_and_resize(file_path,width,height):
     """
-    capture_resized_image _summary_
-
-    _extended_summary_
+    This method is used to capture an image of the meta window and resize it based on the width and height.
 
     Args:
-        window_name (_type_): _description_
-        width (_type_): _description_
-        height (_type_): _description_
-        file_path (_type_): _description_
-        plot_id (_type_, optional): _description_. Defaults to None.
-        rotate (_type_, optional): _description_. Defaults to None.
-        view (_type_, optional): _description_. Defaults to None.
+        window_name (str): meta window name
+        width (int): width of the shape
+        height (int): height of the shape
+        file_path (str): path to save image
 
     Returns:
-        _type_: _description_
+        int: 0 Always for Success,1 for Failure.
     """
     from PIL import Image,ImageFile
     ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-    if view is not None:
-        utils.MetaCommand('view default {}'.format(view))
+    try:
+        #saving image of the meta window
+        utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
 
-    # if not os.path.exists(os.path.dirname(file_path)):
-    #     os.makedirs(os.path.dirname(file_path))
-    utils.MetaCommand('write png "{}"'.format(file_path))
-    img = Image.open(file_path)
-    img.save(file_path, 'PNG')
-    img = Image.open(file_path)
-    img = img.resize((round(width/9525),round(height/9525)))
+        #creating Image object for the saved image
+        img = Image.open(file_path)
 
-    rgba_img = image_transperent(img)
+        #resizing the image
+        img = img.resize((round(width/9525),round(height/9525)))
 
-    if rotate:
-        rgba_img = rgba_img.transpose(rotate)
-    rgba_img.save(file_path, 'PNG')
-
-    utils.MetaCommand('window maximize {}'.format(window_name))
+        #saving the resized image
+        img.save(file_path, 'PNG')
+    except:
+        return 1
 
     return 0
 
