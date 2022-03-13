@@ -10,8 +10,7 @@ Returns:
 
 import os
 import time
-import datetime
-
+import logging
 
 from src.generate_reports.report_slides.title_slide import TitleSlide
 from src.generate_reports.report_slides.cae_quality_slide import CAEQualitySlide
@@ -55,6 +54,7 @@ class SideCrashPPTReportGenerator():
         self.threed_images_report_folder = threed_images_report_folder
         self.ppt_report_folder = ppt_report_folder
         self.report_composer = None
+        self.logger = logging.getLogger("side_crash_logger")
 
     def generate_ppt(self):
         """
@@ -65,18 +65,11 @@ class SideCrashPPTReportGenerator():
         Returns:
             [type]: [description]
         """
-
+        self.logger.info("--- Thesis Report Generation")
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
         title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
-                                self.windows,
-                                self.general_input,
-                                self.metadb_2d_input,
-                                self.metadb_3d_input,
-                                self.template_file,
-                                self.twod_images_report_folder,
-                                self.threed_images_report_folder,
-                                self.ppt_report_folder)
+                                self.general_input)
         title_slide.edit()
         cae_quality_slide = CAEQualitySlide(self.report_composer.prs_obj.slides[1],
                                 self.general_input,

@@ -5,6 +5,7 @@ This script is used for all the automation process of CAE Quality slide of thesi
 
 import os
 import logging
+from datetime import datetime
 
 from meta import utils
 from meta import plot2d
@@ -48,10 +49,10 @@ class CAEQualitySlide():
         try:
             self.logger.info("Started seeding data into cae quality slide")
             self.logger.info("")
+            starttime = datetime.now()
             #maximizing the cae quality window
             window_name = self.general_input.cae_quality_window_name
             utils.MetaCommand('window maximize "{}"'.format(window_name))
-
             #iterating through the shapes of the cae quality slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 2"
@@ -199,10 +200,12 @@ class CAEQualitySlide():
                         font_2 = text_frame_2.paragraphs[0].font
                         font_2.size = Pt(12)
                         text_frame_2.paragraphs[0].text = value
+            endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into cae quality slide:\n{}".format(e))
             self.logger.info("")
             return 1
         self.logger.info("Completed seeding data into cae quality slide")
+        self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
         return 0

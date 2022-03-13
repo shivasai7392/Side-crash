@@ -87,7 +87,7 @@ class Reporter():
         """
 
         self.thesis_report_generation()
-        self.threed_data_reporting()
+        #self.threed_data_reporting()
 
         return 0
 
