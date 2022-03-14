@@ -73,10 +73,13 @@ class CAEQualitySlide():
                     #capturing "System Energy" plot image
                     image_path = os.path.join(self.twod_images_report_folder,window_name+" -"+title.get_text().lower()+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
                     self.logger.info("CURVES : All except 'System damping energy' curve | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(title.get_text().lower(),window_name))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info(image_path)
+                    self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
@@ -109,7 +112,6 @@ class CAEQualitySlide():
                     #reverting the plot layout of the window and deactiving the "System Energy" plot
                     utils.MetaCommand('xyplot rlayout "{}" 2'.format(window_name))
                     plot.deactivate()
-                    self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
                     #getting "Added Mass" plot object to activate
@@ -126,10 +128,13 @@ class CAEQualitySlide():
                     #capturing "Added Mass" plot image
                     image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
                     capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
                     self.logger.info("CURVES : All | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(title.get_text().lower(),window_name))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info(image_path)
+                    self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.slide.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
@@ -137,7 +142,6 @@ class CAEQualitySlide():
                     #reverting the plot layout of the window and deactiving the "System Energy" plot
                     utils.MetaCommand('xyplot rlayout "{}" 2'.format(window_name))
                     plot.deactivate()
-                    self.logger.info("")
                 #table population for the shape named "Table 1"
                 elif shape.name == "Table 1":
                     #getting "System Energy" plot object

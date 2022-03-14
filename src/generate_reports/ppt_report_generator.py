@@ -14,7 +14,7 @@ import logging
 
 from src.generate_reports.report_slides.title_slide import TitleSlide
 from src.generate_reports.report_slides.cae_quality_slide import CAEQualitySlide
-# from src.generate_reports.report_slides.executive_slide import ExecutiveSlide
+from src.generate_reports.report_slides.executive_slide import ExecutiveSlide
 # from src.generate_reports.report_slides.cbu_and_barrier_position_slide import CBUAndBarrierPositionSlide
 # from src.generate_reports.report_slides.biw_kinematics_slide import BIWKinematicsSlide
 # from src.generate_reports.report_slides.biw_cbu_deformation_slide import BIWCBUDeformationSlide
@@ -75,16 +75,12 @@ class SideCrashPPTReportGenerator():
                                 self.general_input,
                                 self.twod_images_report_folder)
         cae_quality_slide.edit()
-        # executive_slide = ExecutiveSlide(self.report_composer.prs_obj.slides[2],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # executive_slide.edit()
+        executive_slide = ExecutiveSlide(self.report_composer.prs_obj.slides[2],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        executive_slide.edit()
         # cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
         #                         self.windows,
         #                         self.general_input,

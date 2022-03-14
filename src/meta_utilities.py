@@ -46,45 +46,50 @@ class Meta2DWindow():
                 self.name = name
                 self.meta_obj = obj
 
-def capture_image(window_name,width,height,file_path,plot_id = None,rotate = None, view = None):
+def capture_image(file_path,window_name,width,height,rotate = None, view = None,transparent = False):
     """
-    capture_image _summary_
-
-    _extended_summary_
+    This method is used to capture an image of the resized meta window based on the width and height.
 
     Args:
-        window_name (_type_): _description_
-        width (_type_): _description_
-        height (_type_): _description_
-        file_path (_type_): _description_
-        plot_id (_type_, optional): _description_. Defaults to None.
+        file_path (str): path to save image
+        window_name (str): meta window name
+        width (int): width of the shape
+        height (int): height of the shape
+        rotate (object): Image rotate object
+        view (str): view position for the contents of the window
+        transparent (bool): status of transparency
 
     Returns:
-        _type_: _description_
+        int: 0 Always for Success,1 for Failure.
     """
     from PIL import Image,ImageFile
     ImageFile.LOAD_TRUNCATED_IMAGES = True
-
-    win_obj = windows.Window(window_name, page_id = 0)
-    win_obj.set_size((round(width/9525),round(height/9525)))
-
-    if view is not None:
-        utils.MetaCommand('view default {}'.format(view))
-
-    utils.MetaCommand('write png "{}"'.format(file_path))
-    img = Image.open(file_path)
-    img.save(file_path, 'PNG')
-    img = Image.open(file_path)
-
-    rgba_img = image_transperent(img)
-
-    if rotate:
-        rgba_img = rgba_img.transpose(rotate)
-
-    rgba_img.save(file_path, 'PNG')
-
-    utils.MetaCommand('window maximize {}'.format(window_name))
-
+    try:
+        #maximizing the window
+        utils.MetaCommand('window maximize {}'.format(window_name))
+        #getting window object to resize
+        win_obj = windows.Window(window_name, page_id = 0)
+        win_obj.set_size((round(width/9525),round(height/9525)))
+        #applying view to the window
+        if view is not None:
+            utils.MetaCommand('view default {}'.format(view))
+        #saving image of the meta window
+        utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
+        #rotating the image based on rotate object and saving it
+        if rotate:
+            img = Image.open(file_path)
+            img = img.transpose(rotate)
+            img.save(file_path, 'JPEG')
+        if transparent:
+            img = Image.open(file_path)
+            img.save(file_path.replace(".jpeg",".png"), 'PNG')
+            img = image_transperent(img)
+            os.remove(file_path.replace(".jpeg",".png"))
+            img.save(file_path.replace(".jpeg","")+"_transparent.png", 'PNG')
+        #maximizing the window
+        utils.MetaCommand('window maximize {}'.format(window_name))
+    except:
+        return 1
     return 0
 
 def image_transperent(img):
@@ -131,13 +136,10 @@ def capture_image_and_resize(file_path,width,height):
     try:
         #saving image of the meta window
         utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
-
         #creating Image object for the saved image
         img = Image.open(file_path)
-
         #resizing the image
         img = img.resize((round(width/9525),round(height/9525)))
-
         #saving the resized image
         img.save(file_path, 'PNG')
     except:
