@@ -120,8 +120,8 @@ class ExecutiveSlide():
             self.logger.info("")
             starttime = datetime.now()
             #maximizing the survival space window
-            window_name = self.general_input.survival_space_window_name
-            utils.MetaCommand('window maximize "{}"'.format(window_name))
+            survival_space_window_name = self.general_input.survival_space_window_name
+            utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
             #sorting shapes of the slide based on their names
             shapes = [shape for shape in self.shapes]
             shapes.sort(key = lambda x:x.name)
@@ -134,36 +134,36 @@ class ExecutiveSlide():
                     initial_time_curve_name = "SS_0MS"
                     plot_id = 0
                     page_id=0
-                    plot = plot2d.Plot(plot_id, window_name, page_id)
+                    plot = plot2d.Plot(plot_id, survival_space_window_name, page_id)
                     title = plot.get_title()
                     org_name = title.get_text()
                     title.set_text("{} 0MS AND 150MS".format(org_name))
                     plot.activate()
-                    final_curve = plot2d.CurvesByName(window_name, final_time_curve_name, 0)[0]
+                    final_curve = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)[0]
                     final_curve.show()
-                    initial_curve = plot2d.CurvesByName(window_name, initial_time_curve_name, 0)[0]
+                    initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
                     initial_curve.show()
                     #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
-                    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot gridoptions xspace "{}" {} 20'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions axxrange "{}" {} 0 175 400'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot gridoptions line major style "{}" {} 0'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions yauto on "{}" {}'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name, plot_id))
-                    utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot gridoptions xspace "{}" {} 20'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions axxrange "{}" {} 0 175 400'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot gridoptions line major style "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions yauto on "{}" {}'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     #capturing "Survival Space" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".jpeg")
-                    capture_image(image_path,window_name,shape.width,shape.height,transparent = True)
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text().lower()+".jpeg")
+                    capture_image(image_path,survival_space_window_name,shape.width,shape.height,transparent = True)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(final_time_curve_name,initial_time_curve_name,title.get_text().lower(),window_name))
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(final_time_curve_name,initial_time_curve_name,title.get_text(),survival_space_window_name))
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
@@ -322,7 +322,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER")
                     #capturing front shoulder intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 SHOULDER"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 SHOULDER"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -349,7 +349,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 ABDOMEN")
                     #capturing front abdomen intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 ABDOMEN"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 ABDOMEN"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -376,7 +376,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 FEMUR")
                     #capturing front femur intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 FEMUR"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 FEMUR"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -403,7 +403,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 PELVIS")
                     #capturing front pelvis intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 PELVIS"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 PELVIS"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -430,7 +430,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
                     #capturing rear shoulder intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 SHOULDER"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 SHOULDER"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -457,7 +457,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN")
                     #capturing rear abdomen intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 ABDOMEN"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 ABDOMEN"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -484,7 +484,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR")
                     #capturing rear femur intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 FEMUR"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 FEMUR"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -511,7 +511,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS")
                     #capturing rear pelvis intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 2 PELVIS"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 PELVIS"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")

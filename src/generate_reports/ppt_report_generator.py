@@ -15,8 +15,8 @@ import logging
 from src.generate_reports.report_slides.title_slide import TitleSlide
 from src.generate_reports.report_slides.cae_quality_slide import CAEQualitySlide
 from src.generate_reports.report_slides.executive_slide import ExecutiveSlide
-# from src.generate_reports.report_slides.cbu_and_barrier_position_slide import CBUAndBarrierPositionSlide
-# from src.generate_reports.report_slides.biw_kinematics_slide import BIWKinematicsSlide
+from src.generate_reports.report_slides.cbu_and_barrier_position_slide import CBUAndBarrierPositionSlide
+from src.generate_reports.report_slides.biw_kinematics_slide import BIWKinematicsSlide
 # from src.generate_reports.report_slides.biw_cbu_deformation_slide import BIWCBUDeformationSlide
 # from src.generate_reports.report_slides.bom_f21_upb_slide import BOMF21UPBSlide
 # from src.generate_reports.report_slides.biw_stiff_ring_deformation_slide import BIWStiffRingDeformationSlide
@@ -81,26 +81,17 @@ class SideCrashPPTReportGenerator():
                                 self.twod_images_report_folder,
                                 self.threed_images_report_folder)
         executive_slide.edit()
-        # cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # cbu_and_barrier_position_slide.edit()
-        # biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # biw_kinematics_slide.edit()
+        cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        cbu_and_barrier_position_slide.edit()
+        biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        biw_kinematics_slide.edit()
         # biw_cbu_deformation_slide = BIWCBUDeformationSlide(self.report_composer.prs_obj.slides[7],
         #                         self.windows,
         #                         self.general_input,
