@@ -283,12 +283,15 @@ class BIWKinematicsSlide():
                     #reverting color and 3d data setup
                     utils.MetaCommand('color pid reset act')
                     self.revert(format_type="3d")
+                #image insertion for the shape named "Image 5"
                 elif shape.name == "Image 5":
+                    #calling default 2d data setup and getting all the curves from biw accel window of plot id 3
                     self.setup()
                     plot_id = 3
                     page_id = 0
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
                     biw_accel_curves = plot.get_curves('all')
+                    #iterating through all the curves
                     velocity_min_max_values = []
                     displacement_min_max_values = []
                     for each_biw_accel_curve in biw_accel_curves:
