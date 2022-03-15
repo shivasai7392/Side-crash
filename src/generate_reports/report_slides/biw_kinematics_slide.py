@@ -17,9 +17,7 @@ from src.meta_utilities import visualize_3d_critical_section
 
 class BIWKinematicsSlide():
     """
-        __init__ _summary_
-
-        _extended_summary_
+        This class is used to automate the biw kinematics slide of thesis report.
 
         Args:
             slide (object): executive report pptx slide object.
@@ -56,17 +54,20 @@ class BIWKinematicsSlide():
         Returns:
             int: 0 Always for Sucess.1 for Failure.
         """
-        if format_type == "2d":
-            self.biw_accel_window_name = self.general_input.biw_accel_window_name
-            self.biw_accel_window_name = self.biw_accel_window_name.replace("\"","")
-            utils.MetaCommand('window maximize "{}"'.format(self.biw_accel_window_name))
-            self.biw_accel_window_obj = windows.Window(self.biw_accel_window_name, page_id = 0)
-            self.biw_accel_window_layout = self.biw_accel_window_obj.get_plot_layout()
-        else:
-            utils.MetaCommand('window maximize "MetaPost"')
-            utils.MetaCommand('0:options state variable "serial=1"')
-            utils.MetaCommand('grstyle scalarfringe disable')
-            utils.MetaCommand('options fringebar off')
+        try:
+            if format_type == "2d":
+                self.biw_accel_window_name = self.general_input.biw_accel_window_name
+                self.biw_accel_window_name = self.biw_accel_window_name.replace("\"","")
+                utils.MetaCommand('window maximize "{}"'.format(self.biw_accel_window_name))
+                self.biw_accel_window_obj = windows.Window(self.biw_accel_window_name, page_id = 0)
+                self.biw_accel_window_layout = self.biw_accel_window_obj.get_plot_layout()
+            else:
+                utils.MetaCommand('window maximize "MetaPost"')
+                utils.MetaCommand('0:options state variable "serial=1"')
+                utils.MetaCommand('grstyle scalarfringe disable')
+                utils.MetaCommand('options fringebar off')
+        except Exception  as e:
+            return 1
 
         return 0
 
@@ -151,7 +152,7 @@ class BIWKinematicsSlide():
                 if shape.name == "Image 1":
                     #calling 3d data setup
                     self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state
+                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
                     critical_data = self.metadb_3d_input.critical_sections
                     for (index,(_critical_section,value)) in enumerate(critical_data.items()):
                         and_filter = False
@@ -159,6 +160,7 @@ class BIWKinematicsSlide():
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
+                    #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_PEAK_STATE"+".jpeg")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
@@ -185,7 +187,7 @@ class BIWKinematicsSlide():
                 elif shape.name == "Image 2":
                     #calling 3d data setup
                     self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state
+                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
                     critical_data = self.metadb_3d_input.critical_sections
                     for (index,(_critical_section,value)) in enumerate(critical_data.items()):
                         and_filter = False
@@ -193,6 +195,7 @@ class BIWKinematicsSlide():
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
+                    #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_PEAK_STATE"+".jpeg")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
@@ -219,7 +222,7 @@ class BIWKinematicsSlide():
                 elif shape.name == "Image 3":
                     #calling 3d data setup
                     self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state
+                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
                     critical_data = self.metadb_3d_input.critical_sections
                     for (index,(_critical_section,value)) in enumerate(critical_data.items()):
                         and_filter = False
@@ -227,6 +230,7 @@ class BIWKinematicsSlide():
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
+                    #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_FINAL_STATE"+".jpeg")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
@@ -253,7 +257,7 @@ class BIWKinematicsSlide():
                 elif shape.name == "Image 4":
                     #calling 3d data setup
                     self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state
+                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
                     critical_data = self.metadb_3d_input.critical_sections
                     for (index,(_critical_section,value)) in enumerate(critical_data.items()):
                         and_filter = False
@@ -261,6 +265,7 @@ class BIWKinematicsSlide():
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
+                    #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_FINAL_STATE"+".jpeg")
                     capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "top",rotate = Image.ROTATE_90)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
@@ -285,219 +290,267 @@ class BIWKinematicsSlide():
                     self.revert(format_type="3d")
                 #image insertion for the shape named "Image 5"
                 elif shape.name == "Image 5":
-                    #calling default 2d data setup and getting all the curves from biw accel window of plot id 3
+                    #calling default 2d data setup and getting the X velocity and X displacement curve from biw accel window of MDB plot id 3
                     self.setup()
                     plot_id = 3
                     page_id = 0
-                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
-                    biw_accel_curves = plot.get_curves('all')
-                    #iterating through all the curves
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    for each_biw_accel_curve in biw_accel_curves:
-                        if str(each_biw_accel_curve.name).endswith(("X velocity", "X displacement")):
-                            if str(each_biw_accel_curve.name).endswith("X velocity"):
-                                biw_accel_curve_velocity_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'max')
-                                velocity_min_max_values.append(biw_accel_max_velocity)
-                                biw_accel_min_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'min')
-                                velocity_min_max_values.append(biw_accel_min_velocity)
-                            if str(each_biw_accel_curve.name).endswith("X displacement"):
-                                biw_accel_curve_displacement_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_curve_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'max')
-                                displacement_min_max_values.append(biw_accel_max_curve_displacement)
-                                biw_accel_min_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'min')
-                                displacement_min_max_values.append(biw_accel_min_displacement)
-                            each_biw_accel_curve.show()
-
+                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
+                    biw_accel_mdb_x_velocity_curve = plot.get_curves('byname', name = '*X velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_mdb_x_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_mdb_x_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_mdb_x_velocity_curve.show()
+                    biw_accel_mdb_x_displacement_curve = plot.get_curves('byname', name = '*X displacement')[0]
+                    biw_accel_max_curve_displacement = biw_accel_mdb_x_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_mdb_x_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_mdb_x_displacement_curve.show()
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
                     title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
                     plot.activate()
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id, velocity_min_max_values, displacement_min_max_values)
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
-                    capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    #capturing "MDB" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*X velocity","*X displacemen",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting 2d data setup
                     self.revert()
+                #image insertion for the shape named "Image 6"
                 elif shape.name == "Image 6":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of UNIT plot id 0
                     self.setup()
                     plot_id = 0
                     page_id = 0
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
-                    biw_accel_curves = plot.get_curves('all')
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    for each_biw_accel_curve in biw_accel_curves:
-                        if (str(each_biw_accel_curve.name).__contains__("UNIT")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
-                            if str(each_biw_accel_curve.name).endswith("Y velocity"):
-                                biw_accel_curve_velocity_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'max')
-                                velocity_min_max_values.append(biw_accel_max_velocity)
-                                biw_accel_min_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'min')
-                                velocity_min_max_values.append(biw_accel_min_velocity)
-                            if str(each_biw_accel_curve.name).endswith("Y displacement"):
-                                biw_accel_curve_displacement_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_curve_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'max')
-                                displacement_min_max_values.append(biw_accel_max_curve_displacement)
-                                biw_accel_min_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'min')
-                                displacement_min_max_values.append(biw_accel_min_displacement)
-                            each_biw_accel_curve.show()
+                    biw_accel_unit_y_velocity_curve = plot.get_curves('byname', name = '*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_unit_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_unit_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_unit_y_velocity_curve.show()
+                    biw_accel_unit_y_displacement_curve = plot.get_curves('byname', name = '*Y displacement')[0]
+                    biw_accel_max_curve_displacement = biw_accel_unit_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_unit_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_unit_y_displacement_curve.show()
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
                     title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
                     plot.activate()
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title = "UNIT")
-
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
-                    capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    #capturing "UNIT" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*Y velocity","*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting 2d data setup
                     self.revert()
+                #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 7":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of APLR R plot id 1
                     self.setup()
                     plot_id = 1
                     page_id = 0
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
-                    biw_accel_curves = plot.get_curves('all')
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    for each_biw_accel_curve in biw_accel_curves:
-                        if (str(each_biw_accel_curve.name).__contains__("APLR_R")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
-                            if str(each_biw_accel_curve.name).endswith("Y velocity"):
-                                biw_accel_curve_velocity_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'max')
-                                velocity_min_max_values.append(biw_accel_max_velocity)
-                                biw_accel_min_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'min')
-                                velocity_min_max_values.append(biw_accel_min_velocity)
-                            if str(each_biw_accel_curve.name).endswith("Y displacement"):
-                                biw_accel_curve_displacement_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_curve_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'max')
-                                displacement_min_max_values.append(biw_accel_max_curve_displacement)
-                                biw_accel_min_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'min')
-                                displacement_min_max_values.append(biw_accel_min_displacement)
-                            each_biw_accel_curve.show()
+                    biw_accel_aplr_y_velocity_curve = plot.get_curves('byname', name = '*APLR_R*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_aplr_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_aplr_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_aplr_y_velocity_curve.show()
+                    biw_accel_aplr_y_displacement_curve = plot.get_curves('byname', name = '*APLR_R*Y displacement')[0]
+                    biw_accel_max_curve_displacement = biw_accel_aplr_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_aplr_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_aplr_y_displacement_curve.show()
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
                     title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
                     plot.activate()
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id, velocity_min_max_values, displacement_min_max_values,title="APLR_R")
-
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
-                    capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    #capturing "APLR R" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*APLR_R*Y velocity","*APLR_R*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting 2d data setup
                     self.revert()
+                #image insertion for the shape named "Image 8"
                 elif shape.name == "Image 8":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of SIS ROW2 R plot id 1
                     self.setup()
                     plot_id = 1
                     page_id = 0
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
-                    biw_accel_curves = plot.get_curves('all')
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    biw_accel_window_curves_all = self.biw_accel_window_obj.get_curves('all')
-                    self.biw_accel_window_obj.hide_curves(biw_accel_window_curves_all)
-                    for each_biw_accel_curve in biw_accel_curves:
-                        if (str(each_biw_accel_curve.name).__contains__("SIS_ROW2_R")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
-                            if str(each_biw_accel_curve.name).endswith("Y velocity"):
-                                biw_accel_curve_velocity_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'max')
-                                velocity_min_max_values.append(biw_accel_max_velocity)
-                                biw_accel_min_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'min')
-                                velocity_min_max_values.append(biw_accel_min_velocity)
-                            if str(each_biw_accel_curve.name).endswith("Y displacement"):
-                                biw_accel_curve_displacement_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_curve_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'max')
-                                displacement_min_max_values.append(biw_accel_max_curve_displacement)
-                                biw_accel_min_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'min')
-                                displacement_min_max_values.append(biw_accel_min_displacement)
-                            each_biw_accel_curve.show()
+                    biw_accel_sis_row_2_y_velocity_curve = plot.get_curves('byname', name = '*SIS_ROW2_R*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_sis_row_2_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_sis_row_2_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_sis_row_2_y_velocity_curve.show()
+                    biw_accel_sis_row_2_y_displacement_curve = plot.get_curves('byname', name = '*SIS_ROW2_R*Y displacement')[0]
+                    biw_accel_max_curve_displacement = biw_accel_sis_row_2_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_sis_row_2_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_sis_row_2_y_displacement_curve.show()
                     title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
                     plot.activate()
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values,title="SS_BP_R")
-
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
-                    capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    #capturing "SIS ROW2 R" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*SIS_ROW2_R*Y velocity","*SIS_ROW2_R*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting 2d data setup
                     self.revert()
+                #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 9":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of SS_R_RR_TOP_G_Y1 plot id 1
+                    self.setup()
                     plot_id = 1
                     page_id = 0
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
-                    biw_accel_curves = plot.get_curves('all')
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    biw_accel_window_curves_all = self.biw_accel_window_obj.get_curves('all')
-                    self.biw_accel_window_obj.hide_curves(biw_accel_window_curves_all)
-                    for each_biw_accel_curve in biw_accel_curves:
-                        if (str(each_biw_accel_curve.name).__contains__("SS_R_RR_TOP_G_Y1")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
-                            if str(each_biw_accel_curve.name).endswith("Y velocity"):
-                                biw_accel_curve_velocity_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'max')
-                                velocity_min_max_values.append(biw_accel_max_velocity)
-                                biw_accel_min_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'min')
-                                velocity_min_max_values.append(biw_accel_min_velocity)
-                            if str(each_biw_accel_curve.name).endswith("Y displacement"):
-                                biw_accel_curve_displacement_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_curve_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'max')
-                                displacement_min_max_values.append(biw_accel_max_curve_displacement)
-                                biw_accel_min_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'min')
-                                displacement_min_max_values.append(biw_accel_min_displacement)
-
-                            each_biw_accel_curve.show()
+                    biw_accel_ss_rr_top_y_velocity_curve = plot.get_curves('byname', name = '*SS_R_RR_TOP_G_Y1*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_ss_rr_top_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_ss_rr_top_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_ss_rr_top_y_velocity_curve.show()
+                    biw_accel_ss_rr_top_y_displacement_curve = plot.get_curves('byname', name = '*SS_R_RR_TOP_G_Y1*Y displacement')[0]
+                    biw_accel_max_curve_displacement = biw_accel_ss_rr_top_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_ss_rr_top_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_ss_rr_top_y_displacement_curve.show()
                     title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
                     plot.activate()
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title="SS_R_RR_TOP")
-
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
-                    capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    #capturing "SS_R_RR_TOP_G_Y1" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*SS_R_RR_TOP_G_Y1*Y velocity","*SS_R_RR_TOP_G_Y1*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting 2d data setup
                     self.revert()
+                #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 10":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of UPR plot id 2
+                    self.setup()
                     plot_id = 2
                     page_id = 0
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
-                    biw_accel_curves = plot.get_curves('all')
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    for each_biw_accel_curve in biw_accel_curves:
-                        if (str(each_biw_accel_curve.name).__contains__("UPR")) and (str(each_biw_accel_curve.name).endswith(("Y velocity", "Y displacement"))):
-                            if str(each_biw_accel_curve.name).endswith("Y velocity"):
-                                biw_accel_curve_velocity_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'max')
-                                velocity_min_max_values.append(biw_accel_max_velocity)
-                                biw_accel_min_velocity = biw_accel_curve_velocity_values.get_limit_value_y(specifier = 'min')
-                                velocity_min_max_values.append(biw_accel_min_velocity)
-                            if str(each_biw_accel_curve.name).endswith("Y displacement"):
-                                biw_accel_curve_displacement_values = plot2d.Curve(each_biw_accel_curve.id, self.biw_accel_window_name, page_id)
-                                biw_accel_max_curve_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'max')
-                                displacement_min_max_values.append(biw_accel_max_curve_displacement)
-                                biw_accel_min_displacement = biw_accel_curve_displacement_values.get_limit_value_y(specifier = 'min')
-                                displacement_min_max_values.append(biw_accel_min_displacement)
-                            each_biw_accel_curve.show()
+                    biw_accel_upr_y_velocity_curve = plot.get_curves('byname', name = '*UPR*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_upr_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_upr_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_upr_y_velocity_curve.show()
+                    biw_accel_upr_y_displacement_curve = plot.get_curves('byname', name = '*UPR*Y displacement')[0]
+                    biw_accel_max_curve_displacement = biw_accel_upr_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_upr_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_upr_y_displacement_curve.show()
                     title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
                     plot.activate()
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title="BPLR_MID_R")
-
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text().lower()+".png")
-                    capture_resized_image(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    #capturing "UPR" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
+                    capture_image_and_resize(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*UPR*Y velocity","*UPR*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting 2d data setup
                     self.revert()
             endtime = datetime.now()
         except Exception as e:
@@ -512,22 +565,23 @@ class BIWKinematicsSlide():
 
     def revert(self,format_type = "2d"):
         """
-        revert _summary_
-
-        _extended_summary_
+        This method is used to revert data for meta windows based on 3d and 2d formats
 
         Args:
-            format_type (str, optional): _description_. Defaults to "2d".
+            format_type (str, optional): format type. Defaults to "2d".
 
         Returns:
-            _type_: _description_
+            int: 0 Always for Sucess.1 for Failure.
         """
-        if format_type == "2d":
-            self.activated_plot.deactivate()
-            utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, self.biw_accel_window_layout))
-        else:
-            utils.MetaCommand('0:options state original')
-            utils.MetaCommand('options fringebar on')
-            utils.MetaCommand('grstyle scalarfringe enable')
+        try:
+            if format_type == "2d":
+                self.activated_plot.deactivate()
+                utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, self.biw_accel_window_layout))
+            else:
+                utils.MetaCommand('0:options state original')
+                utils.MetaCommand('options fringebar on')
+                utils.MetaCommand('grstyle scalarfringe enable')
+        except Exception as e:
+            return 1
 
         return 0
