@@ -43,7 +43,6 @@ class BIWKinematicsSlide():
         self.activated_plot = None
         self.logger = logging.getLogger("side_crash_logger")
 
-
     def setup(self,format_type = "2d"):
         """
         This method is used to setup data for meta windows based on 3d and 2d formats
@@ -267,7 +266,7 @@ class BIWKinematicsSlide():
                     utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_FINAL_STATE"+".jpeg")
-                    capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "top",rotate = Image.ROTATE_90)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -538,7 +537,7 @@ class BIWKinematicsSlide():
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title="BPLR_MID_R")
                     #capturing "UPR" plot image
                     image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".jpeg")
-                    capture_image_and_resize(self.biw_accel_window_name,shape.width,shape.height,image_path,plot_id=0)
+                    capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*UPR*Y velocity","*UPR*Y displacement",title.get_text(),self.biw_accel_window_name))
