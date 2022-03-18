@@ -281,8 +281,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
                     #capturing "f21_upb_inner" image at peak state
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,data["name"]))
-                    print(image_path)
+                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE"))
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")

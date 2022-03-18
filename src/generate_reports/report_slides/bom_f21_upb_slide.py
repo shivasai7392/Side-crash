@@ -68,7 +68,7 @@ class BOMF21UPBSlide():
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
                     self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
+                    self.logger.info("STATE : ORIGINAL STATE")
                     self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
                     self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
                     self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
@@ -101,7 +101,7 @@ class BOMF21UPBSlide():
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
                     self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
+                    self.logger.info("STATE : ORIGINAL STATE")
                     self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
                     self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
                     self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
@@ -262,4 +262,5 @@ class BOMF21UPBSlide():
         self.logger.info("Completed seeding data into bom f21 upb slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
+
         return 0
