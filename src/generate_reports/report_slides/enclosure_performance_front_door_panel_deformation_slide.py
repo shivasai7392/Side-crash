@@ -61,7 +61,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar on')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"FRINGE_BAR"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"FRINGE_BAR"+".png")
                     utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
                     self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
                     self.logger.info("")
