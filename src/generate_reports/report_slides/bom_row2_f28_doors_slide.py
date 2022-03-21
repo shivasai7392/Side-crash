@@ -55,7 +55,7 @@ class BOMRow2F28DoorsSlide():
             visualize_3d_critical_section(data)
             m = models.Model(0)
             self.visible_parts = m.get_parts('visible')
-            #iterating through the Image shapes of the bom f28 rear door slide
+            #iterating through the shapes of the bom f28 rear door slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":

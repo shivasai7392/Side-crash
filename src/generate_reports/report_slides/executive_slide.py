@@ -159,7 +159,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     #capturing "Survival Space" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text().lower()+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text()+".jpeg")
                     capture_image(image_path,survival_space_window_name,shape.width,shape.height,transparent = True)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")

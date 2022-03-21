@@ -57,7 +57,7 @@ class BOMF21ROOFSlide():
             m = models.Model(0)
             self.visible_parts = m.get_parts('visible')
             utils.MetaCommand('0:options state original')
-            #iterating through the Image shapes of the bom f21 roof slide
+            #iterating through the shapes of the bom f21 roof slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":

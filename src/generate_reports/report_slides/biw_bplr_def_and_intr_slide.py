@@ -50,7 +50,7 @@ class BIWBplrDeformationAndIntrusion():
         try:
             survival_space_window_name = self.general_input.survival_space_window_name
             utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
-            #iterating through the Image shapes of the biw bpillar deformation and intrusion slide
+            #iterating through the shapes of the biw bpillar deformation and intrusion slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
@@ -208,7 +208,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(survival_space_window_name, initial_curve.id))
                     utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(survival_space_window_name, peak_curve.id))
                     #capturing "Survival Space" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_with_peak_time"+title.get_text().lower()+".png")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+title.get_text()+".jpeg")
                     capture_image(image_path,survival_space_window_name,shape.width,shape.height)
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)

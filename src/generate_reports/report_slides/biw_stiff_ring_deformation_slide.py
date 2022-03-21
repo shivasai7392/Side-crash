@@ -51,7 +51,7 @@ class BIWStiffRingDeformationSlide():
             self.logger.info("Started seeding data into biw stiff ring deformation slide")
             self.logger.info("")
             starttime = datetime.now()
-            #iterating through the Image shapes of the  biw stiff ring deformation slide
+            #iterating through the shapes of the  biw stiff ring deformation slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 6"
                 if shape.name == "Image 6":

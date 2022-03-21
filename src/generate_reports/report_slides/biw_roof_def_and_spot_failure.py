@@ -52,7 +52,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
             self.logger.info("Started seeding data into biw roof deformation and spotweld failure slide")
             self.logger.info("")
             starttime = datetime.now()
-            #iterating through the Image shapes of the bom f21 upb slide
+            #iterating through the shapes of the bom f21 upb slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
@@ -191,7 +191,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     utils.MetaCommand('xyplot axisoptions labels xfont "{}" 0 "Arial,25,-1,5,75,0,0,0,0,0"'.format(window_name))
                     utils.MetaCommand('xyplot plotoptions title font "{}" 0 "Arial,25,-1,5,75,0,0,0,0,0"'.format(window_name))
                     #capturing plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png").replace("&","and")
+                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text()+".jpeg").replace("&","and")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
