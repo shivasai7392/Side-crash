@@ -29,8 +29,8 @@ from src.generate_reports.report_slides.biw_floor_deformation_spotweld_failure_s
 from src.generate_reports.report_slides.enclosure_performance_skin_deformation_slide import EnclosurePerformanceSkinDeformationSlide
 from src.generate_reports.report_slides.bom_row2_f28_doors_slide import BOMRow2F28DoorsSlide
 from src.generate_reports.report_slides.enclosure_performance_front_door_panel_intrusion_slide import EnclosurePerformanceFrontDoorPanelIntrusionSlide
-# from src.generate_reports.report_slides.enclosure_performance_front_door_panel_deformation_slide import EnclosurePerformanceFrontDoorPanelDeformationSlide
-# from src.generate_reports.report_slides.enclosure_performance_rear_door_panel_deformation_slide import EnclosurePerformanceRearDoorPanelDeformationSlide
+from src.generate_reports.report_slides.enclosure_performance_front_door_panel_deformation_slide import EnclosurePerformanceFrontDoorPanelDeformationSlide
+from src.generate_reports.report_slides.enclosure_performance_rear_door_panel_deformation_slide import EnclosurePerformanceRearDoorPanelDeformationSlide
 # from src.generate_reports.report_slides.enclosures_performance_rear_door_panel_intrusion_slide import EnclosurePerformanceRearDoorPanelIntrusionSlide
 # from src.generate_reports.report_slides.biw_stiff_ring_spotweld_failure_slide import BIWStiffRingSpotWeldFailureSlide
 
@@ -157,26 +157,22 @@ class SideCrashPPTReportGenerator():
                                 self.general_input,
                                 self.twod_images_report_folder)
         enclosure_performance_front_door_panel_intrusion_slide.edit()
-        # enclosure_performance_front_door_panel_deformation_slide = EnclosurePerformanceFrontDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[20],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # enclosure_performance_front_door_panel_deformation_slide.edit()
-        # enclosure_performance_rear_door_panel_deformation_slide = EnclosurePerformanceRearDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[27],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # enclosure_performance_rear_door_panel_deformation_slide.edit()
+        enclosure_performance_front_door_panel_deformation_slide = EnclosurePerformanceFrontDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[20],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        enclosure_performance_front_door_panel_deformation_slide.edit()
+        enclosure_performance_rear_door_panel_deformation_slide = EnclosurePerformanceRearDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[27],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_2d_input,
+                                self.metadb_3d_input,
+                                self.template_file,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder,
+                                self.ppt_report_folder)
+        enclosure_performance_rear_door_panel_deformation_slide.edit()
         # enclosures_performance_rear_door_panel_intrusion_slide = EnclosurePerformanceRearDoorPanelIntrusionSlide(self.report_composer.prs_obj.slides[26],
         #                         self.windows,
         #                         self.general_input,

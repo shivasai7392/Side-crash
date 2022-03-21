@@ -1,6 +1,6 @@
 # PYTHON script
 """
-This script is used for all the automation process of Enclosure performance skin defirmation slide of thesis report.
+This script is used for all the automation process of Enclosure performance skin deformation slide of thesis report.
 """
 
 import os
@@ -37,7 +37,6 @@ class EnclosurePerformanceSkinDeformationSlide():
         self.metadb_3d_input = metadb_3d_input
         self.twod_images_report_folder = twod_images_report_folder
         self.threed_images_report_folder = threed_images_report_folder
-        self.visible_parts = None
         self.logger = logging.getLogger("side_crash_logger")
 
     def edit(self):
