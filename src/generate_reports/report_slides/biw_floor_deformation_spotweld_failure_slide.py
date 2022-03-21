@@ -260,4 +260,5 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
         self.logger.info("Completed seeding data into biw floor deformation spotweld failure slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
+
         return 0

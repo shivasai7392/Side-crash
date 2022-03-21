@@ -26,7 +26,7 @@ from src.generate_reports.report_slides.biw_roof_def_and_spot_failure import BIW
 # from src.generate_reports.report_slides.bom_f28_doors_slide import BOMF28DoorsSlide
 from src.generate_reports.report_slides.bom_f21_front_floor import BOMF21FrontFloorSlide
 from src.generate_reports.report_slides.biw_floor_deformation_spotweld_failure_slide import BIWFloorDeformationAndSpotWeldFailureSlide
-# from src.generate_reports.report_slides.enclosure_performance_skin_deformation_slide import EnclosurePerformanceSkinDeformationSlide
+from src.generate_reports.report_slides.enclosure_performance_skin_deformation_slide import EnclosurePerformanceSkinDeformationSlide
 from src.generate_reports.report_slides.bom_row2_f28_doors_slide import BOMRow2F28DoorsSlide
 # from src.generate_reports.report_slides.enclosure_performance_front_door_panel_intrusion_slide import EnclosurePerformanceFrontDoorPanelIntrusionSlide
 # from src.generate_reports.report_slides.enclosure_performance_front_door_panel_deformation_slide import EnclosurePerformanceFrontDoorPanelDeformationSlide
@@ -142,16 +142,12 @@ class SideCrashPPTReportGenerator():
                                 self.twod_images_report_folder,
                                 self.threed_images_report_folder)
         biw_floor_deformation_and_spotweld_failure_slide.edit()
-        # enclosure_performance_skin_deformation_slide = EnclosurePerformanceSkinDeformationSlide(self.report_composer.prs_obj.slides[17],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # enclosure_performance_skin_deformation_slide.edit()
+        enclosure_performance_skin_deformation_slide = EnclosurePerformanceSkinDeformationSlide(self.report_composer.prs_obj.slides[17],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        enclosure_performance_skin_deformation_slide.edit()
         # bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[18],
         #                         self.windows,
         #                         self.general_input,
