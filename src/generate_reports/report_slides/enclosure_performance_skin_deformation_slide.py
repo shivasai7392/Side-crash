@@ -53,7 +53,7 @@ class EnclosurePerformanceSkinDeformationSlide():
             self.logger.info("Started seeding data into enclosure performance skin deformation slide")
             self.logger.info("")
             starttime = datetime.now()
-            #iterating through the Image shapes of the enclosure performance skin deformation slide
+            #iterating through the shapes of the enclosure performance skin deformation slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
