@@ -19,10 +19,10 @@ from src.general_utilities import closest
 
 class BIWFloorDeformationAndSpotWeldFailureSlide():
     """
-       This class is used to automate the biw floor deformation and spotwelf failure slide of thesis report.
+       This class is used to automate the biw floor deformation and spotweld failure slide of thesis report.
 
         Args:
-            slide (object): biw floor deformation and spotwelf failure pptx slide object.
+            slide (object): biw floor deformation and spotweld failure pptx slide object.
             general_input (GeneralInfo): GeneralInfo class object.
             metadb_3d_input (Meta3DInfo): Meta3DInfo class object.
             twod_images_report_folder (str): folder path to save twod data images.
@@ -44,7 +44,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
 
     def edit(self):
         """
-        This method is used to iterate all the shapes of the biw floor deformation and spotwelf failure slide and insert respective data.
+        This method is used to iterate all the shapes of the biw floor deformation and spotweld failure slide and insert respective data.
 
         Returns:
             int: 0 Always for Sucess,1 for Failure.
@@ -53,11 +53,11 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
             self.logger.info("Started seeding data into biw floor deformation spotweld failure slide")
             self.logger.info("")
             starttime = datetime.now()
-            #iterating through the Image shapes of the biw floor deformation and spotwelf failure slide
+            #iterating through the shapes of the biw floor deformation and spotweld failure slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 3"
                 if shape.name == "Image 3":
-                    #visualizing  and capturing image of "f21_front_floor" critical part set at peak state with deformation
+                    #visualizing and capturing image of "f21_front_floor" critical part set at peak state with deformation
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle scalarfringe enable')
