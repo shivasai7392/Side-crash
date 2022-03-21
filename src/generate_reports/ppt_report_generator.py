@@ -136,16 +136,12 @@ class SideCrashPPTReportGenerator():
                                 self.metadb_3d_input,
                                 self.threed_images_report_folder)
         bom_f21_front_floor_slide.edit()
-        # biw_floor_deformation_and_spotweld_failure_slide = BIWFloorDeformationAndSpotWeldFailureSlide(self.report_composer.prs_obj.slides[16],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_2d_input,
-        #                         self.metadb_3d_input,
-        #                         self.template_file,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder,
-        #                         self.ppt_report_folder)
-        # biw_floor_deformation_and_spotweld_failure_slide.edit()
+        biw_floor_deformation_and_spotweld_failure_slide = BIWFloorDeformationAndSpotWeldFailureSlide(self.report_composer.prs_obj.slides[16],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        biw_floor_deformation_and_spotweld_failure_slide.edit()
         # enclosure_performance_skin_deformation_slide = EnclosurePerformanceSkinDeformationSlide(self.report_composer.prs_obj.slides[17],
         #                         self.windows,
         #                         self.general_input,
