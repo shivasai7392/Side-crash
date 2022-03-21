@@ -30,7 +30,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
         self.shapes = slide.shapes
         self.general_input = general_input
         self.twod_images_report_folder = twod_images_report_folder
-        self.intrusion_areas = {"ROW 1":{},"ROW 2":{}}
+        self.intrusion_areas = {"ROW 1":{}}
         self.logger = logging.getLogger("side_crash_logger")
 
     def intrusion_curve_format(self,source_window,curve,temporary_window_name,curve_name):
@@ -83,7 +83,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
 
     def edit(self):
         """
-        This method is used to iterate all the shapes of the enclosure performance fornt door panel intrusion slide and insert respective data.
+        This method is used to iterate all the shapes of the enclosure performance front door panel intrusion slide and insert respective data.
 
         Returns:
             int: 0 Always for Sucess,1 for Failure.
@@ -95,7 +95,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
             self.logger.info("")
             starttime = datetime.now()
             #iterating through the Image shapes of the enclosure performance front door panel intrusion slide
-            window_name = self.general_input.survival_space_window_name
+            survival_space_window_name = self.general_input.survival_space_window_name
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
@@ -108,7 +108,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER")
                     #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 SHOULDER"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 SHOULDER"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -133,7 +133,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 ABDOMEN")
                     #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 ABDOMEN"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 ABDOMEN"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -158,7 +158,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 FEMUR")
                     #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 FEMUR"+".jepg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 FEMUR"+".jepg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -183,7 +183,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 PELVIS")
                     #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+"ROW 1 PELVIS"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 PELVIS"+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -198,7 +198,6 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
                     picture.crop_right = 0
                     utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
             #iterating through the Table shapes of the enclosure performance front door panel intrusion slide
-            window_name = self.general_input.survival_space_window_name
             for shape in self.shapes:
                 #table population for the table named as "Table 1"
                 if shape.name == "Table 1":
