@@ -131,7 +131,6 @@ class SideCrashPPTReportGenerator():
                                     self.threed_images_report_folder)
         bom_row2_f28_doors_slide.edit()
         bom_f21_front_floor_slide = BOMF21FrontFloorSlide(self.report_composer.prs_obj.slides[15],
-                                self.windows,
                                 self.general_input,
                                 self.metadb_3d_input,
                                 self.threed_images_report_folder)
