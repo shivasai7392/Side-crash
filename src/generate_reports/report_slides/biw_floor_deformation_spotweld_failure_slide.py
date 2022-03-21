@@ -14,7 +14,7 @@ from meta import utils
 from meta import windows
 from meta import plot2d,models
 
-from src.meta_utilities import capture_image,visualize_3d_critical_section,capture_resized_image, annotation
+from src.meta_utilities import capture_image,visualize_3d_critical_section,capture_resized_image, visualize_annotation
 from src.general_utilities import closest
 
 class BIWFloorDeformationAndSpotWeldFailureSlide():
@@ -177,7 +177,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                 visualize_3d_critical_section(data)
                 m = models.Model(0)
                 visible_parts = m.get_parts('visible')
-                annotation(visible_parts)
+                visualize_annotation(visible_parts,self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
 
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_front_floor_spotweld_failure".lower()+".png")
                 capture_image("MetaPost",shape.width,shape.height,image_path,view = "top")

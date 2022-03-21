@@ -96,7 +96,27 @@ class Meta3DInfo:
 
         self.critical_sections = {}
         self.properties = models.CollectModelEntities(0, "parts")
+        self.spotweld_clusters = dict()
 
+    def get_spotweld_clusters(self,file_path):
+        """
+        get_spotweld_clusters _summary_
+
+        _extended_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        d3hsp_file_path = open(file_path,'r')
+        d3hsp_file_content = d3hsp_file_path.readlines()
+        for line in d3hsp_file_content:
+            if 'Spotweld ID:' in line:
+                spotweld_id = int(line.strip('Spotweld ID:'))
+                elements_list = d3hsp_file_content[d3hsp_file_content.index(line)+2].split()
+                elements_list = [int(each_element.replace(' ','')) for each_element in elements_list]
+                self.spotweld_clusters[spotweld_id] = elements_list
+
+        return self.spotweld_clusters
 
     def get_info(self):
         """[summary]
@@ -279,6 +299,7 @@ class GeneralVarInfo:
     door_skin_intrusion_window_key = "door_skin_intrusion"
     door_panel_intrusion_window_key = "door_panel_intrusion"
 
+
     def __init__(self):
 
         self.source_template_file_directory = None
@@ -341,6 +362,7 @@ class GeneralVarInfo:
         self.MDB_rr_node_id = None
         self.door_skin_intrusion_window_name = None
         self.door_panel_intrusion_window_name = None
+        self.d3hsp_file = None
 
     def get_log_directory(self):
         """
@@ -389,6 +411,9 @@ class GeneralVarInfo:
         self.binout_directory = get_var(GeneralVarInfo.binout_directory_key)
         #self.threed_metadb_file = get_var(GeneralVarInfo.threed_metadb_key)
         self.threed_metadb_file = "/cae/data/tmp/fr2/ra067381/3NT/02_SIDE/05_SICE-2p0/CORRELATION-RERUN/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb"
+        self.d3hsp_file = os.path.join(os.path.dirname(self.threed_metadb_file), "decomp_d3hsp")
+        self.binout_directory = os.path.join(os.path.dirname(self.threed_metadb_file), "binout*")
+
         self.cae_quality_window_name = get_var(GeneralVarInfo.cae_window_key)
         self.verification_mode = get_var(GeneralVarInfo.verification_mode_key)
         self.termination_type = get_var(GeneralVarInfo.termination_type_key)

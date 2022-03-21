@@ -44,7 +44,8 @@ class SideCrashPPTReportGenerator():
                 template_file,
                 twod_images_report_folder,
                 threed_images_report_folder,
-                ppt_report_folder) -> None:
+                ppt_report_folder,
+                binout_directory_path) -> None:
         self.windows = windows
         self.general_input = general_input
         self.metadb_2d_input = metadb_2d_input
@@ -54,6 +55,7 @@ class SideCrashPPTReportGenerator():
         self.threed_images_report_folder = threed_images_report_folder
         self.ppt_report_folder = ppt_report_folder
         self.report_composer = None
+        self.binout_directory_path = binout_directory_path
         self.logger = logging.getLogger("side_crash_logger")
 
     def generate_ppt(self):
@@ -68,30 +70,30 @@ class SideCrashPPTReportGenerator():
         self.logger.info("--- Thesis Report Generation")
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
-        title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
-                                self.general_input)
-        title_slide.edit()
-        cae_quality_slide = CAEQualitySlide(self.report_composer.prs_obj.slides[1],
-                                self.general_input,
-                                self.twod_images_report_folder)
-        cae_quality_slide.edit()
-        executive_slide = ExecutiveSlide(self.report_composer.prs_obj.slides[2],
-                                self.general_input,
-                                self.metadb_3d_input,
-                                self.twod_images_report_folder,
-                                self.threed_images_report_folder)
-        executive_slide.edit()
-        cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
-                                self.general_input,
-                                self.metadb_3d_input,
-                                self.threed_images_report_folder)
-        cbu_and_barrier_position_slide.edit()
-        biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
-                                self.general_input,
-                                self.metadb_3d_input,
-                                self.twod_images_report_folder,
-                                self.threed_images_report_folder)
-        biw_kinematics_slide.edit()
+        # title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
+        #                         self.general_input)
+        # title_slide.edit()
+        # cae_quality_slide = CAEQualitySlide(self.report_composer.prs_obj.slides[1],
+        #                         self.general_input,
+        #                         self.twod_images_report_folder)
+        # cae_quality_slide.edit()
+        # executive_slide = ExecutiveSlide(self.report_composer.prs_obj.slides[2],
+        #                         self.general_input,
+        #                         self.metadb_3d_input,
+        #                         self.twod_images_report_folder,
+        #                         self.threed_images_report_folder)
+        # executive_slide.edit()
+        # cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
+        #                         self.general_input,
+        #                         self.metadb_3d_input,
+        #                         self.threed_images_report_folder)
+        # cbu_and_barrier_position_slide.edit()
+        # biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
+        #                         self.general_input,
+        #                         self.metadb_3d_input,
+        #                         self.twod_images_report_folder,
+        #                         self.threed_images_report_folder)
+        # biw_kinematics_slide.edit()
         # biw_cbu_deformation_slide = BIWCBUDeformationSlide(self.report_composer.prs_obj.slides[7],
         #                         self.windows,
         #                         self.general_input,
@@ -235,14 +237,15 @@ class SideCrashPPTReportGenerator():
         #                         self.twod_images_report_folder,
         #                         self.ppt_report_folder)
         # enclosures_performance_rear_door_panel_intrusion_slide.edit()
-        # biw_stiff_ring_spotweld_failure_slide = BIWStiffRingSpotWeldFailureSlide(self.report_composer.prs_obj.slides[11],
-        #                         self.windows,
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder,
-        #                         self.template_file,
-        #                         self.ppt_report_folder)
-        # biw_stiff_ring_spotweld_failure_slide.edit()
+        biw_stiff_ring_spotweld_failure_slide = BIWStiffRingSpotWeldFailureSlide(self.report_composer.prs_obj.slides[11],
+                                self.windows,
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder,
+                                self.template_file,
+                                self.ppt_report_folder,
+                                self.binout_directory_path)
+        biw_stiff_ring_spotweld_failure_slide.edit()
 
         file_name = os.path.join(self.ppt_report_folder,"Side_MDB_Thesis_Report_{}.pptx".format(time.strftime("%Y-%d-%m")))
         self.report_composer.save_pptx(file_name)

@@ -14,7 +14,7 @@ import logging
 from meta import utils
 
 from src.meta_utilities import visualize_3d_critical_section
-from src.meta_utilities import annotation
+from src.meta_utilities import visualize_annotation
 from src.generate_reports.bom_excel_generator import ExcelBomGeneration
 
 

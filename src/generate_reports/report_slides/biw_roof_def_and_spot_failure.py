@@ -10,7 +10,7 @@ Returns:
 import os
 from meta import utils,windows,plot2d,models
 
-from src.meta_utilities import capture_resized_image,visualize_3d_critical_section, annotation
+from src.meta_utilities import capture_resized_image,visualize_3d_critical_section, visualize_annotation
 from src.general_utilities import closest
 
 class BIWROOFDeformationAndSpotWeldFailure():
@@ -159,7 +159,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                 visualize_3d_critical_section(data)
                 m = models.Model(0)
                 visible_parts = m.get_parts('visible')
-                annotation(visible_parts)
+                visualize_annotation(visible_parts,self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
 
                 image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_roof_spotweld_failure".lower()+".png")
                 capture_resized_image("MetaPost",shape.width,shape.height,image_path,view = "top")

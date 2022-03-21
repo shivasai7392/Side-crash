@@ -11,7 +11,7 @@ Returns:
 import os
 
 from meta import utils
-from meta import windows
+from meta import windows, models,constants,plot2d,groups,annotations
 
 class Meta2DWindow():
     """
@@ -187,13 +187,75 @@ def visualize_3d_critical_section(data,and_filter = None):
         utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
 
     return 0
-def annotation(visible_parts):
+
+def visualize_annotation(spotweld_id_elements,bins_path):
     """
         annotation
 
         _extended_summary_
     """
     utils.MetaCommand('add element connected')
+    utils.MetaCommand('add element connected')
+    meta_post_window_object = windows.Window(name = 'MetaPost', page_id=0)
+
+    text_rgb = "Black"
+    text_rgb_values = windows.RgbFromNamedColor(text_rgb)
+    text_color = windows.Color(text_rgb_values[0], text_rgb_values[1], text_rgb_values[2],text_rgb_values[3])
+    marginal = "Orange"
+    marginal_rgb_values = windows.RgbFromNamedColor(marginal)
+    marginal_color = windows.Color(marginal_rgb_values[0], marginal_rgb_values[1], marginal_rgb_values[2],marginal_rgb_values[3])
+    bad = "red"
+    bad_rgb_values = windows.RgbFromNamedColor(bad)
+    bad_color = windows.Color(bad_rgb_values[0], bad_rgb_values[1], bad_rgb_values[2],bad_rgb_values[3])
+
+    model_get = models.Model(0)
+    visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
+    clusters = []
+    identified_elements_list = []
+    for vis_element in visible_elements:
+        if vis_element.id not in identified_elements_list:
+            for key,value in spotweld_id_elements.items():
+                if vis_element.id in value:
+                    clusters.append(key)
+                    identified_elements_list.extend(value)
+                    utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in value)))
+                    break
+
+    utils.MetaCommand('xyplot create "Temporary Window"')
+    utils.MetaCommand('xyplot read lsdyna "Temporary Window" "{}" swforc-SpotweldAssmy {}  failure_(f)'.format(bins_path,",".join(str(key) for key in clusters)))
+
+    plot = plot2d.Plot(0,"Temporary Window",0)
+    curves = plot.get_curves('all')
+    meta_post_window_object.maximize()
+    for curve in curves:
+        failure_point = plot2d.MaxPointYOfCurve("Temporary Window", curve.id, 'real')
+        failure_value = str(round(failure_point.y,2))
+        if float(failure_value) > 0.7:
+            failure_time = failure_point.x
+            failure_time = str(round(failure_time,3))
+            #Create an annotation in the 3D data for the cluster which is above the threshold value
+            annotation_label = failure_value+' @ '+failure_time
+            annotation_group = 'spotweld_cluster_'+str(curve.entity_id)
+            annots = meta_post_window_object.get_annotations('all')
+            annotation_id = len(annots)+1
+            g = groups.Group(annotation_group,0)
+            a = annotations.CreateEmptyAnnotation("MetaPost",annotation_label,annotation_id)
+            utils.MetaCommand('annotation line {} width 1'.format(annotation_id))
+            utils.MetaCommand('annotation text {} font "MS Shell Dlg 2,8,-1,5,75,0,0,0,0,0"'.format(annotation_id))
+            utils.MetaCommand('annotation border {} padding 3'.format(annotation_id))
+            a.set_group(g)
+
+            if float(failure_value) > 0.9:
+                a.set_background_color(bad_color)
+            else:
+                a.set_background_color(marginal_color)
+            a.set_border_color(text_color)
+
+    utils.MetaCommand('window active MetaPost')
+    utils.MetaCommand('annotation explode all center 10')
+    utils.MetaCommand('annotation extparam all shape off')
+    utils.MetaCommand('annotation text all format auto')
+    utils.MetaCommand('window delete "Temporary Window"')
     return 0
 
 def deformation_plot_formmatter(window_name,plot1_id,plot2_id,plot3_id):
