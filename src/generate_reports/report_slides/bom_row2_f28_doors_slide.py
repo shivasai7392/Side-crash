@@ -55,7 +55,7 @@ class BOMRow2F28DoorsSlide():
             visualize_3d_critical_section(data)
             m = models.Model(0)
             self.visible_parts = m.get_parts('visible')
-            #iterating through the Image shapes of the bom f28 rear door
+            #iterating through the Image shapes of the bom f28 rear door slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
@@ -89,7 +89,7 @@ class BOMRow2F28DoorsSlide():
                     #getting the table object
                     table_obj = shape.table
                     #iterating through f28 rear door visible parts
-                    for id,prop in enumerate(self.visible_parts):
+                    for index,prop in enumerate(self.visible_parts):
                         #getting material object for the current part
                         part_type = parts.StringPartType(prop.type)
                         if part_type == "PSHELL":
@@ -101,7 +101,7 @@ class BOMRow2F28DoorsSlide():
                         #adding new row to the table
                         add_row(table_obj)
                         #getting the added row object
-                        prop_row = table_obj.rows[id+1]
+                        prop_row = table_obj.rows[index+1]
                         #getting cell 0 text frame object to insert property id
                         text_frame = prop_row.cells[0].text_frame
                         font = text_frame.paragraphs[0].font
@@ -133,4 +133,5 @@ class BOMRow2F28DoorsSlide():
         self.logger.info("Completed seeding data into bom row 2 f28 doors slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
+
         return 0
