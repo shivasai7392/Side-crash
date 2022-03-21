@@ -75,7 +75,7 @@ class ExcelBomGeneration():
                         material_name = materials[0].name
                     spreedsheet.append([each_prop_entity.id, each_prop_entity.name,material_name,round(each_prop_entity.shell_thick,1)])
 
-                excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key.lower()+".xlsx").replace("\\","/")
+                excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key+".xlsx").replace("\\","/")
                 workbook.save(excel_path)
                 self.logger.info("OUTPUT BOM : {}".format(excel_path))
                 self.logger.info("CELLS WITH DATA : A1:D{}".format(str(len(visible_parts)+1)))

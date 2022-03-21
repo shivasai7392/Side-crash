@@ -159,7 +159,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     #capturing "Survival Space" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text().lower()+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text()+".jpeg")
                     capture_image(image_path,survival_space_window_name,shape.width,shape.height,transparent = True)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -281,8 +281,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
                     #capturing "f21_upb_inner" image at peak state
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,data["name"]))
-                    print(image_path)
+                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE"))
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")

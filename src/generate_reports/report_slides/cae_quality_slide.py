@@ -71,7 +71,7 @@ class CAEQualitySlide():
                     system_damping_energy_curve = plot2d.CurvesByName(window_name, "System damping energy", 1)[0]
                     system_damping_energy_curve.hide()
                     #capturing "System Energy" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+" -"+title.get_text().lower()+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,window_name+" -"+title.get_text()+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -90,7 +90,7 @@ class CAEQualitySlide():
                     utils.MetaCommand('xyplot legend hook hout "{}" 0'.format(window_name))
                     utils.MetaCommand('xyplot legend ymove "{}" 0 1.060000'.format(window_name))
                     #capturing "System Energy" plot image along with legend
-                    image2_path = os.path.join(self.twod_images_report_folder,window_name+" -"+title.get_text().lower()+"_LEGEND"+".jpeg")
+                    image2_path = os.path.join(self.twod_images_report_folder,window_name+" -"+title.get_text()+"_LEGEND"+".jpeg")
                     utils.MetaCommand('write jpeg "{}" 100'.format(image2_path))
                     #creating Image object for the above captured image
                     img_2 = Image.open(image2_path)
@@ -126,7 +126,7 @@ class CAEQualitySlide():
                     utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
                     utils.MetaCommand('xyplot curve set color "{}" vis LightGreen'.format(window_name))
                     #capturing "Added Mass" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text().lower()+".png")
+                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text()+".jpeg")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -212,4 +212,5 @@ class CAEQualitySlide():
         self.logger.info("Completed seeding data into cae quality slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
+
         return 0
