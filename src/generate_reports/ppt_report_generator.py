@@ -31,7 +31,17 @@ from src.generate_reports.report_slides.biw_stiff_ring_spotweld_failure_slide im
 
 class SideCrashPPTReportGenerator():
     """
-    This Class is used to Automate the generating the thesis Report Slides.
+        This Class is used to generate the slides of thesis Report.
+
+        Args:
+            windows (_type_): _description_
+            general_input (GeneralInfo): GeneralInfo class object.
+            metadb_2d_input (Meta2DInfo): Meta2DInfo class object.
+            metadb_3d_input (Meta3DInfo): Meta3DInfo class object.
+            template_file (_type_): _description_
+            twod_images_report_folder (str): folder path to save twod data images.
+            threed_images_report_folder (str): folder path to save threed data images.
+            ppt_report_folder (str): folder path to save the ppt
     """
 
     def __init__(self,
@@ -42,8 +52,8 @@ class SideCrashPPTReportGenerator():
                 template_file,
                 twod_images_report_folder,
                 threed_images_report_folder,
-                ppt_report_folder,
-                binout_directory_path) -> None:
+                ppt_report_folder) -> None:
+
         self.windows = windows
         self.general_input = general_input
         self.metadb_2d_input = metadb_2d_input
@@ -53,7 +63,6 @@ class SideCrashPPTReportGenerator():
         self.threed_images_report_folder = threed_images_report_folder
         self.ppt_report_folder = ppt_report_folder
         self.report_composer = None
-        self.binout_directory_path = binout_directory_path
         self.logger = logging.getLogger("side_crash_logger")
 
     def generate_ppt(self):

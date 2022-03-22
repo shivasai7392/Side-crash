@@ -250,7 +250,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting visual settings
-                    utils.MetaCommand('annotations del all')
+                    utils.MetaCommand('annotation delete all')
             endtime  = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into biw roof deformations and spotweld failure slide:\n{}".format(e))
