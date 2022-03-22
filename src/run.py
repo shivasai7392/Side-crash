@@ -69,12 +69,12 @@ def main(*args):
     # Getting the spotweld cluster for d3hsp file
     metadb_3d_input_info.get_spotweld_clusters(d3hsp_file_path)
 
-    # reading the results
+    #reading the results
     utils.MetaCommand('read options boundary materials')
     utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(threed_metadb_file,general_input_info.peak_state_value,general_input_info.final_state_value))
     utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(threed_metadb_file,general_input_info.peak_state_value,general_input_info.final_state_value))
 
-    # setting global 3d settings
+    #setting global 3d settings
     utils.MetaCommand('options title off')
     utils.MetaCommand('options axis off')
     utils.MetaCommand('0:options state variable "serial=1"')
