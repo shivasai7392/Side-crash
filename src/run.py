@@ -65,6 +65,7 @@ def main(*args):
 
     # Joining the config directory path and d3hsp file path for d3hsp file
     d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
+    general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld cluster for d3hsp file
     metadb_3d_input_info.get_spotweld_clusters(d3hsp_file_path)
 
