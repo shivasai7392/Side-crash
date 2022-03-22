@@ -8,6 +8,8 @@ Returns:
     _type_: _description_
 """
 import os
+import logging
+from datetime import datetime
 
 from src.generate_reports.ppt_report_generator import SideCrashPPTReportGenerator
 from src.generate_reports.threed_data_reporter import ThreeDDataReporter
@@ -37,6 +39,7 @@ class Reporter():
         self.config_folder = config_folder
         self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
         self.binout_directory_path = os.path.join(self.config_folder,"res",self.general_input.binout_directory.replace("/","",1)).replace("\\",os.sep)
+        self.logger = logging.getLogger("side_crash_logger")
         self.get_reporting_folders()
         self.make_reporting_folders()
 
@@ -81,7 +84,7 @@ class Reporter():
         """
 
         self.thesis_report_generation()
-        #self.threed_data_reporting()
+        self.threed_data_reporting()
 
         return 0
 
@@ -92,6 +95,8 @@ class Reporter():
         Returns:
             [Int]: 0 for Success 1 for Failure
         """
+        self.logger.info("--- Executive and Thesis Report Generation Started")
+        starttime = datetime.now()
         side_crash_report_ppt = SideCrashPPTReportGenerator(self.windows,
                                                    self.general_input,
                                                    self.metadb_2d_input,
@@ -102,6 +107,10 @@ class Reporter():
                                                    self.ppt_report_folder,
                                                    self.binout_directory_path)
         side_crash_report_ppt.generate_ppt()
+        endtime = datetime.now()
+        self.logger.info("--- Executive and Thesis Report Generation Completed")
+        self.logger.info("Time Taken : {}".format(endtime - starttime))
+        self.logger.info("")
 
         return 0
 
@@ -113,11 +122,17 @@ class Reporter():
         Returns:
             [Int]: 0 for Success 1 for failure
         """
+        self.logger.info("--- 3D Data Reporting - Excel BOM Generation for critical part sets is started")
+        starttime = datetime.now()
         threed_data_report = ThreeDDataReporter(self.general_input.threed_window_name,
                                             self.metadb_3d_input,
                                             self.threed_images_report_folder,
                                             self.threed_videos_report_folder,
                                             self.excel_bom_report_folder)
         threed_data_report.run_process()
+        endtime = datetime.now()
+        self.logger.info("--- 3D Data Reporting - Excel BOM Generation for critical part sets is compelted")
+        self.logger.info("Time Taken : {}".format(endtime - starttime))
+        self.logger.info("")
 
         return 0
