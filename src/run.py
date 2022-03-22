@@ -67,7 +67,8 @@ def main(*args):
     # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld cluster for d3hsp file
     general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
-    metadb_3d_input_info.get_spotweld_clusters(user_input.d3hsp_file_path)
+    general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
+    metadb_3d_input_info.get_spotweld_clusters(general_input_info.d3hsp_file_path)
 
     #reading the results
     utils.MetaCommand('read options boundary materials')

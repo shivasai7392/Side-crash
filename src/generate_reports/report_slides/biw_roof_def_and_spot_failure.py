@@ -218,6 +218,11 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     data = self.metadb_3d_input.critical_sections["f21_roof"]
                     visualize_3d_critical_section(data)
                     #getting annotations to the visible parts
+                    self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
+                    self.logger.info("START TIME : {}".format(datetime.now))
+                    self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
+                    self.logger.info("")
+                    self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #capturing the image with annotations at original state
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_SPOTWELD_FAILURE"+".png").replace(" ","_")
