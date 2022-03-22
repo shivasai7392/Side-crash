@@ -72,7 +72,6 @@ class SideCrashPPTReportGenerator():
         Returns:
             [0]: 0 for Success 1 for failure
         """
-        self.logger.info("--- Thesis Report Generation")
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
         title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
