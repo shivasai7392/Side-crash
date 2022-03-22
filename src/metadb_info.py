@@ -264,7 +264,6 @@ class GeneralVarInfo:
     report_directory_key = "pR"
     displacement_file_key = "pD"
     binout_directory_key = "pA"
-    threed_metadb_key = "3D"
     cae_window_key = "quality_check"
     survival_space_window_key = "survival_space"
     verification_mode_key = "verification_mode"
@@ -327,7 +326,6 @@ class GeneralVarInfo:
         self.report_directory = None
         self.displacement_file = None
         self.binout_directory = None
-        self.threed_metadb_file = None
         self.cae_quality_window_name = None
         self.verification_mode = None
         self.termination_type = None
@@ -367,7 +365,6 @@ class GeneralVarInfo:
         self.MDB_rr_node_id = None
         self.door_skin_intrusion_window_name = None
         self.door_panel_intrusion_window_name = None
-        self.d3hsp_file = None
 
     def get_log_directory(self):
         """
@@ -413,11 +410,6 @@ class GeneralVarInfo:
         self.report_directory = get_var(GeneralVarInfo.report_directory_key)
         self.displacement_file = get_var(GeneralVarInfo.displacement_file_key)
         self.binout_directory = get_var(GeneralVarInfo.binout_directory_key)
-        #self.threed_metadb_file = get_var(GeneralVarInfo.threed_metadb_key)
-        self.threed_metadb_file = "/cae/data/tmp/fr2/ra067381/3NT/02_SIDE/05_SICE-2p0/CORRELATION-RERUN/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb"
-        self.d3hsp_file = os.path.join(os.path.dirname(self.threed_metadb_file), "decomp_d3hsp")
-        self.binout_directory = os.path.join(os.path.dirname(self.threed_metadb_file), "binout*")
-
         self.cae_quality_window_name = get_var(GeneralVarInfo.cae_window_key)
         self.verification_mode = get_var(GeneralVarInfo.verification_mode_key)
         self.termination_type = get_var(GeneralVarInfo.termination_type_key)

@@ -59,20 +59,20 @@ def main(*args):
     metadb_3d_input_info = Meta3DInfo().get_info()
 
     # Joining the config file and 3dmetadb file
-    threed_metadb_file = os.path.join(app_config_dir,"res",general_input_info.threed_metadb_file.replace("/","",1)).replace("\\",os.sep)
+    # threed_metadb_file = os.path.join(app_config_dir,"res",general_input_info.threed_metadb_file.replace("/","",1)).replace("\\",os.sep)
     # Reading the threed_metadb_file
-    utils.MetaCommand('read project overlay "{}" ""'.format(threed_metadb_file))
+    utils.MetaCommand('read project overlay "{}" ""'.format(user_input.metadb_3d_input))
 
-    # Joining the config directory path and d3hsp file path for d3hsp file
-    d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
-    general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
+    # # Joining the config directory path and d3hsp file path for d3hsp file
+    # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld cluster for d3hsp file
-    metadb_3d_input_info.get_spotweld_clusters(d3hsp_file_path)
+    general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
+    metadb_3d_input_info.get_spotweld_clusters(user_input.d3hsp_file_path)
 
     #reading the results
     utils.MetaCommand('read options boundary materials')
-    utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(threed_metadb_file,general_input_info.peak_state_value,general_input_info.final_state_value))
-    utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(threed_metadb_file,general_input_info.peak_state_value,general_input_info.final_state_value))
+    utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
+    utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
 
     #setting global 3d settings
     utils.MetaCommand('options title off')
