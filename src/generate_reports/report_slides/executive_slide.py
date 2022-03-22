@@ -76,7 +76,7 @@ class ExecutiveSlide():
                 y_values.append(round(curve.get_y_values_from_x(specifier = 'first', xvalue =x)[0]))
             self.intrusion_areas[curve_name.rsplit(" ",1)[0]][curve_name.rsplit(" ",1)[1]] = y_values
             #applying custom style and size for plot title,xaxis,yaxis options
-            utils.MetaCommand('xyplot gridoptions line major style "{}" 0 0'.format(temporary_window_name))
+            utils.MetaCommand('xyplot gridoptions line major style "{}" 0 2'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yposition "{}" 0 left'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yalign "{}" 0 left'.format(temporary_window_name))
@@ -148,7 +148,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot gridoptions xspace "{}" {} 20'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions axxrange "{}" {} 0 175 400'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot gridoptions line major style "{}" {} 0'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot gridoptions line major style "{}" {} 2'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))

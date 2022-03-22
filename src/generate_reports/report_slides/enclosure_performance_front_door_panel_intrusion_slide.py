@@ -56,7 +56,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
             for x in [0.03,0.04,0.05,0.06,0.07,0.08]:
                 y_values.append(round(curve.get_y_values_from_x(specifier = 'first', xvalue =x)[0]))
             self.intrusion_areas[curve_name.rsplit(" ",1)[0]][curve_name.rsplit(" ",1)[1]] = y_values
-            utils.MetaCommand('xyplot gridoptions line major style "{}" 0 0'.format(temporary_window_name))
+            utils.MetaCommand('xyplot gridoptions line major style "{}" 0 2'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yposition "{}" 0 left'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yalign "{}" 0 left'.format(temporary_window_name))
