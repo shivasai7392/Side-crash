@@ -20,6 +20,8 @@ class UserInput():
     def __init__(self, *args):
         self.args = args
         self.metadb_2d_input = None
+        self.metadb_3d_input = None
+        self.d3hsp_file_path = None
         self.total_args_count_linux_nogui = 1
 
     def get_user_input_from_gui(self):
@@ -30,6 +32,8 @@ class UserInput():
         """
         # Getting the variables of 2d metadb file
         self.metadb_2d_input = utils.MetaGetVariable("2d_metadb_input")
+        self.metadb_3d_input = utils.MetaGetVariable("3d_metadb_input")
+        self.d3hsp_file_path = utils.MetaGetVariable("d3hsp_file_path")
 
         return 0
 

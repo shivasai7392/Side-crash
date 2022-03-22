@@ -421,8 +421,6 @@ class GeneralVarInfo:
         #self.threed_metadb_file = get_var(GeneralVarInfo.threed_metadb_key)
         self.threed_metadb_file = "/cae/data/tmp/fr2/ra067381/3NT/02_SIDE/05_SICE-2p0/CORRELATION-RERUN/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb"
         self.d3hsp_file = os.path.join(os.path.dirname(self.threed_metadb_file), "decomp_d3hsp")
-        self.binout_directory = os.path.join(os.path.dirname(self.threed_metadb_file), "binout*")
-
         self.cae_quality_window_name = get_var(GeneralVarInfo.cae_window_key)
         self.verification_mode = get_var(GeneralVarInfo.verification_mode_key)
         self.termination_type = get_var(GeneralVarInfo.termination_type_key)
