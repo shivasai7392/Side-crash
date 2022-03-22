@@ -126,7 +126,7 @@ def image_transperent(img):
     return rgba_img
 
 
-def capture_image_and_resize(file_path,width,height,rotate = None):
+def capture_image_and_resize(file_path,width,height,rotate = None,transparent = False):
     """
     This method is used to capture an image of the meta window and resize it based on the width and height.
 
@@ -158,6 +158,14 @@ def capture_image_and_resize(file_path,width,height,rotate = None):
             img = img.transpose(rotate)
             img.save(file_path, 'PNG')
             img.close()
+        if transparent:
+            img = Image.open(file_path)
+            img.save(file_path, 'PNG')
+            img.close()
+            img = Image.open(file_path)
+            img = image_transperent(img)
+            img.save(file_path.replace(".png","")+"_transparent.png", 'PNG')
+            img.clode()
     except:
         return 1
 

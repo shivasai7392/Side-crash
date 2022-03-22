@@ -88,7 +88,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle deform on')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_AT_PEAK_STATE_WITH_DEFORMATION"+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270)
+                    capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -108,9 +108,12 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
                     #visualising  and capturing image of "f21_roof" critical part set at peak state
@@ -122,7 +125,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle deform off')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270)
+                    capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -142,9 +145,12 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
                     #maximizing biw stiff ring deformation window and getting its plot layout number
