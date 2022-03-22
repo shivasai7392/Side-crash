@@ -148,7 +148,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot gridoptions xspace "{}" {} 20'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions axxrange "{}" {} 0 175 400'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot gridoptions line major style "{}" {} 2'.format(survival_space_window_name, plot_id))
+                    utils.MetaCommand('xyplot gridoptions line major style "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
