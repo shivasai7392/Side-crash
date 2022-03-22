@@ -104,8 +104,7 @@ class Reporter():
                                                    self.template_file,
                                                    self.twod_images_report_folder,
                                                    self.threed_images_report_folder,
-                                                   self.ppt_report_folder,
-                                                   self.binout_directory_path)
+                                                   self.ppt_report_folder)
         side_crash_report_ppt.generate_ppt()
         endtime = datetime.now()
         self.logger.info("--- Executive and Thesis Report Generation Completed")
