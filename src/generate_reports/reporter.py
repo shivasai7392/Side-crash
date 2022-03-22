@@ -14,16 +14,14 @@ from src.generate_reports.threed_data_reporter import ThreeDDataReporter
 
 class Reporter():
     """
-        __init__ _summary_
-
-        _extended_summary_
+    This Class is used to Automate the generating the thesis report and threed data reporting
 
         Args:
-            windows (_type_): _description_
-            general_input (_type_): _description_
-            metadb_2d_input (_type_): _description_
-            metadb_3d_input (_type_): _description_
-            config_folder (_type_): _description_
+            windows (object): window object
+            general_input (GeneralInfo): GeneralInfo class object.
+            metadb_2d_input (Meta2DInfo): Meta2DInfo class object.
+            metadb_3d_input (Meta3DInfo): Meta3DInfo class object.
+            config_folder (str): folder path of config.
     """
     def __init__(self,
                  windows,

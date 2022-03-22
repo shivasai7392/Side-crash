@@ -20,14 +20,12 @@ from src.generate_reports.bom_excel_generator import ExcelBomGeneration
 
 class ThreeDDataReporter():
     """
-    __init__ _summary_
-
-    _extended_summary_
+    This Class is used to Automate the threed Data Reporting to generate the Excel Bill Of Material Excel Files.
 
     Args:
-        metadb_3d_input (_type_): _description_
-        threed_images_report_folder (_type_): _description_
-        thrred_videos_report_folder (_type_): _description_
+        metadb_3d_input (Meta3DInfo): Meta3DInfo class object.
+        threed_images_report_folder (str): threed images reporting folder
+        thrred_videos_report_folder (str): threed videos reporting folder
     """
 
     def __init__(self,

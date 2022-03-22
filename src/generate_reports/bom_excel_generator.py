@@ -24,13 +24,11 @@ from src.meta_utilities import visualize_3d_critical_section
 
 class ExcelBomGeneration():
     """
-       _summary_
-
-        _extended_summary_
+    This class is used to automate the excel BOM files of threed meta .
 
         Args:
-            metadb_3d_input (_type_): _description_
-            excel_bom_report_folder (_type_): _description_
+            metadb_3d_input (Meta3DInfo): Meta3DInfo class object
+            excel_bom_report_folder (str): path of the excel BOM files where we should save
         """
     def __init__(self, metadb_3d_input, excel_bom_report_folder):
         self.metadb_3d_input = metadb_3d_input
@@ -79,8 +77,9 @@ class ExcelBomGeneration():
                         part = parts.Part(id=each_prop_entity.id,type = constants.PSOLID, model_id=0)
                         materials = part.get_materials('all')
                         material_name = materials[0].name
+                    # appending the entity id,name,thickness and material name to the spreessheet
                     spreedsheet.append([each_prop_entity.id, each_prop_entity.name,material_name,round(each_prop_entity.shell_thick,1)])
-
+                # Joining the excel path and saving
                 excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key+".xlsx").replace("\\","/")
                 workbook.save(excel_path)
                 self.logger.info("OUTPUT BOM : {}".format(excel_path))
