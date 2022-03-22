@@ -82,7 +82,7 @@ def main(*args):
     utils.MetaCommand('options fringebar on')
     utils.MetaCommand('srange window "MetaPost" set .0,.15')
     utils.MetaCommand('opt fringe visibility novaluecolor enabled off')
-    utils.MetaCommand('color fringebar update "StressTensor" "Red,255_92_0_255,255_185_0_255,231_255_0_255,139_255_0_255,46_255_0_255,0_255_46_255,0_255_139_255,0_255_231_255,0_185_255_255,White,LightGray"')
+    utils.MetaCommand('color fringebar update "StressTensor" "Red,255_92_0_255,255_185_0_255,231_255_0_255,139_255_0_255,46_255_0_255,0_255_46_255,0_255_139_255,0_255_231_255,0_185_255_255,White,White"')
     utils.MetaCommand('color fringebar scalarset StressTensor')
     utils.MetaCommand('0:options state original')
 
