@@ -330,6 +330,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_mdb_x_displacement_curve.hide()
+                    biw_accel_mdb_x_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 6"
                 elif shape.name == "Image 6":
@@ -340,14 +342,14 @@ class BIWKinematicsSlide():
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    biw_accel_unit_y_velocity_curve = plot.get_curves('byname', name = '*Y velocity')[0]
+                    biw_accel_unit_y_velocity_curve = plot.get_curves('byname', name = '*UNIT*Y velocity')[0]
                     #collecting min max y values for setting the y axis range of the plot
                     biw_accel_max_velocity = biw_accel_unit_y_velocity_curve.get_limit_value_y(specifier = 'max')
                     velocity_min_max_values.append(biw_accel_max_velocity)
                     biw_accel_min_velocity = biw_accel_unit_y_velocity_curve.get_limit_value_y(specifier = 'min')
                     velocity_min_max_values.append(biw_accel_min_velocity)
                     biw_accel_unit_y_velocity_curve.show()
-                    biw_accel_unit_y_displacement_curve = plot.get_curves('byname', name = '*Y displacement')[0]
+                    biw_accel_unit_y_displacement_curve = plot.get_curves('byname', name = '*UNIT*Y displacement')[0]
                     biw_accel_max_curve_displacement = biw_accel_unit_y_displacement_curve.get_limit_value_y(specifier = 'max')
                     displacement_min_max_values.append(biw_accel_max_curve_displacement)
                     biw_accel_min_displacement = biw_accel_unit_y_displacement_curve.get_limit_value_y(specifier = 'min')
@@ -364,7 +366,7 @@ class BIWKinematicsSlide():
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*Y velocity","*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*UNIT*Y velocity","*UNIT*Y displacement",title.get_text(),self.biw_accel_window_name))
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
@@ -374,6 +376,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_unit_y_velocity_curve.hide()
+                    biw_accel_unit_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 7":
@@ -418,6 +422,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_aplr_y_displacement_curve.hide()
+                    biw_accel_aplr_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 8"
                 elif shape.name == "Image 8":
@@ -462,6 +468,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_sis_row_2_y_displacement_curve.hide()
+                    biw_accel_sis_row_2_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 9":
@@ -506,6 +514,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_ss_rr_top_y_displacement_curve.hide()
+                    biw_accel_ss_rr_top_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 10":
@@ -516,14 +526,14 @@ class BIWKinematicsSlide():
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    biw_accel_upr_y_velocity_curve = plot.get_curves('byname', name = '*UPR*Y velocity')[0]
+                    biw_accel_upr_y_velocity_curve = plot.get_curves('byname', name = '*MID_UPR*Y velocity')[0]
                     #collecting min max y values for setting the y axis range of the plot
                     biw_accel_max_velocity = biw_accel_upr_y_velocity_curve.get_limit_value_y(specifier = 'max')
                     velocity_min_max_values.append(biw_accel_max_velocity)
                     biw_accel_min_velocity = biw_accel_upr_y_velocity_curve.get_limit_value_y(specifier = 'min')
                     velocity_min_max_values.append(biw_accel_min_velocity)
                     biw_accel_upr_y_velocity_curve.show()
-                    biw_accel_upr_y_displacement_curve = plot.get_curves('byname', name = '*UPR*Y displacement')[0]
+                    biw_accel_upr_y_displacement_curve = plot.get_curves('byname', name = '*MID_UPR*Y displacement')[0]
                     biw_accel_max_curve_displacement = biw_accel_upr_y_displacement_curve.get_limit_value_y(specifier = 'max')
                     displacement_min_max_values.append(biw_accel_max_curve_displacement)
                     biw_accel_min_displacement = biw_accel_upr_y_displacement_curve.get_limit_value_y(specifier = 'min')
@@ -540,7 +550,7 @@ class BIWKinematicsSlide():
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*UPR*Y velocity","*UPR*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*MID_UPR*Y velocity","*MID_UPR*Y displacement",title.get_text(),self.biw_accel_window_name))
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
@@ -550,6 +560,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_upr_y_displacement_curve.hide()
+                    biw_accel_upr_y_velocity_curve.hide()
                     self.revert()
             endtime = datetime.now()
         except Exception as e:
