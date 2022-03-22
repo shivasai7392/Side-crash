@@ -35,6 +35,9 @@ from src.generate_reports.report_slides.enclosures_performance_rear_door_panel_i
 from src.generate_reports.report_slides.biw_stiff_ring_spotweld_failure_slide import BIWStiffRingSpotWeldFailureSlide
 
 class SideCrashPPTReportGenerator():
+    """
+    This Class is used to Automate the generating the thesis Report Slides.
+    """
 
     def __init__(self,
                 windows,
@@ -60,12 +63,10 @@ class SideCrashPPTReportGenerator():
 
     def generate_ppt(self):
         """
-        thesis_report_generation [summary]
-
-        [extended_summary]
+        This method is used to generate the Slides of thesis Report
 
         Returns:
-            [type]: [description]
+            [0]: 0 for Success 1 for failure
         """
         self.logger.info("--- Thesis Report Generation")
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
