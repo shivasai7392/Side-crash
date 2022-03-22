@@ -83,6 +83,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting visual settings
+                    utils.MetaCommand('annotations del all')
                     utils.MetaCommand('color pid transparency reset act')
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -118,6 +119,8 @@ class BIWStiffRingSpotWeldFailureSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     utils.MetaCommand('color pid transparency reset act')
+                    #reverting visual settings
+                    utils.MetaCommand('annotations del all')
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into  biw stiff ring spotweld failure slide:\n{}".format(e))

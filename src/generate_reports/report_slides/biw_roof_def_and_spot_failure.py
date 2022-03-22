@@ -244,6 +244,8 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #reverting visual settings
+                    utils.MetaCommand('annotations del all')
             endtime  = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into biw roof deformations and spotweld failure slide:\n{}".format(e))
