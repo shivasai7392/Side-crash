@@ -28,7 +28,7 @@ def main(*args):
     [extended_summary]
 
     Returns:
-        [type]: [description]
+        [Int]: 0 always
     """
     append_libs_path()
     # Getting the config directory filepath

@@ -1,11 +1,6 @@
 # PYTHON script
 """
-    _summary_
-
-_extended_summary_
-
-Returns:
-    _type_: _description_
+This Script is used to generate the threeDData Reporting.
 """
 
 import logging
@@ -45,7 +40,7 @@ class ThreeDDataReporter():
         This method is used to generate the excel BOM files.
 
         Returns:
-            Int: 0 for Success 1 for failure
+            Int: 0 Always
         """
         # Maximizing the threed window and calling the ExcelBomGeneration class and executing the excel_bom_generation function
         utils.MetaCommand('window maximize {}'.format(self.threed_window_name))

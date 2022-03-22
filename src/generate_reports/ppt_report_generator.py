@@ -1,11 +1,6 @@
 # PYTHON script
 """
-    _summary_
-
-_extended_summary_
-
-Returns:
-    _type_: _description_
+This Script is used to generate all the slides of the Thesis Report Generation.
 """
 
 import os
@@ -188,13 +183,11 @@ class SideCrashPPTReportGenerator():
 
 class PPTXReportComposer():
     """
-    __init__ _summary_
-
-    _extended_summary_
+    This Class is used to Create the Presentation of the template and saving the thesis report and Executive Report.
 
     Args:
-        report_name (_type_): _description_
-        template_pptx (_type_): _description_
+        report_name (str): name of the Report
+        template_pptx (obj): template of the pptx
     """
     def __init__(self, report_name, template_pptx):
         self.report_name = report_name
