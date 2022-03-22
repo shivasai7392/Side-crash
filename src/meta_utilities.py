@@ -74,18 +74,21 @@ def capture_image(file_path,window_name,width,height,rotate = None, view = None,
         if view is not None:
             utils.MetaCommand('view default {}'.format(view))
         #saving image of the meta window
-        utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
+        utils.MetaCommand('write png "{}"'.format(file_path))
         #rotating the image based on rotate object and saving it
         if rotate:
             img = Image.open(file_path)
             img = img.transpose(rotate)
-            img.save(file_path, 'JPEG')
+            img.save(file_path, 'PNG')
+            img.close()
         if transparent:
             img = Image.open(file_path)
-            img.save(file_path.replace(".jpeg",".png"), 'PNG')
+            img.save(file_path, 'PNG')
+            img.close()
+            img = Image.open(file_path)
             img = image_transperent(img)
-            os.remove(file_path.replace(".jpeg",".png"))
-            img.save(file_path.replace(".jpeg","")+"_transparent.png", 'PNG')
+            img.save(file_path.replace(".png","")+"_transparent.png", 'PNG')
+            img.clode()
         #maximizing the window
         utils.MetaCommand('window maximize {}'.format(window_name))
     except:
@@ -135,18 +138,20 @@ def capture_image_and_resize(file_path,width,height,rotate = None):
 
     try:
         #saving image of the meta window
-        utils.MetaCommand('write jpeg "{}" 100'.format(file_path))
+        utils.MetaCommand('write png "{}"'.format(file_path))
         #creating Image object for the saved image
         img = Image.open(file_path)
         #resizing the image
         img = img.resize((round(width/9525),round(height/9525)))
         #saving the resized image
         img.save(file_path, 'PNG')
+        img.close()
         #rotating the image based on rotate object and saving it
         if rotate:
             img = Image.open(file_path)
             img = img.transpose(rotate)
-            img.save(file_path, 'JPEG')
+            img.save(file_path, 'PNG')
+            img.close()
     except:
         return 1
 

@@ -58,7 +58,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                     visualize_3d_critical_section(data)
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -93,8 +93,8 @@ class BIWStiffRingSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".jpeg")
-                    capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "right")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".png").replace(" ","_")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "right")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -126,65 +126,5 @@ class BIWStiffRingSpotWeldFailureSlide():
         self.logger.info("Completed seeding data into  biw stiff ring spotweld failure slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
-        return 0
-<<<<<<< HEAD
-    def edit(self, ):
-        """
-        edit _summary_
-
-        _extended_summary_
-
-        Returns:
-            _type_: _description_
-        """
-        for shape in self.shapes:
-            if shape.name == "Image 1":
-                utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-                utils.MetaCommand('0:options state original')
-                utils.MetaCommand('options fringebar off')
-                data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                visualize_3d_critical_section(data)
-                m = models.Model(0)
-                m.get_parts('visible')
-                visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.binout_directory_path)
-
-                image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_outer_stiff_ring_spotweld_failure".lower()+".jpeg")
-                print("image_path:", image_path)
-                capture_image(image_path,"MetaPost",shape.width,shape.height,view = "left")
-
-                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                picture.crop_left = 0
-                picture.crop_right = 0
-                self.revert()
-            # elif shape.name == "Image 2":
-            #     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-            #     utils.MetaCommand('0:options state original')
-            #     utils.MetaCommand('options fringebar off')
-            #     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-            #     visualize_3d_critical_section(data)
-            #     m = models.Model(0)
-            #     m.get_parts('visible')
-            #     visualize_annotation(self.metadb_3d_input.spotweld_clusters, self.general_input.binout_directory)
-
-            #     image_path = os.path.join(self.threed_images_report_folder,"MetaPost"+"_"+"f21_upb_inner_stiff_ring_spotweld_failure".lower()+".png")
-            #     capture_image(image_path,"MetaPost",shape.width,shape.height,view = "right")
-            #     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-            #     picture.crop_left = 0
-            #     picture.crop_right = 0
-            #     self.revert()
-
 
         return 0
-    def revert(self, ):
-        """
-        revert _summary_
-
-        _extended_summary_
-
-        Returns:
-            _type_: _description_
-        """
-        utils.MetaCommand('color pid transparency reset act')
-        return 0
-=======
->>>>>>> 855c0f6f352d6cf2edb08791d437c69e118c93ef

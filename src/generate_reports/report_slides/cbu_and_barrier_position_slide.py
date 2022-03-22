@@ -64,7 +64,7 @@ class CBUAndBarrierPositionSlide():
                         if index>0:
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,rotate = Image.ROTATE_90,view = "top",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -80,7 +80,7 @@ class CBUAndBarrierPositionSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".jpeg","")+"_transparent.png"
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
                     picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
@@ -96,7 +96,7 @@ class CBUAndBarrierPositionSlide():
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_IMPACT_LEFT_VIEW"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_IMPACT_LEFT_VIEW"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -112,7 +112,7 @@ class CBUAndBarrierPositionSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".jpeg","")+"_transparent.png"
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
                     picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0

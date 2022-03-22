@@ -71,7 +71,7 @@ class CAEQualitySlide():
                     system_damping_energy_curve = plot2d.CurvesByName(window_name, "System damping energy", 1)[0]
                     system_damping_energy_curve.hide()
                     #capturing "System Energy" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"-"+title.get_text()+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text()+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -90,8 +90,8 @@ class CAEQualitySlide():
                     utils.MetaCommand('xyplot legend hook hout "{}" 0'.format(window_name))
                     utils.MetaCommand('xyplot legend ymove "{}" 0 1.060000'.format(window_name))
                     #capturing "System Energy" plot image along with legend
-                    image2_path = os.path.join(self.twod_images_report_folder,window_name+"-"+title.get_text()+"_LEGEND"+".jpeg")
-                    utils.MetaCommand('write jpeg "{}" 100'.format(image2_path))
+                    image2_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text()+"_LEGEND"+".png")
+                    utils.MetaCommand('write png "{}"'.format(image2_path))
                     #creating Image object for the above captured image
                     img_2 = Image.open(image2_path)
                     #getting legend attributes of "System Energy" plot
@@ -101,7 +101,7 @@ class CAEQualitySlide():
                     height = legend.get_height()
                     #cropping the image to get legend alone
                     img_2 = img_2.crop((left,top,width+8,height+8))
-                    img_2.save(image2_path,"JPEG")
+                    img_2.save(image2_path,"PNG")
                     self.logger.info(image2_path)
                     #getting the shape object with name as "Image 1"
                     shape2 = [shape for shape in self.slide.shapes if shape.name == "Image 1"][0]
@@ -126,7 +126,7 @@ class CAEQualitySlide():
                     utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
                     utils.MetaCommand('xyplot curve set color "{}" vis LightGreen'.format(window_name))
                     #capturing "Added Mass" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,window_name+"-"+title.get_text()+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text()+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")

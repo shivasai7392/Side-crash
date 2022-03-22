@@ -65,7 +65,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
                     visualize_3d_critical_section(data)
                     utils.MetaCommand('color pid transparency reset act')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITH_DEFORMATION"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITH_DEFORMATION"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -103,8 +103,8 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
                     visualize_3d_critical_section(data)
                     utils.MetaCommand('color pid transparency reset act')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".jpeg")
-                    capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "btm")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "btm")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -139,7 +139,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('add all')
                     utils.MetaCommand('add invert')
                     utils.MetaCommand('options fringebar on')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"FRINGE_BAR"+".png")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"FRINGE_BAR"+".png").replace(" ","_")
                     utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
                     self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
                     self.logger.info("")
@@ -202,7 +202,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('xyplot axisoptions labels xfont "{}" 1 "Arial,25,-1,5,75,0,0,0,0,0"'.format(biw_stiff_ring_def_window_name))
                     utils.MetaCommand('xyplot plotoptions title font "{}" 1 "Arial,25,-1,5,75,0,0,0,0,0"'.format(biw_stiff_ring_def_window_name))
                     #capturing plot image
-                    image_path = os.path.join(self.twod_images_report_folder,biw_stiff_ring_def_window_name+"_"+title.get_text()+".jpeg").replace("&","and")
+                    image_path = os.path.join(self.twod_images_report_folder,biw_stiff_ring_def_window_name+"_"+title.get_text()+".png").replace("&","and").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -226,7 +226,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
                     visualize_3d_critical_section(data)
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_SPOTWELD_FAILURE"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_SPOTWELD_FAILURE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")

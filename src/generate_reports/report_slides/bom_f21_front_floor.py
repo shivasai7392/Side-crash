@@ -12,7 +12,7 @@ from meta import models
 from meta import parts
 from meta import constants
 
-from src.meta_utilities import capture_image
+from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
 from src.general_utilities import add_row
 
@@ -63,9 +63,9 @@ class BOMF21FrontFloorSlide():
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR"+".png").replace(" ","_")
                     #capturing the "f21_front_floor" critical part set image at original state
-                    capture_image(image_path,shape.width,shape.height)
+                    capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
