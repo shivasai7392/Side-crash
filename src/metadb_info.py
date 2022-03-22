@@ -33,13 +33,13 @@ class Meta2DInfo:
         self.window_objects = []
 
     def get_info(self):
-        """[summary]
-
-        [extended_summary]
+        """
+        This method is used to getting the variables of 2D metadb info.
 
         Returns:
             [type]: [description]
         """
+        # Getting the Curve variables
         curve_variables = utils.MetaGetVariablesByName("*_{}".format(Meta2DInfo.re_curve_name))
         for one_var in curve_variables :
             var_name = one_var[0]
@@ -56,12 +56,10 @@ class Meta2DInfo:
 
     def prepare_info(self,windows):
         """
-        prepare_info [summary]
-
-        [extended_summary]
+        This method is used to generate the 2d metadb info.
 
         Returns:
-            [type]: [description]
+            [0]: 0 for Success 1 For failure.
         """
         # Iterating all the windows
         for win in windows:
@@ -106,12 +104,10 @@ class Meta3DInfo:
 
     def get_spotweld_clusters(self,file_path):
         """
-        get_spotweld_clusters _summary_
-
-        _extended_summary_
+        This method is used to getting the spotweld id and its elements.
 
         Returns:
-            _type_: _description_
+            Dictionary : key as SpotWeld Id and value as Elements ID's.
         """
         # Opening the d3hsp file and reading all lines
         d3hsp_file_path = open(file_path,'r')
