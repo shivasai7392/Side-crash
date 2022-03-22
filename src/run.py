@@ -47,6 +47,7 @@ def main(*args):
 
     # Reading the 2d metadb input
     utils.MetaCommand("read project {}".format(user_input.metadb_2d_input))
+    utils.MetaCommand('read project overlay "{}" ""'.format(user_input.target_metadb_input))
 
     # Joining the config directory path and log directory path
     general_input_info = GeneralVarInfo()
