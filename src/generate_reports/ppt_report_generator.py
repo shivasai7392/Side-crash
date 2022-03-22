@@ -224,6 +224,7 @@ class PPTXReportComposer():
             int: 0 always.
         """
         from pptx.enum.text import PP_ALIGN
+        from pptx import Presentation
 
         # Get current date if not provided
         if not datestamp:
@@ -242,5 +243,25 @@ class PPTXReportComposer():
 
         # Save the pptx
         self.prs_obj.save(pptx_filepath)
+
+        # Thesis and Executive Report Presentation
+        thesis_report_presentation = Presentation(pptx_filepath)
+        executive_report_presentation = Presentation(pptx_filepath)
+        # Thesis and Executive Report Slides
+        thesis_report_xml_slides = thesis_report_presentation.slides._sldIdLst
+        executive_reportxml2_slides = executive_report_presentation.slides._sldIdLst
+        thesis_report_slides = list(thesis_report_xml_slides)
+        executive_report_slides = list(executive_reportxml2_slides)
+        # Removing the 2nd slide from Thesis Report and saving
+        for index,_slide in enumerate(thesis_report_slides):
+            if index != 2:
+                thesis_report_xml_slides.remove(thesis_report_slides[index])
+        thesis_report_presentation.save(pptx_filepath.replace("Thesis","Executive"))
+        # Saving only the 2nd slide and saving
+        for index,_slide2 in enumerate(executive_report_slides):
+            if index == 2:
+                executive_reportxml2_slides.remove(executive_report_slides[index])
+
+        executive_report_presentation.save(pptx_filepath)
 
         return 0

@@ -28,6 +28,7 @@ class UserInput():
 
         [extended_summary]
         """
+        # Getting the variables of 2d metadb file
         self.metadb_2d_input = utils.MetaGetVariable("2d_metadb_input")
 
         return 0

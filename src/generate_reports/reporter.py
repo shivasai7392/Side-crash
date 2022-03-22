@@ -44,15 +44,14 @@ class Reporter():
 
     def make_reporting_folders(self):
         """
-        make_reporting_folders _summary_
-
-        _extended_summary_
+        This method is used to create the Reporting Folders which we should report
 
         Returns:
-            _type_: _description_
+            int: 0 for Success otherwise 1 for failure
         """
-
+        # all the reporting folders
         reporting_folders = [self.twod_images_report_folder, self.threed_images_report_folder, self.threed_videos_report_folder, self.excel_bom_report_folder,self.ppt_report_folder,self.log_report_folder]
+        # Iterating the reporting folders if that folder not present the make the directory of that folder
         for folder_path in reporting_folders:
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
@@ -60,14 +59,12 @@ class Reporter():
 
     def get_reporting_folders(self):
         """
-        get_reporting_folders _summary_
-
-        _extended_summary_
+        This method is used to get the Reporting folders
 
         Returns:
-            _type_: _description_
+            Int : 0 for Success 1 for Failure
         """
-
+        # Path of the 2d,3d images, 3d videos,excel BOM and Reports
         self.twod_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"2d-data-images").replace("\\",os.sep)
         self.threed_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-images").replace("\\",os.sep)
         self.threed_videos_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-videos").replace("\\",os.sep)
@@ -79,12 +76,10 @@ class Reporter():
 
     def run_process(self):
         """
-        run_process _summary_
-
-        _extended_summary_
+        This method is used to Calling the thesis report function and threed data reporting function
 
         Returns:
-            _type_: _description_
+            Int: 0 for Success 1 For failure
         """
 
         self.thesis_report_generation()
@@ -94,12 +89,10 @@ class Reporter():
 
     def thesis_report_generation(self):
         """
-        thesis_report_generation [summary]
-
-        [extended_summary]
+        This method is used to generating the slides of thesis report
 
         Returns:
-            [type]: [description]
+            [Int]: 0 for Success 1 for Failure
         """
         side_crash_report_ppt = SideCrashPPTReportGenerator(self.windows,
                                                    self.general_input,
@@ -117,12 +110,10 @@ class Reporter():
 
     def threed_data_reporting(self):
         """
-        threed_data_reporting [summary]
-
-        [extended_summary]
+        This methos is used to generate the threed data reporting
 
         Returns:
-            [type]: [description]
+            [Int]: 0 for Success 1 for failure
         """
         threed_data_report = ThreeDDataReporter(self.general_input.threed_window_name,
                                             self.metadb_3d_input,

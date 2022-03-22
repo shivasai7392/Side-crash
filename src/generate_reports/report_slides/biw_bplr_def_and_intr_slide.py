@@ -44,10 +44,10 @@ class BIWBplrDeformationAndIntrusion():
         Returns:
             int: 0 Always for Sucess,1 for Failure.
         """
-        self.logger.info("Started seeding data into biw bpillar deformation and intrusion slide")
-        self.logger.info("")
-        starttime = datetime.now()
         try:
+            self.logger.info("Started seeding data into biw bpillar deformation and intrusion slide")
+            self.logger.info("")
+            starttime = datetime.now()
             survival_space_window_name = self.general_input.survival_space_window_name
             utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
             #iterating through the shapes of the biw bpillar deformation and intrusion slide

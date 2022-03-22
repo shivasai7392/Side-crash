@@ -47,13 +47,12 @@ class ThreeDDataReporter():
 
     def run_process(self):
         """
-        run_process _summary_
-
-        _extended_summary_
+        This method is used to generate the excel BOM files.
 
         Returns:
-            _type_: _description_
+            Int: 0 for Success 1 for failure
         """
+        # Maximizing the threed window and calling the ExcelBomGeneration class and executing the excel_bom_generation function
         utils.MetaCommand('window maximize {}'.format(self.threed_window_name))
         self.logger.info("--- 3D MODEL BOM GENERATOR")
         excel_bom_report = ExcelBomGeneration(self.metadb_3d_input, self.excel_bom_report_folder)

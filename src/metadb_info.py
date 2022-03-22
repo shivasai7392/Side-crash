@@ -63,14 +63,20 @@ class Meta2DInfo:
         Returns:
             [type]: [description]
         """
+        # Iterating all the windows
         for win in windows:
+            # Getting the curves for each window
             curves = win.get_curves('all')
+            # Iterating the curve
             for a_curve in self.curves.values():
+                # Getting the name of each curve
                 curve_names = [curve.name for curve in curves]
+                # Iterating the curve name
                 if a_curve in curve_names:
                     index = curve_names.index(a_curve)
                     curve_meta_obj = curves[index]
                     win_obj = Meta2DWindow(win.name,win)
+                    # Finding the plot of a 2d plot by giving window name and plot id
                     plot_meta_obj = plot2d.PlotById(win.name, curve_meta_obj.plot_id)
                     plot_obj = win_obj.Plot(plot_meta_obj.id,plot_meta_obj)
                     win_obj.plot = plot_obj
@@ -107,9 +113,12 @@ class Meta3DInfo:
         Returns:
             _type_: _description_
         """
+        # Opening the d3hsp file and reading all lines
         d3hsp_file_path = open(file_path,'r')
         d3hsp_file_content = d3hsp_file_path.readlines()
+        # Iterating all the d3hsp file lines
         for line in d3hsp_file_content:
+            # If "Spotweld ID:" is present in line then performing strip getting the element Id's and appending into Dictionary
             if 'Spotweld ID:' in line:
                 spotweld_id = int(line.strip('Spotweld ID:'))
                 elements_list = d3hsp_file_content[d3hsp_file_content.index(line)+2].split()
