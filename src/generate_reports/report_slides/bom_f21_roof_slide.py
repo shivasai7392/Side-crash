@@ -62,7 +62,7 @@ class BOMF21ROOFSlide():
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
                     #capturing "f21_roof" image at original state
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"ROOF"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"ROOF"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")

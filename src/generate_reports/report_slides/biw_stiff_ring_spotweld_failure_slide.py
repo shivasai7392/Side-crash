@@ -58,7 +58,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                     visualize_3d_critical_section(data)
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -93,8 +93,8 @@ class BIWStiffRingSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".jpeg")
-                    capture_image(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "right")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".png").replace(" ","_")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "right")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -126,4 +126,5 @@ class BIWStiffRingSpotWeldFailureSlide():
         self.logger.info("Completed seeding data into  biw stiff ring spotweld failure slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
+
         return 0

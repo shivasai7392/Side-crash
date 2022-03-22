@@ -63,7 +63,7 @@ class BOMF28DoorsSlide():
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F28_FRONT_DOOR"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F28_FRONT_DOOR"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")

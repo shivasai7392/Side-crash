@@ -114,6 +114,7 @@ class ExecutiveSlide():
             int: 0 Always for Sucess,1 for Failure.
         """
         from pptx.util import Pt
+        from PIL import Image
 
         try:
             self.logger.info("Started seeding data into executive report slide")
@@ -159,7 +160,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     #capturing "Survival Space" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text()+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text()+".png").replace(" ","_")
                     capture_image(image_path,survival_space_window_name,shape.width,shape.height,transparent = True)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -169,7 +170,7 @@ class ExecutiveSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".jpeg","")+"_transparent.png"
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
                     picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     title.set_text(org_name)
                     picture.crop_left = 0
@@ -202,7 +203,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,data["name"]))
+                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,data["name"])).replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -235,7 +236,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,data["name"]))
+                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,data["name"])).replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -281,7 +282,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
                     #capturing "f21_upb_inner" image at peak state
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.jpeg".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE"))
+                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE")).replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -321,7 +322,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER")
                     #capturing front shoulder intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 SHOULDER"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 SHOULDER"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -348,7 +349,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 ABDOMEN")
                     #capturing front abdomen intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 ABDOMEN"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 ABDOMEN"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -375,7 +376,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 FEMUR")
                     #capturing front femur intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 FEMUR"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 FEMUR"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -402,7 +403,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 PELVIS")
                     #capturing front pelvis intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 PELVIS"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 PELVIS"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -429,7 +430,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
                     #capturing rear shoulder intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 SHOULDER"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 SHOULDER"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -456,7 +457,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN")
                     #capturing rear abdomen intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 ABDOMEN"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 ABDOMEN"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -483,7 +484,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR")
                     #capturing rear femur intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 FEMUR"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 FEMUR"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
@@ -510,7 +511,7 @@ class ExecutiveSlide():
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS")
                     #capturing rear pelvis intrusion curve plot image
-                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 PELVIS"+".jpeg")
+                    image_path = os.path.join(self.twod_images_report_folder,rear_door_accel_window_name+"_"+"ROW 2 PELVIS"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")

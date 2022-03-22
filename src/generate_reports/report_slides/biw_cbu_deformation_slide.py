@@ -67,7 +67,7 @@ class BIWCBUDeformationSlide():
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
                     #capturing cbu image
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITHOUT_PLASTIC_STRAIN"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITHOUT_PLASTIC_STRAIN"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -112,7 +112,7 @@ class BIWCBUDeformationSlide():
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
                     #capturing cbu image with plastic strain
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITH_PLASTIC_STRAIN"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITH_PLASTIC_STRAIN"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
@@ -143,7 +143,7 @@ class BIWCBUDeformationSlide():
                     utils.MetaCommand('add all')
                     utils.MetaCommand('add invert')
                     utils.MetaCommand('options fringebar on')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_FRINGE_BAR"+".jpeg")
+                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_FRINGE_BAR"+".png").replace(" ","_")
                     utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
                     self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
                     self.logger.info("")
