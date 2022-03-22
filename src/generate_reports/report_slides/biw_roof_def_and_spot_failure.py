@@ -12,6 +12,7 @@ from meta import plot2d
 from meta import models
 
 from src.meta_utilities import capture_image_and_resize
+from src.meta_utilities import capture_image
 from src.meta_utilities import visualize_3d_critical_section
 from src.meta_utilities import visualize_annotation
 
@@ -220,7 +221,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #capturing the image with annotations at original state
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image_and_resize(self.general_input.threed_window_name,shape.width,shape.height,image_path,view = "top")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
