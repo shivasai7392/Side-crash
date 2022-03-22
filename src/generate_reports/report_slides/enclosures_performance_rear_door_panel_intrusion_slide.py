@@ -1,11 +1,6 @@
 # PYTHON script
 """
-    _summary_
-
-_extended_summary_
-
-Returns:
-    _type_: _description_
+This script is used for all the automation process of enclosures performance rear door panel intrusion slide of thesis report.
 """
 
 import os

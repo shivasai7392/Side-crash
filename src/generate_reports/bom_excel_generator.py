@@ -40,7 +40,7 @@ class ExcelBomGeneration():
         This method is used to generating the Excel Bill Of Material files
 
         Returns:
-            0 : 0 for Success,1 for Failure
+            0 : 0 Always
         """
         # Getting the Critical Sections Data From meta3d input
         critical_section_data = self.metadb_3d_input.critical_sections

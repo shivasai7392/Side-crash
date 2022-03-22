@@ -12,9 +12,7 @@ from meta import session
 
 class UserInput():
     """
-    UserInput [summary]
-
-    [extended_summary]
+    This Class is used to run the Script in the Windows and linux in gui mode and non-gui mode.
     """
 
     def __init__(self, *args):

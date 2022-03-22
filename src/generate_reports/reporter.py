@@ -48,7 +48,7 @@ class Reporter():
         This method is used to create the Reporting Folders which we should report
 
         Returns:
-            int: 0 for Success otherwise 1 for failure
+            int: 0 Always
         """
         # all the reporting folders
         reporting_folders = [self.twod_images_report_folder, self.threed_images_report_folder, self.threed_videos_report_folder, self.excel_bom_report_folder,self.ppt_report_folder,self.log_report_folder]
@@ -63,7 +63,7 @@ class Reporter():
         This method is used to get the Reporting folders
 
         Returns:
-            Int : 0 for Success 1 for Failure
+            Int : 0 Always
         """
         # Path of the 2d,3d images, 3d videos,excel BOM and Reports
         self.twod_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"2d-data-images").replace("\\",os.sep)
@@ -80,7 +80,7 @@ class Reporter():
         This method is used to Calling the thesis report function and threed data reporting function
 
         Returns:
-            Int: 0 for Success 1 For failure
+            Int: 0 Always
         """
 
         self.thesis_report_generation()
@@ -93,7 +93,7 @@ class Reporter():
         This method is used to generating the slides of thesis report
 
         Returns:
-            [Int]: 0 for Success 1 for Failure
+            [Int]: 0 Always
         """
         self.logger.info("--- Executive and Thesis Report Generation Started")
         starttime = datetime.now()
@@ -120,7 +120,7 @@ class Reporter():
         This methos is used to generate the threed data reporting
 
         Returns:
-            [Int]: 0 for Success 1 for failure
+            [Int]: 0 Always
         """
         self.logger.info("--- 3D Data Reporting - Excel BOM Generation for critical part sets is started")
         starttime = datetime.now()

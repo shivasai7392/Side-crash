@@ -368,16 +368,15 @@ class GeneralVarInfo:
 
     def get_log_directory(self):
         """
-        get_log_directory _summary_
-
-        _extended_summary_
+        This method is used to get the directory of the log file.
 
         Returns:
-            _type_: _description_
+            str: joining the log directory and log file
         """
         get_var = lambda a: utils.MetaGetVariable(a)
         #self.log_file = get_var(GeneralVarInfo.log_file_key)
         self.log_file = "2TN_MP_log"
+        # Getting the log directory
         self.log_file_directory = get_var(GeneralVarInfo.log_file_directory_key)
 
         return os.path.join(self.log_file_directory,self.log_file)
