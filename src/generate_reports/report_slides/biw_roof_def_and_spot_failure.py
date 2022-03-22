@@ -226,7 +226,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #capturing the image with annotations at original state
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -246,9 +246,12 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting visual settings
                     utils.MetaCommand('annotation delete all')
             endtime  = datetime.now()
