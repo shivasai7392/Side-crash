@@ -59,7 +59,7 @@ class Meta2DInfo:
         This method is used to generate the 2d metadb info.
 
         Returns:
-            [0]: 0 for Success 1 For failure.
+            [Int]: 0 Always
         """
         # Iterating all the windows
         for win in windows:
@@ -124,9 +124,8 @@ class Meta3DInfo:
         return self.spotweld_clusters
 
     def get_info(self):
-        """[summary]
-
-        [extended_summary]
+        """
+        This function is used to get the variables of metadb3D info.
 
         Returns:
             [type]: [description]
@@ -134,6 +133,7 @@ class Meta3DInfo:
 
         for attr in [Meta3DInfo.re_name,Meta3DInfo.re_erase_box,Meta3DInfo.re_erase_pids,Meta3DInfo.re_hes,
                      Meta3DInfo.re_hes_exceptions,Meta3DInfo.re_transparent_pids,Meta3DInfo.re_view]:
+            # Getting the variables name
             variables = utils.MetaGetVariablesByName("*_{}".format(attr))
             for one_var in variables :
                 var_name = one_var[0]
