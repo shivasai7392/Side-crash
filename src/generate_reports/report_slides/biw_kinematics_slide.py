@@ -14,6 +14,7 @@ from meta import windows
 from src.meta_utilities import capture_image
 from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
+from src.general_utilities import clone_shape
 
 class BIWKinematicsSlide():
     """
@@ -145,6 +146,7 @@ class BIWKinematicsSlide():
             self.logger.info("Started seeding data into biw kinematis slide")
             self.logger.info("")
             starttime = datetime.now()
+            oval_shapes = [shape for shape in self.shapes if "Oval" in shape.name]
             #iterating through the shapes of the biw kinematis slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
@@ -575,6 +577,9 @@ class BIWKinematicsSlide():
                     biw_accel_upr_y_displacement_curve.hide()
                     biw_accel_upr_y_velocity_curve.hide()
                     self.revert()
+            # Duplicating Oval Shapes
+            for shape in oval_shapes:
+                clone_shape(shape)
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into biw kinematics slide:\n{}".format(e))

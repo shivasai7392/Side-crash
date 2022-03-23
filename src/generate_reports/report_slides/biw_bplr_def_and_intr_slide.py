@@ -14,6 +14,7 @@ from src.meta_utilities import capture_image
 from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
 from src.general_utilities import closest
+from src.general_utilities import clone_shape
 
 class BIWBplrDeformationAndIntrusion():
     """
@@ -135,6 +136,7 @@ class BIWBplrDeformationAndIntrusion():
             self.logger.info("Started seeding data into biw bpillar deformation and intrusion slide")
             self.logger.info("")
             starttime = datetime.now()
+            oval_shapes = [shape for shape in self.shapes if "Oval" in shape.name]
             survival_space_window_name = self.general_input.survival_space_window_name
             utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
             #iterating through the shapes of the biw bpillar deformation and intrusion slide
@@ -527,6 +529,9 @@ class BIWBplrDeformationAndIntrusion():
                     biw_accel_bpillar_lwr_l_y_displacement_curve.hide()
                     biw_accel_bpillar_lwr_l_y_velocity_curve.hide()
                     self.revert()
+            # duplicating oval shapes
+            for shape in oval_shapes:
+                clone_shape(shape)
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into biw bpillar deformation and intrusion slide:\n{}".format(e))

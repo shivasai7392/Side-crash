@@ -193,3 +193,27 @@ def remove_row(table,row_to_delete):
         row_to_delete ([type]): [description]
     """
     table._tbl.remove(row_to_delete._tr)
+
+
+def clone_shape(shape):
+    """
+    Add a duplicate of `shape` to the slide on which it appears.
+
+    """
+    import copy
+    from pptx.shapes.autoshape import Shape
+    # ---access required XML elements---
+    sp = shape._sp
+    spTree = sp.getparent()
+    # ---clone shape element---
+    new_sp = copy.deepcopy(sp)
+    # ---add it to slide---
+    spTree.append(new_sp)
+    # ---create a proxy object for the new sp element---
+    new_shape = Shape(new_sp, None)
+    new_shape.left = shape.left
+    new_shape.top = shape.top
+    # ---give it a unique shape-id---
+    new_shape.shape_id = shape.shape_id + 1000
+    # ---return the new proxy object---
+    return new_shape
