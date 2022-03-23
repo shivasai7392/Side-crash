@@ -38,7 +38,6 @@ class Reporter():
         self.metadb_3d_input = metadb_3d_input
         self.config_folder = config_folder
         self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
-        self.binout_directory_path = os.path.join(self.config_folder,"res",self.general_input.binout_directory.replace("/","",1)).replace("\\",os.sep)
         self.logger = logging.getLogger("side_crash_logger")
         self.get_reporting_folders()
         self.make_reporting_folders()
@@ -104,8 +103,7 @@ class Reporter():
                                                    self.template_file,
                                                    self.twod_images_report_folder,
                                                    self.threed_images_report_folder,
-                                                   self.ppt_report_folder,
-                                                   self.binout_directory_path)
+                                                   self.ppt_report_folder)
         side_crash_report_ppt.generate_ppt()
         endtime = datetime.now()
         self.logger.info("--- Executive and Thesis Report Generation Completed")
