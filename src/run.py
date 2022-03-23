@@ -54,14 +54,14 @@ def main(*args):
     log_file = os.path.join(app_config_dir,"res",general_input_info.get_log_directory().replace("/","",1)).replace("\\",os.sep)
     logger = SideCrashLogger(log_file)
 
-    logger.info("--- STARTED OVERLAYING TARGET METADB FILE")
-    logger.info("FILE PATH : {}".format(user_input.target_metadb_input))
+    logger.log.info("--- STARTED OVERLAYING TARGET METADB FILE")
+    logger.log.info("TARGET METADB FILE PATH : {}".format(user_input.target_metadb_input))
     #overlaying target metdb file
     target_start_time = datetime.now()
     general_input_info.target_2d_metadb = user_input.target_metadb_input
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_2d_metadb))
-    logger.info("TIME TAKEN FOR OVERLAYING TARGET METADB FILE : {}".format(datetime.now() - target_start_time))
-    logger.info("")
+    logger.log.info("TIME TAKEN FOR OVERLAYING TARGET METADB FILE : {}".format(datetime.now() - target_start_time))
+    logger.log.info("")
 
     # Getting the meta2dinfo and meta3d info
     general_input_info = general_input_info.get_info()
@@ -71,26 +71,31 @@ def main(*args):
     # Joining the config file and 3dmetadb file
     # threed_metadb_file = os.path.join(app_config_dir,"res",general_input_info.threed_metadb_file.replace("/","",1)).replace("\\",os.sep)
     # Reading the threed_metadb_file
-    logger.info("--- STARTED OVERLAYING AND READING PEAK,FINAL STATE RESULTS FROM 3D METADB FILE")
-    logger.info("FILE PATH : {}".format(user_input.metadb_3d_input))
+    logger.log.info("--- STARTED OVERLAYING AND READING PEAK,FINAL STATE RESULTS FROM 3D METADB FILE")
+    logger.log.info("3D METADB FILE PATH : {}".format(user_input.metadb_3d_input))
     threed_start_time = datetime.now()
     general_input_info.target_3d_metadb = user_input.metadb_3d_input
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_3d_metadb))
-    logger.info("TIME TAKEN FOR OVERLAYING 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
-
-    # # Joining the config directory path and d3hsp file path for d3hsp file
-    # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
-    # Getting the spotweld cluster for d3hsp file
-    general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
-    general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
-    metadb_3d_input_info.get_spotweld_clusters(general_input_info.d3hsp_file_path)
-
+    logger.log.info("TIME TAKEN FOR OVERLAYING 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
     #reading the results
     utils.MetaCommand('read options boundary materials')
     utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
     utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
-    logger.info("TIME TAKEN FOR READING PEAK,FINAL STATE RESULTS FROM 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
-    logger.info("")
+    logger.log.info("TIME TAKEN FOR READING PEAK,FINAL STATE RESULTS FROM 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
+    logger.log.info("")
+
+    # # Joining the config directory path and d3hsp file path for d3hsp file
+    # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
+    # Getting the spotweld clusters from d3hsp file
+    logger.log.info("--- SPOTWELD CLUSTERS IDENTIFICATION IS STARTED")
+    general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
+    general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
+    logger.log.info("SPOTWELD ID'S SOURCE FILE PATH : {}".format(general_input_info.d3hsp_file_path))
+    spotweld_start_time = datetime.now()
+    metadb_3d_input_info.get_spotweld_clusters(general_input_info.d3hsp_file_path)
+    logger.log.info("--- SPOTWELD CLUSTERS IDENTIFICATION IS COMPLETED")
+    logger.log.info("TIME TAKEN : {}".format(datetime.now() - spotweld_start_time))
+    logger.log.info("")
 
     #setting global 3d settings
     utils.MetaCommand('options title off')
@@ -111,13 +116,13 @@ def main(*args):
     metadb_2d_input_info.prepare_info(new_windows)
 
     # Calling the Reporter Class and executing the run_process function
-    logger.info("--- SIDE CRASH REPORTING FUNCTIONALITY STARTED")
-    logger.info("")
+    logger.log.info("--- SIDE CRASH REPORTING FUNCTIONALITY STARTED")
+    logger.log.info("")
     report_start_time = datetime.now()
     reporter = Reporter(new_windows,general_input_info,metadb_2d_input_info,metadb_3d_input_info,app_config_dir)
     reporter.run_process()
-    logger.info("SIDE CRASH REPORTING FUNCTIONALITY COMPLETED")
-    logger.info("TOTAL TIME TAKEN : {}".format(datetime.now() - report_start_time))
+    logger.log.info("SIDE CRASH REPORTING FUNCTIONALITY COMPLETED")
+    logger.log.info("TOTAL TIME TAKEN : {}".format(datetime.now() - report_start_time))
 
     logger.log.info("""Log Session Report End
 --------------------------
