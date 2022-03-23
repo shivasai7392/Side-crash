@@ -113,13 +113,14 @@ class Meta3DInfo:
         d3hsp_file_path = open(file_path,'r')
         d3hsp_file_content = d3hsp_file_path.readlines()
         # Iterating all the d3hsp file lines
+        spotweld_id_name = 'Spotweld ID:'
         for line in d3hsp_file_content:
             # If "Spotweld ID:" is present in line then performing strip getting the element Id's and appending into Dictionary
             if 'Spotweld ID:' in line:
-                spotweld_id = int(line.strip('Spotweld ID:'))
-                elements_list = d3hsp_file_content[d3hsp_file_content.index(line)+2].split()
-                elements_list = [int(each_element.replace(' ','')) for each_element in elements_list]
-                self.spotweld_clusters[spotweld_id] = elements_list
+            #     spotweld_id =s int(line.strip('Spotweld ID:'))
+            #     elements_list = d3hsp_file_content[d3hsp_file_content.index(line)+2].split()
+            #     elements_list = [int(each_element.replace(' ','')) for each_element in elements_list]
+                self.spotweld_clusters[int(line.strip(spotweld_id_name))] = [int(each_element.replace(' ','')) for each_element in d3hsp_file_content[d3hsp_file_content.index(line)+2].split()]
 
         return self.spotweld_clusters
 
