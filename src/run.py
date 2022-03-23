@@ -87,14 +87,14 @@ def main(*args):
     # # Joining the config directory path and d3hsp file path for d3hsp file
     # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld clusters from d3hsp file
-    logger.info("--- SPOTWELD CLUSTER IDENTIFICATION IS STARTED")
+    logger.info("--- SPOTWELD CLUSTERS IDENTIFICATION IS STARTED")
     general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
     general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
     logger.info("SPOTWELD ID'S SOURCE FILE PATH : {}".format(general_input_info.d3hsp_file_path))
     logger.info("BINOUT'S DIRECTORY PATH : {}".format(general_input_info.binout_directory))
     spotweld_start_time = datetime.now()
     metadb_3d_input_info.get_spotweld_clusters(general_input_info.d3hsp_file_path)
-    logger.info("--- SPOTWELD CLUSTER IDENTIFICATION IS COMPLETED")
+    logger.info("--- SPOTWELD CLUSTERS IDENTIFICATION IS COMPLETED")
     logger.info("TIME TAKEN : {}".format(datetime.now() - spotweld_start_time))
     logger.info("")
 
