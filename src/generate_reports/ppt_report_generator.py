@@ -72,8 +72,10 @@ class SideCrashPPTReportGenerator():
         Returns:
             [0]: 0 for Success 1 for failure
         """
+        #pptx object creation with template
         self.report_composer = PPTXReportComposer(report_name="Run1",template_pptx=self.template_file)
         self.report_composer.create_prs_obj()
+        #editing slides of the created pptx object
         title_slide = TitleSlide(self.report_composer.prs_obj.slides[0],
                                 self.general_input)
         title_slide.edit()
@@ -183,7 +185,7 @@ class SideCrashPPTReportGenerator():
                                 self.metadb_3d_input,
                                 self.threed_images_report_folder)
         biw_stiff_ring_spotweld_failure_slide.edit()
-
+        #saving the pptx object
         file_name = os.path.join(self.ppt_report_folder,"Side_MDB_Thesis_Report_{}.pptx".format(time.strftime("%Y-%d-%m")))
         self.report_composer.save_pptx(file_name)
 
