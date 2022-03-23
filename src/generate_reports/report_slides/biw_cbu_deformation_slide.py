@@ -64,11 +64,12 @@ class BIWCBUDeformationSlide():
                                 entities.extend(self.metadb_3d_input.get_props(re_prop))
                     self.metadb_3d_input.hide_all()
                     self.metadb_3d_input.show_only_props(entities)
+                    utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
                     #capturing cbu image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITHOUT_PLASTIC_STRAIN"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -88,9 +89,12 @@ class BIWCBUDeformationSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     utils.MetaCommand('grstyle scalarfringe enable')
                 #image insertion for the shape named "Image 1"
                 elif shape.name == "Image 2":
@@ -109,11 +113,12 @@ class BIWCBUDeformationSlide():
                                 entities.extend(self.metadb_3d_input.get_props(re_prop))
                     self.metadb_3d_input.hide_all()
                     self.metadb_3d_input.show_only_props(entities)
+                    utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
                     #capturing cbu image with plastic strain
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITH_PLASTIC_STRAIN"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -133,9 +138,12 @@ class BIWCBUDeformationSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     utils.MetaCommand('0:options state variable "serial=0"')
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":

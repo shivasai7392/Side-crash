@@ -64,9 +64,8 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
                     visualize_3d_critical_section(data)
-                    utils.MetaCommand('color pid transparency reset act')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITH_DEFORMATION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -86,9 +85,12 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting visual changes
                     utils.MetaCommand('options fringebar on')
                     utils.MetaCommand('0:options state original"')
@@ -102,9 +104,8 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('grstyle deform off')
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
                     visualize_3d_critical_section(data)
-                    utils.MetaCommand('color pid transparency reset act')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "btm")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -124,9 +125,12 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting visual changes
                     utils.MetaCommand('options fringebar on')
                     utils.MetaCommand('grstyle deform on')
@@ -232,7 +236,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -252,9 +256,12 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting visual settings
                     utils.MetaCommand('annotation delete all')
             endtime = datetime.now()

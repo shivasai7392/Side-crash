@@ -266,6 +266,7 @@ class ExecutiveSlide():
                     #visualizing "f21_upb_inner" critical part set
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
+                    utils.MetaCommand('grstyle scalarfringe enable')
                     #adding a yz plane and slicing the critiical part set with width 500
                     utils.MetaCommand('plane new DEFAULT_PLANE_YZ xyz 1657.996826,-16.504395,576.072754 1,0,0')
                     utils.MetaCommand('plane edit perpendicular 0/1/0 DEFAULT_PLANE_YZ')

@@ -65,7 +65,7 @@ class BOMF21FrontFloorSlide():
                 if shape.name == "Image 1":
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR"+".png").replace(" ","_")
                     #capturing the "f21_front_floor" critical part set image at original state
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -85,9 +85,12 @@ class BOMF21FrontFloorSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                 #table population for the shape named "Table 1"
                 elif shape.name == "Table 1":
                     #getting the table object

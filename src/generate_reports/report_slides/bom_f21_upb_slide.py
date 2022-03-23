@@ -63,7 +63,7 @@ class BOMF21UPBSlide():
                     utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('options fringebar off')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "right")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "right",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -83,9 +83,12 @@ class BOMF21UPBSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     utils.MetaCommand('color pid transparency reset act')
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
@@ -96,7 +99,7 @@ class BOMF21UPBSlide():
                     utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('options fringebar off')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -116,9 +119,12 @@ class BOMF21UPBSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     utils.MetaCommand('color pid transparency reset act')
             #iterating through the Table and Textbox shapes of the bom f21 upb slide
             remaining_shapes = [shape for shape in self.shapes if "Image" not in shape.name]
