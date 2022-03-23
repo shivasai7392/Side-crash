@@ -91,7 +91,6 @@ def main(*args):
     general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
     general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
     logger.info("SPOTWELD ID'S SOURCE FILE PATH : {}".format(general_input_info.d3hsp_file_path))
-    logger.info("BINOUT'S DIRECTORY PATH : {}".format(general_input_info.binout_directory))
     spotweld_start_time = datetime.now()
     metadb_3d_input_info.get_spotweld_clusters(general_input_info.d3hsp_file_path)
     logger.info("--- SPOTWELD CLUSTERS IDENTIFICATION IS COMPLETED")

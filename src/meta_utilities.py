@@ -248,6 +248,7 @@ def visualize_annotation(spotweld_id_elements,bins_path):
                     utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in value)))
                     break
     group_end_time = datetime.now()
+    logger.info("BINOUT'S DIRECTORY PATH : {}".format(bins_path))
     logger.info("SPOTWELD ID IDENTIFICATION AND CLUSTER GROUP GENERATION AVERAGE TIME : {}".format(group_end_time-group_start_time))
 
     curve_start_time = datetime.now()
