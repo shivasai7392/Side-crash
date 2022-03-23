@@ -192,7 +192,7 @@ class BIWStiffRingDeformationSlide():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_AT_PEAK_STATE_WITH_DEFORMATION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -212,9 +212,12 @@ class BIWStiffRingDeformationSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 5":
                     #visualizing "f21_upb_inner" critical part set to capture image at peak state without deformation
@@ -225,7 +228,7 @@ class BIWStiffRingDeformationSlide():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -245,9 +248,12 @@ class BIWStiffRingDeformationSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting back deformation
                     utils.MetaCommand('grstyle deform on')
                 #image insertion for the shape named "Image 2"
@@ -261,7 +267,7 @@ class BIWStiffRingDeformationSlide():
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('grstyle deform on')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_AT_PEAK_STATE_WITH_DEFORMATION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -281,9 +287,12 @@ class BIWStiffRingDeformationSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
                     #visualizing "f21_upb_outer" critical part set to capture image at peak state without deformation
@@ -295,7 +304,7 @@ class BIWStiffRingDeformationSlide():
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('grstyle deform off')
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height, view = "right",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -315,9 +324,12 @@ class BIWStiffRingDeformationSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting back deformation
                     utils.MetaCommand('grstyle deform on')
                 #image insertion for the shape named "Image 1"

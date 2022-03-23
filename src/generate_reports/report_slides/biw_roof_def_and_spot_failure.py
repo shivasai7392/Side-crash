@@ -116,7 +116,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     os.remove(transparent_image_path)
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
-                    #visualising  and capturing image of "f21_roof" critical part set at peak state
+                    #visualising and capturing image of "f21_roof" critical part set at original state with spotweld failure
                     data = self.metadb_3d_input.critical_sections["f21_roof"]
                     visualize_3d_critical_section(data)
                     utils.MetaCommand('color pid transparency reset act')
@@ -124,13 +124,14 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle deform off')
+                    visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
                     self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
+                    self.logger.info("STATE : ORIGINAL STATE")
                     self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
                     self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
                     self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
