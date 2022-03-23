@@ -41,7 +41,7 @@ def main(*args):
     if gui_mode == "True":
         user_input.get_user_input_from_gui()
     else:
-        user_input.get_user_input_from_interactive_mode()
+        user_input.get_user_input_from_json()
 
     # Creating the new windows
     windows.CollectNewWindowsStart()

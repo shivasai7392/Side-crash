@@ -1,0 +1,14 @@
+{
+    "2D_METADB_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/2tn_side_cae_phase1_v3p1.metadb",
+    "3D_METADB_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb",
+    "TARGET_METADB_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/target_file.metadb",
+    "D3HSP_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/beta_cae_03-03-2022/decomp_d3hsp",
+    "#Comment1": "Keys starting with symbol '#' are considered as commented and will be ignored in the tool",
+    "#Comment2": "In any heirarchy keys should be unique",
+    "#Comment3": "Changing the indent or order of the keys with in the heirarchy will not show any effect in the tool",
+    "#Comment4": "'2D_METADB_FILE_PATH' key expects the absolute path of input metdb file consists of side crash loadcase 2d curves for reporting",
+    "#Comment5": "'TARGET_METADB_FILE_PATH' key expects the absolute path of input metdb file consists of side crash loadcase 3d geometry and displacment results to read and report",
+    "#Comment6": "'2D_METADB_FILE_PATH' key expects the absolute path of input metdb file consists of side crash target 2d datum curves",
+    "#Comment7": "'D3HSP_FILE_PATH' key expects the absolute path of input file consists of spotweld clusters and elements information for spotweld anlaysis",
+    "#Comment8": "if any of the value contains '$META_POST_HOME' will be replaced with the meta root directory path"
+}
