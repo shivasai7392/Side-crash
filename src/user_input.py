@@ -38,7 +38,7 @@ class UserInput():
     def get_user_input_from_json(self):
         """This method retrieves the input field values from a json file
         """
-        json_loader = JsonLoader(os.path.join(os.path.dirname(os.path.dirname(__file__))),"side_crash_reporter_input_json.json")
+        json_loader = JsonLoader(os.path.join(os.path.dirname(os.path.dirname(__file__)),"side_crash_reporter_input_json.json"))
         input_json_dict = json_loader.load_json()
         self.metadb_2d_input = input_json_dict["2D_METADB_FILE_PATH"]
         self.metadb_3d_input = input_json_dict["3D_METADB_FILE_PATH"]
