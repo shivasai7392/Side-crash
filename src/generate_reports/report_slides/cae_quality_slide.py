@@ -67,6 +67,7 @@ class CAEQualitySlide():
                     utils.MetaCommand('xyplot rlayout "{}" 1'.format(window_name))
                     utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                     utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
+                    utils.MetaCommand('xyplot plotoptions value off "{}" {}'.format(window_name, plot_id))
                     #hiding "System damping energy" curve
                     system_damping_energy_curve = plot2d.CurvesByName(window_name, "System damping energy", 1)[0]
                     system_damping_energy_curve.hide()
@@ -125,6 +126,7 @@ class CAEQualitySlide():
                     utils.MetaCommand('xyplot curve select "{}" all'.format(window_name))
                     utils.MetaCommand('xyplot curve visible and "{}" sel'.format(window_name))
                     utils.MetaCommand('xyplot curve set color "{}" vis LightGreen'.format(window_name))
+                    utils.MetaCommand('xyplot plotoptions value off "{}" {}'.format(window_name, plot_id))
                     #capturing "Added Mass" plot image
                     image_path = os.path.join(self.twod_images_report_folder,window_name+"_"+title.get_text()+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)

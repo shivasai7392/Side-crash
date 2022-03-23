@@ -165,7 +165,7 @@ def capture_image_and_resize(file_path,width,height,rotate = None,transparent = 
             img = Image.open(file_path)
             img = image_transperent(img)
             img.save(file_path.replace(".png","")+"_transparent.png", 'PNG')
-            img.clode()
+            img.close()
     except:
         return 1
 
