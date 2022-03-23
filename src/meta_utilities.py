@@ -8,10 +8,16 @@ Returns:
     _type_: _description_
 """
 
-import os
+import logging
+from datetime import datetime
 
 from meta import utils
-from meta import windows, models,constants,plot2d,groups,annotations
+from meta import windows
+from meta import models
+from meta import constants
+from meta import plot2d
+from meta import groups
+from meta import annotations
 
 class Meta2DWindow():
     """
@@ -120,7 +126,7 @@ def image_transperent(img):
     return rgba_img
 
 
-def capture_image_and_resize(file_path,width,height,rotate = None):
+def capture_image_and_resize(file_path,width,height,rotate = None,transparent = False):
     """
     This method is used to capture an image of the meta window and resize it based on the width and height.
 
@@ -152,6 +158,14 @@ def capture_image_and_resize(file_path,width,height,rotate = None):
             img = img.transpose(rotate)
             img.save(file_path, 'PNG')
             img.close()
+        if transparent:
+            img = Image.open(file_path)
+            img.save(file_path, 'PNG')
+            img.close()
+            img = Image.open(file_path)
+            img = image_transperent(img)
+            img.save(file_path.replace(".png","")+"_transparent.png", 'PNG')
+            img.clode()
     except:
         return 1
 
@@ -204,6 +218,8 @@ def visualize_annotation(spotweld_id_elements,bins_path):
 
         _extended_summary_
     """
+    logger = logging.getLogger("side_crash_logger")
+    start_time = datetime.now()
     utils.MetaCommand('add element connected')
     utils.MetaCommand('add element connected')
     meta_post_window_object = windows.Window(name = 'MetaPost', page_id=0)
@@ -222,6 +238,7 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
     clusters = []
     identified_elements_list = []
+    group_start_time = datetime.now()
     for vis_element in visible_elements:
         if vis_element.id not in identified_elements_list:
             for key,value in spotweld_id_elements.items():
@@ -230,17 +247,25 @@ def visualize_annotation(spotweld_id_elements,bins_path):
                     identified_elements_list.extend(value)
                     utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in value)))
                     break
+    group_end_time = datetime.now()
+    logger.info("SPOTWELD ID IDENTIFICATION AND CLUSTER GROUP GENERATION AVERAGE TIME : {}".format(group_end_time-group_start_time))
 
+    curve_start_time = datetime.now()
     utils.MetaCommand('xyplot create "Temporary Window"')
     utils.MetaCommand('xyplot read lsdyna "Temporary Window" "{}" swforc-SpotweldAssmy {}  failure_(f)'.format(bins_path,",".join(str(key) for key in clusters)))
+    curve_end_time = datetime.now()
+    logger.info("CURVES GENERATION AVERAGE TIME : {}".format(curve_end_time-curve_start_time))
 
     plot = plot2d.Plot(0,"Temporary Window",0)
     curves = plot.get_curves('all')
     meta_post_window_object.maximize()
+    annot_start_time = datetime.now()
+    failed_welds = 0
     for curve in curves:
         failure_point = plot2d.MaxPointYOfCurve("Temporary Window", curve.id, 'real')
         failure_value = str(round(failure_point.y,2))
         if float(failure_value) > 0.7:
+            failed_welds += 1
             failure_time = failure_point.x
             failure_time = str(round(failure_time,3))
             #Create an annotation in the 3D data for the cluster which is above the threshold value
@@ -266,6 +291,12 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     utils.MetaCommand('annotation extparam all shape off')
     utils.MetaCommand('annotation text all format auto')
     utils.MetaCommand('window delete "Temporary Window"')
+
+    annot_end_time = datetime.now()
+    logger.info("CURVES MAX DETERMINATION AND ANNOTATIONS GENERATION AVERAGE TIME : {}".format(annot_end_time-annot_start_time))
+    logger.info("PROCESSED WELDS : {} | WELDS ABOVE THRESHOLD : {} | WELD IDENTIFICATION TIME : {}".format(len(curves),failed_welds,annot_end_time - start_time))
+    logger.info("")
+
     return 0
 
 def deformation_plot_formmatter(window_name,plot1_id,plot2_id,plot3_id):

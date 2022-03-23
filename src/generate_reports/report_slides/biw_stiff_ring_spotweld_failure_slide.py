@@ -57,6 +57,11 @@ class BIWStiffRingSpotWeldFailureSlide():
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                     visualize_3d_critical_section(data)
+                    self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
+                    self.logger.info("START TIME : {}".format(datetime.now))
+                    self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
+                    self.logger.info("")
+                    self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left")
@@ -93,6 +98,11 @@ class BIWStiffRingSpotWeldFailureSlide():
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
+                    self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
+                    self.logger.info("START TIME : {}".format(datetime.now))
+                    self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
+                    self.logger.info("")
+                    self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "right")

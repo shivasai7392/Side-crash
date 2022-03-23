@@ -129,7 +129,7 @@ class Reporter():
                                             self.excel_bom_report_folder)
         threed_data_report.run_process()
         endtime = datetime.now()
-        self.logger.info("--- 3D Data Reporting - Excel BOM Generation for critical part sets is compelted")
+        self.logger.info("--- 3D Data Reporting - Excel BOM Generation for critical part sets is completed")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
 

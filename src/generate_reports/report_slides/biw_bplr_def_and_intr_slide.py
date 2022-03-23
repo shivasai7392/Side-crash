@@ -8,8 +8,10 @@ from datetime import datetime
 
 from meta import utils
 from meta import plot2d
+from meta import windows
 
 from src.meta_utilities import capture_image
+from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
 from src.general_utilities import closest
 
@@ -36,6 +38,91 @@ class BIWBplrDeformationAndIntrusion():
         self.twod_images_report_folder = twod_images_report_folder
         self.threed_images_report_folder = threed_images_report_folder
         self.logger = logging.getLogger("side_crash_logger")
+        self.biw_accel_window_name = None
+        self.biw_accel_window_obj = None
+        self.biw_accel_window_layout = 0
+
+    def setup(self):
+        """
+        This method is used to setup data for meta windows based on 2d formats
+
+        Returns:
+            int: 0 Always for Sucess.1 for Failure.
+        """
+        try:
+            self.biw_accel_window_name = self.general_input.biw_accel_window_name
+            self.biw_accel_window_name = self.biw_accel_window_name.replace("\"","")
+            utils.MetaCommand('window maximize "{}"'.format(self.biw_accel_window_name))
+            self.biw_accel_window_obj = windows.Window(self.biw_accel_window_name, page_id = 0)
+            self.biw_accel_window_layout = self.biw_accel_window_obj.get_plot_layout()
+
+        except Exception  as e:
+            return 1
+
+        return 0
+
+    def kinematics_curve_format(self, biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values,title = None):
+        """
+        This method is used to format kinematics curves.
+
+        Args:
+            biw_accel_window_name (str): biw accel window name.
+            plot_id (int): id of the plot.
+            velocity_min_max_values (list): list of velocity curve y min and max values.
+            displacement_min_max_values (list): list of displacement curve y min nad max values.
+            title (str, optional): title of the plot. Defaults to None.
+
+        Returns:
+            int: 0 Always for Sucess.1 for Failure.
+        """
+        try:
+            # self.logger.info("Intrusion curve fomat : {}".format(curve_name))
+            # self.logger.info("")
+            # starttime = datetime.now()
+            # self.logger.info("Moving the {} curve to a Temporary window for custom formatting of title,yaxis,xaxis options and attibutes".format(curve_name))
+            # self.logger.info(".")
+            # self.logger.info(".")
+            # self.logger.info(".")
+            #rounding the velocity,displacement curves y min and max values
+            velocity_values = [round(each_velocity_min_max_value) for each_velocity_min_max_value in velocity_min_max_values]
+            displacement_values = [round(each_displacement_min_max_value) for each_displacement_min_max_value in displacement_min_max_values]
+            #applying custom style and size for plot title,xaxis,yaxis options and attributes
+            utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
+            utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
+            utils.MetaCommand('xyplot curve select "{}" vis'.format(biw_accel_window_name))
+            utils.MetaCommand('xyplot curve set linewidth "{}" selected 9'.format(biw_accel_window_name))
+            if title:
+                utils.MetaCommand('xyplot plotoptions title set "{}" {} "{}"'.format(biw_accel_window_name, plot_id, title))
+            utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(biw_accel_window_name, plot_id))
+
+            utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 1'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions axyrange "{}" {} 1 {} {}'.format(biw_accel_window_name, plot_id,str(round((min(velocity_values)-1000)//1000)*1000), str(round(((max(velocity_values)+1000)//1000)*1000))))
+            utils.MetaCommand('xyplot gridoptions yspace "{}" {} 500'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 1'.format(biw_accel_window_name, plot_id))
+
+            utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 2'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions axyrange "{}" {} 2 {} {}'.format(biw_accel_window_name, plot_id,str(min(displacement_values)-100), str(max(displacement_values)+100)))
+            utils.MetaCommand('xyplot gridoptions yspace "{}" {} 50'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 2'.format(biw_accel_window_name, plot_id))
+
+            utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,20,-1,5,75,0,0,0,0,0"'.format(biw_accel_window_name, plot_id))
+            #endtime = datetime.now()
+        except Exception as e:
+            self.logger.exception("Error while seeding data into executive report slide:\n{}".format(e))
+            self.logger.info("")
+            return 1
+        # self.logger.info("Intrusion curve format complete")
+        # self.logger.info("Time Taken : {}".format(endtime - starttime))
+        # self.logger.info("")
+
+        return 0
 
     def edit(self):
         """
@@ -201,8 +288,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot axisoptions axxrange "{}" 0 0 100 400'.format(survival_space_window_name))
-                    utils.MetaCommand('xyplot gridoptions line major style "{}" 0 5'.format(survival_space_window_name))
-                    utils.MetaCommand('xyplot gridoptions line major style "{}" 0 1'.format(survival_space_window_name))
+                    utils.MetaCommand('xyplot gridoptions line major style "{}" 0 2'.format(survival_space_window_name))
                     utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(survival_space_window_name,survival_space_window_name))
                     utils.MetaCommand('xyplot curve set color "{}" {} "Cyan"'.format(survival_space_window_name, initial_curve.id))
                     utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(survival_space_window_name, initial_curve.id))
@@ -215,6 +301,236 @@ class BIWBplrDeformationAndIntrusion():
                     title.set_text(org_name)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                #image insertion for the shape named "Image 5"
+                elif shape.name == "Image 4":
+                    #calling default 2d data setup and getting the X velocity and X displacement curve from biw accel window of MDB plot id 3
+                    self.setup()
+                    plot_id = 2
+                    page_id = 0
+                    velocity_min_max_values = []
+                    displacement_min_max_values = []
+                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
+                    biw_accel_bpillar_upr_l_y_velocity_curve = plot.get_curves('byname', name = '*B-PLR_L_UPR*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_bpillar_upr_l_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_bpillar_upr_l_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_bpillar_upr_l_y_velocity_curve.show()
+                    biw_accel_bpillar_upr_l_y_displacement_curve = plot.get_curves('byname', name = '*B-PLR_L_UPR*Follow node Y displacement*')[0]
+                    biw_accel_max_curve_displacement = biw_accel_bpillar_upr_l_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_bpillar_upr_l_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_bpillar_upr_l_y_displacement_curve.show()
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
+                    title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    plot.activate()
+                    self.activated_plot = plot
+                    utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
+                    self.kinematics_curve_format(self.biw_accel_window_name, plot_id, velocity_min_max_values, displacement_min_max_values)
+                    #capturing "MDB" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_UPR*Y velocity","*B-PLR_L_UPR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    picture.crop_left = 0
+                    picture.crop_right = 0
+                    #reverting 2d data setup
+                    biw_accel_bpillar_upr_l_y_displacement_curve.hide()
+                    biw_accel_bpillar_upr_l_y_velocity_curve.hide()
+                    self.revert()
+                #image insertion for the shape named "Image 6"
+                elif shape.name == "Image 5":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of UNIT plot id 0
+                    self.setup()
+                    plot_id = 2
+                    page_id = 0
+                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
+                    velocity_min_max_values = []
+                    displacement_min_max_values = []
+                    biw_accel_bpillar_mid_upr_l_y_velocity_curve = plot.get_curves('byname', name = '*B-PLR_L_MID_UPR*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_bpillar_mid_upr_l_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_bpillar_mid_upr_l_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_bpillar_mid_upr_l_y_velocity_curve.show()
+                    biw_accel_bpillar_mid_upr_l_y_displacement_curve = plot.get_curves('byname', name = '*B-PLR_L_MID_UPR*Follow node Y displacement*')[0]
+                    biw_accel_max_curve_displacement = biw_accel_bpillar_mid_upr_l_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_bpillar_mid_upr_l_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_bpillar_mid_upr_l_y_displacement_curve.show()
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
+                    title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    plot.activate()
+                    self.activated_plot = plot
+                    utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
+                    self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title = "UNIT")
+                    #capturing "UNIT" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID_UPR*Y velocity","*B-PLR_L_MID_UPR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    picture.crop_left = 0
+                    picture.crop_right = 0
+                    #reverting 2d data setup
+                    biw_accel_bpillar_mid_upr_l_y_displacement_curve.hide()
+                    biw_accel_bpillar_mid_upr_l_y_velocity_curve.hide()
+                    self.revert()
+                #image insertion for the shape named "Image 7"
+                elif shape.name == "Image 6":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of APLR R plot id 1
+                    self.setup()
+                    plot_id = 2
+                    page_id = 0
+                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
+                    velocity_min_max_values = []
+                    displacement_min_max_values = []
+                    biw_accel_bpillar_mid_l_y_velocity_curve = plot.get_curves('byname', name = '*B-PLR_L_MID*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_bpillar_mid_l_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_bpillar_mid_l_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_bpillar_mid_l_y_velocity_curve.show()
+                    biw_accel_bpillar_mid_l_y_displacement_curve = plot.get_curves('byname', name = '*B-PLR_L_MID*Follow node Y displacement*')[0]
+                    biw_accel_max_curve_displacement = biw_accel_bpillar_mid_l_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_bpillar_mid_l_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_bpillar_mid_l_y_displacement_curve.show()
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
+                    title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    plot.activate()
+                    self.activated_plot = plot
+                    utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
+                    self.kinematics_curve_format(self.biw_accel_window_name, plot_id, velocity_min_max_values, displacement_min_max_values,title="APLR_R")
+                    #capturing "APLR R" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID*Y velocity","*B-PLR_L_MID*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    picture.crop_left = 0
+                    picture.crop_right = 0
+                    #reverting 2d data setup
+                    biw_accel_bpillar_mid_l_y_displacement_curve.hide()
+                    biw_accel_bpillar_mid_l_y_velocity_curve.hide()
+                    self.revert()
+                #image insertion for the shape named "Image 8"
+                elif shape.name == "Image 7":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of SIS ROW2 R plot id 1
+                    self.setup()
+                    plot_id = 2
+                    page_id = 0
+                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
+                    velocity_min_max_values = []
+                    displacement_min_max_values = []
+                    biw_accel_bpillar_mid_lwr_l_y_velocity_curve = plot.get_curves('byname', name = '*B-PLR_L_MID_LWR*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_bpillar_mid_lwr_l_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_bpillar_mid_lwr_l_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_bpillar_mid_lwr_l_y_velocity_curve.show()
+                    biw_accel_bpillar_mid_lwr_l_y_displacement_curve = plot.get_curves('byname', name = '*B-PLR_L_MID_LWR*Follow node Y displacement*')[0]
+                    biw_accel_max_curve_displacement = biw_accel_bpillar_mid_lwr_l_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_bpillar_mid_lwr_l_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_bpillar_mid_lwr_l_y_displacement_curve.show()
+                    title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
+                    plot.activate()
+                    self.activated_plot = plot
+                    utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
+                    self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values,title="SS_BP_R")
+                    #capturing "SIS ROW2 R" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID_LWR*Y velocity","*B-PLR_L_MID_LWR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    picture.crop_left = 0
+                    picture.crop_right = 0
+                    #reverting 2d data setup
+                    biw_accel_bpillar_mid_lwr_l_y_displacement_curve.hide()
+                    biw_accel_bpillar_mid_lwr_l_y_velocity_curve.hide()
+                    self.revert()
+                #image insertion for the shape named "Image 9"
+                elif shape.name == "Image 8":
+                    #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of SS_R_RR_TOP_G_Y1 plot id 1
+                    self.setup()
+                    plot_id = 2
+                    page_id = 0
+                    plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
+                    velocity_min_max_values = []
+                    displacement_min_max_values = []
+                    biw_accel_bpillar_lwr_l_y_velocity_curve = plot.get_curves('byname', name = '*B-PLR_L_LWR*Y velocity')[0]
+                    #collecting min max y values for setting the y axis range of the plot
+                    biw_accel_max_velocity = biw_accel_bpillar_lwr_l_y_velocity_curve.get_limit_value_y(specifier = 'max')
+                    velocity_min_max_values.append(biw_accel_max_velocity)
+                    biw_accel_min_velocity = biw_accel_bpillar_lwr_l_y_velocity_curve.get_limit_value_y(specifier = 'min')
+                    velocity_min_max_values.append(biw_accel_min_velocity)
+                    biw_accel_bpillar_lwr_l_y_velocity_curve.show()
+                    biw_accel_bpillar_lwr_l_y_displacement_curve = plot.get_curves('byname', name = '*B-PLR_L_LWR*Follow node Y displacement*')[0]
+                    biw_accel_max_curve_displacement = biw_accel_bpillar_lwr_l_y_displacement_curve.get_limit_value_y(specifier = 'max')
+                    displacement_min_max_values.append(biw_accel_max_curve_displacement)
+                    biw_accel_min_displacement = biw_accel_bpillar_lwr_l_y_displacement_curve.get_limit_value_y(specifier = 'min')
+                    displacement_min_max_values.append(biw_accel_min_displacement)
+                    biw_accel_bpillar_lwr_l_y_displacement_curve.show()
+                    title = plot2d.Title(plot_id, self.biw_accel_window_name, page_id)
+                    #actiavting plot,getting plot title object and formatting the plot title,yaxis,xaxis options and attributes
+                    plot.activate()
+                    self.activated_plot = plot
+                    utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
+                    self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title="SS_R_RR_TOP")
+                    #capturing "SS_R_RR_TOP_G_Y1" plot image
+                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
+                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                    self.logger.info("")
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_LWR*Y velocity","*B-PLR_L_LWR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
+                    self.logger.info(image_path)
+                    self.logger.info("")
+                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    picture.crop_left = 0
+                    picture.crop_right = 0
+                    #reverting 2d data setup
+                    biw_accel_bpillar_lwr_l_y_displacement_curve.hide()
+                    biw_accel_bpillar_lwr_l_y_velocity_curve.hide()
+                    self.revert()
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into biw bpillar deformation and intrusion slide:\n{}".format(e))
@@ -223,5 +539,22 @@ class BIWBplrDeformationAndIntrusion():
         self.logger.info("Completed seeding data into biw bpillar deformation and intrusion slide")
         self.logger.info("Time Taken : {}".format(endtime - starttime))
         self.logger.info("")
+
+        return 0
+
+
+    def revert(self):
+        """
+        This method is used to revert data for meta windows based on 2d formats
+
+        Returns:
+            int: 0 Always for Sucess.1 for Failure.
+        """
+        try:
+            self.activated_plot.deactivate()
+            utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, self.biw_accel_window_layout))
+
+        except Exception as e:
+            return 1
 
         return 0

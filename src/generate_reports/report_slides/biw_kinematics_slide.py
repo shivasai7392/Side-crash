@@ -161,7 +161,7 @@ class BIWKinematicsSlide():
                     utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_AT_PEAK_STATE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -176,9 +176,12 @@ class BIWKinematicsSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting color and 3d data setup
                     utils.MetaCommand('color pid reset act')
                     self.revert(format_type="3d")
@@ -196,7 +199,7 @@ class BIWKinematicsSlide():
                     utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_AT_PEAK_STATE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -211,9 +214,12 @@ class BIWKinematicsSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting color and 3d data setup
                     utils.MetaCommand('color pid reset act')
                     self.revert(format_type="3d")
@@ -231,7 +237,7 @@ class BIWKinematicsSlide():
                     utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_AT_FINAL_STATE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -246,9 +252,12 @@ class BIWKinematicsSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting color and 3d data setup
                     utils.MetaCommand('color pid reset act')
                     self.revert(format_type="3d")
@@ -266,7 +275,7 @@ class BIWKinematicsSlide():
                     utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_AT_FINAL_STATE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -281,9 +290,12 @@ class BIWKinematicsSlide():
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
                     picture.crop_right = 0
+                    #removing transparent image
+                    os.remove(transparent_image_path)
                     #reverting color and 3d data setup
                     utils.MetaCommand('color pid reset act')
                     self.revert(format_type="3d")
@@ -330,6 +342,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_mdb_x_displacement_curve.hide()
+                    biw_accel_mdb_x_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 6"
                 elif shape.name == "Image 6":
@@ -340,14 +354,14 @@ class BIWKinematicsSlide():
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    biw_accel_unit_y_velocity_curve = plot.get_curves('byname', name = '*Y velocity')[0]
+                    biw_accel_unit_y_velocity_curve = plot.get_curves('byname', name = '*UNIT*Y velocity')[0]
                     #collecting min max y values for setting the y axis range of the plot
                     biw_accel_max_velocity = biw_accel_unit_y_velocity_curve.get_limit_value_y(specifier = 'max')
                     velocity_min_max_values.append(biw_accel_max_velocity)
                     biw_accel_min_velocity = biw_accel_unit_y_velocity_curve.get_limit_value_y(specifier = 'min')
                     velocity_min_max_values.append(biw_accel_min_velocity)
                     biw_accel_unit_y_velocity_curve.show()
-                    biw_accel_unit_y_displacement_curve = plot.get_curves('byname', name = '*Y displacement')[0]
+                    biw_accel_unit_y_displacement_curve = plot.get_curves('byname', name = '*UNIT*Y displacement')[0]
                     biw_accel_max_curve_displacement = biw_accel_unit_y_displacement_curve.get_limit_value_y(specifier = 'max')
                     displacement_min_max_values.append(biw_accel_max_curve_displacement)
                     biw_accel_min_displacement = biw_accel_unit_y_displacement_curve.get_limit_value_y(specifier = 'min')
@@ -364,7 +378,7 @@ class BIWKinematicsSlide():
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*Y velocity","*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*UNIT*Y velocity","*UNIT*Y displacement",title.get_text(),self.biw_accel_window_name))
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
@@ -374,6 +388,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_unit_y_velocity_curve.hide()
+                    biw_accel_unit_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 7":
@@ -418,6 +434,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_aplr_y_displacement_curve.hide()
+                    biw_accel_aplr_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 8"
                 elif shape.name == "Image 8":
@@ -462,6 +480,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_sis_row_2_y_displacement_curve.hide()
+                    biw_accel_sis_row_2_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 9":
@@ -506,6 +526,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_ss_rr_top_y_displacement_curve.hide()
+                    biw_accel_ss_rr_top_y_velocity_curve.hide()
                     self.revert()
                 #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 10":
@@ -516,14 +538,14 @@ class BIWKinematicsSlide():
                     plot = plot2d.Plot(plot_id, self.biw_accel_window_name, page_id)
                     velocity_min_max_values = []
                     displacement_min_max_values = []
-                    biw_accel_upr_y_velocity_curve = plot.get_curves('byname', name = '*UPR*Y velocity')[0]
+                    biw_accel_upr_y_velocity_curve = plot.get_curves('byname', name = '*MID_UPR*Y velocity')[0]
                     #collecting min max y values for setting the y axis range of the plot
                     biw_accel_max_velocity = biw_accel_upr_y_velocity_curve.get_limit_value_y(specifier = 'max')
                     velocity_min_max_values.append(biw_accel_max_velocity)
                     biw_accel_min_velocity = biw_accel_upr_y_velocity_curve.get_limit_value_y(specifier = 'min')
                     velocity_min_max_values.append(biw_accel_min_velocity)
                     biw_accel_upr_y_velocity_curve.show()
-                    biw_accel_upr_y_displacement_curve = plot.get_curves('byname', name = '*UPR*Y displacement')[0]
+                    biw_accel_upr_y_displacement_curve = plot.get_curves('byname', name = '*MID_UPR*Y displacement')[0]
                     biw_accel_max_curve_displacement = biw_accel_upr_y_displacement_curve.get_limit_value_y(specifier = 'max')
                     displacement_min_max_values.append(biw_accel_max_curve_displacement)
                     biw_accel_min_displacement = biw_accel_upr_y_displacement_curve.get_limit_value_y(specifier = 'min')
@@ -540,7 +562,7 @@ class BIWKinematicsSlide():
                     capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*UPR*Y velocity","*UPR*Y displacement",title.get_text(),self.biw_accel_window_name))
+                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*MID_UPR*Y velocity","*MID_UPR*Y displacement",title.get_text(),self.biw_accel_window_name))
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                     self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
@@ -550,6 +572,8 @@ class BIWKinematicsSlide():
                     picture.crop_left = 0
                     picture.crop_right = 0
                     #reverting 2d data setup
+                    biw_accel_upr_y_displacement_curve.hide()
+                    biw_accel_upr_y_velocity_curve.hide()
                     self.revert()
             endtime = datetime.now()
         except Exception as e:
