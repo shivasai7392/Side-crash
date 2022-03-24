@@ -144,7 +144,7 @@ class ExecutiveSlide():
                     final_curve.show()
                     initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
                     initial_curve.show()
-                    target_curves = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)
+                    target_curves = plot2d.CurvesByName(survival_space_window_name, "*TARGET", 0)
                     _ret = [curve.show() for curve in target_curves]
                     #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
                     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
