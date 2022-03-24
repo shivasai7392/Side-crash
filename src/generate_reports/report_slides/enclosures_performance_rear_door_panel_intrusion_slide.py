@@ -107,6 +107,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     rear_door_accel_window_name = self.general_input.rear_door_accel_window_name
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_shoulder_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
                     #capturing image of the formatted intrusion curve
@@ -132,6 +134,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     rear_door_accel_window_name = self.general_input.rear_door_accel_window_name
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_abdomen_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN")
                     #capturing image of the formatted intrusion curve
@@ -157,6 +161,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     rear_door_accel_window_name = self.general_input.rear_door_accel_window_name
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_pelvis_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS")
                     #capturing image of the formatted intrusion curve
@@ -182,6 +188,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     rear_door_accel_window_name = self.general_input.rear_door_accel_window_name
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_femur_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR")
                     #capturing image of the formatted intrusion curve

@@ -264,11 +264,14 @@ class BIWBplrDeformationAndIntrusion():
                     peak_time_value = peak_time_value.split(".")[0]
                     survival_space_curves = plot.get_curves('all')
                     survival_space_cuves_list = list()
-                    for each_survival_space_curves in survival_space_curves:
-                        ms = each_survival_space_curves.name.split("_")[1]
-                        if 'MS' in ms:
-                            ms_replacing = ms.replace('MS',"")
-                            survival_space_cuves_list.append(int(ms_replacing))
+                    for each_survival_space_curve in survival_space_curves:
+                        if "_" in each_survival_space_curve.name:
+                            ms = each_survival_space_curve.name.split("_")[1]
+                            if 'MS' in ms:
+                                ms_replacing = ms.replace('MS',"")
+                                survival_space_cuves_list.append(int(ms_replacing))
+                        elif "TARGET" in each_survival_space_curve.name:
+                            each_survival_space_curve.hide()
                     peak_curve_value = closest(survival_space_cuves_list, int(peak_time_value))
                     peak_curve_value = plot.get_curves('byname', name ="SS_"+str(peak_curve_value)+"MS")
                     peak_curve = plot2d.CurvesByName(survival_space_window_name, peak_curve_value[0].name, 0)[0]

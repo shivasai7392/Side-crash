@@ -77,8 +77,8 @@ class CAEQualitySlide():
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("CURVES : All except 'System damping energy' curve | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(title.get_text().lower(),window_name))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
@@ -133,8 +133,8 @@ class CAEQualitySlide():
                     self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("CURVES : All | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(title.get_text().lower(),window_name))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                    self.logger.info("OUTPUT CURVE IMAGES : ")
                     self.logger.info(image_path)
                     self.logger.info("")
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that

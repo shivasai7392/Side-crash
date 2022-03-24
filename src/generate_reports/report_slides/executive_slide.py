@@ -144,6 +144,8 @@ class ExecutiveSlide():
                     final_curve.show()
                     initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
                     initial_curve.show()
+                    target_curves = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)
+                    _ret = [curve.show() for curve in target_curves]
                     #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
                     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
                     utils.MetaCommand('xyplot gridoptions xspace "{}" {} 20'.format(survival_space_window_name, plot_id))
@@ -428,6 +430,8 @@ class ExecutiveSlide():
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     #getting rear shoulder intrusion curve object and modifying it to capture image
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_shoulder_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
                     #capturing rear shoulder intrusion curve plot image
@@ -455,6 +459,8 @@ class ExecutiveSlide():
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     #getting rear abdomen intrusion curve object and modifying it to capture image
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_abdomen_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN")
                     #capturing rear abdomen intrusion curve plot image
@@ -482,6 +488,8 @@ class ExecutiveSlide():
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     #getting rear femur intrusion curve object and modifying it to capture image
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_femur_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR")
                     #capturing rear femur intrusion curve plot image
@@ -509,6 +517,8 @@ class ExecutiveSlide():
                     utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
                     #getting rear pelvis intrusion curve object and modifying it to capture image
                     curve = plot2d.CurvesByName(rear_door_accel_window_name, rear_pelvis_intrusion_curve_name, 1)[0]
+                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                    target_curve.show()
                     curve.show()
                     self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS")
                     #capturing rear pelvis intrusion curve plot image

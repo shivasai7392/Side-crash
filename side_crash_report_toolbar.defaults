@@ -1,13 +1,13 @@
 toolbar start SIDECRASH
 toolbar onoff :opt var add side_crash_toolbar_gui_mode True|
 toolbar minmaxbuttons off
-toolbar subgroup 
+toolbar subgroup
 toolbar sfiletext 2D Metadb:::opt var add 2d_metadb_input {}
 toolbar filterfiletext METADB FILES ( *.metadb )
 toolbar sfiletext 3D Metadb:::opt var add 3d_metadb_input {}
 toolbar filterfiletext METADB FILES ( *.metadb )
 toolbar sfiletext d3hsp File:::opt var add d3hsp_file_path {}
-toolbar filetext Taeget Metadb:::opt var add target_metadb_input {}
+toolbar filetext Target Metadb:::opt var add target_metadb_input {}
 toolbar filterfiletext METADB FILES ( *.metadb )
 toolbar endgroup
 toolbar button Apply:options session controldraw disable;script execute "run_wrapper.py::main()";   options session controldraw enable
