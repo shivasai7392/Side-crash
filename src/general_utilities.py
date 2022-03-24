@@ -213,7 +213,5 @@ def clone_shape(shape):
     new_shape = Shape(new_sp, None)
     new_shape.left = shape.left
     new_shape.top = shape.top
-    # ---give it a unique shape-id---
-    new_shape.shape_id = shape.shape_id + 1000
-    # ---return the new proxy object---
+
     return new_shape

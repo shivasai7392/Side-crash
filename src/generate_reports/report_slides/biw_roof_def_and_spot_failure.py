@@ -124,7 +124,6 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle deform off')
-                    visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height,rotate = Image.ROTATE_270,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
