@@ -31,6 +31,7 @@ def main(*args):
     Returns:
         [Int]: 0 always
     """
+    messenger = utils.Messenger()
     append_libs_path()
     # Getting the config directory filepath
     app_config_dir = os.path.join(constants.app_root_dir,"config")
@@ -47,19 +48,32 @@ def main(*args):
     windows.CollectNewWindowsStart()
 
     # Reading the 2d metadb input
+    messenger.start_buffering()
+    twod_start_time = datetime.now()
     utils.MetaCommand("read project {}".format(user_input.metadb_2d_input))
+    messenger.stop_buffering()
+    buffer = messenger.get_buffer()
 
     # Joining the config directory path and log directory path
     general_input_info = GeneralVarInfo()
     log_file = os.path.join(app_config_dir,"res",general_input_info.get_log_directory().replace("/","",1)).replace("\\",os.sep)
     logger = SideCrashLogger(log_file)
+    logger.log.info("--- STARTED LOADING 2D METADB FILE")
+    logger.log.info("2D METADB FILE PATH : {}".format(user_input.metadb_2d_input))
+    _ret = [logger.log.info(item + "\n") for item in buffer]
+    logger.log.info("TIME TAKEN FOR LOADING 2D METADB FILE : {}".format(datetime.now() - twod_start_time))
+    logger.log.info("")
 
     logger.log.info("--- STARTED OVERLAYING TARGET METADB FILE")
     logger.log.info("TARGET METADB FILE PATH : {}".format(user_input.target_metadb_input))
     #overlaying target metdb file
     target_start_time = datetime.now()
     general_input_info.target_2d_metadb = user_input.target_metadb_input
+    messenger.start_buffering()
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_2d_metadb))
+    messenger.stop_buffering()
+    buffer = messenger.get_buffer()
+    _ret = [logger.log.info(item + "\n") for item in buffer]
     logger.log.info("TIME TAKEN FOR OVERLAYING TARGET METADB FILE : {}".format(datetime.now() - target_start_time))
     logger.log.info("")
 
@@ -75,7 +89,11 @@ def main(*args):
     logger.log.info("3D METADB FILE PATH : {}".format(user_input.metadb_3d_input))
     threed_start_time = datetime.now()
     general_input_info.target_3d_metadb = user_input.metadb_3d_input
+    messenger.start_buffering()
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_3d_metadb))
+    messenger.stop_buffering()
+    buffer = messenger.get_buffer()
+    _ret = [logger.log.info(item + "\n") for item in buffer]
     logger.log.info("TIME TAKEN FOR OVERLAYING 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
     #reading the results
     utils.MetaCommand('read options boundary materials')
@@ -87,7 +105,7 @@ def main(*args):
     # # Joining the config directory path and d3hsp file path for d3hsp file
     # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld clusters from d3hsp file
-    logger.log.info("--- SPOTWELD CLUSTERS IDENTIFICATION IS STARTED")
+    logger.log.info("--- STARTED SPOTWELD CLUSTERS IDENTIFICATION")
     general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
     general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
     logger.log.info("SPOTWELD ID'S SOURCE FILE PATH : {}".format(general_input_info.d3hsp_file_path))
