@@ -60,7 +60,8 @@ def main(*args):
     logger = SideCrashLogger(log_file)
     logger.log.info("--- STARTED LOADING 2D METADB FILE")
     logger.log.info("2D METADB FILE PATH : {}".format(user_input.metadb_2d_input))
-    _ret = [logger.log.info(item + "\n") for item in buffer]
+    logger.log.info("")
+    _ret = [logger.log.info(item + "\n") for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR LOADING 2D METADB FILE : {}".format(datetime.now() - twod_start_time))
     logger.log.info("")
 
@@ -73,7 +74,8 @@ def main(*args):
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_2d_metadb))
     messenger.stop_buffering()
     buffer = messenger.get_buffer()
-    _ret = [logger.log.info(item + "\n") for item in buffer]
+    logger.log.info("")
+    _ret = [logger.log.info(item + "\n") for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR OVERLAYING TARGET METADB FILE : {}".format(datetime.now() - target_start_time))
     logger.log.info("")
 
@@ -93,7 +95,8 @@ def main(*args):
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_3d_metadb))
     messenger.stop_buffering()
     buffer = messenger.get_buffer()
-    _ret = [logger.log.info(item + "\n") for item in buffer]
+    logger.log.info("")
+    _ret = [logger.log.info(item + "\n") for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR OVERLAYING 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
     #reading the results
     utils.MetaCommand('read options boundary materials')
