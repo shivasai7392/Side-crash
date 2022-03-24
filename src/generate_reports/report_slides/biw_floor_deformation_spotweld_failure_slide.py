@@ -235,6 +235,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     self.logger.info("")
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
+                    utils.MetaCommand('read sesssion {}'.format(os.path.join(os.path.dirname(__file__),"annotation_positioning_session_files","f21_front_floor.ses")))
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_SPOTWELD_FAILURE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")

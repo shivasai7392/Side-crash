@@ -9,7 +9,6 @@ from datetime import datetime
 from meta import utils
 from meta import windows
 from meta import plot2d
-from meta import models
 
 from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import capture_image
