@@ -126,7 +126,7 @@ def image_transperent(img):
     return rgba_img
 
 
-def capture_image_and_resize(file_path,width,height,rotate = None,transparent = False):
+def capture_image_and_resize(file_path,width,height,rotate = None,transparent = False,resize = True):
     """
     This method is used to capture an image of the meta window and resize it based on the width and height.
 
@@ -145,13 +145,14 @@ def capture_image_and_resize(file_path,width,height,rotate = None,transparent = 
     try:
         #saving image of the meta window
         utils.MetaCommand('write png "{}"'.format(file_path))
-        #creating Image object for the saved image
-        img = Image.open(file_path)
         #resizing the image
-        img = img.resize((round(width/9525),round(height/9525)))
-        #saving the resized image
-        img.save(file_path, 'PNG')
-        img.close()
+        if resize:
+            #creating Image object for the saved image
+            img = Image.open(file_path)
+            img = img.resize((round(width/9525),round(height/9525)))
+            #saving the resized image
+            img.save(file_path, 'PNG')
+            img.close()
         #rotating the image based on rotate object and saving it
         if rotate:
             img = Image.open(file_path)
@@ -243,6 +244,7 @@ def visualize_annotation(spotweld_id_elements,bins_path):
         if any(each_element.id in values for each_element in visible_elements):
             clusters.append(key)
             identified_elements.extend(values)
+            utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in values)))
         if all(visible_id in identified_elements for visible_id in visible_elements):
             break
 
@@ -288,10 +290,10 @@ def visualize_annotation(spotweld_id_elements,bins_path):
             a.set_border_color(text_color)
 
     utils.MetaCommand('window active MetaPost')
-    utils.MetaCommand('annotation explode all center 10')
     utils.MetaCommand('annotation extparam all shape off')
     utils.MetaCommand('annotation text all format auto')
     utils.MetaCommand('window delete "Temporary Window"')
+    utils.MetaCommand('annotation explode all offmodelseek')
 
     annot_end_time = datetime.now()
     logger.info("CURVES MAX DETERMINATION AND ANNOTATIONS GENERATION AVERAGE TIME : {}".format(annot_end_time-annot_start_time))

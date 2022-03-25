@@ -230,7 +230,8 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #capturing the image with annotations at original state
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height,transparent=True)
+                    utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+                    capture_image_and_resize(image_path,shape.width,shape.height,transparent=True,resize=False)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
