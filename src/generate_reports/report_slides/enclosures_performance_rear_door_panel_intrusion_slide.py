@@ -33,7 +33,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
         self.twod_images_report_folder = twod_images_report_folder
         self.logger = logging.getLogger("side_crash_logger")
 
-    def intrusion_curve_format(self,source_window,curve,temporary_window_name,curve_name):
+    def intrusion_curve_format(self,source_window,curve,temporary_window_name,curve_name,target_curve = None):
         """
         This method is used for formatting axis,title options and attributes of curve of source window.
 
@@ -42,10 +42,21 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
             curve (object): source curve object.
             temporary_window_name (str): window name.
             curve_name (str): Curve name to set.
+            target_curve(object):intrusion target Curve Object
 
         Returns:
             int: 0 Always for Sucess.1 for Failure.
         """
+        #moving the curve to a Temporary window
+        if target_curve:
+            utils.MetaCommand('xyplot curve copy "{}" {},{}'.format(source_window,curve.id,target_curve.id))
+        else:
+            utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
+        utils.MetaCommand('xyplot create "{}"'.format(temporary_window_name))
+        if target_curve:
+            utils.MetaCommand('xyplot curve paste "{}" 0 {},{}'.format(temporary_window_name,curve.id,target_curve.id))
+        else:
+            utils.MetaCommand('xyplot curve paste "{}" 0 {}'.format(temporary_window_name,curve.id))
         try:
             utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
             utils.MetaCommand('xyplot create "{}"'.format(temporary_window_name))
@@ -66,6 +77,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
             utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(temporary_window_name,curve_name))
             utils.MetaCommand('xyplot axisoptions ylabel set "{}" 0 "Intrusion [mm]"'.format(temporary_window_name))
             utils.MetaCommand('xyplot curve select "{}" all'.format(temporary_window_name))
+            utils.MetaCommand('xyplot curve deselect "{}" {}'.format(temporary_window_name,target_curve.id))
             utils.MetaCommand('xyplot curve set style "{}" selected 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot curve set linewidth "{}" selected 9'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions ylabel font "{}" 0 "Arial,30,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
@@ -76,6 +88,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
             utils.MetaCommand('xyplot axisoptions labels xfont "{}" 0 "Arial,30,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
             utils.MetaCommand('xyplot plotoptions title font "{}" 0 "Arial,30,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" 0 0'.format(temporary_window_name))
+            utils.MetaCommand('xyplot curve select "{}" all'.format(temporary_window_name))
         except:
             return 1
 
@@ -110,7 +123,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                     target_curve.show()
                     curve.show()
-                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER")
+                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 SHOULDER",target_curve=target_curve)
                     #capturing image of the formatted intrusion curve
                     image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 2 SHOULDER"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
@@ -137,7 +150,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                     target_curve.show()
                     curve.show()
-                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN")
+                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 ABDOMEN",target_curve=target_curve)
                     #capturing image of the formatted intrusion curve
                     image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 2 ABDOMEN"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
@@ -164,7 +177,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                     target_curve.show()
                     curve.show()
-                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS")
+                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 PELVIS",target_curve=target_curve)
                     #capturing image of the formatted intrusion curve
                     image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 2 PELVIS"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
@@ -191,7 +204,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                     target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                     target_curve.show()
                     curve.show()
-                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR")
+                    self.intrusion_curve_format(rear_door_accel_window_name,curve,temporary_window_name,"ROW 2 FEMUR",target_curve=target_curve)
                     #capturing image of the formatted intrusion curve
                     image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 2 FEMUR"+".png").replace(" ","_")
                     capture_image_and_resize(image_path,shape.width,shape.height)
