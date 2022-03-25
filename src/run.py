@@ -32,6 +32,7 @@ def main(*args):
     Returns:
         [Int]: 0 always
     """
+    utils.MetaCommand('options session controldraw disable')
     messenger = utils.Messenger()
     append_libs_path()
     # Getting the config directory filepath
@@ -159,5 +160,6 @@ def main(*args):
 
 """)
     logger.shutdown()
+    utils.MetaCommand('options session controldraw enable')
 
     return 0
