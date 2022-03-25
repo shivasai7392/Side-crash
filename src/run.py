@@ -9,6 +9,7 @@
 """
 import os
 from datetime import datetime
+import sys
 
 from meta import utils
 from meta import windows
@@ -56,7 +57,10 @@ def main(*args):
 
     # Joining the config directory path and log directory path
     general_input_info = GeneralVarInfo()
-    log_file = os.path.join(app_config_dir,"res",general_input_info.get_log_directory().replace("/","",1)).replace("\\",os.sep)
+    if "win" in sys.platform:
+        log_file = os.path.join(app_config_dir,"res",general_input_info.get_log_directory().replace("/","",1)).replace("\\",os.sep)
+    else:
+        log_file = os.path.join(general_input_info.get_log_directory())
     logger = SideCrashLogger(log_file)
     logger.log.info("--- STARTED LOADING 2D METADB FILE")
     logger.log.info("2D METADB FILE PATH : {}".format(user_input.metadb_2d_input))
@@ -110,7 +114,10 @@ def main(*args):
     # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld clusters from d3hsp file
     logger.log.info("--- STARTED SPOTWELD CLUSTERS IDENTIFICATION")
-    general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
+    if "win" in sys.platform:
+        general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
+    else:
+        general_input_info.binout_directory = os.path.join(general_input_info.binout_directory)
     general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
     logger.log.info("SPOTWELD ID'S SOURCE FILE PATH : {}".format(general_input_info.d3hsp_file_path))
     spotweld_start_time = datetime.now()
