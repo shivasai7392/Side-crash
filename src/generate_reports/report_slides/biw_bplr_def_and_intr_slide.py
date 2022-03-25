@@ -167,7 +167,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('options fringebar off')
                     #capturing "f21_upb_inner" image at peak state
                     image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITH_DEFORMATION")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -221,7 +221,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('grstyle deform off')
                     #capturing "f21_upb_inner" image at peak state
                     image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITHOUT_DEFORMATION")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))

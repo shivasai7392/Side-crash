@@ -265,9 +265,12 @@ class ExecutiveSlide():
                     utils.MetaCommand('color pid transparency reset act')
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
+                    #maximizing the metapost window
+                    utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     #visualizing "f21_upb_inner" critical part set
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
+                    #utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     #adding a yz plane and slicing the critiical part set with width 500
                     utils.MetaCommand('plane new DEFAULT_PLANE_YZ xyz 1657.996826,-16.504395,576.072754 1,0,0')
@@ -286,7 +289,7 @@ class ExecutiveSlide():
                     utils.MetaCommand('options fringebar off')
                     #capturing "f21_upb_inner" image at peak state
                     image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
