@@ -66,6 +66,14 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('grstyle scalarfringe disable')
                 utils.MetaCommand('options fringebar off')
+                #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
+                critical_data = self.metadb_3d_input.critical_sections
+                for (index,(_critical_section,value)) in enumerate(critical_data.items()):
+                    and_filter = False
+                    if index>0:
+                        and_filter = True
+                    visualize_3d_critical_section(value,and_filter = and_filter)
+                utils.MetaCommand('color pid Gray act')
         except Exception  as e:
             return 1
 
@@ -147,20 +155,12 @@ class BIWKinematicsSlide():
             self.logger.info("")
             starttime = datetime.now()
             oval_shapes = [shape for shape in self.shapes if "Oval" in shape.name]
+            #setting 3d data settings
+            self.setup(format_type="3d")
             #iterating through the shapes of the biw kinematis slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
-                    #calling 3d data setup
-                    self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
-                    critical_data = self.metadb_3d_input.critical_sections
-                    for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                        and_filter = False
-                        if index>0:
-                            and_filter = True
-                        visualize_3d_critical_section(value,and_filter = and_filter)
-                    utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_AT_PEAK_STATE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front",transparent=True)
@@ -184,21 +184,8 @@ class BIWKinematicsSlide():
                     picture.crop_right = 0
                     #removing transparent image
                     os.remove(transparent_image_path)
-                    #reverting color and 3d data setup
-                    utils.MetaCommand('color pid reset act')
-                    self.revert(format_type="3d")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
-                    #calling 3d data setup
-                    self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
-                    critical_data = self.metadb_3d_input.critical_sections
-                    for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                        and_filter = False
-                        if index>0:
-                            and_filter = True
-                        visualize_3d_critical_section(value,and_filter = and_filter)
-                    utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_AT_PEAK_STATE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90,transparent=True)
@@ -222,21 +209,8 @@ class BIWKinematicsSlide():
                     picture.crop_right = 0
                     #removing transparent image
                     os.remove(transparent_image_path)
-                    #reverting color and 3d data setup
-                    utils.MetaCommand('color pid reset act')
-                    self.revert(format_type="3d")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
-                    #calling 3d data setup
-                    self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
-                    critical_data = self.metadb_3d_input.critical_sections
-                    for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                        and_filter = False
-                        if index>0:
-                            and_filter = True
-                        visualize_3d_critical_section(value,and_filter = and_filter)
-                    utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_AT_FINAL_STATE"+".png").replace(" ","_")
                     capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front",transparent=True)
@@ -260,20 +234,8 @@ class BIWKinematicsSlide():
                     picture.crop_right = 0
                     #removing transparent image
                     os.remove(transparent_image_path)
-                    #reverting color and 3d data setup
-                    utils.MetaCommand('color pid reset act')
-                    self.revert(format_type="3d")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
-                    #calling 3d data setup
-                    self.setup(format_type="3d")
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
-                    critical_data = self.metadb_3d_input.critical_sections
-                    for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                        and_filter = False
-                        if index>0:
-                            and_filter = True
-                        visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
                     #capturing "MetaPost" window image
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_AT_FINAL_STATE"+".png").replace(" ","_")
@@ -298,11 +260,13 @@ class BIWKinematicsSlide():
                     picture.crop_right = 0
                     #removing transparent image
                     os.remove(transparent_image_path)
-                    #reverting color and 3d data setup
-                    utils.MetaCommand('color pid reset act')
-                    self.revert(format_type="3d")
+            #reverting color and 3d data setup
+            utils.MetaCommand('color pid reset act')
+            self.revert(format_type="3d")
+            #iterating through curve image shapes
+            for shape in self.shapes:
                 #image insertion for the shape named "Image 5"
-                elif shape.name == "Image 5":
+                if shape.name == "Image 5":
                     #calling default 2d data setup and getting the X velocity and X displacement curve from biw accel window of MDB plot id 3
                     self.setup()
                     plot_id = 3
