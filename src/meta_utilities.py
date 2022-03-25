@@ -238,11 +238,13 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
     clusters = []
     group_start_time = datetime.now()
-
+    identified_elements = []
     for key,values in spotweld_id_elements.items():
         if any(each_element.id in values for each_element in visible_elements):
             clusters.append(key)
-            utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in values)))
+            identified_elements.extend(values)
+        if all(visible_id in identified_elements for visible_id in visible_elements):
+            break
 
     group_end_time = datetime.now()
     logger.info("BINOUT'S DIRECTORY PATH : {}".format(bins_path))
@@ -259,6 +261,8 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     meta_post_window_object.maximize()
     annot_start_time = datetime.now()
     failed_welds = 0
+    annots = meta_post_window_object.get_annotations('all')
+    annotation_id = len(annots)+1
     for curve in curves:
         failure_point = plot2d.MaxPointYOfCurve("Temporary Window", curve.id, 'real')
         failure_value = str(round(failure_point.y,2))
@@ -269,9 +273,8 @@ def visualize_annotation(spotweld_id_elements,bins_path):
             #Create an annotation in the 3D data for the cluster which is above the threshold value
             annotation_label = failure_value+' @ '+failure_time
             annotation_group = 'spotweld_cluster_'+str(curve.entity_id)
-            annots = meta_post_window_object.get_annotations('all')
-            annotation_id = len(annots)+1
             g = groups.Group(annotation_group,0)
+            annotation_id += 1
             a = annotations.CreateEmptyAnnotation("MetaPost",annotation_label,annotation_id)
             utils.MetaCommand('annotation line {} width 1'.format(annotation_id))
             utils.MetaCommand('annotation text {} font "MS Shell Dlg 2,8,-1,5,75,0,0,0,0,0"'.format(annotation_id))
