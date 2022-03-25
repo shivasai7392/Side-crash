@@ -223,7 +223,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     visualize_3d_critical_section(data)
                     #getting annotations to the visible parts
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
-                    self.logger.info("START TIME : {}".format(datetime.now.strftime("%H:%M:%S")))
+                    self.logger.info("START TIME : {}".format(datetime.now().strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
                     self.logger.info("")
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))

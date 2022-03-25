@@ -230,7 +230,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
                     visualize_3d_critical_section(data)
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
-                    self.logger.info("START TIME : {}".format(datetime.now.strftime("%H:%M:%S")))
+                    self.logger.info("START TIME : {}".format(datetime.now().strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
                     self.logger.info("")
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
