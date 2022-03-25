@@ -237,16 +237,13 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     model_get = models.Model(0)
     visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
     clusters = []
-    identified_elements_list = []
     group_start_time = datetime.now()
-    for vis_element in visible_elements:
-        if vis_element.id not in identified_elements_list:
-            for key,value in spotweld_id_elements.items():
-                if vis_element.id in value:
-                    clusters.append(key)
-                    identified_elements_list.extend(value)
-                    utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in value)))
-                    break
+
+    for key,values in spotweld_id_elements.items():
+        if any(each_element.id in values for each_element in visible_elements):
+            clusters.append(key)
+            utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in values)))
+
     group_end_time = datetime.now()
     logger.info("BINOUT'S DIRECTORY PATH : {}".format(bins_path))
     logger.info("SPOTWELD ID IDENTIFICATION AND CLUSTER GROUP GENERATION AVERAGE TIME : {}".format(group_end_time-group_start_time))

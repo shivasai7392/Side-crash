@@ -143,6 +143,8 @@ class BIWBplrDeformationAndIntrusion():
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
+                    #maximizing the metapost window
+                    utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     #visualizing "f21_upb_inner" critical part set with deformation on
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
@@ -165,7 +167,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('options fringebar off')
                     #capturing "f21_upb_inner" image at peak state
                     image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITH_DEFORMATION")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -194,6 +196,8 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('color pid transparency reset act')
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
+                    #maximizing the metapost window
+                    utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     #visualizing "f21_upb_inner" critical part set with deformation off
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
@@ -217,7 +221,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('grstyle deform off')
                     #capturing "f21_upb_inner" image at peak state
                     image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITHOUT_DEFORMATION")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -247,6 +251,9 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('grstyle deform on')
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
+                    #maximizing the survival space window
+                    survival_space_window_name = self.general_input.survival_space_window_name
+                    utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
                     #getting "Survival Space" plot object to activate and showing initial,final and peak time curves
                     final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
                     initial_time_curve_name = "SS_0MS"

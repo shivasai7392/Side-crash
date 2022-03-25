@@ -60,8 +60,7 @@ def main(*args):
     logger = SideCrashLogger(log_file)
     logger.log.info("--- STARTED LOADING 2D METADB FILE")
     logger.log.info("2D METADB FILE PATH : {}".format(user_input.metadb_2d_input))
-    logger.log.info("")
-    _ret = [logger.log.info(item + "\n") for item in buffer if item.strip() != ""]
+    #_ret = [logger.log.info(item) for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR LOADING 2D METADB FILE : {}".format(datetime.now() - twod_start_time))
     logger.log.info("")
 
@@ -74,8 +73,7 @@ def main(*args):
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_2d_metadb))
     messenger.stop_buffering()
     buffer = messenger.get_buffer()
-    logger.log.info("")
-    _ret = [logger.log.info(item + "\n") for item in buffer if item.strip() != ""]
+    #_ret = [logger.log.info(item) for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR OVERLAYING TARGET METADB FILE : {}".format(datetime.now() - target_start_time))
     logger.log.info("")
 
@@ -95,13 +93,16 @@ def main(*args):
     utils.MetaCommand('read project overlay "{}" ""'.format(general_input_info.target_3d_metadb))
     messenger.stop_buffering()
     buffer = messenger.get_buffer()
-    logger.log.info("")
-    _ret = [logger.log.info(item + "\n") for item in buffer if item.strip() != ""]
+    #_ret = [logger.log.info(item) for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR OVERLAYING 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
     #reading the results
+    messenger.start_buffering()
     utils.MetaCommand('read options boundary materials')
     utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
     utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
+    messenger.stop_buffering()
+    buffer = messenger.get_buffer()
+    #_ret = [logger.log.info(item) for item in buffer if item.strip() != ""]
     logger.log.info("TIME TAKEN FOR READING PEAK,FINAL STATE RESULTS FROM 3D METADB FILE : {}".format(datetime.now() - threed_start_time))
     logger.log.info("")
 
