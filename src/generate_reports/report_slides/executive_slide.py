@@ -78,7 +78,7 @@ class ExecutiveSlide():
             #getting temporary window object and its curves
             win = windows.Window(temporary_window_name, page_id=0)
             win.maximize()
-            curve = win.get_curves('all')[0]
+            curve = win.get_curves('byname',name = curve.name)[0]
             #building x,y values for the curve to populate tables
             y_values = []
             for x in [0.03,0.04,0.05,0.06,0.07,0.08]:
@@ -89,12 +89,13 @@ class ExecutiveSlide():
             utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yposition "{}" 0 left'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yalign "{}" 0 left'.format(temporary_window_name))
-            utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 200'.format(temporary_window_name))
+            utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 600'.format(temporary_window_name))
             utils.MetaCommand('xyplot gridoptions yspace "{}" 0 40'.format(temporary_window_name))
             utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(temporary_window_name,curve_name))
             utils.MetaCommand('xyplot axisoptions ylabel set "{}" 0 "Intrusion [mm]"'.format(temporary_window_name))
             utils.MetaCommand('xyplot curve select "{}" {}'.format(temporary_window_name,curve.id))
-            utils.MetaCommand('xyplot curve deselect "{}" {}'.format(temporary_window_name,target_curve.id))
+            if target_curve:
+                utils.MetaCommand('xyplot curve deselect "{}" {}'.format(temporary_window_name,target_curve.id))
             utils.MetaCommand('xyplot curve set style "{}" selected 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot curve set linewidth "{}" selected 9'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions ylabel font "{}" 0 "Arial,44,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
@@ -550,8 +551,10 @@ class ExecutiveSlide():
                     picture.crop_right = 0
                     #deleting temporary window
                     utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+            #iterating through table shapes
+            for shape in self.shapes:
                 #table population for the shape named "Table 2"
-                elif shape.name == "Table 2":
+                if shape.name == "Table 2":
                     #getting the table object and setting some temporary variables to iterate through the cells of the table automatically
                     table = shape.table
                     row_index = 2

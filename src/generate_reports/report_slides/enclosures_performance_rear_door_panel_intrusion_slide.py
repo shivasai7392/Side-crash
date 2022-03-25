@@ -47,22 +47,20 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
         Returns:
             int: 0 Always for Sucess.1 for Failure.
         """
-        #moving the curve to a Temporary window
-        if target_curve:
-            utils.MetaCommand('xyplot curve copy "{}" {},{}'.format(source_window,curve.id,target_curve.id))
-        else:
-            utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
-        utils.MetaCommand('xyplot create "{}"'.format(temporary_window_name))
-        if target_curve:
-            utils.MetaCommand('xyplot curve paste "{}" 0 {},{}'.format(temporary_window_name,curve.id,target_curve.id))
-        else:
-            utils.MetaCommand('xyplot curve paste "{}" 0 {}'.format(temporary_window_name,curve.id))
+
         try:
-            utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
+            #moving the curve to a Temporary window
+            if target_curve:
+                utils.MetaCommand('xyplot curve copy "{}" {},{}'.format(source_window,curve.id,target_curve.id))
+            else:
+                utils.MetaCommand('xyplot curve copy "{}" {}'.format(source_window,curve.id))
             utils.MetaCommand('xyplot create "{}"'.format(temporary_window_name))
-            utils.MetaCommand('xyplot curve paste "{}" 0 {}'.format(temporary_window_name,curve.id))
+            if target_curve:
+                utils.MetaCommand('xyplot curve paste "{}" 0 {},{}'.format(temporary_window_name,curve.id,target_curve.id))
+            else:
+                utils.MetaCommand('xyplot curve paste "{}" 0 {}'.format(temporary_window_name,curve.id))
             win = windows.Window(temporary_window_name, page_id=0)
-            curve = win.get_curves('all')[0]
+            curve = win.get_curves('byname',name = curve.name)[0]
             y_values = []
             for x in [0.03,0.04,0.05,0.06,0.07,0.08]:
                 y_values.append(round(curve.get_y_values_from_x(specifier = 'first', xvalue =x)[0]))
@@ -71,13 +69,13 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
             utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yposition "{}" 0 left'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions labels yalign "{}" 0 left'.format(temporary_window_name))
-            utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(temporary_window_name))
-            utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 200'.format(temporary_window_name))
+            utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 600'.format(temporary_window_name))
             utils.MetaCommand('xyplot gridoptions yspace "{}" 0 40'.format(temporary_window_name))
             utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(temporary_window_name,curve_name))
             utils.MetaCommand('xyplot axisoptions ylabel set "{}" 0 "Intrusion [mm]"'.format(temporary_window_name))
             utils.MetaCommand('xyplot curve select "{}" all'.format(temporary_window_name))
-            utils.MetaCommand('xyplot curve deselect "{}" {}'.format(temporary_window_name,target_curve.id))
+            if target_curve:
+                utils.MetaCommand('xyplot curve deselect "{}" {}'.format(temporary_window_name,target_curve.id))
             utils.MetaCommand('xyplot curve set style "{}" selected 0'.format(temporary_window_name))
             utils.MetaCommand('xyplot curve set linewidth "{}" selected 9'.format(temporary_window_name))
             utils.MetaCommand('xyplot axisoptions ylabel font "{}" 0 "Arial,30,-1,5,75,0,0,0,0,0"'.format(temporary_window_name))
