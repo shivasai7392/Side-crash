@@ -10,7 +10,7 @@ from datetime import datetime
 from meta import utils
 from meta import models
 
-from src.meta_utilities import capture_image
+from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
 from src.meta_utilities import visualize_annotation
 
@@ -58,14 +58,14 @@ class BIWStiffRingSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
                     visualize_3d_critical_section(data)
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
-                    self.logger.info("START TIME : {}".format(datetime.now))
+                    self.logger.info("START TIME : {}".format(datetime.now.strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
                     self.logger.info("")
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     utils.MetaCommand('read session {}'.format(os.path.join(os.path.dirname(__file__),"annotation_positioning_session_files","f21_upb_outer.ses")))
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
@@ -100,14 +100,14 @@ class BIWStiffRingSpotWeldFailureSlide():
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
                     visualize_3d_critical_section(data)
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
-                    self.logger.info("START TIME : {}".format(datetime.now))
+                    self.logger.info("START TIME : {}".format(datetime.now.strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
                     self.logger.info("")
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     utils.MetaCommand('read session {}'.format(os.path.join(os.path.dirname(__file__),"annotation_positioning_session_files","f21_upb_inner.ses")))
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "right")
+                    capture_image_and_resize(image_path,shape.width,shape.height)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))

@@ -292,7 +292,7 @@ def visualize_annotation(spotweld_id_elements,bins_path):
 
     annot_end_time = datetime.now()
     logger.info("CURVES MAX DETERMINATION AND ANNOTATIONS GENERATION AVERAGE TIME : {}".format(annot_end_time-annot_start_time))
-    logger.info("PROCESSED WELDS : {} | WELDS ABOVE THRESHOLD : {} | WELD IDENTIFICATION TIME : {}".format(len(curves),failed_welds,annot_end_time - start_time))
+    logger.info("PROCESSED WELDS : {} | WELDS ABOVE THRESHOLD : {} | TOTAL WELD IDENTIFICATION AND ANNOTATIONS ADD TIME : {}".format(len(curves),failed_welds,annot_end_time - start_time))
     logger.info("")
 
     return 0

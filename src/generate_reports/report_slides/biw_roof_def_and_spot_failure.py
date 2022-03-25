@@ -11,7 +11,6 @@ from meta import windows
 from meta import plot2d
 
 from src.meta_utilities import capture_image_and_resize
-from src.meta_utilities import capture_image
 from src.meta_utilities import visualize_3d_critical_section
 from src.meta_utilities import visualize_annotation
 
@@ -224,14 +223,14 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     visualize_3d_critical_section(data)
                     #getting annotations to the visible parts
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
-                    self.logger.info("START TIME : {}".format(datetime.now))
+                    self.logger.info("START TIME : {}".format(datetime.now.strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
                     self.logger.info("")
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #capturing the image with annotations at original state
                     image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_ROOF_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",transparent=True)
+                    capture_image_and_resize(image_path,shape.width,shape.height,transparent=True)
                     self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                     self.logger.info("")
                     self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
