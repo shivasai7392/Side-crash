@@ -89,103 +89,102 @@ class SideCrashPPTReportGenerator():
                                 self.twod_images_report_folder,
                                 self.threed_images_report_folder)
         executive_slide.edit()
-        # cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder)
-        # cbu_and_barrier_position_slide.edit()
-        # biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # biw_kinematics_slide.edit()
-        # biw_cbu_deformation_slide = BIWCBUDeformationSlide(self.report_composer.prs_obj.slides[7],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder)
-        # biw_cbu_deformation_slide.edit()
-        # bom_f21_upb_slide = BOMF21UPBSlide(self.report_composer.prs_obj.slides[8],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder)
-        # bom_f21_upb_slide.edit()
-        # biw_stiff_ring_deformation_slide = BIWStiffRingDeformationSlide(self.report_composer.prs_obj.slides[9],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # biw_stiff_ring_deformation_slide.edit()
-        # biw_bplr_def_and_intr_slide = BIWBplrDeformationAndIntrusion(self.report_composer.prs_obj.slides[10],
-        #                          self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # biw_bplr_def_and_intr_slide.edit()
-        # bom_f21_roof_slide = BOMF21ROOFSlide(self.report_composer.prs_obj.slides[12],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder)
-        # bom_f21_roof_slide.edit()
-        # biw_roof_def_and_spot_failure_slide = BIWROOFDeformationAndSpotWeldFailure(self.report_composer.prs_obj.slides[13],
-        #                             self.general_input,
-        #                             self.metadb_3d_input,
-        #                             self.twod_images_report_folder,
-        #                             self.threed_images_report_folder)
-        # biw_roof_def_and_spot_failure_slide.edit()
-        # bom_row2_f28_doors_slide = BOMRow2F28DoorsSlide(self.report_composer.prs_obj.slides[25],
-        #                             self.general_input,
-        #                             self.metadb_3d_input,
-        #                             self.threed_images_report_folder)
-        # bom_row2_f28_doors_slide.edit()
-        # bom_f21_front_floor_slide = BOMF21FrontFloorSlide(self.report_composer.prs_obj.slides[15],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder)
-        # bom_f21_front_floor_slide.edit()
-        # biw_floor_deformation_and_spotweld_failure_slide = BIWFloorDeformationAndSpotWeldFailureSlide(self.report_composer.prs_obj.slides[16],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # biw_floor_deformation_and_spotweld_failure_slide.edit()
-        # enclosure_performance_skin_deformation_slide = EnclosurePerformanceSkinDeformationSlide(self.report_composer.prs_obj.slides[17],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # enclosure_performance_skin_deformation_slide.edit()
-        # bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[18],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.threed_images_report_folder)
-        # bom_f28_doors_slide.edit()
-        # enclosure_performance_front_door_panel_intrusion_slide = EnclosurePerformanceFrontDoorPanelIntrusionSlide(self.report_composer.prs_obj.slides[19],
-        #                         self.general_input,
-        #                         self.twod_images_report_folder)
-        # enclosure_performance_front_door_panel_intrusion_slide.edit()
-        # enclosure_performance_front_door_panel_deformation_slide = EnclosurePerformanceFrontDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[20],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # enclosure_performance_front_door_panel_deformation_slide.edit()
-        # enclosure_performance_rear_door_panel_deformation_slide = EnclosurePerformanceRearDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[27],
-        #                         self.general_input,
-        #                         self.metadb_3d_input,
-        #                         self.twod_images_report_folder,
-        #                         self.threed_images_report_folder)
-        # enclosure_performance_rear_door_panel_deformation_slide.edit()
-        # enclosures_performance_rear_door_panel_intrusion_slide = EnclosurePerformanceRearDoorPanelIntrusionSlide(self.report_composer.prs_obj.slides[26],
-        #                         self.general_input,
-        #                         self.twod_images_report_folder)
-        # enclosures_performance_rear_door_panel_intrusion_slide.edit()
+        cbu_and_barrier_position_slide = CBUAndBarrierPositionSlide(self.report_composer.prs_obj.slides[3],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        cbu_and_barrier_position_slide.edit()
+        biw_kinematics_slide = BIWKinematicsSlide(self.report_composer.prs_obj.slides[6],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        biw_kinematics_slide.edit()
+        biw_cbu_deformation_slide = BIWCBUDeformationSlide(self.report_composer.prs_obj.slides[7],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        biw_cbu_deformation_slide.edit()
+        bom_f21_upb_slide = BOMF21UPBSlide(self.report_composer.prs_obj.slides[8],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        bom_f21_upb_slide.edit()
+        biw_stiff_ring_deformation_slide = BIWStiffRingDeformationSlide(self.report_composer.prs_obj.slides[9],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        biw_stiff_ring_deformation_slide.edit()
+        biw_bplr_def_and_intr_slide = BIWBplrDeformationAndIntrusion(self.report_composer.prs_obj.slides[10],
+                                 self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        biw_bplr_def_and_intr_slide.edit()
+        bom_f21_roof_slide = BOMF21ROOFSlide(self.report_composer.prs_obj.slides[12],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        bom_f21_roof_slide.edit()
+        biw_roof_def_and_spot_failure_slide = BIWROOFDeformationAndSpotWeldFailure(self.report_composer.prs_obj.slides[13],
+                                    self.general_input,
+                                    self.metadb_3d_input,
+                                    self.twod_images_report_folder,
+                                    self.threed_images_report_folder)
+        biw_roof_def_and_spot_failure_slide.edit()
+        bom_row2_f28_doors_slide = BOMRow2F28DoorsSlide(self.report_composer.prs_obj.slides[25],
+                                    self.general_input,
+                                    self.metadb_3d_input,
+                                    self.threed_images_report_folder)
+        bom_row2_f28_doors_slide.edit()
+        bom_f21_front_floor_slide = BOMF21FrontFloorSlide(self.report_composer.prs_obj.slides[15],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        bom_f21_front_floor_slide.edit()
+        biw_floor_deformation_and_spotweld_failure_slide = BIWFloorDeformationAndSpotWeldFailureSlide(self.report_composer.prs_obj.slides[16],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        biw_floor_deformation_and_spotweld_failure_slide.edit()
+        enclosure_performance_skin_deformation_slide = EnclosurePerformanceSkinDeformationSlide(self.report_composer.prs_obj.slides[17],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        enclosure_performance_skin_deformation_slide.edit()
+        bom_f28_doors_slide = BOMF28DoorsSlide(self.report_composer.prs_obj.slides[18],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.threed_images_report_folder)
+        bom_f28_doors_slide.edit()
+        enclosure_performance_front_door_panel_intrusion_slide = EnclosurePerformanceFrontDoorPanelIntrusionSlide(self.report_composer.prs_obj.slides[19],
+                                self.general_input,
+                                self.twod_images_report_folder)
+        enclosure_performance_front_door_panel_intrusion_slide.edit()
+        enclosure_performance_front_door_panel_deformation_slide = EnclosurePerformanceFrontDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[20],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        enclosure_performance_front_door_panel_deformation_slide.edit()
+        enclosure_performance_rear_door_panel_deformation_slide = EnclosurePerformanceRearDoorPanelDeformationSlide(self.report_composer.prs_obj.slides[27],
+                                self.general_input,
+                                self.metadb_3d_input,
+                                self.twod_images_report_folder,
+                                self.threed_images_report_folder)
+        enclosure_performance_rear_door_panel_deformation_slide.edit()
+        enclosures_performance_rear_door_panel_intrusion_slide = EnclosurePerformanceRearDoorPanelIntrusionSlide(self.report_composer.prs_obj.slides[26],
+                                self.general_input,
+                                self.twod_images_report_folder)
+        enclosures_performance_rear_door_panel_intrusion_slide.edit()
         biw_stiff_ring_spotweld_failure_slide = BIWStiffRingSpotWeldFailureSlide(self.report_composer.prs_obj.slides[11],
                                 self.general_input,
                                 self.metadb_3d_input,
                                 self.threed_images_report_folder)
         biw_stiff_ring_spotweld_failure_slide.edit()
-        sa
         #saving the pptx object
         file_name = os.path.join(self.ppt_report_folder,"Side_MDB_Thesis_Report_{}.pptx".format(time.strftime("%Y-%d-%m")))
         self.report_composer.save_pptx(file_name)
