@@ -290,10 +290,10 @@ def visualize_annotation(spotweld_id_elements,bins_path):
             a.set_border_color(text_color)
 
     utils.MetaCommand('window active MetaPost')
+    utils.MetaCommand('annotation explode all offmodelseek')
     utils.MetaCommand('annotation extparam all shape off')
     utils.MetaCommand('annotation text all format auto')
     utils.MetaCommand('window delete "Temporary Window"')
-    utils.MetaCommand('annotation explode all offmodelseek')
 
     annot_end_time = datetime.now()
     logger.info("CURVES MAX DETERMINATION AND ANNOTATIONS GENERATION AVERAGE TIME : {}".format(annot_end_time-annot_start_time))
