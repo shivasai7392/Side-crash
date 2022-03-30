@@ -173,6 +173,15 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                             curve = plot.get_curves('byname', name = name)[0]
                             curve.show()
                         curve.set_line_style(line_style = 5)
+                        utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(door_panel_intrusion_window_name,plot.id))
+                        utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
                     utils.MetaCommand('xyplot rlayout "Door panel intrusion" 6')
                     #capturing image of "Door panel intrusion window"
                     image_path = os.path.join(self.twod_images_report_folder,door_panel_intrusion_window_name+"FRONT_DOOR_CURVES"+".png").replace(" ","_")

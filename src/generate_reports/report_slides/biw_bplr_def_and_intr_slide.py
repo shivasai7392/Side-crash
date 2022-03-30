@@ -88,8 +88,10 @@ class BIWBplrDeformationAndIntrusion():
             velocity_values = [round(each_velocity_min_max_value) for each_velocity_min_max_value in velocity_min_max_values]
             displacement_values = [round(each_displacement_min_max_value) for each_displacement_min_max_value in displacement_min_max_values]
             #applying custom style and size for plot title,xaxis,yaxis options and attributes
-            utils.MetaCommand('xyplot axisoptions yaxis active "BIW - Accel" {} 0'.format(plot_id))
-            utils.MetaCommand('xyplot axisoptions yaxis hideaxis "BIW - Accel" {} 0'.format(plot_id))
+            utils.MetaCommand('xyplot plotactive "{}" {}'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot plotoptions value off "{}" {}'.format(biw_accel_window_name, plot_id))
+            utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(biw_accel_window_name,plot_id))
+            utils.MetaCommand('xyplot axisoptions yaxis hideaxis "{}" {} 0'.format(biw_accel_window_name,plot_id))
             utils.MetaCommand('xyplot curve select "{}" vis'.format(biw_accel_window_name))
             utils.MetaCommand('xyplot curve set linewidth "{}" selected 9'.format(biw_accel_window_name))
             if title:

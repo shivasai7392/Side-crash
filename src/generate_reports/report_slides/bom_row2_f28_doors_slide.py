@@ -80,6 +80,9 @@ class BOMRow2F28DoorsSlide():
                     self.logger.info("OUTPUT MODEL IMAGES :")
                     self.logger.info(image_path)
                     self.logger.info("")
+                    #inserting no of visible parts text
+                    rect_shape = [shape for shape in self.shapes if shape.name == "Rectangle 1"][0]
+                    rect_shape.text  = "{} has {} number of parts".format(data["name"],len(self.visible_parts))
                     #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
                     picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
                     picture.crop_left = 0
