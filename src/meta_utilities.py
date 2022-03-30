@@ -103,16 +103,15 @@ def capture_image(file_path,window_name,width,height,rotate = None, view = None,
 
 def image_transperent(img):
     """
-    image_transperent _summary_
-
-    _extended_summary_
+    This method is used to transparent the image size
 
     Args:
-        img (_type_): _description_
+        img (PNG): image
 
     Returns:
-        _type_: _description_
+        PNG : rgba_image
     """
+    # Converting image into RGBA and getting the data
     rgba_img = img.convert("RGBA")
     rgba_data = rgba_img.getdata()
     new_rgba_data = []
@@ -174,15 +173,16 @@ def capture_image_and_resize(file_path,width,height,rotate = None,transparent = 
 
 def visualize_3d_critical_section(data,and_filter = None):
     """
-    visualize_3d_critical_section _summary_
+    This method is used to visualize the 3d Critical Sections data.
 
-    _extended_summary_
+    Args:
+        data (int): keys as spotweld Id's and value as Elements.
 
     Returns:
-        _type_: _description_
+        Int : 0 Always
     """
     get_var = lambda key: data[key] if key in data.keys() else None
-
+    # Get the values for hes,hes_exceptions,erase_pids etc..
     prop_names = get_var("hes")
     hes_exceptions = get_var("hes_exceptions")
     exclude = "null"
@@ -215,9 +215,15 @@ def visualize_3d_critical_section(data,and_filter = None):
 
 def visualize_annotation(spotweld_id_elements,bins_path):
     """
-        annotation
+    This method is used to visualize the annotations of a spotweld image
 
-        _extended_summary_
+
+    Args:
+        spotweld_id_elements (int): spotweld Id's and its corresponding elements
+        bins_path (str): path of the binout folder
+
+    Returns:
+        Int : 0 Always
     """
     logger = logging.getLogger("side_crash_logger")
     start_time = datetime.now()
@@ -236,10 +242,12 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     bad_color = windows.Color(bad_rgb_values[0], bad_rgb_values[1], bad_rgb_values[2],bad_rgb_values[3])
 
     model_get = models.Model(0)
+    # Getting all the visible elements
     visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
     clusters = []
     group_start_time = datetime.now()
     identified_elements = []
+    # Iterating spotweld id elements and grouping the elements.
     for key,values in spotweld_id_elements.items():
         if any(each_element.id in values for each_element in visible_elements):
             clusters.append(key)
@@ -253,18 +261,21 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     logger.info("SPOTWELD ID IDENTIFICATION AND CLUSTER GROUP GENERATION AVERAGE TIME : {}".format(group_end_time-group_start_time))
 
     curve_start_time = datetime.now()
+    # Creating temporary window in that temporary window creating curves
     utils.MetaCommand('xyplot create "Temporary Window"')
     utils.MetaCommand('xyplot read lsdyna "Temporary Window" "{}" swforc-SpotweldAssmy {}  failure_(f)'.format(bins_path,",".join(str(key) for key in clusters)))
     curve_end_time = datetime.now()
     logger.info("CURVES GENERATION AVERAGE TIME : {}".format(curve_end_time-curve_start_time))
 
     plot = plot2d.Plot(0,"Temporary Window",0)
+    # Getting the Curves of the temporary window
     curves = plot.get_curves('all')
     meta_post_window_object.maximize()
     annot_start_time = datetime.now()
     failed_welds = 0
     annots = meta_post_window_object.get_annotations('all')
     annotation_id = len(annots)+1
+    # Iterating the all the curves and giving the annotations to the spotweld image
     for curve in curves:
         failure_point = plot2d.MaxPointYOfCurve("Temporary Window", curve.id, 'real')
         failure_value = str(round(failure_point.y,2))
@@ -282,13 +293,13 @@ def visualize_annotation(spotweld_id_elements,bins_path):
             utils.MetaCommand('annotation text {} font "MS Shell Dlg 2,8,-1,5,75,0,0,0,0,0"'.format(annotation_id))
             utils.MetaCommand('annotation border {} padding 3'.format(annotation_id))
             a.set_group(g)
-
+            # If failure value is greater than 0.9 than set the background color to red otherwise set with Orange Color
             if float(failure_value) > 0.9:
                 a.set_background_color(bad_color)
             else:
                 a.set_background_color(marginal_color)
             a.set_border_color(text_color)
-
+    # Activating MetaPost window.
     utils.MetaCommand('window active MetaPost')
     utils.MetaCommand('annotation explode all offmodelseek')
     utils.MetaCommand('annotation extparam all shape off')
@@ -304,37 +315,36 @@ def visualize_annotation(spotweld_id_elements,bins_path):
 
 def deformation_plot_formmatter(window_name,plot1_id,plot2_id,plot3_id):
     """
-    deformation_plot_formmatter _summary_
-
-    _extended_summary_
+    This method is used to format the deformation plot.
 
     Returns:
-        _type_: _description_
+        Int : 0 Always
     """
+    # Activating the yaxis and setting the label font then deactivating for plot1 id
     utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name,plot1_id))
     utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot1_id))
     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name,plot1_id))
-
+    # Activating the yaxis and setting the label font then deactivating for plot2 id
     utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name,plot2_id))
     utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot2_id))
     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name,plot2_id))
-
+    # Activating the yaxis and setting the label font then deactivating for plot3 id
     utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(window_name,plot3_id))
     utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot3_id))
     utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(window_name,plot3_id))
-
+    # Activating the xaxis and setting the label font then deactivating for plot1 id
     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name,plot1_id))
     utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot1_id))
     utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name,plot1_id))
-
+    # Activating the xaxis and setting the label font then deactivating for plot2 id
     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name,plot2_id))
     utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot2_id))
     utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name,plot2_id))
-
+    # Activating the xaxis and setting the label font then deactivating for plot3 id
     utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(window_name,plot3_id))
     utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(window_name,plot3_id))
     utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(window_name,plot3_id))
-
+    # Setting the title font for plot1,plot2,plot3 id's
     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,14,-1,5,75,0,0,0,0,0"'.format(window_name,plot1_id))
     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,14,-1,5,75,0,0,0,0,0"'.format(window_name,plot2_id))
     utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,14,-1,5,75,0,0,0,0,0"'.format(window_name,plot3_id))
