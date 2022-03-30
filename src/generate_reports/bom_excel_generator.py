@@ -15,7 +15,6 @@ Date        : Dec 31, 2021
 """
 
 import os
-from openpyxl import Workbook
 import logging
 
 from meta import parts,constants, models
@@ -42,6 +41,8 @@ class ExcelBomGeneration():
         Returns:
             0 : 0 Always
         """
+        from openpyxl import Workbook
+
         # Getting the Critical Sections Data From meta3d input
         critical_section_data = self.metadb_3d_input.critical_sections
         m = models.Model(0)
