@@ -156,7 +156,7 @@ def append_libs_path():
 
     # Append the path to sys.path
     if site_pkgs_path not in sys.path:
-        sys.path.append(site_pkgs_path)
+        sys.path.insert(0,site_pkgs_path)
 
     return 0
 
