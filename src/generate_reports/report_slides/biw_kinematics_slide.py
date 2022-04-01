@@ -153,7 +153,7 @@ class BIWKinematicsSlide():
         """
         from PIL import Image
         try:
-            self.logger.info("Started seeding data into biw kinematis slide")
+            self.logger.info("Started seeding data into biw kinematics slide")
             self.logger.info("")
             starttime = datetime.now()
             oval_shapes = [shape for shape in self.shapes if "Oval" in shape.name]
