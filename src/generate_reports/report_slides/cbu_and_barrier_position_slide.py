@@ -12,6 +12,7 @@ from meta import nodes
 from meta import models
 
 from src.meta_utilities import capture_image, visualize_3d_critical_section
+from src.metadb_info import GeneralVarInfo
 
 class CBUAndBarrierPositionSlide():
     """
@@ -64,28 +65,33 @@ class CBUAndBarrierPositionSlide():
                         if index>0:
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,rotate = Image.ROTATE_90,view = "top",transparent=True)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : ORIGINAL STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format("CBU"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format("CBU"))
-                    self.logger.info("IMAGE VIEW : TOP ")
-                    self.logger.info("COMP NAME : CBU AND BARRIER ")
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
-                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #removing transparent image
-                    os.remove(transparent_image_path)
+                    # If twod_images_report_folder is not None the capture image and add the picture into slide
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW"+".png").replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,rotate = Image.ROTATE_90,view = "top",transparent=True)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : ORIGINAL STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format("CBU"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format("CBU"))
+                        self.logger.info("IMAGE VIEW : TOP ")
+                        self.logger.info("COMP NAME : CBU AND BARRIER ")
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                        picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #removing transparent image
+                        os.remove(transparent_image_path)
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
                    #visualizing all the critical part sets to capture whole cbu and barrier image at original state with gray color
@@ -96,88 +102,120 @@ class CBUAndBarrierPositionSlide():
                             and_filter = True
                         visualize_3d_critical_section(value,and_filter = and_filter)
                     utils.MetaCommand('color pid Gray act')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_IMPACT_LEFT_VIEW"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left",transparent=True)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : ORIGINAL STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format("CBU"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format("CBU"))
-                    self.logger.info("IMAGE VIEW : TOP ")
-                    self.logger.info("COMP NAME : CBU AND BARRIER IMPACT ")
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
-                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #removing transparent image
-                    os.remove(transparent_image_path)
-                    #reverting color
-                    utils.MetaCommand('color pid reset act')
+                    # If twod_images_report_folder is not None the capture image and add the picture into slide
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_IMPACT_LEFT_VIEW"+".png").replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "left",transparent=True)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : ORIGINAL STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format("CBU"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format("CBU"))
+                        self.logger.info("IMAGE VIEW : TOP ")
+                        self.logger.info("COMP NAME : CBU AND BARRIER IMPACT ")
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                        picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #removing transparent image
+                        os.remove(transparent_image_path)
+                        #reverting color
+                        utils.MetaCommand('color pid reset act')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #table population for the shape named "Table 4"
                 elif shape.name == "Table 4":
                     #getting the table object
                     table_obj = shape.table
-                    #getting row 1 object and inserting test mass value in cell 1
-                    text_frame = table_obj.rows[1].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    font.bold = True
-                    font.underline = True
-                    text_frame.paragraphs[0].text = str(round(float(self.general_input.test_mass_value)*1000,2))
-                    #getting row 2 object and inserting physical mass value in cell 1
-                    text_frame = table_obj.rows[2].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(round(float(self.general_input.physical_mass_value)*1000,2))
-                    #getting row 3 object and inserting added mass value in cell 1
-                    text_frame = table_obj.rows[3].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(round(float(self.general_input.added_mass_value)*1000,2))
-                    #getting row 6 object and inserting total mass value in cell 1
-                    text_frame = table_obj.rows[6].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(round(float(self.general_input.total_mass_value)*1000,2))
-                    #getting row 7 object and inserting test mass - total mass value in cell 1
-                    text_frame = table_obj.rows[7].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(round((float(self.general_input.test_mass_value)-float(self.general_input.total_mass_value))*1000,2))
+                    # If test_mass_value not in null,none,""
+                    if not self.general_input.test_mass_value in ["null","none",""]:
+                        #getting row 1 object and inserting test mass value in cell 1
+                        text_frame = table_obj.rows[1].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        font.bold = True
+                        font.underline = True
+                        text_frame.paragraphs[0].text = str(round(float(self.general_input.test_mass_value)*1000,2))
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.test_mass_key))
+                        self.logger.info("")
+                    if not self.general_input.physical_mass_value in ["null","none",""]:
+                        #getting row 2 object and inserting physical mass value in cell 1
+                        text_frame = table_obj.rows[2].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(round(float(self.general_input.physical_mass_value)*1000,2))
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.physical_mass_key))
+                        self.logger.info("")
+                    if not self.general_input.added_mass_value in ["null","none",""]:
+                        #getting row 3 object and inserting added mass value in cell 1
+                        text_frame = table_obj.rows[3].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(round(float(self.general_input.added_mass_value)*1000,2))
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.added_mass_key))
+                        self.logger.info("")
+                    if not self.general_input.total_mass_value in ["null","none",""]:
+                        #getting row 6 object and inserting total mass value in cell 1
+                        text_frame = table_obj.rows[6].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(round(float(self.general_input.total_mass_value)*1000,2))
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key))
+                        self.logger.info("")
+
+                    if not self.general_input.test_mass_value in ["null","none",""] and not self.general_input.total_mass_value in ["null","none",""]:
+                        #getting row 7 object and inserting test mass - total mass value in cell 1
+                        text_frame = table_obj.rows[7].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(round((float(self.general_input.test_mass_value)-float(self.general_input.total_mass_value))*1000,2))
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key,GeneralVarInfo.test_mass_key))
+                        self.logger.info("")
                 #table population for the shape named "Table 1"
                 elif shape.name == "Table 1":
                     #getting the table object
                     table_obj = shape.table
-                    #getting row 3 object and inserting MDB front node x value
-                    MDB_fr_node_id = int(self.general_input.MDB_fr_node_id)
-                    MDB_fr_node = nodes.Node(id=MDB_fr_node_id, model_id=0)
-                    text_frame = table_obj.rows[3].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(round(MDB_fr_node.x))
-                    #getting row 2 cell 1 text
-                    text_frame = table_obj.rows[2].cells[1].text_frame
-                    target_z_value = int(text_frame.paragraphs[0].text.strip())
-                    #getting row 4 object and inserting MDB font node x - above z value in cell 1
-                    text_frame = table_obj.rows[4].cells[1].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    value = round(MDB_fr_node.x) - target_z_value
-                    text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
+                    # If MDB_fr_node_id not in null,none,""
+                    if not self.general_input.MDB_fr_node_id in ["null","none",""]:
+                        #getting row 3 object and inserting MDB front node x value
+                        MDB_fr_node_id = int(self.general_input.MDB_fr_node_id)
+                        MDB_fr_node = nodes.Node(id=MDB_fr_node_id, model_id=0)
+                        text_frame = table_obj.rows[3].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(round(MDB_fr_node.x))
+                        #getting row 2 cell 1 text
+                        text_frame = table_obj.rows[2].cells[1].text_frame
+                        target_z_value = int(text_frame.paragraphs[0].text.strip())
+                        #getting row 4 object and inserting MDB font node x - above z value in cell 1
+                        text_frame = table_obj.rows[4].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        value = round(MDB_fr_node.x) - target_z_value
+                        text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.MDB_fr_node_key))
+                        self.logger.info("")
                 #table population for the shape named "Table 2"
                 elif shape.name == "Table 2":
                     #getting current model resultset,suspension nodes,MDB front and rear node objects
