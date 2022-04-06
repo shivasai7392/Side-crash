@@ -90,7 +90,7 @@ class ExcelBomGeneration():
                             self.logger.info("CELLS WITH DATA : A1:D{}".format(str(len(visible_parts)+1)))
                             self.logger.info("")
                     else:
-                        self.logger.info("ERROR : Critical part '{}'set has no parts in the model. Please update 2D META Variables.".format(key))
+                        self.logger.info("ERROR : Critical part set '{}' has no parts in the model. Please update 2D META Variables.".format(key))
                         self.logger.info("")
                 else:
                     self.logger.info("ERROR : Critical part set '{}' has no hes filter. Please update 2D META Variable.".format(key))
