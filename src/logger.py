@@ -12,53 +12,6 @@ class SideCrashLogger():
         #beta logger format for logging
         self.side_crash_logger_format = CustomFormatter('%(message)s')
 
-        #log output file preperation
-        current_datetime = datetime.datetime.now()
-        output_folder = os.path.dirname(file_path)
-        if not os.path.exists(output_folder):
-            os.mkdir(output_folder)
-        self.log_file = "{}_{}.log".format(file_path,current_datetime.strftime('%Y-%d-%m'))
-        if not os.path.exists(self.log_file):
-            file_object = open(self.log_file, 'w+')
-            if os.stat(self.log_file).st_size == 0:
-                initial_str = """##################################################
-#      Copyright BETA CAE Systems USA Inc.,      #
-#      2022 All Rights Reserved                  #
-##################################################
-
-Side Crash Automation Log file
-
-Log Session Report {}
---------------------------
---------------------------
-
-""".format(current_datetime.strftime("%H:%M:%S"))
-                file_object.write(initial_str)
-            file_object.close()
-        else:
-            file_object = open(self.log_file, 'a')
-            if os.stat(self.log_file).st_size == 0:
-                initial_str = """##################################################
-#      Copyright BETA CAE Systems USA Inc.,      #
-#      2022 All Rights Reserved                  #
-##################################################
-
-Side Crash Automation Log file
-
-Log Session Report {}
---------------------------
---------------------------
-
-""".format(current_datetime.strftime("%H:%M:%S"))
-            else:
-                initial_str = """Log Session Report {}
---------------------------
---------------------------
-
-""".format(current_datetime.strftime("%H:%M:%S"))
-            file_object.write(initial_str)
-            file_object.close()
-
         #getting logger object as name 'beta_logger'
         self.log = logging.getLogger(name)
 
@@ -72,9 +25,59 @@ Log Session Report {}
             self.log.addHandler(self.console_handler)
 
             #adding file stream handler for logging
-            self.file_handler = self.get_file_handler(self.log_file)
-            self.set_formatter(self.file_handler,self.side_crash_logger_format if name == "side_crash_logger" else  None)
-            self.log.addHandler(self.file_handler)
+            if file_path is not None:
+                #log output file preperation
+                current_datetime = datetime.datetime.now()
+                output_folder = os.path.dirname(file_path)
+                if not os.path.exists(output_folder):
+                    os.mkdir(output_folder)
+                self.log_file = "{}_{}.log".format(file_path,current_datetime.strftime('%Y-%d-%m'))
+                if not os.path.exists(self.log_file):
+                    file_object = open(self.log_file, 'w+')
+                    if os.stat(self.log_file).st_size == 0:
+                        initial_str = """##################################################
+        #      Copyright BETA CAE Systems USA Inc.,      #
+        #      2022 All Rights Reserved                  #
+        ##################################################
+
+        Side Crash Automation Log file
+
+        Log Session Report {}
+        --------------------------
+        --------------------------
+
+        """.format(current_datetime.strftime("%H:%M:%S"))
+                        file_object.write(initial_str)
+                    file_object.close()
+                else:
+                    file_object = open(self.log_file, 'a')
+                    if os.stat(self.log_file).st_size == 0:
+                        initial_str = """##################################################
+        #      Copyright BETA CAE Systems USA Inc.,      #
+        #      2022 All Rights Reserved                  #
+        ##################################################
+
+        Side Crash Automation Log file
+
+        Log Session Report {}
+        --------------------------
+        --------------------------
+
+        """.format(current_datetime.strftime("%H:%M:%S"))
+                    else:
+                        initial_str = """Log Session Report {}
+        --------------------------
+        --------------------------
+
+        """.format(current_datetime.strftime("%H:%M:%S"))
+                    file_object.write(initial_str)
+                    file_object.close()
+
+                self.file_handler = self.get_file_handler(self.log_file)
+                self.set_formatter(self.file_handler,self.side_crash_logger_format if name == "side_crash_logger" else  None)
+                self.log.addHandler(self.file_handler)
+            else:
+                self.log.info("ERROR : META 2D variable 'pM' is not valid. Please update.")
 
     def set_formatter(self,handler,format):
         """

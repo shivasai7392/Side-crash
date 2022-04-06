@@ -58,11 +58,12 @@ def main(*args):
 
     # Joining the config directory path and log directory path
     general_input_info = GeneralVarInfo()
-    if "win" in sys.platform:
-        log_file = os.path.join(app_config_dir,"res",general_input_info.get_log_directory().replace("/","",1)).replace("\\",os.sep)
-    else:
-        log_file = os.path.join(general_input_info.get_log_directory())
-    logger = SideCrashLogger(log_file)
+    log_file_path = general_input_info.get_log_directory()
+    if log_file_path is not None:
+        if "win" in sys.platform:
+            log_file_path = os.path.join(app_config_dir,"res",log_file_path.replace("/","",1)).replace("\\",os.sep)
+
+    logger = SideCrashLogger(log_file_path)
     logger.log.info("--- STARTED LOADING 2D METADB FILE")
     logger.log.info("2D METADB FILE PATH : {}".format(user_input.metadb_2d_input))
     #_ret = [logger.log.info(item) for item in buffer if item.strip() != ""]
@@ -115,10 +116,11 @@ def main(*args):
     # d3hsp_file_path = os.path.join(app_config_dir,"res",general_input_info.d3hsp_file.replace("/","",1)).replace("\\",os.sep)
     # Getting the spotweld clusters from d3hsp file
     logger.log.info("--- STARTED SPOTWELD CLUSTERS IDENTIFICATION")
-    if "win" in sys.platform:
-        general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
+    if general_input_info.binout_directory.startswith("/"):
+        if "win" in sys.platform:
+            general_input_info.binout_directory = os.path.join(app_config_dir,"res",general_input_info.binout_directory.replace("/","",1)).replace("\\",os.sep)
     else:
-        general_input_info.binout_directory = os.path.join(general_input_info.binout_directory)
+        general_input_info.binout_directory = None
     general_input_info.d3hsp_file_path = user_input.d3hsp_file_path
     logger.log.info("SPOTWELD ID'S SOURCE FILE PATH : {}".format(general_input_info.d3hsp_file_path))
     spotweld_start_time = datetime.now()

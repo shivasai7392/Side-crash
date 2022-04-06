@@ -382,6 +382,8 @@ class GeneralVarInfo:
         self.log_file = "2TN_MP_log"
         # Getting the log directory
         self.log_file_directory = get_var(GeneralVarInfo.log_file_directory_key)
+        if not self.log_file_directory.startswith("/"):
+            return None
 
         return os.path.join(self.log_file_directory,self.log_file)
 
