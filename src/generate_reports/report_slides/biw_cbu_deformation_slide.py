@@ -10,6 +10,7 @@ import logging
 from meta import utils
 
 from src.meta_utilities import capture_image
+from src.metadb_info import GeneralVarInfo
 
 class BIWCBUDeformationSlide():
     """
@@ -67,35 +68,39 @@ class BIWCBUDeformationSlide():
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
-                    #capturing cbu image
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITHOUT_PLASTIC_STRAIN"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE WITHOUT PLASTIC STRAIN")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format(",".join(list_of_prop_names)))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : null ")
-                    self.logger.info("PID NAME ERASE FILTER : null ")
-                    self.logger.info("PID'S TO ERASE : null ")
-                    self.logger.info("ERASE BOX : null ")
-                    self.logger.info("IMAGE VIEW : null ")
-                    self.logger.info("TRANSPARENCY LEVEL : null" )
-                    self.logger.info("TRANSPARENT PID'S : null ")
-                    self.logger.info("COMP NAME : CBU ")
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
-                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #removing transparent image
-                    os.remove(transparent_image_path)
-                    utils.MetaCommand('grstyle scalarfringe enable')
+                    if self.threed_images_report_folder is not None:
+                        #capturing cbu image
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITHOUT_PLASTIC_STRAIN"+".png").replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : PEAK STATE WITHOUT PLASTIC STRAIN")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format(",".join(list_of_prop_names)))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : null ")
+                        self.logger.info("PID NAME ERASE FILTER : null ")
+                        self.logger.info("PID'S TO ERASE : null ")
+                        self.logger.info("ERASE BOX : null ")
+                        self.logger.info("IMAGE VIEW : null ")
+                        self.logger.info("TRANSPARENCY LEVEL : null" )
+                        self.logger.info("TRANSPARENT PID'S : null ")
+                        self.logger.info("COMP NAME : CBU ")
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                        picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #removing transparent image
+                        os.remove(transparent_image_path)
+                        utils.MetaCommand('grstyle scalarfringe enable')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 1"
                 elif shape.name == "Image 2":
                     #visualizing all critical parts hes instances
@@ -116,55 +121,63 @@ class BIWCBUDeformationSlide():
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
-                    #capturing cbu image with plastic strain
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITH_PLASTIC_STRAIN"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE WITH PLASTIC STRAIN")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format(",".join(list_of_prop_names)))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : null ")
-                    self.logger.info("PID NAME ERASE FILTER : null ")
-                    self.logger.info("PID'S TO ERASE : null ")
-                    self.logger.info("ERASE BOX : null ")
-                    self.logger.info("IMAGE VIEW : null ")
-                    self.logger.info("TRANSPARENCY LEVEL : null" )
-                    self.logger.info("TRANSPARENT PID'S : null ")
-                    self.logger.info("COMP NAME : CBU ")
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    transparent_image_path = image_path.replace(".png","")+"_transparent.png"
-                    picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #removing transparent image
-                    os.remove(transparent_image_path)
-                    utils.MetaCommand('0:options state variable "serial=0"')
+                    if self.threed_images_report_folder is not None:
+                        #capturing cbu image with plastic strain
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_CBU_AT_PEAK_STATE_WITH_PLASTIC_STRAIN"+".png").replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : PEAK STATE WITH PLASTIC STRAIN")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format(",".join(list_of_prop_names)))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : null ")
+                        self.logger.info("PID NAME ERASE FILTER : null ")
+                        self.logger.info("PID'S TO ERASE : null ")
+                        self.logger.info("ERASE BOX : null ")
+                        self.logger.info("IMAGE VIEW : null ")
+                        self.logger.info("TRANSPARENCY LEVEL : null" )
+                        self.logger.info("TRANSPARENT PID'S : null ")
+                        self.logger.info("COMP NAME : CBU ")
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                        picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #removing transparent image
+                        os.remove(transparent_image_path)
+                        utils.MetaCommand('0:options state variable "serial=0"')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
                     #capturing fringe bar of metapost window
                     utils.MetaCommand('add all')
                     utils.MetaCommand('add invert')
                     utils.MetaCommand('options fringebar on')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_FRINGE_BAR"+".png").replace(" ","_")
-                    utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
-                    self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('options fringebar off')
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_FRINGE_BAR"+".png").replace(" ","_")
+                        utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
+                        self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        utils.MetaCommand('options fringebar off')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into biw cbu deformation slide:\n{}".format(e))

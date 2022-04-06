@@ -11,7 +11,8 @@ from meta import utils
 from meta import nodes
 from meta import models
 
-from src.meta_utilities import capture_image, visualize_3d_critical_section
+from src.meta_utilities import capture_image
+from src.meta_utilities import visualize_3d_critical_section
 from src.metadb_info import GeneralVarInfo
 
 class CBUAndBarrierPositionSlide():
@@ -221,59 +222,63 @@ class CBUAndBarrierPositionSlide():
                     #getting current model resultset,suspension nodes,MDB front and rear node objects
                     model = models.Model(0)
                     res = model.get_current_resultset()
-                    struck_subframe_node_ids = self.general_input.struck_subframe_node_ids
-                    struck_subframe_node1 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[0]), model_id=0)
-                    struck_subframe_node2 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[1]), model_id=0)
-                    MDB_fr_node_id = int(self.general_input.MDB_fr_node_id)
-                    MDB_fr_node = nodes.Node(id=MDB_fr_node_id, model_id=0)
-                    MDB_rr_node_id = int(self.general_input.MDB_rr_node_id)
-                    MDB_rr_node = nodes.Node(id=MDB_rr_node_id, model_id=0)
-                    #calculating distance form suspension node 1 to MDB front and MDB rear node
-                    distance_nfr_s1 = MDB_fr_node.get_distance_from_node(res, struck_subframe_node1, res)
-                    distance_nrr_s1 = MDB_fr_node.get_distance_from_node(res, struck_subframe_node1, res)
-                    distance_nfr_s1 = sum([dist**2 for dist in distance_nfr_s1])
-                    distance_nrr_s1 = sum([dist**2 for dist in distance_nrr_s1])
-                    #identifying suspension front and rear nodes based on the ditance calculated above
-                    if distance_nfr_s1>distance_nrr_s1:
-                        suspension_rr_node = struck_subframe_node1
-                        suspension_fr_node = struck_subframe_node2
+                    if all( var not in ["null","none",""] for var in [self.general_input.struck_subframe_node_ids,self.general_input.MDB_fr_node_id,self.general_input.MDB_rr_node_id])
+                        struck_subframe_node_ids = self.general_input.struck_subframe_node_ids
+                        struck_subframe_node1 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[0]), model_id=0)
+                        struck_subframe_node2 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[1]), model_id=0)
+                        MDB_fr_node_id = int(self.general_input.MDB_fr_node_id)
+                        MDB_fr_node = nodes.Node(id=MDB_fr_node_id, model_id=0)
+                        MDB_rr_node_id = int(self.general_input.MDB_rr_node_id)
+                        MDB_rr_node = nodes.Node(id=MDB_rr_node_id, model_id=0)
+                        #calculating distance form suspension node 1 to MDB front and MDB rear node
+                        distance_nfr_s1 = MDB_fr_node.get_distance_from_node(res, struck_subframe_node1, res)
+                        distance_nrr_s1 = MDB_fr_node.get_distance_from_node(res, struck_subframe_node1, res)
+                        distance_nfr_s1 = sum([dist**2 for dist in distance_nfr_s1])
+                        distance_nrr_s1 = sum([dist**2 for dist in distance_nrr_s1])
+                        #identifying suspension front and rear nodes based on the ditance calculated above
+                        if distance_nfr_s1>distance_nrr_s1:
+                            suspension_rr_node = struck_subframe_node1
+                            suspension_fr_node = struck_subframe_node2
+                        else:
+                            suspension_rr_node = struck_subframe_node2
+                            suspension_fr_node = struck_subframe_node1
+                        #getting table object
+                        table_obj = shape.table
+                        #getting row 2 object and inserting MDB front node x - Suspension front node x value in cell 2
+                        text_frame = table_obj.rows[2].cells[2].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(abs(round(MDB_fr_node.x) - round(suspension_fr_node.x)))
+                        #getting row 2 cell 1 text
+                        text_frame = table_obj.rows[2].cells[1].text_frame
+                        front_target_overlap = int(text_frame.paragraphs[0].text.strip())
+                        #getting row 2 object and inserting front target overlap difference in cell 3
+                        text_frame = table_obj.rows[2].cells[3].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        value = abs(round(MDB_fr_node.x) - round(suspension_fr_node.x)) - front_target_overlap
+                        text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
+                        #getting row 3 object and inserting MDB rear node x - Suspension rear node x value in cell 2
+                        text_frame = table_obj.rows[3].cells[2].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(abs(round(MDB_rr_node.x) - round(suspension_rr_node.x)))
+                        #getting row 3 cell 1 text
+                        text_frame = table_obj.rows[3].cells[1].text_frame
+                        rear_target_overlap = int(text_frame.paragraphs[0].text.strip())
+                        #getting row 3 object and inserting rear target overlap difference in cell 3
+                        text_frame = table_obj.rows[3].cells[3].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        value = abs(round(MDB_rr_node.x) - round(suspension_rr_node.x)) - rear_target_overlap
+                        text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
                     else:
-                        suspension_rr_node = struck_subframe_node2
-                        suspension_fr_node = struck_subframe_node1
-                    #getting table object
-                    table_obj = shape.table
-                    #getting row 2 object and inserting MDB front node x - Suspension front node x value in cell 2
-                    text_frame = table_obj.rows[2].cells[2].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(abs(round(MDB_fr_node.x) - round(suspension_fr_node.x)))
-                    #getting row 2 cell 1 text
-                    text_frame = table_obj.rows[2].cells[1].text_frame
-                    front_target_overlap = int(text_frame.paragraphs[0].text.strip())
-                    #getting row 2 object and inserting front target overlap difference in cell 3
-                    text_frame = table_obj.rows[2].cells[3].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    value = abs(round(MDB_fr_node.x) - round(suspension_fr_node.x)) - front_target_overlap
-                    text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
-                    #getting row 3 object and inserting MDB rear node x - Suspension rear node x value in cell 2
-                    text_frame = table_obj.rows[3].cells[2].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    text_frame.paragraphs[0].text = str(abs(round(MDB_rr_node.x) - round(suspension_rr_node.x)))
-                    #getting row 3 cell 1 text
-                    text_frame = table_obj.rows[3].cells[1].text_frame
-                    rear_target_overlap = int(text_frame.paragraphs[0].text.strip())
-                    #getting row 3 object and inserting rear target overlap difference in cell 3
-                    text_frame = table_obj.rows[3].cells[3].text_frame
-                    font = text_frame.paragraphs[0].font
-                    font.name = 'Arial'
-                    font.size = Pt(11)
-                    value = abs(round(MDB_rr_node.x) - round(suspension_rr_node.x)) - rear_target_overlap
-                    text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
+                        self.logger.info("WARNING : META 2D variables '{},{},{}' are not available or invalid. Please update.".format(GeneralVarInfo.struck_subframe_node_key,GeneralVarInfo.MDB_fr_node_key,GeneralVarInfo.MDB_rr_node_key))
+                        self.logger.info("")
             utils.MetaCommand('options fringebar on')
             endtime = datetime.now()
         except Exception as e:
