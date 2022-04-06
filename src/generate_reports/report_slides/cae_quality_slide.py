@@ -52,11 +52,12 @@ class CAEQualitySlide():
             self.logger.info("Started seeding data into cae quality slide")
             self.logger.info("")
             starttime = datetime.now()
-            #maximizing the cae quality window
+            #checking for 'cae quality' window
             if not self.general_input.cae_quality_window_name in ["null","none",""]:
                 cae_quality_window_name = self.general_input.cae_quality_window_name
                 cae_quality_window_obj = windows.WindowByName(cae_quality_window_name)
                 if cae_quality_window_obj:
+                    #maximizing the cae quality window
                     utils.MetaCommand('window maximize "{}"'.format(cae_quality_window_name))
                     #iterating through the shapes of the cae quality slide
                     for shape in self.shapes:
@@ -224,7 +225,7 @@ class CAEQualitySlide():
                                 font_2.size = Pt(12)
                                 text_frame_2.paragraphs[0].text = value if value else ""
                 else:
-                    self.logger.info("ERROR : 2D METADB does not contain 'Cae quality' window. Please update.")
+                    self.logger.info("ERROR : 2D METADB does not contain 'Cae Quality' window. Please update.")
             else:
                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.cae_window_key))
             endtime = datetime.now()
