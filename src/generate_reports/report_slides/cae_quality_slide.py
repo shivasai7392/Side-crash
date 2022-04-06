@@ -52,11 +52,12 @@ class CAEQualitySlide():
             self.logger.info("Started seeding data into cae quality slide")
             self.logger.info("")
             starttime = datetime.now()
-            #maximizing the cae quality window
+            #checking for 'cae quality' window
             if not self.general_input.cae_quality_window_name in ["null","none",""]:
                 cae_quality_window_name = self.general_input.cae_quality_window_name
                 cae_quality_window_obj = windows.WindowByName(cae_quality_window_name)
                 if cae_quality_window_obj:
+                    #maximizing the cae quality window
                     utils.MetaCommand('window maximize "{}"'.format(cae_quality_window_name))
                     #iterating through the shapes of the cae quality slide
                     for shape in self.shapes:
@@ -170,31 +171,28 @@ class CAEQualitySlide():
                             #getting table object
                             table_obj = shape.table
                             #iterating through all the  curves to populate table with data
-                            if curvelist:
-                                for index,curve in enumerate(curvelist):
-                                    #getting min and max values of y values
-                                    min_y = curve.get_limit_value_y(specifier = 'min')
-                                    max_y = curve.get_limit_value_y(specifier = 'max')
-                                    #adding a new row to the table to insert curve data
-                                    add_row(table_obj)
-                                    #getting row object and inserting curve name in cell 0
-                                    row = table_obj.rows[index+1]
-                                    text_frame_1 = row.cells[0].text_frame
-                                    font_1 = text_frame_1.paragraphs[0].font
-                                    font_1.size = Pt(12)
-                                    text_frame_1.paragraphs[0].text = str(curve.name).replace(" energy","")
-                                    #inserting max y value of the curve in cell 1
-                                    text_frame_2 = row.cells[1].text_frame
-                                    font_2 = text_frame_2.paragraphs[0].font
-                                    font_2.size = Pt(12)
-                                    text_frame_2.paragraphs[0].text = "{:.2e}".format(max_y)
-                                    #inserting min y value of the curve in cell 2
-                                    text_frame_3 = row.cells[2].text_frame
-                                    font_3 = text_frame_3.paragraphs[0].font
-                                    font_3.size = Pt(12)
-                                    text_frame_3.paragraphs[0].text = "{:.2e}".format(min_y)
-                            else:
-                                self.logger.log("WARNING : System energy plot does not contain any curves. Please update.")
+                            for index,curve in enumerate(curvelist):
+                                #getting min and max values of y values
+                                min_y = curve.get_limit_value_y(specifier = 'min')
+                                max_y = curve.get_limit_value_y(specifier = 'max')
+                                #adding a new row to the table to insert curve data
+                                add_row(table_obj)
+                                #getting row object and inserting curve name in cell 0
+                                row = table_obj.rows[index+1]
+                                text_frame_1 = row.cells[0].text_frame
+                                font_1 = text_frame_1.paragraphs[0].font
+                                font_1.size = Pt(12)
+                                text_frame_1.paragraphs[0].text = str(curve.name).replace(" energy","")
+                                #inserting max y value of the curve in cell 1
+                                text_frame_2 = row.cells[1].text_frame
+                                font_2 = text_frame_2.paragraphs[0].font
+                                font_2.size = Pt(12)
+                                text_frame_2.paragraphs[0].text = "{:.2e}".format(max_y)
+                                #inserting min y value of the curve in cell 2
+                                text_frame_3 = row.cells[2].text_frame
+                                font_3 = text_frame_3.paragraphs[0].font
+                                font_3.size = Pt(12)
+                                text_frame_3.paragraphs[0].text = "{:.2e}".format(min_y)
                         #table population for the shape named "Table 2"
                         elif shape.name == "Table 2":
                             #getting table object
@@ -224,7 +222,7 @@ class CAEQualitySlide():
                                 font_2.size = Pt(12)
                                 text_frame_2.paragraphs[0].text = value if value else ""
                 else:
-                    self.logger.info("ERROR : 2D METADB does not contain 'Cae quality' window. Please update.")
+                    self.logger.info("ERROR : 2D METADB does not contain 'Cae Quality' window. Please update.")
             else:
                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.cae_window_key))
             endtime = datetime.now()
