@@ -38,10 +38,16 @@ class Reporter():
         self.metadb_2d_input = metadb_2d_input
         self.metadb_3d_input = metadb_3d_input
         self.config_folder = config_folder
-        if "win" in sys.platform:
-            self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
+        if self.general_input.source_template_file_directory.startswith("/"):
+            if not self.general_input.source_template_file_name in ["null","none",""]:
+                if "win" in sys.platform:
+                    self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
+                else:
+                    self.template_file = os.path.join(self.general_input.source_template_file_directory,self.general_input.source_template_file_name)
+            else:
+                self.template_file = None
         else:
-            self.template_file = os.path.join(self.general_input.source_template_file_directory,self.general_input.source_template_file_name)
+            self.template_file = None
         self.logger = logging.getLogger("side_crash_logger")
         self.get_reporting_folders()
         self.make_reporting_folders()
@@ -57,7 +63,7 @@ class Reporter():
         reporting_folders = [self.twod_images_report_folder, self.threed_images_report_folder, self.threed_videos_report_folder, self.excel_bom_report_folder,self.ppt_report_folder,self.log_report_folder]
         # Iterating the reporting folders if that folder not present the make the directory of that folder
         for folder_path in reporting_folders:
-            if not os.path.exists(folder_path):
+            if folder_path is not None and not os.path.exists(folder_path):
                 os.makedirs(folder_path)
         return 0
 
@@ -69,20 +75,28 @@ class Reporter():
             Int : 0 Always
         """
         # Path of the 2d,3d images, 3d videos,excel BOM and Reports
-        if "win" in sys.platform:
-            self.twod_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"2d-data-images").replace("\\",os.sep)
-            self.threed_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-images").replace("\\",os.sep)
-            self.threed_videos_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-videos").replace("\\",os.sep)
-            self.excel_bom_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"excel-bom").replace("\\",os.sep)
-            self.ppt_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"reports").replace("\\",os.sep)
-            self.log_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.log_file_directory).replace("/","",1)).replace("\\",os.sep)
+        if self.general_input.report_directory.startswith("/"):
+            if "win" in sys.platform:
+                self.twod_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"2d-data-images").replace("\\",os.sep)
+                self.threed_images_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-images").replace("\\",os.sep)
+                self.threed_videos_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"3d-data-videos").replace("\\",os.sep)
+                self.excel_bom_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"excel-bom").replace("\\",os.sep)
+                self.ppt_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.report_directory).replace("/","",1),"reports").replace("\\",os.sep)
+                self.log_report_folder = os.path.join(self.config_folder,"res",os.path.dirname(self.general_input.log_file_directory).replace("/","",1)).replace("\\",os.sep)
+            else:
+                self.twod_images_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"2d-data-images")
+                self.threed_images_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"3d-data-images")
+                self.threed_videos_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"3d-data-videos")
+                self.excel_bom_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"excel-bom")
+                self.ppt_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"reports")
+                self.log_report_folder = os.path.join(os.path.dirname(self.general_input.log_file_directory))
         else:
-            self.twod_images_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"2d-data-images")
-            self.threed_images_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"3d-data-images")
-            self.threed_videos_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"3d-data-videos")
-            self.excel_bom_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"excel-bom")
-            self.ppt_report_folder = os.path.join(os.path.dirname(self.general_input.report_directory),"reports")
-            self.log_report_folder = os.path.join(os.path.dirname(self.general_input.log_file_directory))
+            self.twod_images_report_folder = None
+            self.threed_images_report_folder = None
+            self.threed_videos_report_folder = None
+            self.excel_bom_report_folder = None
+            self.ppt_report_folder = None
+            self.log_report_folder = None
 
         return 0
 

@@ -77,7 +77,8 @@ class SideCrashLogger():
                 self.set_formatter(self.file_handler,self.side_crash_logger_format if name == "side_crash_logger" else  None)
                 self.log.addHandler(self.file_handler)
             else:
-                self.log.info("ERROR : META 2D variable 'pM' is not valid. Please update.")
+                self.log.info("ERROR : META 2D variable 'pM' is not available or valid. Please update.")
+                self.log.info("")
 
     def set_formatter(self,handler,format):
         """
