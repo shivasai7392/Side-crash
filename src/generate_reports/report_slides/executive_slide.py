@@ -663,8 +663,8 @@ class ExecutiveSlide():
                                     target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 PELVIS",target_curve=target_curve)
                                 else:
-                                        self.logger.info("WARNING : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
-                                        self.logger.info("")
+                                    self.logger.info("WARNING : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
+                                    self.logger.info("")
                             else:
                                 self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_femur_intrusion_curve_key))
                                 self.logger.info("")

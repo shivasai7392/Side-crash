@@ -184,6 +184,7 @@ def visualize_3d_critical_section(data,and_filter = None):
     get_var = lambda key: data[key] if key in data.keys() else None
     # Get the values for hes,hes_exceptions,erase_pids etc..
     prop_names = get_var("hes")
+    name = get_var("name")
     hes_exceptions = get_var("hes_exceptions")
     exclude = "null"
     erase_pids = get_var("erase_pids")
@@ -191,25 +192,63 @@ def visualize_3d_critical_section(data,and_filter = None):
     transparency_level = '50'
     transparent_pids = get_var("transparent_pids")
     erase_box = get_var("erase_box")
+    logger = logging.getLogger("side_crash_logger")
 
-    if prop_names:
+    #visualizing properties using property names
+    if prop_names and prop_names not in ["null","none",""]:
         if and_filter:
             utils.MetaCommand('add advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
         else:
             utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
-    if hes_exceptions:
+    else:
+        if name:
+            logger.info("WARNING : Critical part set '{}' has no hes filter variable. Please update.".format(name))
+        else:
+            logger.info("WARNING : Unknown Critical part set has no hes filter variables. Please update.")
+    #hiding any exceptions from meta viewer
+    if hes_exceptions and hes_exceptions not in ["null","none",""]:
         utils.MetaCommand('add pid {}'.format(hes_exceptions))
+    else:
+        if name:
+            logger.info("WARNING : Critical part set '{}' has no hes exceptions filter variable. Please update if any available.".format(name))
+        else:
+            logger.info("WARNING : Unknown Critical part set has no hes exceptions filter variables. Please update if any available.")
+
     utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
-    if erase_pids:
+    #erasing the pids from the meta viewer
+    if erase_pids and erase_pids not in ["null","none",""]:
         utils.MetaCommand('erase pid {}'.format(erase_pids))
-    if erase_box:
+    else:
+        if name:
+            logger.info("WARNING : Critical part set '{}' has no erase pids filter variable. Please update if any available.".format(name))
+        else:
+            logger.info("WARNING : Unknown Critical part set has no erase pids filter variables. Please update if any available.")
+    #erasing the elements using box from the meta viewer
+    if erase_box and erase_box not in ["null","none",""]:
         utils.MetaCommand('erase shells box {}'.format(erase_box))
         utils.MetaCommand('erase solids box {}'.format(erase_box))
-    if comp_view:
+    else:
+        if name:
+            logger.info("WARNING : Critical part set '{}' has no erase box filter variable. Please update if any available.".format(name))
+        else:
+            logger.info("WARNING : Unknown Critical part set has no erase box filter variables. Please update if any available.")
+    #settings view angle of the meta viewer
+    if comp_view and comp_view not in ["null","none",""]:
         utils.MetaCommand('view default {}'.format(comp_view))
         utils.MetaCommand('view center')
-    if transparent_pids:
+    else:
+        if name:
+            logger.info("WARNING : Critical part set '{}' has no view angle variable. Please update if any available.".format(name))
+        else:
+            logger.info("WARNING : Unknown Critical part set has no view angle filter variables. Please update if any available.")
+    #setting transparency for the transparent pids
+    if transparent_pids and transparent_pids not in ["null","none",""]:
         utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
+    else:
+        if name:
+            logger.info("WARNING : Critical part set '{}' has no transparent pids filter variable. Please update if any available.".format(name))
+        else:
+            logger.info("WARNING : Unknown Critical part set has no transparent pids filtere filter variables. Please update if any available.")
 
     return 0
 
@@ -225,92 +264,94 @@ def visualize_annotation(spotweld_id_elements,bins_path):
     Returns:
         Int : 0 Always
     """
-    logger = logging.getLogger("side_crash_logger")
-    start_time = datetime.now()
-    utils.MetaCommand('add element connected')
-    utils.MetaCommand('add element connected')
-    meta_post_window_object = windows.Window(name = 'MetaPost', page_id=0)
+    if bins_path is not None:
+        logger = logging.getLogger("side_crash_logger")
+        start_time = datetime.now()
+        utils.MetaCommand('add element connected')
+        utils.MetaCommand('add element connected')
+        meta_post_window_object = windows.Window(name = 'MetaPost', page_id=0)
 
-    text_rgb = "Black"
-    text_rgb_values = windows.RgbFromNamedColor(text_rgb)
-    text_color = windows.Color(text_rgb_values[0], text_rgb_values[1], text_rgb_values[2],text_rgb_values[3])
-    marginal = "Orange"
-    marginal_rgb_values = windows.RgbFromNamedColor(marginal)
-    marginal_color = windows.Color(marginal_rgb_values[0], marginal_rgb_values[1], marginal_rgb_values[2],marginal_rgb_values[3])
-    bad = "red"
-    bad_rgb_values = windows.RgbFromNamedColor(bad)
-    bad_color = windows.Color(bad_rgb_values[0], bad_rgb_values[1], bad_rgb_values[2],bad_rgb_values[3])
+        text_rgb = "Black"
+        text_rgb_values = windows.RgbFromNamedColor(text_rgb)
+        text_color = windows.Color(text_rgb_values[0], text_rgb_values[1], text_rgb_values[2],text_rgb_values[3])
+        marginal = "Orange"
+        marginal_rgb_values = windows.RgbFromNamedColor(marginal)
+        marginal_color = windows.Color(marginal_rgb_values[0], marginal_rgb_values[1], marginal_rgb_values[2],marginal_rgb_values[3])
+        bad = "red"
+        bad_rgb_values = windows.RgbFromNamedColor(bad)
+        bad_color = windows.Color(bad_rgb_values[0], bad_rgb_values[1], bad_rgb_values[2],bad_rgb_values[3])
 
-    model_get = models.Model(0)
-    # Getting all the visible elements
-    visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
-    clusters = []
-    group_start_time = datetime.now()
-    identified_elements = []
-    # Iterating spotweld id elements and grouping the elements.
-    for key,values in spotweld_id_elements.items():
-        if any(each_element.id in values for each_element in visible_elements):
-            clusters.append(key)
-            identified_elements.extend(values)
-            utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in values)))
-        if all(visible_id in identified_elements for visible_id in visible_elements):
-            break
+        model_get = models.Model(0)
+        # Getting all the visible elements
+        visible_elements = model_get.get_elements('visible', window =meta_post_window_object, element_type = constants.SOLID )
+        clusters = []
+        group_start_time = datetime.now()
+        identified_elements = []
+        # Iterating spotweld id elements and grouping the elements.
+        for key,values in spotweld_id_elements.items():
+            if any(each_element.id in values for each_element in visible_elements):
+                clusters.append(key)
+                identified_elements.extend(values)
+                utils.MetaCommand('groups create elements spotweld_cluster_{} {}'.format(key,",".join(str(i) for i in values)))
+            if all(visible_id in identified_elements for visible_id in visible_elements):
+                break
 
-    group_end_time = datetime.now()
-    logger.info("BINOUT'S DIRECTORY PATH : {}".format(bins_path))
-    logger.info("SPOTWELD ID IDENTIFICATION AND CLUSTER GROUP GENERATION AVERAGE TIME : {}".format(group_end_time-group_start_time))
+        group_end_time = datetime.now()
+        logger.info("BINOUT'S DIRECTORY PATH : {}".format(bins_path))
+        logger.info("SPOTWELD ID IDENTIFICATION AND CLUSTER GROUP GENERATION AVERAGE TIME : {}".format(group_end_time-group_start_time))
 
-    curve_start_time = datetime.now()
-    # Creating temporary window in that temporary window creating curves
-    utils.MetaCommand('xyplot create "Temporary Window"')
-    utils.MetaCommand('xyplot read lsdyna "Temporary Window" "{}" swforc-SpotweldAssmy {}  failure_(f)'.format(bins_path,",".join(str(key) for key in clusters)))
-    curve_end_time = datetime.now()
-    logger.info("CURVES GENERATION AVERAGE TIME : {}".format(curve_end_time-curve_start_time))
+        curve_start_time = datetime.now()
+        # Creating temporary window in that temporary window creating curves
+        utils.MetaCommand('xyplot create "Temporary Window"')
+        utils.MetaCommand('xyplot read lsdyna "Temporary Window" "{}" swforc-SpotweldAssmy {}  failure_(f)'.format(bins_path,",".join(str(key) for key in clusters)))
+        curve_end_time = datetime.now()
+        logger.info("CURVES GENERATION AVERAGE TIME : {}".format(curve_end_time-curve_start_time))
 
-    plot = plot2d.Plot(0,"Temporary Window",0)
-    # Getting the Curves of the temporary window
-    curves = plot.get_curves('all')
-    meta_post_window_object.maximize()
-    annot_start_time = datetime.now()
-    failed_welds = 0
-    annots = meta_post_window_object.get_annotations('all')
-    annotation_id = len(annots)+1
-    # Iterating the all the curves and giving the annotations to the spotweld image
-    for curve in curves:
-        failure_point = plot2d.MaxPointYOfCurve("Temporary Window", curve.id, 'real')
-        failure_value = str(round(failure_point.y,2))
-        if float(failure_value) > 0.7:
-            failed_welds += 1
-            failure_time = failure_point.x
-            failure_time = str(round(failure_time,3))
-            #Create an annotation in the 3D data for the cluster which is above the threshold value
-            annotation_label = failure_value+' @ '+failure_time
-            annotation_group = 'spotweld_cluster_'+str(curve.entity_id)
-            g = groups.Group(annotation_group,0)
-            annotation_id += 1
-            a = annotations.CreateEmptyAnnotation("MetaPost",annotation_label,annotation_id)
-            utils.MetaCommand('annotation line {} width 1'.format(annotation_id))
-            utils.MetaCommand('annotation text {} font "MS Shell Dlg 2,8,-1,5,75,0,0,0,0,0"'.format(annotation_id))
-            utils.MetaCommand('annotation border {} padding 3'.format(annotation_id))
-            a.set_group(g)
-            # If failure value is greater than 0.9 than set the background color to red otherwise set with Orange Color
-            if float(failure_value) > 0.9:
-                a.set_background_color(bad_color)
-            else:
-                a.set_background_color(marginal_color)
-            a.set_border_color(text_color)
-    # Activating MetaPost window.
-    utils.MetaCommand('window active MetaPost')
-    utils.MetaCommand('annotation explode all offmodelseek')
-    utils.MetaCommand('annotation extparam all shape off')
-    utils.MetaCommand('annotation text all format auto')
-    utils.MetaCommand('window delete "Temporary Window"')
+        plot = plot2d.Plot(0,"Temporary Window",0)
+        # Getting the Curves of the temporary window
+        curves = plot.get_curves('all')
+        meta_post_window_object.maximize()
+        annot_start_time = datetime.now()
+        failed_welds = 0
+        annots = meta_post_window_object.get_annotations('all')
+        annotation_id = len(annots)+1
+        # Iterating the all the curves and giving the annotations to the spotweld image
+        for curve in curves:
+            failure_point = plot2d.MaxPointYOfCurve("Temporary Window", curve.id, 'real')
+            failure_value = str(round(failure_point.y,2))
+            if float(failure_value) > 0.7:
+                failed_welds += 1
+                failure_time = failure_point.x
+                failure_time = str(round(failure_time,3))
+                #Create an annotation in the 3D data for the cluster which is above the threshold value
+                annotation_label = failure_value+' @ '+failure_time
+                annotation_group = 'spotweld_cluster_'+str(curve.entity_id)
+                g = groups.Group(annotation_group,0)
+                annotation_id += 1
+                a = annotations.CreateEmptyAnnotation("MetaPost",annotation_label,annotation_id)
+                utils.MetaCommand('annotation line {} width 1'.format(annotation_id))
+                utils.MetaCommand('annotation text {} font "MS Shell Dlg 2,8,-1,5,75,0,0,0,0,0"'.format(annotation_id))
+                utils.MetaCommand('annotation border {} padding 3'.format(annotation_id))
+                a.set_group(g)
+                # If failure value is greater than 0.9 than set the background color to red otherwise set with Orange Color
+                if float(failure_value) > 0.9:
+                    a.set_background_color(bad_color)
+                else:
+                    a.set_background_color(marginal_color)
+                a.set_border_color(text_color)
+        # Activating MetaPost window.
+        utils.MetaCommand('window active MetaPost')
+        utils.MetaCommand('annotation explode all offmodelseek')
+        utils.MetaCommand('annotation extparam all shape off')
+        utils.MetaCommand('annotation text all format auto')
+        utils.MetaCommand('window delete "Temporary Window"')
 
-    annot_end_time = datetime.now()
-    logger.info("CURVES MAX DETERMINATION AND ANNOTATIONS GENERATION AVERAGE TIME : {}".format(annot_end_time-annot_start_time))
-    logger.info("PROCESSED WELDS : {} | WELDS ABOVE THRESHOLD : {} | TOTAL WELD IDENTIFICATION AND ANNOTATIONS ADD TIME : {}".format(len(curves),failed_welds,annot_end_time - start_time))
-    logger.info("")
-
+        annot_end_time = datetime.now()
+        logger.info("CURVES MAX DETERMINATION AND ANNOTATIONS GENERATION AVERAGE TIME : {}".format(annot_end_time-annot_start_time))
+        logger.info("PROCESSED WELDS : {} | WELDS ABOVE THRESHOLD : {} | TOTAL WELD IDENTIFICATION AND ANNOTATIONS ADD TIME : {}".format(len(curves),failed_welds,annot_end_time - start_time))
+        logger.info("")
+    else:
+        logger.info("WARNING : META 2D variable 'pA' is not available or invalid. Please update.")
     return 0
 
 def deformation_plot_formmatter(window_name,plot1_id,plot2_id,plot3_id):
