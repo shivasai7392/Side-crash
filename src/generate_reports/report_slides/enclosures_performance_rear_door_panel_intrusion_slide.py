@@ -126,7 +126,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 SHOULDER",target_curve=target_curve)
                                 else:
-                                    pass
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_shoulder_intrusion_curve_name,GeneralVarInfo.rear_shoulder_intrusion_curve_key))
+                                    self.logger.info("")
                                 target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                                 target_curve.show()
                             else:
@@ -163,7 +164,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 ABDOMEN",target_curve=target_curve)
                                 else:
-                                    pass
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_abdomen_intrusion_curve_name,GeneralVarInfo.rear_abdomen_intrusion_curve_key))
+                                    self.logger.info("")
                                 target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                                 target_curve.show()
                             else:
@@ -200,7 +202,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 PELVIS",target_curve=target_curve)
                                 else:
-                                    pass
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_pelvis_intrusion_curve_name,GeneralVarInfo.rear_pelvis_intrusion_curve_key))
+                                    self.logger.info("")
                                 target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                                 target_curve.show()
                             else:
@@ -237,7 +240,8 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 FEMUR",target_curve=target_curve)
                                 else:
-                                    pass
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
+                                    self.logger.info("")
                                 target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
                                 target_curve.show()
                             else:
@@ -263,7 +267,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                 self.logger.info("")
 
                 else:
-                    pass
+                    self.logger.info("ERROR : 2D METADB does not contain 'Rear Door - Accel' window. Please update.")
             else:
                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_door_accel_window_key))
             #iterating through the Table shapes of the enclosure performance rear door panel intrusion slide
