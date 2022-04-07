@@ -203,8 +203,10 @@ def visualize_3d_critical_section(data,and_filter = None):
     else:
         if name:
             logger.info("WARNING : Critical part set '{}' has no hes filter variable. Please update.".format(name))
+            logger.info("")
         else:
             logger.info("WARNING : Unknown Critical part set has no hes filter variables. Please update.")
+            logger.info("")
     #hiding any exceptions from meta viewer
     utils.MetaCommand('add pid {}'.format(hes_exceptions))
     utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
@@ -218,7 +220,6 @@ def visualize_3d_critical_section(data,and_filter = None):
     utils.MetaCommand('view center')
     #setting transparency for the transparent pids
     utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
-    logger.info("")
 
     return 0
 

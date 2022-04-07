@@ -36,40 +36,40 @@ class SideCrashLogger():
                     file_object = open(self.log_file, 'w+')
                     if os.stat(self.log_file).st_size == 0:
                         initial_str = """##################################################
-        #      Copyright BETA CAE Systems USA Inc.,      #
-        #      2022 All Rights Reserved                  #
-        ##################################################
+#      Copyright BETA CAE Systems USA Inc.,      #
+#      2022 All Rights Reserved                  #
+##################################################
 
-        Side Crash Automation Log file
+Side Crash Automation Log file
 
-        Log Session Report {}
-        --------------------------
-        --------------------------
+Log Session Report {}
+--------------------------
+--------------------------
 
-        """.format(current_datetime.strftime("%H:%M:%S"))
+""".format(current_datetime.strftime("%H:%M:%S"))
                         file_object.write(initial_str)
                     file_object.close()
                 else:
                     file_object = open(self.log_file, 'a')
                     if os.stat(self.log_file).st_size == 0:
                         initial_str = """##################################################
-        #      Copyright BETA CAE Systems USA Inc.,      #
-        #      2022 All Rights Reserved                  #
-        ##################################################
+#      Copyright BETA CAE Systems USA Inc.,      #
+#      2022 All Rights Reserved                  #
+##################################################
 
-        Side Crash Automation Log file
+Side Crash Automation Log file
 
-        Log Session Report {}
-        --------------------------
-        --------------------------
+Log Session Report {}
+--------------------------
+--------------------------
 
-        """.format(current_datetime.strftime("%H:%M:%S"))
+""".format(current_datetime.strftime("%H:%M:%S"))
                     else:
                         initial_str = """Log Session Report {}
-        --------------------------
-        --------------------------
+--------------------------
+--------------------------
 
-        """.format(current_datetime.strftime("%H:%M:%S"))
+""".format(current_datetime.strftime("%H:%M:%S"))
                     file_object.write(initial_str)
                     file_object.close()
 
