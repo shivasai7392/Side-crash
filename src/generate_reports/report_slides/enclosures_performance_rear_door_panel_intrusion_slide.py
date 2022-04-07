@@ -124,12 +124,12 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                 curves = plot2d.CurvesByName(rear_door_accel_window_name, rear_shoulder_intrusion_curve_name, 1)
                                 if curves:
                                     curves[0].show()
+                                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                                    target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 SHOULDER",target_curve=target_curve)
                                 else:
                                     self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_shoulder_intrusion_curve_name,GeneralVarInfo.rear_shoulder_intrusion_curve_key))
                                     self.logger.info("")
-                                target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
-                                target_curve.show()
                             else:
                                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_shoulder_intrusion_curve_key))
                             if self.twod_images_report_folder is not None:
@@ -162,12 +162,12 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                 curves = plot2d.CurvesByName(rear_door_accel_window_name, rear_abdomen_intrusion_curve_name, 1)
                                 if curves:
                                     curves[0].show()
+                                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                                    target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 ABDOMEN",target_curve=target_curve)
                                 else:
                                     self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_abdomen_intrusion_curve_name,GeneralVarInfo.rear_abdomen_intrusion_curve_key))
                                     self.logger.info("")
-                                target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
-                                target_curve.show()
                             else:
                                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_abdomen_intrusion_curve_key))
                             if self.twod_images_report_folder is not None:
@@ -200,12 +200,12 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                 curves = plot2d.CurvesByName(rear_door_accel_window_name, rear_pelvis_intrusion_curve_name, 1)
                                 if curves:
                                     curves[0].show()
+                                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                                    target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 PELVIS",target_curve=target_curve)
                                 else:
                                     self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_pelvis_intrusion_curve_name,GeneralVarInfo.rear_pelvis_intrusion_curve_key))
                                     self.logger.info("")
-                                target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
-                                target_curve.show()
                             else:
                                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_pelvis_intrusion_curve_key))
                             if self.twod_images_report_folder is not None:
@@ -238,12 +238,12 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                 curves = plot2d.CurvesByName(rear_door_accel_window_name, rear_femur_intrusion_curve_name, 1)[0]
                                 if curves:
                                     curves[0].show()
+                                    target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
+                                    target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 FEMUR",target_curve=target_curve)
                                 else:
                                     self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
                                     self.logger.info("")
-                                target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]
-                                target_curve.show()
                             else:
                                 self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_femur_intrusion_curve_key))
                             if self.twod_images_report_folder is not None:

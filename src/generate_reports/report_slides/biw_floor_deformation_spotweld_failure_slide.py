@@ -190,6 +190,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                                 if final_curves:
                                     final_curves[0].show()
                                 else:
+                                    final_curves = None
                                     self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                             else:
@@ -210,18 +211,24 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                                 peak_time_value = self.general_input.peak_time_display_value
                                 peak_time_value = peak_time_value.split(".")[0]
                                 peak_curve_value = closest(roof_line_cuves_list, int(peak_time_value))
-                                peak_curve_value = plot.get_curves('byname', name ="SIDE_SILL_"+str(peak_curve_value)+"MS")
-                                peak_curve = plot2d.CurvesByName(biw_stiff_ring_def_window_name, peak_curve_value[0].name, 0)[0]
-                                peak_curve.show()
+                                peak_curves = plot2d.CurvesByName(biw_stiff_ring_def_window_name,"SIDE_SILL_"+str(peak_curve_value)+"MS", 0)
+                                if peak_curves:
+                                    peak_curves[0].show()
+                                else:
+                                    peak_curves = None
+                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("SIDE_SILL_"+str(peak_curve_value)+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("")
                             else:
                                 self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                 self.logger.info("")
                             #custom formating of visible initial,peak and final state curves
                             utils.MetaCommand('xyplot plotactive "{}" 1'.format(biw_stiff_ring_def_window_name))
                             utils.MetaCommand('xyplot rlayout "{}" 1'.format(biw_stiff_ring_def_window_name))
-                            utils.MetaCommand('xyplot curve visible and "{}" {} {},{}'.format(biw_stiff_ring_def_window_name,initial_curve.id,peak_curve.id, final_curves[0].id))
+                            if peak_curves and final_curves:
+                                utils.MetaCommand('xyplot curve visible and "{}" {} {},{}'.format(biw_stiff_ring_def_window_name,initial_curve.id,peak_curves[0].id, final_curves[0].id))
                             utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(biw_stiff_ring_def_window_name, initial_curve.id))
-                            utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(biw_stiff_ring_def_window_name,peak_curve.id))
+                            if peak_curves:
+                                utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(biw_stiff_ring_def_window_name,peak_curves[0].id))
                             utils.MetaCommand('xyplot curve select "{}" all'.format(biw_stiff_ring_def_window_name))
                             utils.MetaCommand('xyplot axisoptions yaxis active "{}" 1 0'.format(biw_stiff_ring_def_window_name))
                             utils.MetaCommand('xyplot axisoptions axyrange "{}" 1 0 -805 -770'.format(biw_stiff_ring_def_window_name))
