@@ -169,23 +169,29 @@ class BIWROOFDeformationAndSpotWeldFailure():
                         biw_stiff_ring_deformation_obj = windows.WindowByName(biw_stiff_ring_deformation_name)
                         if biw_stiff_ring_deformation_obj:
                             #maximizing biw stiff ring deformation window and getting its plot layout number
-                            win = windows.Window(str(biw_stiff_ring_deformation_name), page_id=0)
-                            layout = win.get_plot_layout()
+                            layout = biw_stiff_ring_deformation_obj.get_plot_layout()
                             utils.MetaCommand('window maximize "{}"'.format(biw_stiff_ring_deformation_name))
-                            #showing roof line initial,final and peak state curves
-                            final_time_curve_name = "ROOF_LINE_{}MS".format(round(float(self.general_input.survival_space_final_time)))
-                            initial_time_curve_name = "ROOF_LINE_0MS"
                             plot_id = 0
                             page_id=0
                             plot = plot2d.Plot(plot_id, biw_stiff_ring_deformation_name, page_id)
                             title = plot.get_title()
                             plot.activate()
-                            final_curve = plot2d.CurvesByName(biw_stiff_ring_deformation_name, final_time_curve_name, 0)[0]
-                            final_curve.show()
+                            if self.general_input.survival_space_final_time not in ["null","none",""]:
+                                #showing roof line initial,final and peak state curves
+                                final_time_curve_name = "ROOF_LINE_{}MS".format(round(float(self.general_input.survival_space_final_time)))
+                                final_curves = plot2d.CurvesByName(biw_stiff_ring_deformation_name, final_time_curve_name, 0)
+                                if final_curves:
+                                    final_curves[0].show()
+                                else:
+                                    final_curves = None
+                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("")
+                            initial_time_curve_name = "ROOF_LINE_0MS"
                             initial_curve = plot2d.CurvesByName(biw_stiff_ring_deformation_name, initial_time_curve_name, 0)[0]
                             initial_curve.show()
-                            peak_time_value = self.general_input.peak_time_display_value
-                            peak_time_value = peak_time_value.split(".")[0]
                             roof_line_curves = plot.get_curves('all')
                             roof_line_cuves_list = list()
                             for each_roof_line_curves in roof_line_curves:
@@ -193,16 +199,29 @@ class BIWROOFDeformationAndSpotWeldFailure():
                                 if 'MS' in ms:
                                     ms_replacing = ms.replace('MS',"")
                                     roof_line_cuves_list.append(int(ms_replacing))
-                            peak_curve_value = closest(roof_line_cuves_list, int(peak_time_value))
-                            peak_curve_value = plot.get_curves('byname', name ="ROOF_LINE_"+str(peak_curve_value)+"MS")
-                            peak_curve = plot2d.CurvesByName(biw_stiff_ring_deformation_name, peak_curve_value[0].name, 0)[0]
-                            peak_curve.show()
+                            if self.general_input.peak_time_display_value not in ["null","none",""]:
+                                peak_time_value = self.general_input.peak_time_display_value
+                                peak_time_value = peak_time_value.split(".")[0]
+                                peak_curve_value = closest(roof_line_cuves_list, int(peak_time_value))
+                                # peak_curve_value = plot.get_curves('byname', name ="ROOF_LINE_"+str(peak_curve_value)+"MS")
+                                peak_curves = plot2d.CurvesByName(biw_stiff_ring_deformation_name, "ROOF_LINE_"+str(peak_curve_value[0])+"MS", 0)[0]
+                                if peak_curves:
+                                    peak_curves[0].show()
+                                else:
+                                    peak_curves = None
+                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("ROOF_LINE_"+str(peak_curve_value[0])+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("")
                             #custom formating of visible initial,peak and final state curves
                             utils.MetaCommand('xyplot plotactive "{}" 0'.format(biw_stiff_ring_deformation_name))
                             utils.MetaCommand('xyplot rlayout "{}" 1'.format(biw_stiff_ring_deformation_name))
-                            utils.MetaCommand('xyplot curve visible and "{}" {} {},{}'.format(biw_stiff_ring_deformation_name,initial_curve.id,peak_curve.id, final_curve.id))
+                            if peak_curves and final_curves:
+                                utils.MetaCommand('xyplot curve visible and "{}" {} {},{}'.format(biw_stiff_ring_deformation_name,initial_curve.id,peak_curves[0].id, final_curves[0].id))
                             utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(biw_stiff_ring_deformation_name, initial_curve.id))
-                            utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(biw_stiff_ring_deformation_name,peak_curve.id))
+                            if peak_curves:
+                                utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(biw_stiff_ring_deformation_name,peak_curves[0].id))
                             utils.MetaCommand('xyplot curve select "{}" all'.format(biw_stiff_ring_deformation_name))
                             utils.MetaCommand('xyplot axisoptions yaxis active "{}" 0 0'.format(biw_stiff_ring_deformation_name))
                             utils.MetaCommand('xyplot axisoptions ylabel font "{}" 0 "Arial,25,-1,5,75,0,0,0,0,0"'.format(biw_stiff_ring_deformation_name))

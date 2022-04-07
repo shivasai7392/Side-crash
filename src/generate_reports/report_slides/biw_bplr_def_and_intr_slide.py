@@ -273,20 +273,26 @@ class BIWBplrDeformationAndIntrusion():
                             #maximizing the survival space window
                             utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
                             #getting "Survival Space" plot object to activate and showing initial,final and peak time curves
-                            final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
-                            initial_time_curve_name = "SS_0MS"
                             plot_id = 0
                             page_id=0
                             plot = plot2d.Plot(plot_id, survival_space_window_name, page_id)
                             title = plot.get_title()
                             org_name = title.get_text()
                             plot.activate()
-                            final_curve = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)[0]
-                            final_curve.show()
+                            if self.general_input.survival_space_final_time not in ["null","none",""]:
+                                final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
+                                final_curves = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)
+                                if final_curves:
+                                    final_curves[0].show()
+                                else:
+                                    self.logger.info("WARNING : Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("")
+                            initial_time_curve_name = "SS_0MS"
                             initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
                             initial_curve.show()
-                            peak_time_value = self.general_input.peak_time_display_value
-                            peak_time_value = peak_time_value.split(".")[0]
                             survival_space_curves = plot.get_curves('all')
                             survival_space_cuves_list = list()
                             for each_survival_space_curve in survival_space_curves:
@@ -297,10 +303,20 @@ class BIWBplrDeformationAndIntrusion():
                                         survival_space_cuves_list.append(int(ms_replacing))
                                 elif "TARGET" in each_survival_space_curve.name:
                                     each_survival_space_curve.hide()
-                            peak_curve_value = closest(survival_space_cuves_list, int(peak_time_value))
-                            peak_curve_value = plot.get_curves('byname', name ="SS_"+str(peak_curve_value)+"MS")
-                            peak_curve = plot2d.CurvesByName(survival_space_window_name, peak_curve_value[0].name, 0)[0]
-                            peak_curve.show()
+                            if self.general_input.peak_time_display_value not in ["null","none",""]:
+                                peak_time_value = self.general_input.peak_time_display_value
+                                peak_time_value = peak_time_value.split(".")[0]
+                                peak_curve_value = closest(survival_space_cuves_list, int(peak_time_value))
+                                peak_curves = plot2d.CurvesByName(survival_space_window_name, "SS_"+str(peak_curve_value)+"MS", 0)
+                                if peak_curves:
+                                    peak_curves[0].show()
+                                else:
+                                    peak_curves = None
+                                    self.logger.info("WARNING :Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format("SS_"+str(peak_curve_value)+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("")
                             #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
                             utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(survival_space_window_name))
                             utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
@@ -318,7 +334,8 @@ class BIWBplrDeformationAndIntrusion():
                             utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(survival_space_window_name,survival_space_window_name))
                             utils.MetaCommand('xyplot curve set color "{}" {} "Cyan"'.format(survival_space_window_name, initial_curve.id))
                             utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(survival_space_window_name, initial_curve.id))
-                            utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(survival_space_window_name, peak_curve.id))
+                            if peak_curves:
+                                utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(survival_space_window_name, peak_curves[0].id))
                             if self.twod_images_report_folder is not None:
                                 #capturing "Survival Space" plot image
                                 image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+title.get_text()+".png").replace(" ","_")
