@@ -15,6 +15,7 @@ from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
 from src.general_utilities import closest
 from src.general_utilities import clone_shape
+from src.metadb_info import GeneralVarInfo
 
 class BIWBplrDeformationAndIntrusion():
     """
@@ -51,11 +52,17 @@ class BIWBplrDeformationAndIntrusion():
             int: 0 Always for Sucess.1 for Failure.
         """
         try:
-            self.biw_accel_window_name = self.general_input.biw_accel_window_name
-            self.biw_accel_window_name = self.biw_accel_window_name.replace("\"","")
-            utils.MetaCommand('window maximize "{}"'.format(self.biw_accel_window_name))
-            self.biw_accel_window_obj = windows.Window(self.biw_accel_window_name, page_id = 0)
-            self.biw_accel_window_layout = self.biw_accel_window_obj.get_plot_layout()
+            if not self.general_input.biw_accel_window_name in ["null","none",""]:
+                self.biw_accel_window_name = self.general_input.biw_accel_window_name
+                self.biw_accel_window_name = self.biw_accel_window_name.replace("\"","")
+                biw_stiff_ring_deformation_obj = windows.WindowByName(self.biw_accel_window_name)
+                if biw_stiff_ring_deformation_obj:
+                    utils.MetaCommand('window maximize "{}"'.format(self.biw_accel_window_name))
+                    self.biw_accel_window_layout = self.biw_accel_window_obj.get_plot_layout()
+                else:
+                    self.logger.info("ERROR : 2D METADB does not contain 'BIW - Accel' window. Please update.")
+            else:
+                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.biw_accel_window_key))
 
         except Exception  as e:
             return 1
@@ -139,8 +146,6 @@ class BIWBplrDeformationAndIntrusion():
             self.logger.info("")
             starttime = datetime.now()
             oval_shapes = [shape for shape in self.shapes if "Oval" in shape.name]
-            survival_space_window_name = self.general_input.survival_space_window_name
-            utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
             #iterating through the shapes of the biw bpillar deformation and intrusion slide
             for shape in self.shapes:
                 #image insertion for the shape named "Image 1"
@@ -167,35 +172,39 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('view default front')
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
-                    #capturing "f21_upb_inner" image at peak state
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITH_DEFORMATION")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
-                    self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
-                    self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
-                    self.logger.info("TRANSPARENCY LEVEL : 50" )
-                    self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
-                    self.logger.info("PLANE CUT & SLICE WIDTH: DEFAULT_PLANE_YZ & 500" )
-                    self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #deleting created plane and reverting transarency on critical part set visualization
-                    utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
-                    utils.MetaCommand('color pid transparency reset act')
+                    if self.threed_images_report_folder is not None:
+                        #capturing "f21_upb_inner" image at peak state
+                        image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITH_DEFORMATION")).replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : PEAK STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
+                        self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
+                        self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
+                        self.logger.info("TRANSPARENCY LEVEL : 50" )
+                        self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
+                        self.logger.info("PLANE CUT & SLICE WIDTH: DEFAULT_PLANE_YZ & 500" )
+                        self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #deleting created plane and reverting transarency on critical part set visualization
+                        utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
+                        utils.MetaCommand('color pid transparency reset act')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
                     #maximizing the metapost window
@@ -221,96 +230,111 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('grstyle deform off')
-                    #capturing "f21_upb_inner" image at peak state
-                    image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITHOUT_DEFORMATION")).replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
-                    self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
-                    self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
-                    self.logger.info("TRANSPARENCY LEVEL : 50" )
-                    self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
-                    self.logger.info("PLANE CUT & SLICE WIDTH: DEFAULT_PLANE_YZ & 500" )
-                    self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #deleting created plane and reverting transarency on critical part set visualization
-                    utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
-                    utils.MetaCommand('color pid transparency reset act')
-                    utils.MetaCommand('grstyle deform on')
+                    if self.threed_images_report_folder is not None:
+                        #capturing "f21_upb_inner" image at peak state
+                        image_path = os.path.join(self.threed_images_report_folder,"{}_{}.png".format(self.general_input.threed_window_name,"F21_UPBPILLAR_AT_PEAK_STATE_WITHOUT_DEFORMATION")).replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front")
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : PEAK STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
+                        self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
+                        self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
+                        self.logger.info("TRANSPARENCY LEVEL : 50" )
+                        self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
+                        self.logger.info("PLANE CUT & SLICE WIDTH: DEFAULT_PLANE_YZ & 500" )
+                        self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #deleting created plane and reverting transarency on critical part set visualization
+                        utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
+                        utils.MetaCommand('color pid transparency reset act')
+                        utils.MetaCommand('grstyle deform on')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
-                    #maximizing the survival space window
-                    survival_space_window_name = self.general_input.survival_space_window_name
-                    utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
-                    #getting "Survival Space" plot object to activate and showing initial,final and peak time curves
-                    final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
-                    initial_time_curve_name = "SS_0MS"
-                    plot_id = 0
-                    page_id=0
-                    plot = plot2d.Plot(plot_id, survival_space_window_name, page_id)
-                    title = plot.get_title()
-                    org_name = title.get_text()
-                    plot.activate()
-                    final_curve = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)[0]
-                    final_curve.show()
-                    initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
-                    initial_curve.show()
-                    peak_time_value = self.general_input.peak_time_display_value
-                    peak_time_value = peak_time_value.split(".")[0]
-                    survival_space_curves = plot.get_curves('all')
-                    survival_space_cuves_list = list()
-                    for each_survival_space_curve in survival_space_curves:
-                        if "_" in each_survival_space_curve.name:
-                            ms = each_survival_space_curve.name.split("_")[1]
-                            if 'MS' in ms:
-                                ms_replacing = ms.replace('MS',"")
-                                survival_space_cuves_list.append(int(ms_replacing))
-                        elif "TARGET" in each_survival_space_curve.name:
-                            each_survival_space_curve.hide()
-                    peak_curve_value = closest(survival_space_cuves_list, int(peak_time_value))
-                    peak_curve_value = plot.get_curves('byname', name ="SS_"+str(peak_curve_value)+"MS")
-                    peak_curve = plot2d.CurvesByName(survival_space_window_name, peak_curve_value[0].name, 0)[0]
-                    peak_curve.show()
-                    #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
-                    utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(survival_space_window_name))
-                    utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions yauto on "{}" {}'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
-                    utils.MetaCommand('xyplot axisoptions axxrange "{}" 0 0 100 400'.format(survival_space_window_name))
-                    utils.MetaCommand('xyplot gridoptions line major style "{}" 0 2'.format(survival_space_window_name))
-                    utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(survival_space_window_name,survival_space_window_name))
-                    utils.MetaCommand('xyplot curve set color "{}" {} "Cyan"'.format(survival_space_window_name, initial_curve.id))
-                    utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(survival_space_window_name, initial_curve.id))
-                    utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(survival_space_window_name, peak_curve.id))
-                    #capturing "Survival Space" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+title.get_text()+".png").replace(" ","_")
-                    capture_image(image_path,survival_space_window_name,shape.width,shape.height)
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    title.set_text(org_name)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
+                    if not self.general_input.survival_space_window_name in ["null","none",""]:
+                        survival_space_window_name = self.general_input.survival_space_window_name
+                        survival_space_window_obj = windows.WindowByName(survival_space_window_name)
+                        if survival_space_window_obj:
+                            #maximizing the survival space window
+                            utils.MetaCommand('window maximize "{}"'.format(survival_space_window_name))
+                            #getting "Survival Space" plot object to activate and showing initial,final and peak time curves
+                            final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
+                            initial_time_curve_name = "SS_0MS"
+                            plot_id = 0
+                            page_id=0
+                            plot = plot2d.Plot(plot_id, survival_space_window_name, page_id)
+                            title = plot.get_title()
+                            org_name = title.get_text()
+                            plot.activate()
+                            final_curve = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)[0]
+                            final_curve.show()
+                            initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
+                            initial_curve.show()
+                            peak_time_value = self.general_input.peak_time_display_value
+                            peak_time_value = peak_time_value.split(".")[0]
+                            survival_space_curves = plot.get_curves('all')
+                            survival_space_cuves_list = list()
+                            for each_survival_space_curve in survival_space_curves:
+                                if "_" in each_survival_space_curve.name:
+                                    ms = each_survival_space_curve.name.split("_")[1]
+                                    if 'MS' in ms:
+                                        ms_replacing = ms.replace('MS',"")
+                                        survival_space_cuves_list.append(int(ms_replacing))
+                                elif "TARGET" in each_survival_space_curve.name:
+                                    each_survival_space_curve.hide()
+                            peak_curve_value = closest(survival_space_cuves_list, int(peak_time_value))
+                            peak_curve_value = plot.get_curves('byname', name ="SS_"+str(peak_curve_value)+"MS")
+                            peak_curve = plot2d.CurvesByName(survival_space_window_name, peak_curve_value[0].name, 0)[0]
+                            peak_curve.show()
+                            #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
+                            utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(survival_space_window_name))
+                            utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions yauto on "{}" {}'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
+                            utils.MetaCommand('xyplot axisoptions axxrange "{}" 0 0 100 400'.format(survival_space_window_name))
+                            utils.MetaCommand('xyplot gridoptions line major style "{}" 0 2'.format(survival_space_window_name))
+                            utils.MetaCommand('xyplot plotoptions title set "{}" 0 "{}"'.format(survival_space_window_name,survival_space_window_name))
+                            utils.MetaCommand('xyplot curve set color "{}" {} "Cyan"'.format(survival_space_window_name, initial_curve.id))
+                            utils.MetaCommand('xyplot curve set style "{}" {} 9'.format(survival_space_window_name, initial_curve.id))
+                            utils.MetaCommand('xyplot curve set style "{}" {} 5'.format(survival_space_window_name, peak_curve.id))
+                            if self.twod_images_report_folder is not None:
+                                #capturing "Survival Space" plot image
+                                image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+title.get_text()+".png").replace(" ","_")
+                                capture_image(image_path,survival_space_window_name,shape.width,shape.height)
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                title.set_text(org_name)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
+                        else:
+                            self.logger.info("ERROR : 2D METADB does not contain 'Survival Space' window. Please update.")
+                    else:
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_window_key))
                 #image insertion for the shape named "Image 5"
                 elif shape.name == "Image 4":
                     #calling default 2d data setup and getting the X velocity and X displacement curve from biw accel window of MDB plot id 3
@@ -339,24 +363,28 @@ class BIWBplrDeformationAndIntrusion():
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id, velocity_min_max_values, displacement_min_max_values)
-                    #capturing "MDB" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_UPR*Y velocity","*B-PLR_L_UPR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #reverting 2d data setup
-                    biw_accel_bpillar_upr_l_y_displacement_curve.hide()
-                    biw_accel_bpillar_upr_l_y_velocity_curve.hide()
-                    self.revert()
+                    if self.twod_images_report_folder is not None:
+                        #capturing "MDB" plot image
+                        image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                        capture_image_and_resize(image_path,shape.width,shape.height)
+                        self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_UPR*Y velocity","*B-PLR_L_UPR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT CURVE IMAGES : ")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #reverting 2d data setup
+                        biw_accel_bpillar_upr_l_y_displacement_curve.hide()
+                        biw_accel_bpillar_upr_l_y_velocity_curve.hide()
+                        self.revert()
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 6"
                 elif shape.name == "Image 5":
                     #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of UNIT plot id 0
@@ -385,24 +413,28 @@ class BIWBplrDeformationAndIntrusion():
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title = "UNIT")
-                    #capturing "UNIT" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID_UPR*Y velocity","*B-PLR_L_MID_UPR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #reverting 2d data setup
-                    biw_accel_bpillar_mid_upr_l_y_displacement_curve.hide()
-                    biw_accel_bpillar_mid_upr_l_y_velocity_curve.hide()
-                    self.revert()
+                    if self.twod_images_report_folder is not None:
+                        #capturing "UNIT" plot image
+                        image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                        capture_image_and_resize(image_path,shape.width,shape.height)
+                        self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID_UPR*Y velocity","*B-PLR_L_MID_UPR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT CURVE IMAGES : ")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #reverting 2d data setup
+                        biw_accel_bpillar_mid_upr_l_y_displacement_curve.hide()
+                        biw_accel_bpillar_mid_upr_l_y_velocity_curve.hide()
+                        self.revert()
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 6":
                     #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of APLR R plot id 1
@@ -431,24 +463,28 @@ class BIWBplrDeformationAndIntrusion():
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id, velocity_min_max_values, displacement_min_max_values,title="APLR_R")
-                    #capturing "APLR R" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID*Y velocity","*B-PLR_L_MID*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #reverting 2d data setup
-                    biw_accel_bpillar_mid_l_y_displacement_curve.hide()
-                    biw_accel_bpillar_mid_l_y_velocity_curve.hide()
-                    self.revert()
+                    if self.twod_images_report_folder is not None:
+                        #capturing "APLR R" plot image
+                        image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                        capture_image_and_resize(image_path,shape.width,shape.height)
+                        self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID*Y velocity","*B-PLR_L_MID*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT CURVE IMAGES : ")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #reverting 2d data setup
+                        biw_accel_bpillar_mid_l_y_displacement_curve.hide()
+                        biw_accel_bpillar_mid_l_y_velocity_curve.hide()
+                        self.revert()
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 8"
                 elif shape.name == "Image 7":
                     #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of SIS ROW2 R plot id 1
@@ -477,24 +513,28 @@ class BIWBplrDeformationAndIntrusion():
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values,title="SS_BP_R")
-                    #capturing "SIS ROW2 R" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID_LWR*Y velocity","*B-PLR_L_MID_LWR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #reverting 2d data setup
-                    biw_accel_bpillar_mid_lwr_l_y_displacement_curve.hide()
-                    biw_accel_bpillar_mid_lwr_l_y_velocity_curve.hide()
-                    self.revert()
+                    if self.twod_images_report_folder is not None:
+                        #capturing "SIS ROW2 R" plot image
+                        image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                        capture_image_and_resize(image_path,shape.width,shape.height)
+                        self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_MID_LWR*Y velocity","*B-PLR_L_MID_LWR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT CURVE IMAGES : ")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #reverting 2d data setup
+                        biw_accel_bpillar_mid_lwr_l_y_displacement_curve.hide()
+                        biw_accel_bpillar_mid_lwr_l_y_velocity_curve.hide()
+                        self.revert()
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 8":
                     #calling default 2d data setup and getting the Y velocity and Y displacement curve from biw accel window of SS_R_RR_TOP_G_Y1 plot id 1
@@ -523,24 +563,28 @@ class BIWBplrDeformationAndIntrusion():
                     self.activated_plot = plot
                     utils.MetaCommand('xyplot rlayout "{}" {}'.format(self.biw_accel_window_name, 1))
                     self.kinematics_curve_format(self.biw_accel_window_name, plot_id,velocity_min_max_values, displacement_min_max_values, title="SS_R_RR_TOP")
-                    #capturing "SS_R_RR_TOP_G_Y1" plot image
-                    image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_LWR*Y velocity","*B-PLR_L_LWR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #reverting 2d data setup
-                    biw_accel_bpillar_lwr_l_y_displacement_curve.hide()
-                    biw_accel_bpillar_lwr_l_y_velocity_curve.hide()
-                    self.revert()
+                    if self.twod_images_report_folder is not None:
+                        #capturing "SS_R_RR_TOP_G_Y1" plot image
+                        image_path = os.path.join(self.twod_images_report_folder,self.biw_accel_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                        capture_image_and_resize(image_path,shape.width,shape.height)
+                        self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format("*B-PLR_L_LWR*Y velocity","*B-PLR_L_LWR*Follow node Y displacement*",title.get_text(),self.biw_accel_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT CURVE IMAGES : ")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #reverting 2d data setup
+                        biw_accel_bpillar_lwr_l_y_displacement_curve.hide()
+                        biw_accel_bpillar_lwr_l_y_velocity_curve.hide()
+                        self.revert()
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
             # duplicating oval shapes
             for shape in oval_shapes:
                 clone_shape(shape)
