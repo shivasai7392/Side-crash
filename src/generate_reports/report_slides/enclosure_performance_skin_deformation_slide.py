@@ -14,6 +14,7 @@ from src.meta_utilities import capture_image
 from src.meta_utilities import visualize_3d_critical_section
 from src.meta_utilities import capture_image_and_resize
 from src.general_utilities import closest
+from src.metadb_info import GeneralVarInfo
 
 class EnclosurePerformanceSkinDeformationSlide():
     """
@@ -60,20 +61,24 @@ class EnclosurePerformanceSkinDeformationSlide():
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('options fringebar on')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"FRINGE_BAR"+".png").replace(" ","_")
-                    utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
-                    self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('options fringebar off')
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"FRINGE_BAR"+".png").replace(" ","_")
+                        utils.MetaCommand('write scalarfringebar png {} '.format(image_path))
+                        self.logger.info("--- 3D FRINGE BAR IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        utils.MetaCommand('options fringebar off')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
                     #visualizing and capturing image of "f28_front_door and f28_rear_door" critical part sets at peak state with deformation
@@ -87,30 +92,34 @@ class EnclosurePerformanceSkinDeformationSlide():
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('grstyle deform on')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_DOOR_AND_REAR_DOOR_AT_PEAK_STATE_WITH_DEFORMTION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {},{} ".format(data["hes"] if "hes" in data.keys() else "null",data2["hes"] if "hes" in data2.keys() else "null"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
-                    self.logger.info("PID NAME ERASE FILTER : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
-                    self.logger.info("PID'S TO ERASE : {},{} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null",data2["erase_pids"] if "erase_pids" in data2.keys() else "null"))
-                    self.logger.info("ERASE BOX : {},{} ".format(data["erase_box"] if "erase_box" in data.keys() else "null",data2["erase_box"] if "erase_box" in data2.keys() else "null"))
-                    self.logger.info("IMAGE VIEW : {},{} ".format(data["view"] if "view" in data.keys() else "null",data2["view"] if "view" in data2.keys() else "null"))
-                    self.logger.info("TRANSPARENCY LEVEL : 50" )
-                    self.logger.info("TRANSPARENT PID'S : {},{} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null",data2["transparent_pids"] if "transparent_pids" in data2.keys() else "null"))
-                    self.logger.info("COMP NAME : {},{} ".format(data["name"] if "name" in data.keys() else "null",data2["name"] if "name" in data2.keys() else "null"))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_DOOR_AND_REAR_DOOR_AT_PEAK_STATE_WITH_DEFORMTION"+".png").replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : PEAK STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {},{} ".format(data["hes"] if "hes" in data.keys() else "null",data2["hes"] if "hes" in data2.keys() else "null"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
+                        self.logger.info("PID NAME ERASE FILTER : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
+                        self.logger.info("PID'S TO ERASE : {},{} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null",data2["erase_pids"] if "erase_pids" in data2.keys() else "null"))
+                        self.logger.info("ERASE BOX : {},{} ".format(data["erase_box"] if "erase_box" in data.keys() else "null",data2["erase_box"] if "erase_box" in data2.keys() else "null"))
+                        self.logger.info("IMAGE VIEW : {},{} ".format(data["view"] if "view" in data.keys() else "null",data2["view"] if "view" in data2.keys() else "null"))
+                        self.logger.info("TRANSPARENCY LEVEL : 50" )
+                        self.logger.info("TRANSPARENT PID'S : {},{} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null",data2["transparent_pids"] if "transparent_pids" in data2.keys() else "null"))
+                        self.logger.info("COMP NAME : {},{} ".format(data["name"] if "name" in data.keys() else "null",data2["name"] if "name" in data2.keys() else "null"))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
                     #visualizing and capturing image of "f28_front_door and f28_rear_door" critical part sets at peak state without deformation
@@ -124,79 +133,94 @@ class EnclosurePerformanceSkinDeformationSlide():
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('grstyle deform off')
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_DOOR_AND_REAR_DOOR_AT_PEAK_STATE_WITHOUT_DEFORMTION"+".png").replace(" ","_")
-                    capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : PEAK STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {},{} ".format(data["hes"] if "hes" in data.keys() else "null",data2["hes"] if "hes" in data2.keys() else "null"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
-                    self.logger.info("PID NAME ERASE FILTER : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
-                    self.logger.info("PID'S TO ERASE : {},{} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null",data2["erase_pids"] if "erase_pids" in data2.keys() else "null"))
-                    self.logger.info("ERASE BOX : {},{} ".format(data["erase_box"] if "erase_box" in data.keys() else "null",data2["erase_box"] if "erase_box" in data2.keys() else "null"))
-                    self.logger.info("IMAGE VIEW : {},{} ".format(data["view"] if "view" in data.keys() else "null",data2["view"] if "view" in data2.keys() else "null"))
-                    self.logger.info("TRANSPARENCY LEVEL : 50" )
-                    self.logger.info("TRANSPARENT PID'S : {},{} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null",data2["transparent_pids"] if "transparent_pids" in data2.keys() else "null"))
-                    self.logger.info("COMP NAME : {},{} ".format(data["name"] if "name" in data.keys() else "null",data2["name"] if "name" in data2.keys() else "null"))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('grstyle deform on')
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_DOOR_AND_REAR_DOOR_AT_PEAK_STATE_WITHOUT_DEFORMTION"+".png").replace(" ","_")
+                        capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : PEAK STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {},{} ".format(data["hes"] if "hes" in data.keys() else "null",data2["hes"] if "hes" in data2.keys() else "null"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
+                        self.logger.info("PID NAME ERASE FILTER : {},{} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null",data2["hes_exceptions"] if "hes_exceptions" in data2.keys() else "null"))
+                        self.logger.info("PID'S TO ERASE : {},{} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null",data2["erase_pids"] if "erase_pids" in data2.keys() else "null"))
+                        self.logger.info("ERASE BOX : {},{} ".format(data["erase_box"] if "erase_box" in data.keys() else "null",data2["erase_box"] if "erase_box" in data2.keys() else "null"))
+                        self.logger.info("IMAGE VIEW : {},{} ".format(data["view"] if "view" in data.keys() else "null",data2["view"] if "view" in data2.keys() else "null"))
+                        self.logger.info("TRANSPARENCY LEVEL : 50" )
+                        self.logger.info("TRANSPARENT PID'S : {},{} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null",data2["transparent_pids"] if "transparent_pids" in data2.keys() else "null"))
+                        self.logger.info("COMP NAME : {},{} ".format(data["name"] if "name" in data.keys() else "null",data2["name"] if "name" in data2.keys() else "null"))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        utils.MetaCommand('grstyle deform on')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
-                    #getting "Door Skin intrusion" visible plot objects to activate and showing initial,finaland peak time curves
-                    door_skin_intrusion_window_name = self.general_input.door_skin_intrusion_window_name
-                    utils.MetaCommand('window maximize {}'.format(door_skin_intrusion_window_name))
-                    door_skin_intrusion_window = windows.Window(door_skin_intrusion_window_name, page_id=0)
-                    door_skin_intrusion_window_plots = door_skin_intrusion_window.get_plots('visible')
-                    for plot in door_skin_intrusion_window_plots:
-                        plot.activate()
-                        initial_curve_re  ="*0MS"
-                        final_curve_re = "*150MS"
-                        curves = plot.get_curves('all')
-                        skin_intrusion_line_list = []
-                        for each_curve in curves:
-                            ms = each_curve.name.rsplit("_",1)[1]
-                            if 'MS' in ms:
-                                ms_replacing = ms.replace('MS',"")
-                                skin_intrusion_line_list.append(int(ms_replacing))
-                        peak_time = str(closest(skin_intrusion_line_list, round(float(self.general_input.peak_time_display_value))))
-                        peak_curve_re = "*{}MS".format(peak_time)
-                        for name in [initial_curve_re,final_curve_re,peak_curve_re]:
-                            curve = plot.get_curves('byname', name = name)[0]
-                            curve.show()
-                        curve.set_line_style(line_style = 5)
-                        utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
-                        utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
-                        plot.deactivate()
-                    #capturing the door skin intrusion window
-                    image_path = os.path.join(self.twod_images_report_folder,door_skin_intrusion_window_name+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {} | SOURCE PLOT : VISIBLE PLOTS | SOURCE WINDOW : {}".format("*0MS,*150MS,*{}MS".format(peak_time),door_skin_intrusion_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
+                    if not self.general_input.door_skin_intrusion_window_name in ["null","none",""]:
+                        door_skin_intrusion_window_name = self.general_input.door_skin_intrusion_window_name
+                        door_skin_intrusion_window_obj = windows.WindowByName(door_skin_intrusion_window_name)
+                        if door_skin_intrusion_window_obj:
+                            #getting "Door Skin intrusion" visible plot objects to activate and showing initial,finaland peak time curves
+                            utils.MetaCommand('window maximize {}'.format(door_skin_intrusion_window_name))
+                            door_skin_intrusion_window = windows.Window(door_skin_intrusion_window_name, page_id=0)
+                            door_skin_intrusion_window_plots = door_skin_intrusion_window.get_plots('visible')
+                            for plot in door_skin_intrusion_window_plots:
+                                plot.activate()
+                                initial_curve_re  ="*0MS"
+                                final_curve_re = "*150MS"
+                                curves = plot.get_curves('all')
+                                skin_intrusion_line_list = []
+                                for each_curve in curves:
+                                    ms = each_curve.name.rsplit("_",1)[1]
+                                    if 'MS' in ms:
+                                        ms_replacing = ms.replace('MS',"")
+                                        skin_intrusion_line_list.append(int(ms_replacing))
+                                peak_time = str(closest(skin_intrusion_line_list, round(float(self.general_input.peak_time_display_value))))
+                                peak_curve_re = "*{}MS".format(peak_time)
+                                for name in [initial_curve_re,final_curve_re,peak_curve_re]:
+                                    curve = plot.get_curves('byname', name = name)[0]
+                                    curve.show()
+                                curve.set_line_style(line_style = 5)
+                                utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions xaxis active "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions xlabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions labels xfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot axisoptions xaxis deactive "{}" {} 0'.format(door_skin_intrusion_window_name,plot.id))
+                                utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,12,-1,5,75,0,0,0,0,0"'.format(door_skin_intrusion_window_name,plot.id))
+                                plot.deactivate()
+                            if self.twod_images_report_folder is not None:
+                                #capturing the door skin intrusion window
+                                image_path = os.path.join(self.twod_images_report_folder,door_skin_intrusion_window_name+".png").replace(" ","_")
+                                capture_image_and_resize(image_path,shape.width,shape.height)
+                                self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                                self.logger.info("")
+                                self.logger.info("CURVES : {} | SOURCE PLOT : VISIBLE PLOTS | SOURCE WINDOW : {}".format("*0MS,*150MS,*{}MS".format(peak_time),door_skin_intrusion_window_name))
+                                self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                                self.logger.info("OUTPUT CURVE IMAGES : ")
+                                self.logger.info(image_path)
+                                self.logger.info("")
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
+                        else:
+                            self.logger.info("ERROR : 2D METADB does not contain 'Door skin intrusion'. Please update.")
+                    else:
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.door_skin_intrusion_window_key))
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into enclosure performance skin deformation slide:\n{}".format(e))
