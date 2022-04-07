@@ -283,7 +283,7 @@ class BIWKinematicsSlide():
             utils.MetaCommand('color pid reset act')
             self.revert(format_type="3d")
 
-            if not self.general_input.biw_accel_window_name in ["null","none",""]:
+            if self.general_input.biw_accel_window_name not in ["null","none",""]:
                 biw_accel_window_name = self.general_input.biw_accel_window_name
                 biw_accel_window_obj = windows.WindowByName(biw_accel_window_name)
                 if biw_accel_window_obj:

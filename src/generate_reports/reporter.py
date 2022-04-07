@@ -39,7 +39,7 @@ class Reporter():
         self.metadb_3d_input = metadb_3d_input
         self.config_folder = config_folder
         if self.general_input.source_template_file_directory.startswith("/"):
-            if not self.general_input.source_template_file_name in ["null","none",""]:
+            if self.general_input.source_template_file_name not in ["null","none",""]:
                 if "win" in sys.platform:
                     self.template_file = os.path.join(self.config_folder,"res",self.general_input.source_template_file_directory.replace("/","",1),self.general_input.source_template_file_name).replace("\\",os.sep)
                 else:

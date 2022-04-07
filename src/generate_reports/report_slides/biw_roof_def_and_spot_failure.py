@@ -164,7 +164,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                         self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
-                    if not self.general_input.biw_stiff_ring_deformation_name in ["null","none",""]:
+                    if self.general_input.biw_stiff_ring_deformation_name not in ["null","none",""]:
                         biw_stiff_ring_deformation_name = self.general_input.biw_stiff_ring_deformation_name
                         biw_stiff_ring_deformation_obj = windows.WindowByName(biw_stiff_ring_deformation_name)
                         if biw_stiff_ring_deformation_obj:

@@ -56,7 +56,7 @@ class BIWStiffRingDeformationSlide():
             for shape in self.shapes:
                 #image insertion for the shape named "Image 6"
                 if shape.name == "Image 6":
-                    if not self.general_input.biw_stiff_ring_deformation_name in ["null","none",""]:
+                    if self.general_input.biw_stiff_ring_deformation_name not in ["null","none",""]:
                         biw_stiff_ring_deformation_name = self.general_input.biw_stiff_ring_deformation_name
                         biw_stiff_ring_deformation_obj = windows.WindowByName(biw_stiff_ring_deformation_name)
                         if biw_stiff_ring_deformation_obj:
@@ -130,7 +130,7 @@ class BIWStiffRingDeformationSlide():
                         self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.biw_stiff_ring_deformation_key))
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 7":
-                    if not self.general_input.biw_stiff_ring_deformation_name in ["null","none",""]:
+                    if self.general_input.biw_stiff_ring_deformation_name not in ["null","none",""]:
                         biw_stiff_ring_deformation_name = self.general_input.biw_stiff_ring_deformation_name
                         biw_stiff_ring_deformation_obj = windows.WindowByName(biw_stiff_ring_deformation_name)
                         if biw_stiff_ring_deformation_obj:

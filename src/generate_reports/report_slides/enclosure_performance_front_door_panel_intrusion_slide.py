@@ -13,6 +13,7 @@ from meta import windows
 
 from src.meta_utilities import capture_image_and_resize
 from src.general_utilities import add_row
+from src.metadb_info import GeneralVarInfo
 
 class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
     """
@@ -94,108 +95,156 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
             self.logger.info("")
             starttime = datetime.now()
             #iterating through the Image shapes of the enclosure performance front door panel intrusion slide
-            survival_space_window_name = self.general_input.survival_space_window_name
-            for shape in self.shapes:
-                #image insertion for the shape named "Image 1"
-                if shape.name == "Image 1":
-                    #getting "Front Door Accel" window and "Front shoulder intrusion curve" curve objects to activate and format the curve axisoptions and title options
-                    temporary_window_name = "Temporary"
-                    front_shoulder_intrusion_curve_name = self.general_input.front_shoulder_intrusion_curve_name
-                    front_door_accel_window_name = self.general_input.front_door_accel_window_name
+            if self.general_input.front_door_accel_window_name not in ["null","none",""]:
+                front_door_accel_window_name = self.general_input.front_door_accel_window_name
+                front_door_accel_window_obj = windows.WindowByName(front_door_accel_window_name)
+                if front_door_accel_window_obj:
                     utils.MetaCommand('window maximize {}'.format(front_door_accel_window_name))
-                    curve = plot2d.CurvesByName(front_door_accel_window_name, front_shoulder_intrusion_curve_name, 1)[0]
-                    curve.show()
-                    self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 SHOULDER")
-                    #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 SHOULDER"+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_shoulder_intrusion_curve_name,self.general_input.front_shoulder_intrusion_curve_key,front_door_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
-                #image insertion for the shape named "Image 2"
-                elif shape.name == "Image 2":
-                    #getting "Front Door Accel" window and "Front abdomen intrusion curve" curve objects to activate and format the curve axisoptions and title options
-                    temporary_window_name = "Temporary"
-                    front_abdomen_intrusion_curve_name = self.general_input.front_abdomen_intrusion_curve_name
-                    front_door_accel_window_name = self.general_input.front_door_accel_window_name
-                    utils.MetaCommand('window maximize {}'.format(front_door_accel_window_name))
-                    curve = plot2d.CurvesByName(front_door_accel_window_name, front_abdomen_intrusion_curve_name, 1)[0]
-                    curve.show()
-                    self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 ABDOMEN")
-                    #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 ABDOMEN"+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_abdomen_intrusion_curve_name,self.general_input.front_abdomen_intrusion_curve_key,front_door_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
-                #image insertion for the shape named "Image 4"
-                elif shape.name == "Image 4":
-                    #getting "Front Door Accel" window and "Front femur intrusion curve" curve objects to activate and format the curve axisoptions and title options
-                    temporary_window_name = "Temporary"
-                    front_femur_intrusion_curve_name = self.general_input.front_femur_intrusion_curve_name
-                    front_door_accel_window_name = self.general_input.front_door_accel_window_name
-                    utils.MetaCommand('window maximize {}'.format(front_door_accel_window_name))
-                    curve = plot2d.CurvesByName(front_door_accel_window_name, front_femur_intrusion_curve_name, 1)[0]
-                    curve.show()
-                    self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 FEMUR")
-                    #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 FEMUR"+".jepg").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_femur_intrusion_curve_name,self.general_input.front_femur_intrusion_curve_key,front_door_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
-                #image insertion for the shape named "Image 3"
-                elif shape.name == "Image 3":
-                    #getting "Front Door Accel" window and "Front pelvis intrusion curve" curve objects to activate and format the curve axisoptions and title options
-                    temporary_window_name = "Temporary"
-                    front_pelvis_intrusion_curve_name = self.general_input.front_pelvis_intrusion_curve_name
-                    front_door_accel_window_name = self.general_input.front_door_accel_window_name
-                    utils.MetaCommand('window maximize {}'.format(front_door_accel_window_name))
-                    curve = plot2d.CurvesByName(front_door_accel_window_name, front_pelvis_intrusion_curve_name, 1)[0]
-                    curve.show()
-                    self.intrusion_curve_format(front_door_accel_window_name,curve,temporary_window_name,"ROW 1 PELVIS")
-                    #capturing image of the formatted intrusion curve
-                    image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+"ROW 1 PELVIS"+".png").replace(" ","_")
-                    capture_image_and_resize(image_path,shape.width,shape.height)
-                    self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_pelvis_intrusion_curve_name,self.general_input.front_pelvis_intrusion_curve_key,front_door_accel_window_name))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT CURVE IMAGES : ")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+                    for shape in self.shapes:
+                        #image insertion for the shape named "Image 1"
+                        if shape.name == "Image 1":
+                            #getting "Front Door Accel" window and "Front shoulder intrusion curve" curve objects to activate and format the curve axisoptions and title options
+                            temporary_window_name = "Temporary"
+                            if self.general_input.front_shoulder_intrusion_curve_name not in ["null","none",""]:
+                                front_shoulder_intrusion_curve_name = self.general_input.front_shoulder_intrusion_curve_name
+                                curves = plot2d.CurvesByName(front_door_accel_window_name, front_shoulder_intrusion_curve_name, 1)
+                                if curves:
+                                    curves[0].show()
+                                    self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 SHOULDER")
+                                else:
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_shoulder_intrusion_curve_name,GeneralVarInfo.front_shoulder_intrusion_curve_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_shoulder_intrusion_curve_key))
+                                self.logger.info("")
+                            #capturing image of the formatted intrusion curve
+                            if self.twod_images_report_folder:
+                                image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 SHOULDER"+".png").replace(" ","_")
+                                capture_image_and_resize(image_path,shape.width,shape.height)
+                                self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                                self.logger.info("")
+                                self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_shoulder_intrusion_curve_name,self.general_input.front_shoulder_intrusion_curve_key,front_door_accel_window_name))
+                                self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                                self.logger.info("OUTPUT CURVE IMAGES : ")
+                                self.logger.info(image_path)
+                                self.logger.info("")
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                                utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
+                        #image insertion for the shape named "Image 2"
+                        elif shape.name == "Image 2":
+                            #getting "Front Door Accel" window and "Front abdomen intrusion curve" curve objects to activate and format the curve axisoptions and title options
+                            temporary_window_name = "Temporary"
+                            if self.general_input.front_abdomen_intrusion_curve_name not in ["null","none",""]:
+                                front_abdomen_intrusion_curve_name = self.general_input.front_abdomen_intrusion_curve_name
+                                curves = plot2d.CurvesByName(front_door_accel_window_name, front_abdomen_intrusion_curve_name, 1)
+                                if curves:
+                                    curves[0].show()
+                                    self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 ABDOMEN")
+                                else:
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_abdomen_intrusion_curve_name,GeneralVarInfo.front_abdomen_intrusion_curve_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_abdomen_intrusion_curve_key))
+                                self.logger.info("")
+                            #capturing image of the formatted intrusion curve
+                            if self.twod_images_report_folder is not None:
+                                image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 ABDOMEN"+".png").replace(" ","_")
+                                capture_image_and_resize(image_path,shape.width,shape.height)
+                                self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                                self.logger.info("")
+                                self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_abdomen_intrusion_curve_name,self.general_input.front_abdomen_intrusion_curve_key,front_door_accel_window_name))
+                                self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                                self.logger.info("OUTPUT CURVE IMAGES : ")
+                                self.logger.info(image_path)
+                                self.logger.info("")
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                                utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
+                        #image insertion for the shape named "Image 4"
+                        elif shape.name == "Image 4":
+                            #getting "Front Door Accel" window and "Front femur intrusion curve" curve objects to activate and format the curve axisoptions and title options
+                            temporary_window_name = "Temporary"
+                            if self.general_input.front_femur_intrusion_curve_name not in ["null","none",""]:
+                                front_femur_intrusion_curve_name = self.general_input.front_femur_intrusion_curve_name
+                                curves = plot2d.CurvesByName(front_door_accel_window_name, front_femur_intrusion_curve_name, 1)
+                                if curves:
+                                    curves[0].show()
+                                    self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 FEMUR")
+                                else:
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_femur_intrusion_curve_name,GeneralVarInfo.front_femur_intrusion_curve_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_femur_intrusion_curve_key))
+                                self.logger.info("")
+                            #capturing image of the formatted intrusion curve
+                            if self.twod_images_report_folder is not None:
+                                image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 FEMUR"+".jepg").replace(" ","_")
+                                capture_image_and_resize(image_path,shape.width,shape.height)
+                                self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                                self.logger.info("")
+                                self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_femur_intrusion_curve_name,self.general_input.front_femur_intrusion_curve_key,front_door_accel_window_name))
+                                self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                                self.logger.info("OUTPUT CURVE IMAGES : ")
+                                self.logger.info(image_path)
+                                self.logger.info("")
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                                utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
+                        #image insertion for the shape named "Image 3"
+                        elif shape.name == "Image 3":
+                            #getting "Front Door Accel" window and "Front pelvis intrusion curve" curve objects to activate and format the curve axisoptions and title options
+                            temporary_window_name = "Temporary"
+                            if self.general_input.front_pelvis_intrusion_curve_name not in ["null","none",""]:
+                                front_pelvis_intrusion_curve_name = self.general_input.front_pelvis_intrusion_curve_name
+                                curves = plot2d.CurvesByName(front_door_accel_window_name, front_pelvis_intrusion_curve_name, 1)[0]
+                                if curves:
+                                    curves[0].show()
+                                    self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 PELVIS")
+                                else:
+                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_pelvis_intrusion_curve_name,GeneralVarInfo.front_pelvis_intrusion_curve_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_pelvis_intrusion_curve_key))
+                                self.logger.info("")
+                            #capturing image of the formatted intrusion curve
+                            if self.twod_images_report_folder is not None:
+                                image_path = os.path.join(self.twod_images_report_folder,front_door_accel_window_name+"_"+"ROW 1 PELVIS"+".png").replace(" ","_")
+                                capture_image_and_resize(image_path,shape.width,shape.height)
+                                self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                                self.logger.info("")
+                                self.logger.info("CURVES : {} | FROM VARIABLE : {} | SOURCE WINDOW : {}".format(self.general_input.front_pelvis_intrusion_curve_name,self.general_input.front_pelvis_intrusion_curve_key,front_door_accel_window_name))
+                                self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                                self.logger.info("OUTPUT CURVE IMAGES : ")
+                                self.logger.info(image_path)
+                                self.logger.info("")
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                                utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
+                else:
+                    self.logger.info("ERROR : 2D METADB does not contain 'Front Door - Accel' window. Please update.")
+            else:
+                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_door_accel_window_key))
             #iterating through the Table shapes of the enclosure performance front door panel intrusion slide
             for shape in self.shapes:
                 #table population for the table named as "Table 1"

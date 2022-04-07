@@ -164,7 +164,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                         self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
-                    if not self.general_input.door_skin_intrusion_window_name in ["null","none",""]:
+                    if self.general_input.door_skin_intrusion_window_name not in ["null","none",""]:
                         door_skin_intrusion_window_name = self.general_input.door_skin_intrusion_window_name
                         door_skin_intrusion_window_obj = windows.WindowByName(door_skin_intrusion_window_name)
                         if door_skin_intrusion_window_obj:
