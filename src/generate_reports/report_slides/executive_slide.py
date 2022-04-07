@@ -146,12 +146,6 @@ class ExecutiveSlide():
                     for shape in shapes:
                         #image insertion for the shape named "Image"
                         if shape.name == "Image":
-                            #getting "Survival Space" plot object to activate and showing initial and final time curves
-                            if not self.general_input.survival_space_final_time in ["null","none",""]:
-                                final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
-                            else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
-                                self.logger.info("")
                             initial_time_curve_name = "SS_0MS"
                             plot_id = 0
                             page_id=0
@@ -160,8 +154,18 @@ class ExecutiveSlide():
                             org_name = title.get_text()
                             title.set_text("{} 0MS AND 150MS".format(org_name))
                             plot.activate()
-                            final_curve = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)[0]
-                            final_curve.show()
+                            #getting "Survival Space" plot object to activate and showing initial and final time curves
+                            if not self.general_input.survival_space_final_time in ["null","none",""]:
+                                final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
+                                final_curves = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)
+                                if final_curves:
+                                    final_curves[0].show()
+                                else:
+                                    self.logger.info("WARNING : Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("")
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("")
                             initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
                             initial_curve.show()
                             target_curves = plot2d.CurvesByName(survival_space_window_name, "*TARGET", 0)
@@ -182,23 +186,27 @@ class ExecutiveSlide():
                             utils.MetaCommand('xyplot axisoptions yaxis deactive "{}" {} 0'.format(survival_space_window_name, plot_id))
                             utils.MetaCommand('xyplot plotoptions title font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(survival_space_window_name, plot_id))
                             #capturing "Survival Space" plot image
-                            image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text()+".png").replace(" ","_")
-                            capture_image(image_path,survival_space_window_name,shape.width,shape.height,transparent = True)
-                            self.logger.info("--- 2D CURVE IMAGE GENERATOR")
-                            self.logger.info("")
-                            self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(final_time_curve_name,initial_time_curve_name,title.get_text(),survival_space_window_name))
-                            self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                            self.logger.info("OUTPUT CURVE IMAGES : ")
-                            self.logger.info(image_path)
-                            self.logger.info("")
-                            #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                            transparent_image_path = image_path.replace(".png","")+"_transparent.png"
-                            picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                            title.set_text(org_name)
-                            picture.crop_left = 0
-                            picture.crop_right = 0
-                            #removing transparent image
-                            os.remove(transparent_image_path)
+                            if self.twod_images_report_folder is not None:
+                                image_path = os.path.join(self.twod_images_report_folder,survival_space_window_name+"_"+title.get_text()+".png").replace(" ","_")
+                                capture_image(image_path,survival_space_window_name,shape.width,shape.height,transparent = True)
+                                self.logger.info("--- 2D CURVE IMAGE GENERATOR")
+                                self.logger.info("")
+                                self.logger.info("CURVES : {},{} | SOURCE PLOT : {} | SOURCE WINDOW : {}".format(final_time_curve_name,initial_time_curve_name,title.get_text(),survival_space_window_name))
+                                self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                                self.logger.info("OUTPUT CURVE IMAGES : ")
+                                self.logger.info(image_path)
+                                self.logger.info("")
+                                #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                                transparent_image_path = image_path.replace(".png","")+"_transparent.png"
+                                picture = self.shapes.add_picture(transparent_image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                                title.set_text(org_name)
+                                picture.crop_left = 0
+                                picture.crop_right = 0
+                                #removing transparent image
+                                os.remove(transparent_image_path)
+                            else:
+                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("")
                         #table population for the shape named "Table 1"
                         elif shape.name == "Table 1":
                             #getting row 2 object and inserting survival space final value in cell 0
