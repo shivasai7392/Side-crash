@@ -13,6 +13,7 @@ from meta import models
 from src.meta_utilities import capture_image_and_resize
 from src.meta_utilities import visualize_3d_critical_section
 from src.meta_utilities import visualize_annotation
+from src.metadb_info import GeneralVarInfo
 
 class BIWStiffRingSpotWeldFailureSlide():
     """
@@ -64,34 +65,38 @@ class BIWStiffRingSpotWeldFailureSlide():
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #utils.MetaCommand('read session {}'.format(os.path.join(os.path.dirname(__file__),"annotation_positioning_session_files","f21_upb_outer.ses")))
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-                    capture_image_and_resize(image_path,shape.width,shape.height,resize = False)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : ORIGINAL STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
-                    self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
-                    self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
-                    self.logger.info("TRANSPARENCY LEVEL : 50" )
-                    self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
-                    self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    #reverting visual settings
-                    utils.MetaCommand('annotation delete all')
-                    utils.MetaCommand('color pid transparency reset act')
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_OUTER_SPOTWELD_FAILURE"+".png").replace(" ","_")
+                        utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+                        capture_image_and_resize(image_path,shape.width,shape.height,resize = False)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : ORIGINAL STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
+                        self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
+                        self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
+                        self.logger.info("TRANSPARENCY LEVEL : 50" )
+                        self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
+                        self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        #reverting visual settings
+                        utils.MetaCommand('annotation delete all')
+                        utils.MetaCommand('color pid transparency reset act')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
                     #visualising and capturing image of "f21_upb_inner" critical part set with spotweld failure
@@ -107,34 +112,38 @@ class BIWStiffRingSpotWeldFailureSlide():
                     self.logger.info("SOURCE FILE FOR SPOTWELD ID'S : {}".format(self.general_input.d3hsp_file_path))
                     visualize_annotation(self.metadb_3d_input.spotweld_clusters,self.general_input.binout_directory)
                     #utils.MetaCommand('read session {}'.format(os.path.join(os.path.dirname(__file__),"annotation_positioning_session_files","f21_upb_inner.ses")))
-                    image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".png").replace(" ","_")
-                    utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
-                    capture_image_and_resize(image_path,shape.width,shape.height,resize = False)
-                    self.logger.info("--- 3D MODEL IMAGE GENERATOR")
-                    self.logger.info("")
-                    self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
-                    self.logger.info("SOURCE MODEL : 0")
-                    self.logger.info("STATE : ORIGINAL STATE")
-                    self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
-                    self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
-                    self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
-                    self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
-                    self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
-                    self.logger.info("TRANSPARENCY LEVEL : 50" )
-                    self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
-                    self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
-                    self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
-                    self.logger.info("OUTPUT MODEL IMAGES :")
-                    self.logger.info(image_path)
-                    self.logger.info("")
-                    #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
-                    picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
-                    picture.crop_left = 0
-                    picture.crop_right = 0
-                    utils.MetaCommand('color pid transparency reset act')
-                    #reverting visual settings
-                    utils.MetaCommand('annotation delete all')
+                    if self.threed_images_report_folder is not None:
+                        image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_UPB_INNER_SPOTWELD_FAILURE"+".png").replace(" ","_")
+                        utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
+                        capture_image_and_resize(image_path,shape.width,shape.height,resize = False)
+                        self.logger.info("--- 3D MODEL IMAGE GENERATOR")
+                        self.logger.info("")
+                        self.logger.info("SOURCE WINDOW : {} ".format(self.general_input.threed_window_name))
+                        self.logger.info("SOURCE MODEL : 0")
+                        self.logger.info("STATE : ORIGINAL STATE")
+                        self.logger.info("PID NAME SHOW FILTER : {} ".format(data["hes"] if "hes" in data.keys() else "null"))
+                        self.logger.info("ADDITIONAL PID'S SHOWN : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID NAME ERASE FILTER : {} ".format(data["hes_exceptions"] if "hes_exceptions" in data.keys() else "null"))
+                        self.logger.info("PID'S TO ERASE : {} ".format(data["erase_pids"] if "erase_pids" in data.keys() else "null"))
+                        self.logger.info("ERASE BOX : {} ".format(data["erase_box"] if "erase_box" in data.keys() else "null"))
+                        self.logger.info("IMAGE VIEW : {} ".format(data["view"] if "view" in data.keys() else "null"))
+                        self.logger.info("TRANSPARENCY LEVEL : 50" )
+                        self.logger.info("TRANSPARENT PID'S : {} ".format(data["transparent_pids"] if "transparent_pids" in data.keys() else "null"))
+                        self.logger.info("COMP NAME : {} ".format(data["name"] if "name" in data.keys() else "null"))
+                        self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
+                        self.logger.info("OUTPUT MODEL IMAGES :")
+                        self.logger.info(image_path)
+                        self.logger.info("")
+                        #adding picture based on the shape width and height, which will hide the original shape and add a picture shape on top of that
+                        picture = self.shapes.add_picture(image_path,shape.left,shape.top,width = shape.width,height = shape.height)
+                        picture.crop_left = 0
+                        picture.crop_right = 0
+                        utils.MetaCommand('color pid transparency reset act')
+                        #reverting visual settings
+                        utils.MetaCommand('annotation delete all')
+                    else:
+                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("")
             endtime = datetime.now()
         except Exception as e:
             self.logger.exception("Error while seeding data into  biw stiff ring spotweld failure slide:\n{}".format(e))
