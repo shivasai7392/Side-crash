@@ -284,7 +284,7 @@ class BIWKinematicsSlide():
             self.revert(format_type="3d")
 
             if self.general_input.biw_accel_window_name not in ["null","none",""]:
-                biw_accel_window_name = self.general_input.biw_accel_window_name
+                biw_accel_window_name = self.general_input.biw_accel_window_name.replace("\"","")
                 biw_accel_window_obj = windows.WindowByName(biw_accel_window_name)
                 if biw_accel_window_obj:
                     utils.MetaCommand('window maximize "{}"'.format(biw_accel_window_name))

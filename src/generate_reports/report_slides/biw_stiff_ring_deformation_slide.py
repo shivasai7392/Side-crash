@@ -95,8 +95,7 @@ class BIWStiffRingDeformationSlide():
                                 peak_time_value = self.general_input.peak_time_display_value
                                 peak_time_value = peak_time_value.split(".")[0]
                                 peak_curve_value = closest(roof_line_cuves_list, int(peak_time_value))
-                                # peak_curve_value = plot.get_curves('byname', name ="ROOF_LINE_"+str(peak_curve_value)+"MS")
-                                peak_curves = plot2d.CurvesByName(biw_stiff_ring_deformation_name, "ROOF_LINE_"+str(peak_curve_value[0])+"MS", 0)[0]
+                                peak_curves = plot2d.CurvesByName(biw_stiff_ring_deformation_name, "ROOF_LINE_"+str(peak_curve_value)+"MS", 0)
                                 if peak_curves:
                                     peak_curves[0].show()
                                 else:
@@ -187,7 +186,7 @@ class BIWStiffRingDeformationSlide():
                                 peak_time_value = self.general_input.peak_time_display_value
                                 peak_time_value = peak_time_value.split(".")[0]
                                 peak_curve_value = closest(roof_line_cuves_list, int(peak_time_value))
-                                peak_curves = plot2d.CurvesByName(biw_stiff_ring_def_window_name, "SIDE_SILL_"+str(peak_curve_value)+"MS", 0)[0]
+                                peak_curves = plot2d.CurvesByName(biw_stiff_ring_def_window_name, "SIDE_SILL_"+str(peak_curve_value)+"MS", 0)
                                 if peak_curves:
                                     peak_curves[0].show()
                                 else:
