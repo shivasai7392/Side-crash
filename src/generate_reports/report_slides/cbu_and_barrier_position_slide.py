@@ -222,7 +222,7 @@ class CBUAndBarrierPositionSlide():
                     #getting current model resultset,suspension nodes,MDB front and rear node objects
                     model = models.Model(0)
                     res = model.get_current_resultset()
-                    if all( var not in ["null","none",""] for var in [self.general_input.struck_subframe_node_ids,self.general_input.MDB_fr_node_id,self.general_input.MDB_rr_node_id])
+                    if all(var not in ["null","none",""] for var in [self.general_input.struck_subframe_node_ids,self.general_input.MDB_fr_node_id,self.general_input.MDB_rr_node_id]):
                         struck_subframe_node_ids = self.general_input.struck_subframe_node_ids
                         struck_subframe_node1 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[0]), model_id=0)
                         struck_subframe_node2 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[1]), model_id=0)
