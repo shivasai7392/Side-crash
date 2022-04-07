@@ -54,6 +54,7 @@ class ExcelBomGeneration():
                 if 'hes' in value.keys() and value['hes'] != 'null':
                     # Generating the BOM for logging
                     self.logger.info("GENERATING BOM : {}".format(value["name"] if "name" in value.keys() else key))
+                    self.logger.info("")
                     # Loading the Workbook and making active then giving the headers for loaded Workbook
                     workbook = Workbook()
                     spreedsheet = workbook.active
@@ -84,11 +85,11 @@ class ExcelBomGeneration():
                             # appending the entity id,name,thickness and material name to the spreessheet
                             spreedsheet.append([each_prop_entity.id, each_prop_entity.name,material_name,round(each_prop_entity.shell_thick,1)])
                         # Joining the excel path and saving
-                            excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key+".xlsx").replace("\\","/")
-                            workbook.save(excel_path)
-                            self.logger.info("OUTPUT BOM : {}".format(excel_path))
-                            self.logger.info("CELLS WITH DATA : A1:D{}".format(str(len(visible_parts)+1)))
-                            self.logger.info("")
+                        excel_path = os.path.join(self.excel_bom_report_folder,"BOM_"+key+".xlsx").replace("\\","/")
+                        workbook.save(excel_path)
+                        self.logger.info("OUTPUT BOM : {}".format(excel_path))
+                        self.logger.info("CELLS WITH DATA : A1:D{}".format(str(len(visible_parts)+1)))
+                        self.logger.info("")
                     else:
                         self.logger.info("ERROR : Critical part set '{}' has no parts in the model. Please update 2D META Variables.".format(key))
                         self.logger.info("")

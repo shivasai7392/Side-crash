@@ -206,49 +206,18 @@ def visualize_3d_critical_section(data,and_filter = None):
         else:
             logger.info("WARNING : Unknown Critical part set has no hes filter variables. Please update.")
     #hiding any exceptions from meta viewer
-    if hes_exceptions and hes_exceptions not in ["null","none",""]:
-        utils.MetaCommand('add pid {}'.format(hes_exceptions))
-    else:
-        if name:
-            logger.info("WARNING : Critical part set '{}' has no hes exceptions filter variable. Please update if any available.".format(name))
-        else:
-            logger.info("WARNING : Unknown Critical part set has no hes exceptions filter variables. Please update if any available.")
-
+    utils.MetaCommand('add pid {}'.format(hes_exceptions))
     utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
     #erasing the pids from the meta viewer
-    if erase_pids and erase_pids not in ["null","none",""]:
-        utils.MetaCommand('erase pid {}'.format(erase_pids))
-    else:
-        if name:
-            logger.info("WARNING : Critical part set '{}' has no erase pids filter variable. Please update if any available.".format(name))
-        else:
-            logger.info("WARNING : Unknown Critical part set has no erase pids filter variables. Please update if any available.")
+    utils.MetaCommand('erase pid {}'.format(erase_pids))
     #erasing the elements using box from the meta viewer
-    if erase_box and erase_box not in ["null","none",""]:
-        utils.MetaCommand('erase shells box {}'.format(erase_box))
-        utils.MetaCommand('erase solids box {}'.format(erase_box))
-    else:
-        if name:
-            logger.info("WARNING : Critical part set '{}' has no erase box filter variable. Please update if any available.".format(name))
-        else:
-            logger.info("WARNING : Unknown Critical part set has no erase box filter variables. Please update if any available.")
+    utils.MetaCommand('erase shells box {}'.format(erase_box))
+    utils.MetaCommand('erase solids box {}'.format(erase_box))
     #settings view angle of the meta viewer
-    if comp_view and comp_view not in ["null","none",""]:
-        utils.MetaCommand('view default {}'.format(comp_view))
-        utils.MetaCommand('view center')
-    else:
-        if name:
-            logger.info("WARNING : Critical part set '{}' has no view angle variable. Please update if any available.".format(name))
-        else:
-            logger.info("WARNING : Unknown Critical part set has no view angle filter variables. Please update if any available.")
+    utils.MetaCommand('view default {}'.format(comp_view))
+    utils.MetaCommand('view center')
     #setting transparency for the transparent pids
-    if transparent_pids and transparent_pids not in ["null","none",""]:
-        utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
-    else:
-        if name:
-            logger.info("WARNING : Critical part set '{}' has no transparent pids filter variable. Please update if any available.".format(name))
-        else:
-            logger.info("WARNING : Unknown Critical part set has no transparent pids filtere filter variables. Please update if any available.")
+    utils.MetaCommand('color pid transparency {} {}'.format(transparency_level,transparent_pids))
     logger.info("")
 
     return 0
