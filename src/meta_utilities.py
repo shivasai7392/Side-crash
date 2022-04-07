@@ -202,10 +202,10 @@ def visualize_3d_critical_section(data,and_filter = None):
             utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
     else:
         if name:
-            logger.info("ERROR : Critical part set '{}' has no hes filter variable. Please update.".format(name))
+            logger.info("ERROR : Critical part set '{}' has no hes filter variable. Please update 2D META Variable..".format(name))
             logger.info("")
         else:
-            logger.info("ERROR : Unknown Critical part set has no hes filter variables. Please update.")
+            logger.info("ERROR : Unknown Critical part set has no hes filter variables. Please update 2D META Variable..")
             logger.info("")
     #hiding any exceptions from meta viewer
     utils.MetaCommand('add pid {}'.format(hes_exceptions))
