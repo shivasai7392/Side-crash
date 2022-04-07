@@ -60,7 +60,6 @@ class BIWStiffRingDeformationSlide():
                         biw_stiff_ring_deformation_name = self.general_input.biw_stiff_ring_deformation_name
                         biw_stiff_ring_deformation_obj = windows.WindowByName(biw_stiff_ring_deformation_name)
                         if biw_stiff_ring_deformation_obj:
-                            utils.MetaCommand('window maximize "{}"'.format(biw_stiff_ring_deformation_name))
                             win = windows.Window(str(biw_stiff_ring_deformation_name), page_id=0)
                             layout = win.get_plot_layout()
                             utils.MetaCommand('window maximize "{}"'.format(biw_stiff_ring_deformation_name))
