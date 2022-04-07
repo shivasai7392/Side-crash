@@ -183,8 +183,12 @@ class EnclosurePerformanceSkinDeformationSlide():
                                     if 'MS' in ms:
                                         ms_replacing = ms.replace('MS',"")
                                         skin_intrusion_line_list.append(int(ms_replacing))
-                                peak_time = str(closest(skin_intrusion_line_list, round(float(self.general_input.peak_time_display_value))))
-                                peak_curve_re = "*{}MS".format(peak_time)
+                                if self.general_input.peak_time_display_value not in ["null","none",""]:
+                                    peak_time = str(closest(skin_intrusion_line_list, round(float(self.general_input.peak_time_display_value))))
+                                    peak_curve_re = "*{}MS".format(peak_time)
+                                else:
+                                    self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("")
                                 for name in [initial_curve_re,final_curve_re,peak_curve_re]:
                                     curve = plot.get_curves('byname', name = name)[0]
                                     curve.show()

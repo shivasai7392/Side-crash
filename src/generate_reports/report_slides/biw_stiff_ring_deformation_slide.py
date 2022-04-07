@@ -135,9 +135,7 @@ class BIWStiffRingDeformationSlide():
                         biw_stiff_ring_deformation_obj = windows.WindowByName(biw_stiff_ring_deformation_name)
                         if biw_stiff_ring_deformation_obj:
                             utils.MetaCommand('window maximize "{}"'.format(biw_stiff_ring_deformation_name))
-                            win = windows.Window(str(biw_stiff_ring_deformation_name), page_id=0)
-                            layout = win.get_plot_layout()
-                            utils.MetaCommand('window maximize "{}"'.format(biw_stiff_ring_deformation_name))
+                            layout = biw_stiff_ring_deformation_obj.get_plot_layout()
                             final_time_curve_name = "SIDE_SILL_{}MS".format(round(float(self.general_input.survival_space_final_time)))
                             initial_time_curve_name = "SIDE_SILL_0MS"
                             #showing side sill initial,final and peak state curves
