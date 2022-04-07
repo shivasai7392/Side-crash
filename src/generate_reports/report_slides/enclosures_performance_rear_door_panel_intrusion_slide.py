@@ -235,7 +235,7 @@ class EnclosurePerformanceRearDoorPanelIntrusionSlide():
                                 temporary_window_name = "Temporary"
                                 rear_femur_intrusion_curve_name = self.general_input.rear_femur_intrusion_curve_name
                                 utils.MetaCommand('window maximize {}'.format(rear_door_accel_window_name))
-                                curves = plot2d.CurvesByName(rear_door_accel_window_name, rear_femur_intrusion_curve_name, 1)[0]
+                                curves = plot2d.CurvesByName(rear_door_accel_window_name, rear_femur_intrusion_curve_name, 1)
                                 if curves:
                                     curves[0].show()
                                     target_curve = plot2d.CurvesByName(rear_door_accel_window_name, "*TARGET", 0)[0]

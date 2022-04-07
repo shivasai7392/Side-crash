@@ -212,7 +212,7 @@ class EnclosurePerformanceFrontDoorPanelIntrusionSlide():
                             temporary_window_name = "Temporary"
                             if self.general_input.front_pelvis_intrusion_curve_name not in ["null","none",""]:
                                 front_pelvis_intrusion_curve_name = self.general_input.front_pelvis_intrusion_curve_name
-                                curves = plot2d.CurvesByName(front_door_accel_window_name, front_pelvis_intrusion_curve_name, 1)[0]
+                                curves = plot2d.CurvesByName(front_door_accel_window_name, front_pelvis_intrusion_curve_name, 1)
                                 if curves:
                                     curves[0].show()
                                     self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 PELVIS")

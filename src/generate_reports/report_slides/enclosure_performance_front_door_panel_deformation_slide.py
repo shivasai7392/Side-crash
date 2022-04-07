@@ -179,7 +179,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                 deformation_line_list = []
                                 if self.general_input.survival_space_final_time not in ["null","none",""]:
                                     final_time_curve_name = "*{}MS".format(round(float(self.general_input.survival_space_final_time)))
-                                    final_curves = plot2d.CurvesByName(door_panel_intrusion_window, final_time_curve_name, 0)
+                                    final_curves = plot2d.CurvesByName(door_panel_intrusion_window_name, final_time_curve_name, 0)
                                     if final_curves:
                                         final_curves[0].show()
                                     else:

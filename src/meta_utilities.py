@@ -249,6 +249,7 @@ def visualize_3d_critical_section(data,and_filter = None):
             logger.info("WARNING : Critical part set '{}' has no transparent pids filter variable. Please update if any available.".format(name))
         else:
             logger.info("WARNING : Unknown Critical part set has no transparent pids filtere filter variables. Please update if any available.")
+    logger.info("")
 
     return 0
 
@@ -352,6 +353,7 @@ def visualize_annotation(spotweld_id_elements,bins_path):
         logger.info("")
     else:
         logger.info("WARNING : META 2D variable 'pA' is not available or invalid. Please update.")
+        logger.info("")
     return 0
 
 def deformation_plot_formmatter(window_name,plot1_id,plot2_id,plot3_id):
