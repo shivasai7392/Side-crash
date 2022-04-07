@@ -133,7 +133,7 @@ class ExecutiveSlide():
             self.logger.info("")
             starttime = datetime.now()
             #maximizing the survival space window
-            if not self.general_input.survival_space_window_name in ["null","none",""]:
+            if self.general_input.survival_space_window_name not in ["null","none",""]:
                 #maximizing the survival space window
                 survival_space_window_name = self.general_input.survival_space_window_name
                 survival_space_window_obj = windows.WindowByName(survival_space_window_name)
@@ -155,7 +155,7 @@ class ExecutiveSlide():
                             title.set_text("{} 0MS AND 150MS".format(org_name))
                             plot.activate()
                             #getting "Survival Space" plot object to activate and showing initial and final time curves
-                            if not self.general_input.survival_space_final_time in ["null","none",""]:
+                            if self.general_input.survival_space_final_time not in ["null","none",""]:
                                 final_time_curve_name = "SS_{}MS".format(round(float(self.general_input.survival_space_final_time)))
                                 final_curves = plot2d.CurvesByName(survival_space_window_name, final_time_curve_name, 0)
                                 if final_curves:
@@ -210,7 +210,7 @@ class ExecutiveSlide():
                         #table population for the shape named "Table 1"
                         elif shape.name == "Table 1":
                             #getting row 2 object and inserting survival space final value in cell 0
-                            if not self.general_input.survival_space_final_value not in ["null","none",""]:
+                            if self.general_input.survival_space_final_value not in ["null","none",""]:
                                 final_time = round(float(self.general_input.survival_space_final_value))
                                 text_frame_1 = shape.table.rows[2].cells[0].text_frame
                                 font = text_frame_1.paragraphs[0].font
@@ -220,7 +220,7 @@ class ExecutiveSlide():
                                 self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_key))
                                 self.logger.info("")
                             #getting row 2 object and inserting survival space peak value in cell 1
-                            if not self.general_input.survival_space_peak_value not in ["null","none",""]:
+                            if self.general_input.survival_space_peak_value not in ["null","none",""]:
                                 text_frame_2 = shape.table.rows[2].cells[1].text_frame
                                 font = text_frame_2.paragraphs[0].font
                                 font.size = Pt(11)

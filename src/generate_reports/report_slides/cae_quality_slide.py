@@ -53,7 +53,7 @@ class CAEQualitySlide():
             self.logger.info("")
             starttime = datetime.now()
             #checking for 'cae quality' window
-            if not self.general_input.cae_quality_window_name in ["null","none",""]:
+            if self.general_input.cae_quality_window_name not in ["null","none",""]:
                 cae_quality_window_name = self.general_input.cae_quality_window_name
                 cae_quality_window_obj = windows.WindowByName(cae_quality_window_name)
                 if cae_quality_window_obj:

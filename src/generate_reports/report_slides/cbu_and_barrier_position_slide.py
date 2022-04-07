@@ -137,7 +137,7 @@ class CBUAndBarrierPositionSlide():
                     #getting the table object
                     table_obj = shape.table
                     # If test_mass_value not in null,none,""
-                    if not self.general_input.test_mass_value in ["null","none",""]:
+                    if self.general_input.test_mass_value not in ["null","none",""]:
                         #getting row 1 object and inserting test mass value in cell 1
                         text_frame = table_obj.rows[1].cells[1].text_frame
                         font = text_frame.paragraphs[0].font
@@ -149,7 +149,7 @@ class CBUAndBarrierPositionSlide():
                     else:
                         self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.test_mass_key))
                         self.logger.info("")
-                    if not self.general_input.physical_mass_value in ["null","none",""]:
+                    if self.general_input.physical_mass_value not in ["null","none",""]:
                         #getting row 2 object and inserting physical mass value in cell 1
                         text_frame = table_obj.rows[2].cells[1].text_frame
                         font = text_frame.paragraphs[0].font
@@ -159,7 +159,7 @@ class CBUAndBarrierPositionSlide():
                     else:
                         self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.physical_mass_key))
                         self.logger.info("")
-                    if not self.general_input.added_mass_value in ["null","none",""]:
+                    if self.general_input.added_mass_value not in ["null","none",""]:
                         #getting row 3 object and inserting added mass value in cell 1
                         text_frame = table_obj.rows[3].cells[1].text_frame
                         font = text_frame.paragraphs[0].font
@@ -169,7 +169,7 @@ class CBUAndBarrierPositionSlide():
                     else:
                         self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.added_mass_key))
                         self.logger.info("")
-                    if not self.general_input.total_mass_value in ["null","none",""]:
+                    if self.general_input.total_mass_value not in ["null","none",""]:
                         #getting row 6 object and inserting total mass value in cell 1
                         text_frame = table_obj.rows[6].cells[1].text_frame
                         font = text_frame.paragraphs[0].font
@@ -180,7 +180,7 @@ class CBUAndBarrierPositionSlide():
                         self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key))
                         self.logger.info("")
 
-                    if not self.general_input.test_mass_value in ["null","none",""] and not self.general_input.total_mass_value in ["null","none",""]:
+                    if self.general_input.test_mass_value not in ["null","none",""] and self.general_input.total_mass_value not in ["null","none",""]:
                         #getting row 7 object and inserting test mass - total mass value in cell 1
                         text_frame = table_obj.rows[7].cells[1].text_frame
                         font = text_frame.paragraphs[0].font
@@ -195,7 +195,7 @@ class CBUAndBarrierPositionSlide():
                     #getting the table object
                     table_obj = shape.table
                     # If MDB_fr_node_id not in null,none,""
-                    if not self.general_input.MDB_fr_node_id in ["null","none",""]:
+                    if self.general_input.MDB_fr_node_id not in ["null","none",""]:
                         #getting row 3 object and inserting MDB front node x value
                         MDB_fr_node_id = int(self.general_input.MDB_fr_node_id)
                         MDB_fr_node = nodes.Node(id=MDB_fr_node_id, model_id=0)

@@ -64,7 +64,7 @@ class TitleSlide():
                     text_frame_2 = rows[2].cells[0].text_frame
                     font = text_frame_2.paragraphs[0].font
                     font.size = Pt(16)
-                    if not self.general_input.verification_mode in ["null","none",""]:
+                    if self.general_input.verification_mode not in ["null","none",""]:
                         text_frame_2.paragraphs[0].text = " " + self.general_input.verification_mode
                     else:
                         self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.verification_mode_key))

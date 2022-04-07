@@ -52,7 +52,7 @@ class BIWBplrDeformationAndIntrusion():
             int: 0 Always for Sucess.1 for Failure.
         """
         try:
-            if not self.general_input.biw_accel_window_name in ["null","none",""]:
+            if self.general_input.biw_accel_window_name not in ["null","none",""]:
                 self.biw_accel_window_name = self.general_input.biw_accel_window_name
                 self.biw_accel_window_name = self.biw_accel_window_name.replace("\"","")
                 biw_stiff_ring_deformation_obj = windows.WindowByName(self.biw_accel_window_name)
@@ -266,7 +266,7 @@ class BIWBplrDeformationAndIntrusion():
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
-                    if not self.general_input.survival_space_window_name in ["null","none",""]:
+                    if self.general_input.survival_space_window_name not in ["null","none",""]:
                         survival_space_window_name = self.general_input.survival_space_window_name
                         survival_space_window_obj = windows.WindowByName(survival_space_window_name)
                         if survival_space_window_obj:
