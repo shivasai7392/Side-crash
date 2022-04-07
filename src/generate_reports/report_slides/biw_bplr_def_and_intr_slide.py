@@ -203,7 +203,7 @@ class BIWBplrDeformationAndIntrusion():
                         utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
                         utils.MetaCommand('color pid transparency reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -262,7 +262,7 @@ class BIWBplrDeformationAndIntrusion():
                         utils.MetaCommand('color pid transparency reset act')
                         utils.MetaCommand('grstyle deform on')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -285,10 +285,10 @@ class BIWBplrDeformationAndIntrusion():
                                 if final_curves:
                                     final_curves[0].show()
                                 else:
-                                    self.logger.info("WARNING : Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("ERROR : Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
                                 self.logger.info("")
                             initial_time_curve_name = "SS_0MS"
                             initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
@@ -312,10 +312,10 @@ class BIWBplrDeformationAndIntrusion():
                                     peak_curves[0].show()
                                 else:
                                     peak_curves = None
-                                    self.logger.info("WARNING :Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format("SS_"+str(peak_curve_value)+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("ERROR :Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format("SS_"+str(peak_curve_value)+"MS",GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                 self.logger.info("")
                             #custom formatting for the "Survival Space" plot title,yaxis,xaxis options
                             utils.MetaCommand('xyplot axisoptions axyrange "{}" 0 0 0 1200'.format(survival_space_window_name))
@@ -346,7 +346,7 @@ class BIWBplrDeformationAndIntrusion():
                                 picture.crop_left = 0
                                 picture.crop_right = 0
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         else:
                             self.logger.info("ERROR : 2D METADB does not contain 'Survival Space' window. Please update.")
@@ -400,7 +400,7 @@ class BIWBplrDeformationAndIntrusion():
                         biw_accel_bpillar_upr_l_y_velocity_curve.hide()
                         self.revert()
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 6"
                 elif shape.name == "Image 5":
@@ -450,7 +450,7 @@ class BIWBplrDeformationAndIntrusion():
                         biw_accel_bpillar_mid_upr_l_y_velocity_curve.hide()
                         self.revert()
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 6":
@@ -500,7 +500,7 @@ class BIWBplrDeformationAndIntrusion():
                         biw_accel_bpillar_mid_l_y_velocity_curve.hide()
                         self.revert()
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 8"
                 elif shape.name == "Image 7":
@@ -550,7 +550,7 @@ class BIWBplrDeformationAndIntrusion():
                         biw_accel_bpillar_mid_lwr_l_y_velocity_curve.hide()
                         self.revert()
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 9"
                 elif shape.name == "Image 8":
@@ -600,7 +600,7 @@ class BIWBplrDeformationAndIntrusion():
                         biw_accel_bpillar_lwr_l_y_velocity_curve.hide()
                         self.revert()
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             # duplicating oval shapes
             for shape in oval_shapes:

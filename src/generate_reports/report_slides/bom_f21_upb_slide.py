@@ -96,7 +96,7 @@ class BOMF21UPBSlide():
                         os.remove(transparent_image_path)
                         utils.MetaCommand('color pid transparency reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 1"
                 if shape.name == "Image 1":
@@ -139,7 +139,7 @@ class BOMF21UPBSlide():
                         os.remove(transparent_image_path)
                         utils.MetaCommand('color pid transparency reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             #iterating through the Table and Textbox shapes of the bom f21 upb slide
             remaining_shapes = [shape for shape in self.shapes if "Image" not in shape.name]

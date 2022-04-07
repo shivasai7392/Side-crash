@@ -97,7 +97,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                         utils.MetaCommand('options fringebar on')
                         utils.MetaCommand('0:options state original"')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
@@ -142,7 +142,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                         utils.MetaCommand('grstyle deform on')
                         utils.MetaCommand('0:options state original"')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -168,7 +168,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                         picture.crop_right = 0
                         utils.MetaCommand('options fringebar off')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 1"
                 elif shape.name == "Image 1":
@@ -191,10 +191,10 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                                     final_curves[0].show()
                                 else:
                                     final_curves = None
-                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("ERROR : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
                                 self.logger.info("")
                             initial_time_curve_name = "SIDE_SILL_0MS"
                             #showing side sill initial,final and peak state curves
@@ -216,10 +216,10 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                                     peak_curves[0].show()
                                 else:
                                     peak_curves = None
-                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("SIDE_SILL_"+str(peak_curve_value)+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("ERROR : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("SIDE_SILL_"+str(peak_curve_value)+"MS",GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                 self.logger.info("")
                             #custom formating of visible initial,peak and final state curves
                             utils.MetaCommand('xyplot plotactive "{}" 1'.format(biw_stiff_ring_def_window_name))
@@ -258,7 +258,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                                 plot.deactivate()
                                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_stiff_ring_def_window_name, layout))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         else:
                             self.logger.info("ERROR : 2D METADB does not contain 'Side sill & Roof intrusion' window. Please update.")
@@ -309,7 +309,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                         #reverting visual settings
                         utils.MetaCommand('annotation delete all')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             endtime = datetime.now()
         except Exception as e:

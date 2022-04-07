@@ -99,7 +99,7 @@ class BIWCBUDeformationSlide():
                         os.remove(transparent_image_path)
                         utils.MetaCommand('grstyle scalarfringe enable')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 1"
                 elif shape.name == "Image 2":
@@ -152,7 +152,7 @@ class BIWCBUDeformationSlide():
                         os.remove(transparent_image_path)
                         utils.MetaCommand('0:options state variable "serial=0"')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -176,7 +176,7 @@ class BIWCBUDeformationSlide():
                         picture.crop_right = 0
                         utils.MetaCommand('options fringebar off')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             endtime = datetime.now()
         except Exception as e:

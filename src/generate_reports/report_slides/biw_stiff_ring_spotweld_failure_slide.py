@@ -95,7 +95,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                         utils.MetaCommand('annotation delete all')
                         utils.MetaCommand('color pid transparency reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -142,7 +142,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                         #reverting visual settings
                         utils.MetaCommand('annotation delete all')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             endtime = datetime.now()
         except Exception as e:

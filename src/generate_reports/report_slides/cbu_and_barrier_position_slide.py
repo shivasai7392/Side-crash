@@ -91,7 +91,7 @@ class CBUAndBarrierPositionSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -130,7 +130,7 @@ class CBUAndBarrierPositionSlide():
                         #reverting color
                         utils.MetaCommand('color pid reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #table population for the shape named "Table 4"
                 elif shape.name == "Table 4":
@@ -147,7 +147,7 @@ class CBUAndBarrierPositionSlide():
                         font.underline = True
                         text_frame.paragraphs[0].text = str(round(float(self.general_input.test_mass_value)*1000,2))
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.test_mass_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.test_mass_key))
                         self.logger.info("")
                     if self.general_input.physical_mass_value not in ["null","none",""]:
                         #getting row 2 object and inserting physical mass value in cell 1
@@ -157,7 +157,7 @@ class CBUAndBarrierPositionSlide():
                         font.size = Pt(11)
                         text_frame.paragraphs[0].text = str(round(float(self.general_input.physical_mass_value)*1000,2))
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.physical_mass_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.physical_mass_key))
                         self.logger.info("")
                     if self.general_input.added_mass_value not in ["null","none",""]:
                         #getting row 3 object and inserting added mass value in cell 1
@@ -167,7 +167,7 @@ class CBUAndBarrierPositionSlide():
                         font.size = Pt(11)
                         text_frame.paragraphs[0].text = str(round(float(self.general_input.added_mass_value)*1000,2))
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.added_mass_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.added_mass_key))
                         self.logger.info("")
                     if self.general_input.total_mass_value not in ["null","none",""]:
                         #getting row 6 object and inserting total mass value in cell 1
@@ -177,7 +177,7 @@ class CBUAndBarrierPositionSlide():
                         font.size = Pt(11)
                         text_frame.paragraphs[0].text = str(round(float(self.general_input.total_mass_value)*1000,2))
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key))
                         self.logger.info("")
 
                     if self.general_input.test_mass_value not in ["null","none",""] and self.general_input.total_mass_value not in ["null","none",""]:
@@ -188,7 +188,7 @@ class CBUAndBarrierPositionSlide():
                         font.size = Pt(11)
                         text_frame.paragraphs[0].text = str(round((float(self.general_input.test_mass_value)-float(self.general_input.total_mass_value))*1000,2))
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key,GeneralVarInfo.test_mass_key))
+                        self.logger.info("ERROR : META 2D variable '{}' '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key,GeneralVarInfo.test_mass_key))
                         self.logger.info("")
                 #table population for the shape named "Table 1"
                 elif shape.name == "Table 1":
@@ -215,7 +215,7 @@ class CBUAndBarrierPositionSlide():
                         value = round(MDB_fr_node.x) - target_z_value
                         text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.MDB_fr_node_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.MDB_fr_node_key))
                         self.logger.info("")
                 #table population for the shape named "Table 2"
                 elif shape.name == "Table 2":
@@ -277,7 +277,7 @@ class CBUAndBarrierPositionSlide():
                         value = abs(round(MDB_rr_node.x) - round(suspension_rr_node.x)) - rear_target_overlap
                         text_frame.paragraphs[0].text = str("+"+str(value) if value>0 else value)
                     else:
-                        self.logger.info("WARNING : META 2D variables '{},{},{}' are not available or invalid. Please update.".format(GeneralVarInfo.struck_subframe_node_key,GeneralVarInfo.MDB_fr_node_key,GeneralVarInfo.MDB_rr_node_key))
+                        self.logger.info("ERROR : META 2D variables '{},{},{}' are not available or invalid. Please update.".format(GeneralVarInfo.struck_subframe_node_key,GeneralVarInfo.MDB_fr_node_key,GeneralVarInfo.MDB_rr_node_key))
                         self.logger.info("")
             utils.MetaCommand('options fringebar on')
             endtime = datetime.now()

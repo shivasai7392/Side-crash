@@ -77,7 +77,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                         picture.crop_right = 0
                         utils.MetaCommand('options fringebar off')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -118,7 +118,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                         picture.crop_left = 0
                         picture.crop_right = 0
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -160,7 +160,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                         picture.crop_right = 0
                         utils.MetaCommand('grstyle deform on')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
@@ -187,7 +187,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                                     peak_time = str(closest(skin_intrusion_line_list, round(float(self.general_input.peak_time_display_value))))
                                     peak_curve_re = "*{}MS".format(peak_time)
                                 else:
-                                    self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
                                 for name in [initial_curve_re,final_curve_re,peak_curve_re]:
                                     curve = plot.get_curves('byname', name = name)[0]
@@ -219,7 +219,7 @@ class EnclosurePerformanceSkinDeformationSlide():
                                 picture.crop_left = 0
                                 picture.crop_right = 0
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         else:
                             self.logger.info("ERROR : 2D METADB does not contain 'Door skin intrusion'. Please update.")

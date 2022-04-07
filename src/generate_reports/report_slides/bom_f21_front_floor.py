@@ -97,7 +97,7 @@ class BOMF21FrontFloorSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #table population for the shape named "Table 1"
                 elif shape.name == "Table 1":

@@ -161,10 +161,10 @@ class ExecutiveSlide():
                                 if final_curves:
                                     final_curves[0].show()
                                 else:
-                                    self.logger.info("WARNING : Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("ERROR : Survival space window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
                                 self.logger.info("")
                             initial_curve = plot2d.CurvesByName(survival_space_window_name, initial_time_curve_name, 0)[0]
                             initial_curve.show()
@@ -205,7 +205,7 @@ class ExecutiveSlide():
                                 #removing transparent image
                                 os.remove(transparent_image_path)
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #table population for the shape named "Table 1"
                         elif shape.name == "Table 1":
@@ -217,7 +217,7 @@ class ExecutiveSlide():
                                 font.size = Pt(11)
                                 text_frame_1.paragraphs[0].text = " {}".format(final_time)
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_key))
                                 self.logger.info("")
                             #getting row 2 object and inserting survival space peak value in cell 1
                             if self.general_input.survival_space_peak_value not in ["null","none",""]:
@@ -226,7 +226,7 @@ class ExecutiveSlide():
                                 font.size = Pt(11)
                                 text_frame_2.paragraphs[0].text = str(round(float(self.general_input.survival_space_peak_value)))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_peak_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_peak_key))
                                 self.logger.info("")
                             #getting row 3 object and inserting peak time in cell 1
                             if self.general_input.peak_time_display_value not in ["null","none",""]:
@@ -235,7 +235,7 @@ class ExecutiveSlide():
                                 font.size = Pt(11)
                                 text_frame_3.paragraphs[0].text = str(round(float(self.general_input.peak_time_display_value)))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 3"
                         elif shape.name == "Image 3":
@@ -272,7 +272,7 @@ class ExecutiveSlide():
                                 picture.crop_right = 0
                                 utils.MetaCommand('color pid transparency reset act')
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 4"
                         elif shape.name == "Image 4":
@@ -309,7 +309,7 @@ class ExecutiveSlide():
                                 picture.crop_right = 0
                                 utils.MetaCommand('color pid transparency reset act')
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 2"
                         elif shape.name == "Image 2":
@@ -366,7 +366,7 @@ class ExecutiveSlide():
                                 utils.MetaCommand('plane delete DEFAULT_PLANE_YZ')
                                 utils.MetaCommand('color pid transparency reset act')
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 5"
                         elif shape.name == "Image 5":
@@ -382,10 +382,10 @@ class ExecutiveSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 SHOULDER")
                                 else:
-                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_shoulder_intrusion_curve_name,GeneralVarInfo.front_shoulder_intrusion_curve_key))
+                                    self.logger.info("ERROR : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_shoulder_intrusion_curve_name,GeneralVarInfo.front_shoulder_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_shoulder_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_shoulder_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing front shoulder intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -405,7 +405,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 6"
                         elif shape.name == "Image 6":
@@ -421,10 +421,10 @@ class ExecutiveSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 ABDOMEN")
                                 else:
-                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_abdomen_intrusion_curve_name,GeneralVarInfo.front_abdomen_intrusion_curve_key))
+                                    self.logger.info("ERROR : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_abdomen_intrusion_curve_name,GeneralVarInfo.front_abdomen_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_abdomen_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_abdomen_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing front abdomen intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -444,7 +444,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 8"
                         elif shape.name == "Image 8":
@@ -460,10 +460,10 @@ class ExecutiveSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 FEMUR")
                                 else:
-                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_femur_intrusion_curve_name,GeneralVarInfo.front_femur_intrusion_curve_key))
+                                    self.logger.info("ERROR : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_femur_intrusion_curve_name,GeneralVarInfo.front_femur_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_femur_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_femur_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing front femur intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -483,7 +483,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 7"
                         elif shape.name == "Image 7":
@@ -499,10 +499,10 @@ class ExecutiveSlide():
                                     curves[0].show()
                                     self.intrusion_curve_format(front_door_accel_window_name,curves[0],temporary_window_name,"ROW 1 PELVIS")
                                 else:
-                                    self.logger.info("WARNING : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_pelvis_intrusion_curve_name,GeneralVarInfo.front_pelvis_intrusion_curve_key))
+                                    self.logger.info("ERROR : Front Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(front_pelvis_intrusion_curve_name,GeneralVarInfo.front_pelvis_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_pelvis_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.front_pelvis_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing front pelvis intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -522,7 +522,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 0"
                         elif shape.name == "Image 0":
@@ -540,10 +540,10 @@ class ExecutiveSlide():
                                     target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 SHOULDER",target_curve=target_curve)
                                 else:
-                                    self.logger.info("WARNING : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_shoulder_intrusion_curve_name,GeneralVarInfo.rear_shoulder_intrusion_curve_key))
+                                    self.logger.info("ERROR : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_shoulder_intrusion_curve_name,GeneralVarInfo.rear_shoulder_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_shoulder_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_shoulder_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing rear shoulder intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -563,7 +563,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 10"
                         elif shape.name == "Image 10":
@@ -581,10 +581,10 @@ class ExecutiveSlide():
                                     target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 ABDOMEN",target_curve=target_curve)
                                 else:
-                                    self.logger.info("WARNING : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_abdomen_intrusion_curve_name,GeneralVarInfo.rear_abdomen_intrusion_curve_key))
+                                    self.logger.info("ERROR : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_abdomen_intrusion_curve_name,GeneralVarInfo.rear_abdomen_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_abdomen_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_abdomen_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing rear abdomen intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -604,7 +604,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 12"
                         elif shape.name == "Image 12":
@@ -622,10 +622,10 @@ class ExecutiveSlide():
                                     target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 FEMUR",target_curve=target_curve)
                                 else:
-                                    self.logger.info("WARNING : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
+                                    self.logger.info("ERROR : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_femur_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_femur_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing rear femur intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -645,7 +645,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 11"
                         elif shape.name == "Image 11":
@@ -663,10 +663,10 @@ class ExecutiveSlide():
                                     target_curve.show()
                                     self.intrusion_curve_format(rear_door_accel_window_name,curves[0],temporary_window_name,"ROW 2 PELVIS",target_curve=target_curve)
                                 else:
-                                    self.logger.info("WARNING : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
+                                    self.logger.info("ERROR : Rear Door Accel window does not contain '{}' curve from META 2D variable {}. Please update.".format(rear_femur_intrusion_curve_name,GeneralVarInfo.rear_femur_intrusion_curve_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_femur_intrusion_curve_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.rear_femur_intrusion_curve_key))
                                 self.logger.info("")
                             #capturing rear pelvis intrusion curve plot image
                             if self.twod_images_report_folder:
@@ -686,7 +686,7 @@ class ExecutiveSlide():
                                 #deleting temporary window
                                 utils.MetaCommand('window delete "{}"'.format(temporary_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                     #iterating through table shapes
                     for shape in self.shapes:

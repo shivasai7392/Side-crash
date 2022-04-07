@@ -189,7 +189,7 @@ class BIWKinematicsSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -218,7 +218,7 @@ class BIWKinematicsSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -247,7 +247,7 @@ class BIWKinematicsSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
@@ -277,7 +277,7 @@ class BIWKinematicsSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             #reverting color and 3d data setup
             utils.MetaCommand('color pid reset act')
@@ -338,7 +338,7 @@ class BIWKinematicsSlide():
                                 biw_accel_mdb_x_velocity_curve.hide()
                                 self.revert()
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 6"
                         elif shape.name == "Image 6":
@@ -388,7 +388,7 @@ class BIWKinematicsSlide():
                                 biw_accel_unit_y_velocity_curve.hide()
                                 self.revert()
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 7"
                         elif shape.name == "Image 7":
@@ -438,7 +438,7 @@ class BIWKinematicsSlide():
                                 biw_accel_aplr_y_velocity_curve.hide()
                                 self.revert()
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 8"
                         elif shape.name == "Image 8":
@@ -488,7 +488,7 @@ class BIWKinematicsSlide():
                                 biw_accel_sis_row_2_y_velocity_curve.hide()
                                 self.revert()
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 9"
                         elif shape.name == "Image 9":
@@ -538,7 +538,7 @@ class BIWKinematicsSlide():
                                 biw_accel_ss_rr_top_y_velocity_curve.hide()
                                 self.revert()
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         #image insertion for the shape named "Image 9"
                         elif shape.name == "Image 10":
@@ -588,7 +588,7 @@ class BIWKinematicsSlide():
                                 biw_accel_upr_y_velocity_curve.hide()
                                 self.revert()
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                 else:
                     self.logger.info("ERROR : 2D METADB does not contain 'BIW - Accel' window. Please update.")

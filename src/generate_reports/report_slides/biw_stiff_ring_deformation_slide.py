@@ -76,10 +76,10 @@ class BIWStiffRingDeformationSlide():
                                     final_curves[0].show()
                                 else:
                                     final_curves = None
-                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("ERROR : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
                                 self.logger.info("")
                             initial_time_curve_name = "ROOF_LINE_0MS"
                             initial_curve = plot2d.CurvesByName(biw_stiff_ring_deformation_name, initial_time_curve_name, 0)[0]
@@ -100,10 +100,10 @@ class BIWStiffRingDeformationSlide():
                                     peak_curves[0].show()
                                 else:
                                     peak_curves = None
-                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("ROOF_LINE_"+str(peak_curve_value[0])+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("ERROR : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("ROOF_LINE_"+str(peak_curve_value[0])+"MS",GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                 self.logger.info("")
                             #custom formating of visible initial,peak and final state curves
                             utils.MetaCommand('xyplot plotactive "{}" 0'.format(biw_stiff_ring_deformation_name))
@@ -141,7 +141,7 @@ class BIWStiffRingDeformationSlide():
                                 plot.deactivate()
                                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_stiff_ring_deformation_name, layout))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         else:
                             self.logger.info("ERROR : 2D METADB does not contain 'Side sill & Roof intrusion'. Please update.")
@@ -166,10 +166,10 @@ class BIWStiffRingDeformationSlide():
                                 if final_curves:
                                     final_curves[0].show()
                                 else:
-                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("ERROR : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
                                 self.logger.info("")
                             initial_time_curve_name = "SIDE_SILL_0MS"
                             #showing side sill initial,final and peak state curves
@@ -191,11 +191,11 @@ class BIWStiffRingDeformationSlide():
                                     peak_curves[0].show()
                                 else:
                                     peak_curves = None
-                                    self.logger.info("WARNING : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("ROOF_LINE_"+str(peak_curve_value[0])+"MS",GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("ERROR : Side sill & Roof intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format("ROOF_LINE_"+str(peak_curve_value[0])+"MS",GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
 
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                 self.logger.info("")
                             #custom formating of visible initial,peak and final state curves
                             utils.MetaCommand('xyplot plotactive "{}" 1'.format(biw_stiff_ring_def_window_name))
@@ -233,7 +233,7 @@ class BIWStiffRingDeformationSlide():
                                 plot.deactivate()
                                 utils.MetaCommand('xyplot rlayout "{}" {}'.format(biw_stiff_ring_def_window_name, layout))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         else:
                             self.logger.info("ERROR : 2D METADB does not contain 'Side sill & Roof intrusion' window. Please update.")
@@ -277,7 +277,7 @@ class BIWStiffRingDeformationSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 7"
                 elif shape.name == "Image 5":
@@ -319,7 +319,7 @@ class BIWStiffRingDeformationSlide():
                         #reverting back deformation
                         utils.MetaCommand('grstyle deform on')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -360,7 +360,7 @@ class BIWStiffRingDeformationSlide():
                         #removing transparent image
                         os.remove(transparent_image_path)
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -403,7 +403,7 @@ class BIWStiffRingDeformationSlide():
                         #reverting back deformation
                         utils.MetaCommand('grstyle deform on')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 1"
                 elif shape.name == "Image 1":
@@ -427,7 +427,7 @@ class BIWStiffRingDeformationSlide():
                         picture.crop_right = 0
                         utils.MetaCommand('options fringebar off')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
             endtime = datetime.now()
         except Exception as e:

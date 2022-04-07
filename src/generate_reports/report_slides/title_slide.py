@@ -67,7 +67,7 @@ class TitleSlide():
                     if self.general_input.verification_mode not in ["null","none",""]:
                         text_frame_2.paragraphs[0].text = " " + self.general_input.verification_mode
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.verification_mode_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.verification_mode_key))
                         self.logger.info("")
                     #inserting run directory path in row 4 cell 2
                     text_frame_3 = rows[4].cells[2].text_frame
@@ -76,7 +76,7 @@ class TitleSlide():
                     if self.general_input.run_directory.startswith("/"):
                         text_frame_3.paragraphs[0].text = " " + self.general_input.run_directory
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.run_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.run_directory_key))
                         self.logger.info("")
             endtime = datetime.now()
         except Exception as e:

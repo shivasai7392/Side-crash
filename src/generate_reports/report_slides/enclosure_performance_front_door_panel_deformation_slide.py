@@ -78,7 +78,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                         picture.crop_right = 0
                         utils.MetaCommand('options fringebar off')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 2"
                 elif shape.name == "Image 2":
@@ -118,7 +118,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                         #reverting visual settings
                         utils.MetaCommand('color pid transparency reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
@@ -159,7 +159,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                         utils.MetaCommand('grstyle deform on')
                         utils.MetaCommand('color pid transparency reset act')
                     else:
-                        self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                         self.logger.info("")
                 #image insertion for the shape named "Image 4"
                 elif shape.name == "Image 4":
@@ -183,10 +183,10 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                     if final_curves:
                                         final_curves[0].show()
                                     else:
-                                        self.logger.info("WARNING : Door panel intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                        self.logger.info("ERROR : Door panel intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                         self.logger.info("")
                                 else:
-                                    self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
+                                    self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
                                     self.logger.info("")
                                 for each_curve in curves:
                                     ms = each_curve.name.rsplit("_",1)[1]
@@ -196,16 +196,16 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                 if self.general_input.peak_time_display_value not in ["null","none",""]:
                                     peak_time = str(closest(deformation_line_list, round(float(self.general_input.peak_time_display_value))))
                                     peak_curve_re = "*{}MS".format(peak_time)
-                                    peak_curves = plot2d.CurvesByName(door_panel_intrusion_window, peak_curve_re, 0)
+                                    peak_curves = plot2d.CurvesByName(door_panel_intrusion_window_name, peak_curve_re, 0)
                                     if peak_curves:
                                         peak_curves[0].show()
                                     else:
-                                        self.logger.info("WARNING : Door panel intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(peak_curve_re,GeneralVarInfo.peak_time_display_key))
+                                        self.logger.info("ERROR : Door panel intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(peak_curve_re,GeneralVarInfo.peak_time_display_key))
                                         self.logger.info("")
                                 else:
-                                    self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
+                                    self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
-                                initial_curve = plot2d.CurvesByName(door_panel_intrusion_window, initial_curve_re, 0)[0]
+                                initial_curve = plot2d.CurvesByName(door_panel_intrusion_window_name, initial_curve_re, 0)[0]
                                 initial_curve.show()
                                 initial_curve.set_line_style(line_style = 5)
                                 utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(door_panel_intrusion_window_name,plot.id))
@@ -237,7 +237,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                 utils.MetaCommand('xyplot rlayout "Door panel intrusion" {}'.format(door_panel_intrusion_window_layout))
                                 utils.MetaCommand('xyplot plotdeactive "{}" all'.format(door_panel_intrusion_window_name))
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                         else:
                             self.logger.info("ERROR : 2D METADB does not contain 'Door panel intrusion'. Please update.")

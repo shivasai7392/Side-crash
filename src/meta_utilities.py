@@ -202,10 +202,10 @@ def visualize_3d_critical_section(data,and_filter = None):
             utils.MetaCommand('or advfilter partoutput add:Parts:name:{}:Keep All'.format(prop_names))
     else:
         if name:
-            logger.info("WARNING : Critical part set '{}' has no hes filter variable. Please update.".format(name))
+            logger.info("ERROR : Critical part set '{}' has no hes filter variable. Please update.".format(name))
             logger.info("")
         else:
-            logger.info("WARNING : Unknown Critical part set has no hes filter variables. Please update.")
+            logger.info("ERROR : Unknown Critical part set has no hes filter variables. Please update.")
             logger.info("")
     #hiding any exceptions from meta viewer
     utils.MetaCommand('add pid {}'.format(hes_exceptions))
@@ -322,7 +322,7 @@ def visualize_annotation(spotweld_id_elements,bins_path):
         logger.info("PROCESSED WELDS : {} | WELDS ABOVE THRESHOLD : {} | TOTAL WELD IDENTIFICATION AND ANNOTATIONS ADD TIME : {}".format(len(curves),failed_welds,annot_end_time - start_time))
         logger.info("")
     else:
-        logger.info("WARNING : META 2D variable 'pA' is not available or invalid. Please update.")
+        logger.info("ERROR : META 2D variable 'pA' is not available or invalid. Please update.")
         logger.info("")
     return 0
 

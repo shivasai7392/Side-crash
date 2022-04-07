@@ -119,7 +119,7 @@ class CAEQualitySlide():
                                 picture.crop_left = 0
                                 picture.crop_right = 0
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                             #reverting the plot layout of the window and deactiving the "System Energy" plot
                             utils.MetaCommand('xyplot rlayout "{}" 2'.format(cae_quality_window_name))
@@ -154,7 +154,7 @@ class CAEQualitySlide():
                                 picture.crop_left = 0
                                 picture.crop_right = 0
                             else:
-                                self.logger.info("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
+                                self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.report_directory_key))
                                 self.logger.info("")
                             #reverting the plot layout of the window and deactiving the "System Energy" plot
                             utils.MetaCommand('xyplot rlayout "{}" 2'.format(cae_quality_window_name))
@@ -198,11 +198,11 @@ class CAEQualitySlide():
                             #getting table object
                             table_obj = shape.table
                             #creating dictionary with data which is used to insert data into table
-                            table_value_dict ={"Termination type":self.general_input.termination_type if self.general_input.termination_type not in ["null","none",""] else self.logger.log("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.termination_type_key)),
-                                                "Computation time":self.general_input.computation_time if self.general_input.computation_time not in ["null","none",""] else self.logger.log("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.computation_time_key)),
-                                                "Core count":self.general_input.core_count if self.general_input.core_count not in ["null","none",""] else self.logger.log("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.core_count_key)),
-                                                "Verification mode":self.general_input.verification_mode if self.general_input.verification_mode not in ["null","none",""] else self.logger.log("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.verification_mode_key)),
-                                                "Compute cluster":self.general_input.compute_cluster if self.general_input.compute_cluster not in ["null","none",""] else self.logger.log("WARNING : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.compute_cluster_key))}
+                            table_value_dict ={"Termination type":self.general_input.termination_type if self.general_input.termination_type not in ["null","none",""] else self.logger.log("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.termination_type_key)),
+                                                "Computation time":self.general_input.computation_time if self.general_input.computation_time not in ["null","none",""] else self.logger.log("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.computation_time_key)),
+                                                "Core count":self.general_input.core_count if self.general_input.core_count not in ["null","none",""] else self.logger.log("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.core_count_key)),
+                                                "Verification mode":self.general_input.verification_mode if self.general_input.verification_mode not in ["null","none",""] else self.logger.log("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.verification_mode_key)),
+                                                "Compute cluster":self.general_input.compute_cluster if self.general_input.compute_cluster not in ["null","none",""] else self.logger.log("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.compute_cluster_key))}
                             #iterating through above dictionary to insert data into table
                             for index,(item,value) in enumerate(table_value_dict.items()):
                                 #adding a new row to the table
