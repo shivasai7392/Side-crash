@@ -104,8 +104,12 @@ def main(*args):
     #reading the results
     messenger.start_buffering()
     utils.MetaCommand('read options boundary materials')
-    utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
-    utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
+    if all(var not in ["null","none",""] for var in [general_input_info.peak_state_value,general_input_info.final_state_value]):
+        utils.MetaCommand('read dis MetaDB {} {},{} lossy_compressed:0:Displacements'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
+        utils.MetaCommand('read onlyfun MetaDB {} {},{} lossy_compressed:0:MetaResult::Stresses(ECS),,PlasticStrain'.format(user_input.metadb_3d_input,general_input_info.peak_state_value,general_input_info.final_state_value))
+    else:
+        logger.log.info("ERROR : META 2D variables '{},{}' is/are not available or invalid. Please update.".format(GeneralVarInfo.peak_state_key,GeneralVarInfo.final_state_key))
+        logger.log.info("")
     messenger.stop_buffering()
     buffer = messenger.get_buffer()
     #_ret = [logger.log.info(item) for item in buffer if item.strip() != ""]
