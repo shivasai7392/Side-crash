@@ -225,6 +225,7 @@ class BIWKinematicsSlide():
                     if self.threed_images_report_folder is not None:
                         #capturing "MetaPost" window image
                         image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_FRONT_VIEW_AT_FINAL_STATE"+".png").replace(" ","_")
+                        utils.MetaCommand('0:options state variable "serial=2"')
                         capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "front",transparent=True)
                         self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                         self.logger.info("")
@@ -255,6 +256,7 @@ class BIWKinematicsSlide():
                         utils.MetaCommand('color pid Gray act')
                         #capturing "MetaPost" window image
                         image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW_AT_FINAL_STATE"+".png").replace(" ","_")
+                        utils.MetaCommand('0:options state variable "serial=2"')
                         capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,view = "top",rotate = Image.ROTATE_90,transparent=True)
                         self.logger.info("--- 3D MODEL IMAGE GENERATOR")
                         self.logger.info("")
