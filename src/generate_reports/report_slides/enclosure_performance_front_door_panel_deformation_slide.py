@@ -178,12 +178,13 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                 curves = plot.get_curves('all')
                                 deformation_line_list = []
                                 if self.general_input.survival_space_final_time not in ["null","none",""]:
-                                    final_time_curve_name = "*{}MS".format(round(float(self.general_input.survival_space_final_time)))
-                                    final_curves = plot2d.CurvesByName(door_panel_intrusion_window_name, final_time_curve_name, 0)
+                                    final_time = str(round(float(self.general_input.survival_space_final_time)))
+                                    final_time_curve_name = "*{}MS".format(final_time)
+                                    final_curves = plot.get_curves('byname', name = final_time_curve_name)
                                     if final_curves:
                                         final_curves[0].show()
                                     else:
-                                        self.logger.info("ERROR : Door panel intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
+                                        self.logger.info("ERROR : Door panel intrusion window does not contain Front '{}' curve from META 2D variable {}. Please update.".format(final_time_curve_name,GeneralVarInfo.survival_space_final_time_key))
                                         self.logger.info("")
                                 else:
                                     self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.survival_space_final_time_key))
@@ -196,18 +197,18 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                 if self.general_input.peak_time_display_value not in ["null","none",""]:
                                     peak_time = str(closest(deformation_line_list, round(float(self.general_input.peak_time_display_value))))
                                     peak_curve_re = "*{}MS".format(peak_time)
-                                    peak_curves = plot2d.CurvesByName(door_panel_intrusion_window_name, peak_curve_re, 0)
+                                    peak_curves = plot.get_curves('byname', name = peak_curve_re)
                                     if peak_curves:
                                         peak_curves[0].show()
+                                        peak_curves[0].set_line_style(line_style = 5)
                                     else:
-                                        self.logger.info("ERROR : Door panel intrusion window does not contain '{}' curve from META 2D variable {}. Please update.".format(peak_curve_re,GeneralVarInfo.peak_time_display_key))
+                                        self.logger.info("ERROR : Door panel intrusion window does not contain Front '{}' curve from META 2D variable {}. Please update.".format(peak_curve_re,GeneralVarInfo.peak_time_display_key))
                                         self.logger.info("")
                                 else:
                                     self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.peak_time_display_key))
                                     self.logger.info("")
-                                initial_curve = plot2d.CurvesByName(door_panel_intrusion_window_name, initial_curve_re, 0)[0]
+                                initial_curve = plot.get_curves('byname', name = initial_curve_re)[0]
                                 initial_curve.show()
-                                initial_curve.set_line_style(line_style = 5)
                                 utils.MetaCommand('xyplot axisoptions yaxis active "{}" {} 0'.format(door_panel_intrusion_window_name,plot.id))
                                 utils.MetaCommand('xyplot axisoptions ylabel font "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
                                 utils.MetaCommand('xyplot axisoptions labels yfont "{}" {} "Arial,10,-1,5,75,0,0,0,0,0"'.format(door_panel_intrusion_window_name,plot.id))
@@ -224,7 +225,7 @@ class EnclosurePerformanceFrontDoorPanelDeformationSlide():
                                 capture_image_and_resize(image_path,shape.width,shape.height)
                                 self.logger.info("--- 2D CURVE IMAGE GENERATOR")
                                 self.logger.info("")
-                                self.logger.info("CURVES : {} | SOURCE PLOT : VISIBLE PLOTS WITH IDS 0,2,4 | SOURCE WINDOW : {}".format("*0MS,*150MS,*{}MS".format(peak_time),door_panel_intrusion_window_name))
+                                self.logger.info("CURVES : {} | SOURCE PLOT : VISIBLE PLOTS WITH IDS 0,2,4 | SOURCE WINDOW : {}".format("*0MS,*{}MS,*{}MS".format(final_time,peak_time),door_panel_intrusion_window_name))
                                 self.logger.info("OUTPUT IMAGE SIZE (PIXELS) : {}x{}".format(round(shape.width/9525),round(shape.height/9525)))
                                 self.logger.info("OUTPUT CURVE IMAGES : ")
                                 self.logger.info(image_path)
