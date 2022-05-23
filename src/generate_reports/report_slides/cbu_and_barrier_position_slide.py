@@ -10,6 +10,7 @@ from datetime import datetime
 from meta import utils
 from meta import nodes
 from meta import models
+from meta import plot2d
 
 from src.meta_utilities import capture_image
 from src.meta_utilities import visualize_3d_critical_section
@@ -191,7 +192,7 @@ class CBUAndBarrierPositionSlide():
                         self.logger.info("ERROR : META 2D variable '{}' '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key,GeneralVarInfo.test_mass_key))
                         self.logger.info("")
                 #table population for the shape named "Table 1"
-                elif shape.name == "Table 1":
+                if shape.name == "Table 1":
                     #getting the table object
                     table_obj = shape.table
                     # If MDB_fr_node_id not in null,none,""
@@ -224,8 +225,32 @@ class CBUAndBarrierPositionSlide():
                     res = model.get_current_resultset()
                     if all(var not in ["null","none",""] for var in [self.general_input.struck_subframe_node_ids,self.general_input.MDB_fr_node_id,self.general_input.MDB_rr_node_id]):
                         struck_subframe_node_ids = self.general_input.struck_subframe_node_ids
-                        struck_subframe_node1 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[0]), model_id=0)
-                        struck_subframe_node2 = nodes.Node(id=int(struck_subframe_node_ids.split("/")[1]), model_id=0)
+                        target_nodes = [struck_subframe_node_ids.split("/")[0],struck_subframe_node_ids.split("/")[1]]
+                        curve_types = plot2d.CurvesTypesDynaWithNames(self.general_input.binout_directory)
+                        id_sorted_search_nodes = []
+                        search_target = []
+                        identified = []
+                        for one_type in curve_types:
+                            types = one_type[0]
+                            if (types == 'nodout-Node'):
+                                entities = one_type[1]
+                                for one_entity in entities:
+                                    logged = 0
+                                    entity_id = one_entity[0]
+                                    entity_name = one_entity[1]
+                                    if (entity_name in target_nodes):
+                                        is_it_real = target_nodes.index(entity_name)
+                                        id_sorted_search_nodes.append(str(entity_id))
+                                        search_target.append(entity_name)
+                                        identified.append(target_nodes[is_it_real])
+                                        logged = 1
+                                    if str(entity_id) in target_nodes and (logged == 0):
+                                        is_it_real = target_nodes.index(entity_id)
+                                        id_sorted_search_nodes.append(target_nodes[is_it_real])
+                                        search_target.append(str(entity_id))
+                                        identified.append(target_nodes[is_it_real])
+                        struck_subframe_node1 = nodes.Node(id=int(id_sorted_search_nodes[0]), model_id=0)
+                        struck_subframe_node2 = nodes.Node(id=int(id_sorted_search_nodes[1]), model_id=0)
                         MDB_fr_node_id = int(self.general_input.MDB_fr_node_id)
                         MDB_fr_node = nodes.Node(id=MDB_fr_node_id, model_id=0)
                         MDB_rr_node_id = int(self.general_input.MDB_rr_node_id)
