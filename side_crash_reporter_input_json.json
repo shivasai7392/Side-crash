@@ -1,8 +1,8 @@
 {
-    "2D_METADB_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/2tn_side_cae_phase1_v3p1.metadb",
-    "3D_METADB_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb",
-    "TARGET_METADB_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/target_file.metadb",
-    "D3HSP_FILE_PATH":"D:/META/SIDECRASH/__data__/3_March_2022/beta_cae_03-03-2022/decomp_d3hsp",
+    "2D_METADB_FILE_PATH":"D:/META_Projects/side_crash/Side_crash_data/march_3rd_2022/beta_cae_03-03-2022/2tn_side_cae_phase1_v3p1.metadb",
+    "3D_METADB_FILE_PATH":"D:/META_Projects/side_crash/Side_crash_data/3d_metadb/2TN_V2_NP0_DWB_4WD_WB_Master_CntrPllrThinningTop_111821_d_eps_vm.metadb",
+    "TARGET_METADB_FILE_PATH":"D:/META_Projects/side_crash/Side_crash_data/march_10th_2022/target_file.metadb",
+    "D3HSP_FILE_PATH":"D:/META_Projects/side_crash/Side_crash_data/march_3rd_2022/beta_cae_03-03-2022/decomp_d3hsp",
     "#Comment1": "Keys starting with symbol '#' are considered as commented and will be ignored in the tool",
     "#Comment2": "In any heirarchy keys should be unique",
     "#Comment3": "Changing the indent or order of the keys with in the heirarchy will not show any effect in the tool",
