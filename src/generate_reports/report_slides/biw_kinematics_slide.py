@@ -67,13 +67,15 @@ class BIWKinematicsSlide():
                 utils.MetaCommand('0:options state variable "serial=1"')
                 utils.MetaCommand('grstyle scalarfringe disable')
                 utils.MetaCommand('options fringebar off')
-                #visualizing all the critical part sets to capture whole cbu and barrier image at peak state in gray color
-                critical_data = self.metadb_3d_input.critical_sections
-                for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                    and_filter = False
-                    if index>0:
-                        and_filter = True
-                    visualize_3d_critical_section(value,and_filter = and_filter)
+                #visualizing cbu critical part set to capture whole cbu and barrier image at peak state in gray color
+                data = self.metadb_3d_input.critical_sections["cbu"]
+                visualize_3d_critical_section(data,name = "cbu")
+                # critical_data = self.metadb_3d_input.critical_sections
+                # for (index,(critical_section,value)) in enumerate(critical_data.items()):
+                #     and_filter = False
+                #     if index>0:
+                #         and_filter = True
+                #     visualize_3d_critical_section(value,and_filter = and_filter,name = critical_section)
                 utils.MetaCommand('color pid Gray act')
         except Exception  as e:
             return 1

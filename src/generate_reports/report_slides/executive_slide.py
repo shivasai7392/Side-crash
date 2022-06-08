@@ -241,7 +241,7 @@ class ExecutiveSlide():
                         elif shape.name == "Image 3":
                             #visualizing "f28_front_door" critical part set to capture image at peak state
                             data = self.metadb_3d_input.critical_sections["f28_front_door"]
-                            visualize_3d_critical_section(data)
+                            visualize_3d_critical_section(data,name = "f28_front_door")
                             utils.MetaCommand('grstyle scalarfringe enable')
                             utils.MetaCommand('0:options state variable "serial=1"')
                             utils.MetaCommand('options fringebar off')
@@ -278,7 +278,7 @@ class ExecutiveSlide():
                         elif shape.name == "Image 4":
                             #visualizing "f28_rear_door" critical part set to capture image at peak state
                             data = self.metadb_3d_input.critical_sections["f28_rear_door"]
-                            visualize_3d_critical_section(data)
+                            visualize_3d_critical_section(data,name = "f28_rear_door")
                             utils.MetaCommand('grstyle scalarfringe enable')
                             utils.MetaCommand('0:options state variable "serial=1"')
                             utils.MetaCommand('options fringebar off')
@@ -317,7 +317,7 @@ class ExecutiveSlide():
                             utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                             #visualizing "f21_upb_inner" critical part set
                             data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                            visualize_3d_critical_section(data)
+                            visualize_3d_critical_section(data,name = "f21_upb_inner")
                             #utils.MetaCommand('color pid transparency reset act')
                             utils.MetaCommand('grstyle scalarfringe enable')
                             #adding a yz plane and slicing the critiical part set with width 500

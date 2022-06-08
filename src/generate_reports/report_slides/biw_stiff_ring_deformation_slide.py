@@ -243,7 +243,7 @@ class BIWStiffRingDeformationSlide():
                 elif shape.name == "Image 4":
                     #visualizing "f21_upb_inner" critical part set to capture image at peak state with deformation
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_inner")
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('0:options state variable "serial=1"')
@@ -283,7 +283,7 @@ class BIWStiffRingDeformationSlide():
                 elif shape.name == "Image 5":
                     #visualizing "f21_upb_inner" critical part set to capture image at peak state without deformation
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_inner")
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('0:options state variable "serial=1"')
@@ -325,7 +325,7 @@ class BIWStiffRingDeformationSlide():
                 elif shape.name == "Image 2":
                     #visualizing "f21_upb_outer" critical part set to capture image at peak state with deformation
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_outer")
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('0:options state variable "serial=1"')
@@ -366,7 +366,7 @@ class BIWStiffRingDeformationSlide():
                 elif shape.name == "Image 3":
                     #visualizing "f21_upb_outer" critical part set to capture image at peak state without deformation
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_outer")
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('0:options state variable "serial=1"')

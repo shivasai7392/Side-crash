@@ -85,7 +85,7 @@ class EnclosurePerformanceRearDoorPanelDeformationSlide():
                     #visualizing and capturing image of "f28_rear_door" critical part sets at peak state with deformation
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     data = self.metadb_3d_input.critical_sections["f28_rear_door"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f28_rear_door")
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('options fringebar off')
@@ -125,7 +125,7 @@ class EnclosurePerformanceRearDoorPanelDeformationSlide():
                     #visualizing and capturing image of "f28_rear_door" critical part sets at peak state without deformation
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     data = self.metadb_3d_input.critical_sections["f28_rear_door"]
-                    visualize_3d_critical_section(data,and_filter = True)
+                    visualize_3d_critical_section(data,and_filter = True,name = "f28_rear_door")
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('options fringebar off')

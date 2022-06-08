@@ -60,13 +60,15 @@ class CBUAndBarrierPositionSlide():
             for shape in self.shapes:
                 #image insertion for the shape named "Image 4"
                 if shape.name == "Image 4":
-                    #visualizing all the critical part sets to capture whole cbu and barrier image at original state
-                    critical_data = self.metadb_3d_input.critical_sections
-                    for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                        and_filter = False
-                        if index>0:
-                            and_filter = True
-                        visualize_3d_critical_section(value,and_filter = and_filter)
+                    #visualizing the cbu critical part set to capture whole cbu and barrier image at original state
+                    data = self.metadb_3d_input.critical_sections["cbu"]
+                    visualize_3d_critical_section(data,name = "cbu")
+                    # critical_data = self.metadb_3d_input.critical_sections
+                    # for (index,(critical_section,value)) in enumerate(critical_data.items()):
+                    #     and_filter = False
+                    #     if index>0:
+                    #         and_filter = True
+                    #     visualize_3d_critical_section(value,and_filter = and_filter,name = critical_section)
                     # If twod_images_report_folder is not None the capture image and add the picture into slide
                     if self.threed_images_report_folder is not None:
                         image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"CBU_AND_BARRIER_TOP_VIEW"+".png").replace(" ","_")
@@ -96,13 +98,15 @@ class CBUAndBarrierPositionSlide():
                         self.logger.info("")
                 #image insertion for the shape named "Image 3"
                 elif shape.name == "Image 3":
-                   #visualizing all the critical part sets to capture whole cbu and barrier image at original state with gray color
-                    critical_data = self.metadb_3d_input.critical_sections
-                    for (index,(_critical_section,value)) in enumerate(critical_data.items()):
-                        and_filter = False
-                        if index>0:
-                            and_filter = True
-                        visualize_3d_critical_section(value,and_filter = and_filter)
+                    #visualizing all the critical part sets to capture whole cbu and barrier image at original state with gray color
+                    data = self.metadb_3d_input.critical_sections["cbu"]
+                    visualize_3d_critical_section(data,name = "cbu")
+                    # critical_data = self.metadb_3d_input.critical_sections
+                    # for (index,(critical_section,value)) in enumerate(critical_data.items()):
+                    #     and_filter = False
+                    #     if index>0:
+                    #         and_filter = True
+                    #     visualize_3d_critical_section(value,and_filter = and_filter,name = critical_section)
                     utils.MetaCommand('color pid Gray act')
                     # If twod_images_report_folder is not None the capture image and add the picture into slide
                     if self.threed_images_report_folder is not None:

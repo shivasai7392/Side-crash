@@ -57,7 +57,7 @@ class BOMF28DoorsSlide():
             utils.MetaCommand('0:options state original')
             utils.MetaCommand('options fringebar off')
             data = self.metadb_3d_input.critical_sections["f28_front_door"]
-            visualize_3d_critical_section(data)
+            visualize_3d_critical_section(data,name = "f28_front_door")
             m = models.Model(0)
             self.visible_parts = m.get_parts('visible')
             #iterating through the shapes of the bom f28 fonr door

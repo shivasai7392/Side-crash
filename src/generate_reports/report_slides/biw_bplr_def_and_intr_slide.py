@@ -154,7 +154,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     #visualizing "f21_upb_inner" critical part set with deformation on
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_inner")
                     #utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     #adding a yz plane and slicing the critiical part set with width 500
@@ -211,7 +211,7 @@ class BIWBplrDeformationAndIntrusion():
                     utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     #visualizing "f21_upb_inner" critical part set with deformation off
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_inner")
                     #utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('grstyle scalarfringe enable')
                     #adding a yz plane and slicing the critiical part set with width 500

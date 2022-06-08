@@ -171,7 +171,7 @@ def capture_image_and_resize(file_path,width,height,rotate = None,transparent = 
 
     return 0
 
-def visualize_3d_critical_section(data,and_filter = None):
+def visualize_3d_critical_section(data,and_filter = None,name = None):
     """
     This method is used to visualize the 3d Critical Sections data.
 
@@ -184,7 +184,9 @@ def visualize_3d_critical_section(data,and_filter = None):
     get_var = lambda key: data[key] if key in data.keys() else None
     # Get the values for hes,hes_exceptions,erase_pids etc..
     prop_names = get_var("hes")
-    name = get_var("name")
+    show_hes = get_var("show_hes")
+    section_name = get_var("name")
+    section_name = section_name if section_name and section_name not in ["null","none",""] else name
     hes_exceptions = get_var("hes_exceptions")
     exclude = "null"
     erase_pids = get_var("erase_pids")
@@ -204,13 +206,14 @@ def visualize_3d_critical_section(data,and_filter = None):
         if not and_filter:
             utils.MetaCommand('add all')
             utils.MetaCommand('add invert')
-        if name:
-            logger.info("WARNING : Critical part set '{}' has no hes filter variable. Please update 2D META Variable..".format(name))
-            logger.info("")
-        else:
-            logger.info("WARNING : Unknown Critical part set has no hes filter variables. Please update 2D META Variable..")
-            logger.info("")
-    #hiding any exceptions from meta viewer
+        if show_hes is None and section_name:
+            if hes_exceptions and hes_exceptions not in ["null","none",""]:
+                logger.info("WARNING : Critical part set '{}' has no hes filter variable. Please update 2D META Variable..".format(name))
+                logger.info("")
+            else:
+                logger.info("Error : Critical part set '{}' has no hes or hes_exceptions filter variable. Please update 2D META Variable..".format(name))
+                logger.info("")
+    #adding any exceptions from meta viewer
     utils.MetaCommand('add pid {}'.format(hes_exceptions))
     utils.MetaCommand('erase advfilter partoutput add:Parts:name:{}:Keep All'.format(exclude))
     #erasing the pids from the meta viewer

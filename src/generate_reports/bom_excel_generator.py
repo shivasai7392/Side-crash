@@ -51,7 +51,7 @@ class ExcelBomGeneration():
         if self.excel_bom_report_folder is not None:
             for key,value in critical_section_data.items():
                 # If "hes" is there in value.keys and value with respective hes is not null
-                if 'hes' in value.keys() and value['hes'] != 'null':
+                if (('hes' in value.keys() and value['hes'] not in ["null","none",""]) or ("hes_exceptions" in value.keys() and value["hes_exceptions"] not in ["null","none",""])) and ("show_hes" not in value.keys()):
                     # Generating the BOM for logging
                     self.logger.info("GENERATING BOM : {}".format(value["name"] if "name" in value.keys() else key))
                     self.logger.info("")
@@ -63,7 +63,7 @@ class ExcelBomGeneration():
                     spreedsheet["C1"] = "Material"
                     spreedsheet["D1"] = "Thickness"
                     # Getting thr Parts Which are visible
-                    visualize_3d_critical_section(value)
+                    visualize_3d_critical_section(value,name = key)
                     visible_parts = m.get_parts('visible')
                     if visible_parts:
                         # applying length for visible parts

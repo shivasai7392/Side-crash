@@ -57,7 +57,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                     utils.MetaCommand('0:options state original')
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_outer")
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
                     self.logger.info("START TIME : {}".format(datetime.now().strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))
@@ -104,7 +104,7 @@ class BIWStiffRingSpotWeldFailureSlide():
                     utils.MetaCommand('0:options state original')
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_inner")
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
                     self.logger.info("START TIME : {}".format(datetime.now().strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))

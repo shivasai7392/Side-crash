@@ -84,7 +84,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                 elif shape.name == "Image 2":
                     #visualising  and capturing image of "f21_roof" critical part set at peak state
                     data = self.metadb_3d_input.critical_sections["f21_roof"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_roof")
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('options fringebar off')
@@ -125,7 +125,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                 elif shape.name == "Image 3":
                     #visualising and capturing image of "f21_roof" critical part set at original state with spotweld failure
                     data = self.metadb_3d_input.critical_sections["f21_roof"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_roof")
                     utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('window maximize {}'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('options fringebar off')
@@ -263,7 +263,7 @@ class BIWROOFDeformationAndSpotWeldFailure():
                     utils.MetaCommand('0:options state original')
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_roof"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_roof")
                     #getting annotations to the visible parts
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
                     self.logger.info("START TIME : {}".format(datetime.now().strftime("%H:%M:%S")))

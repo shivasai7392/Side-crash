@@ -54,7 +54,7 @@ class BOMF21ROOFSlide():
             utils.MetaCommand('0:options state original')
             utils.MetaCommand('options fringebar off')
             data = self.metadb_3d_input.critical_sections["f21_roof"]
-            visualize_3d_critical_section(data)
+            visualize_3d_critical_section(data,name = "f21_roof")
             m = models.Model(0)
             self.visible_parts = m.get_parts('visible')
             utils.MetaCommand('0:options state original')

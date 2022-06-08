@@ -57,7 +57,7 @@ class BOMF21FrontFloorSlide():
             utils.MetaCommand('0:options state original')
             utils.MetaCommand('options fringebar off')
             data = self.metadb_3d_input.critical_sections["f21_front_floor"]
-            visualize_3d_critical_section(data)
+            visualize_3d_critical_section(data,name = "f21_front_floor")
             m = models.Model(0)
             self.visible_parts = m.get_parts('visible')
             #iterating through the shapes of the bom f21 front floor

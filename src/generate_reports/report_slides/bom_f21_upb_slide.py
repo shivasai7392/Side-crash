@@ -59,7 +59,7 @@ class BOMF21UPBSlide():
                 if shape.name == "Image 2":
                     #visualizing "f21_upb_inner" critical part set to capture image at original state
                     data = self.metadb_3d_input.critical_sections["f21_upb_inner"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_inner")
                     self.f21_upb_inner_visible_parts = m.get_parts('visible')
                     utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('options fringebar off')
@@ -102,7 +102,7 @@ class BOMF21UPBSlide():
                 if shape.name == "Image 1":
                     #visualizing "f21_upb_outer" critical part set to capture image at original state
                     data = self.metadb_3d_input.critical_sections["f21_upb_outer"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_upb_outer")
                     self.f21_upb_outer_visible_parts = m.get_parts('visible')
                     utils.MetaCommand('window maximize "{}"'.format(self.general_input.threed_window_name))
                     utils.MetaCommand('options fringebar off')

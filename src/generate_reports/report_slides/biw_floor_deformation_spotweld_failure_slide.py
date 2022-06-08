@@ -64,7 +64,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('grstyle scalarfringe enable')
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_front_floor")
                     if self.threed_images_report_folder is not None:
                         image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITH_DEFORMATION"+".png").replace(" ","_")
                         capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
@@ -108,7 +108,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('options fringebar off')
                     utils.MetaCommand('grstyle deform off')
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_front_floor")
                     if self.threed_images_report_folder is not None:
                         image_path = os.path.join(self.threed_images_report_folder,self.general_input.threed_window_name+"_"+"F21_FRONT_FLOOR_AT_PEAK_STATE_WITHOUT_DEFORMATION"+".png").replace(" ","_")
                         capture_image(image_path,self.general_input.threed_window_name,shape.width,shape.height,transparent=True)
@@ -270,7 +270,7 @@ class BIWFloorDeformationAndSpotWeldFailureSlide():
                     utils.MetaCommand('0:options state original')
                     utils.MetaCommand('options fringebar off')
                     data = self.metadb_3d_input.critical_sections["f21_front_floor"]
-                    visualize_3d_critical_section(data)
+                    visualize_3d_critical_section(data,name = "f21_front_floor")
                     self.logger.info("--- HDMA VISIBLE SPOTWELD ANALYSIS")
                     self.logger.info("START TIME : {}".format(datetime.now().strftime("%H:%M:%S")))
                     self.logger.info("THRESHOLD : {} | SOURCE MODEL ID : 0 | SOURCE WINDOW NAME : MetaPost | OUTPUT WINDOW NAME : MetaPost".format("0.7"))

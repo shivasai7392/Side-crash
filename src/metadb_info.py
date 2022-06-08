@@ -95,6 +95,7 @@ class Meta3DInfo:
     re_name = "name"
     re_transparent_pids = "transparent_pids"
     re_view = "view"
+    re_show_hes = "show_hes"
 
     def __init__(self):
 
@@ -136,7 +137,7 @@ class Meta3DInfo:
         """
 
         for attr in [Meta3DInfo.re_name,Meta3DInfo.re_erase_box,Meta3DInfo.re_erase_pids,Meta3DInfo.re_hes,
-                     Meta3DInfo.re_hes_exceptions,Meta3DInfo.re_transparent_pids,Meta3DInfo.re_view]:
+                     Meta3DInfo.re_hes_exceptions,Meta3DInfo.re_transparent_pids,Meta3DInfo.re_view,Meta3DInfo.re_show_hes]:
             # Getting the variables name
             variables = utils.MetaGetVariablesByName("*_{}".format(attr))
             for one_var in variables :
