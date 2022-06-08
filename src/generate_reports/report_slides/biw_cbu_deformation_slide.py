@@ -10,6 +10,7 @@ import logging
 from meta import utils
 
 from src.meta_utilities import capture_image
+from src.meta_utilities import visualize_3d_critical_section
 from src.metadb_info import GeneralVarInfo
 
 class BIWCBUDeformationSlide():
@@ -53,19 +54,20 @@ class BIWCBUDeformationSlide():
                     #visualizing all critical parts hes instances
                     utils.MetaCommand('0:options state variable "serial=1"')
                     utils.MetaCommand('grstyle scalarfringe disable')
-                    data = self.metadb_3d_input.critical_sections
-                    entities = list()
-                    list_of_prop_names = list()
-                    for _key,value in data.items():
-                        if 'hes' in value.keys():
-                            prop_names = value['hes']
-                            list_of_prop_names.append(prop_names)
-                            re_props = prop_names.split(",")
-                            for re_prop in re_props:
-                                entities.extend(self.metadb_3d_input.get_props(re_prop))
-                    self.metadb_3d_input.hide_all()
-                    self.metadb_3d_input.show_only_props(entities)
-                    utils.MetaCommand('color pid transparency reset act')
+                    data = self.metadb_3d_input.critical_sections["cbu"]
+                    visualize_3d_critical_section(data,name = "cbu")
+                    # entities = list()
+                    # list_of_prop_names = list()
+                    # for _key,value in data.items():
+                    #     if 'hes' in value.keys():
+                    #         prop_names = value['hes']
+                    #         list_of_prop_names.append(prop_names)
+                    #         re_props = prop_names.split(",")
+                    #         for re_prop in re_props:
+                    #             entities.extend(self.metadb_3d_input.get_props(re_prop))
+                    # self.metadb_3d_input.hide_all()
+                    # self.metadb_3d_input.show_only_props(entities)
+                    #utils.MetaCommand('color pid transparency reset act')
                     utils.MetaCommand('view default isometric')
                     utils.MetaCommand('options fringebar off')
                     if self.threed_images_report_folder is not None:

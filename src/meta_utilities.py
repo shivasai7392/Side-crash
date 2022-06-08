@@ -211,7 +211,7 @@ def visualize_3d_critical_section(data,and_filter = None,name = None):
                 logger.info("WARNING : Critical part set '{}' has no hes filter variable. Please update 2D META Variable..".format(name))
                 logger.info("")
             else:
-                logger.info("Error : Critical part set '{}' has no hes or hes_exceptions filter variable. Please update 2D META Variable..".format(name))
+                logger.info("Error : Critical part set '{}' has no hes and hes_exceptions filter variable. Please update 2D META Variable..".format(name))
                 logger.info("")
     #adding any exceptions from meta viewer
     utils.MetaCommand('add pid {}'.format(hes_exceptions))
