@@ -312,6 +312,20 @@ class CBUAndBarrierPositionSlide():
                     else:
                         self.logger.info("ERROR : META 2D variables '{},{},{}' are not available or invalid. Please update.".format(GeneralVarInfo.struck_subframe_node_key,GeneralVarInfo.MDB_fr_node_key,GeneralVarInfo.MDB_rr_node_key))
                         self.logger.info("")
+                #table population for the shape named "Table 3"
+                elif shape.name == "Table 3":
+                    #getting the table object
+                    table_obj = shape.table
+                    if self.general_input.barrier_impact_speed_value not in ["null","none",""]:
+                        #getting row 2 object and inserting physical mass value in cell 1
+                        text_frame = table_obj.rows[1].cells[1].text_frame
+                        font = text_frame.paragraphs[0].font
+                        font.name = 'Arial'
+                        font.size = Pt(11)
+                        text_frame.paragraphs[0].text = str(round(float(self.general_input.barrier_impact_speed_value)/277.77,2))
+                    else:
+                        self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.barrier_impact_speed_value_key))
+                        self.logger.info("")
             utils.MetaCommand('options fringebar on')
             endtime = datetime.now()
         except Exception as e:

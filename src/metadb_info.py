@@ -307,7 +307,7 @@ class GeneralVarInfo:
     MDB_rr_node_key = "MDB_rr_node"
     door_skin_intrusion_window_key = "door_skin_intrusion"
     door_panel_intrusion_window_key = "door_panel_intrusion"
-
+    barrier_impact_speed_value_key = "barrier_v-0"
 
     def __init__(self):
 
@@ -370,6 +370,7 @@ class GeneralVarInfo:
         self.MDB_rr_node_id = None
         self.door_skin_intrusion_window_name = None
         self.door_panel_intrusion_window_name = None
+        self.barrier_impact_speed_value = None
 
     def get_log_directory(self):
         """
@@ -455,6 +456,7 @@ class GeneralVarInfo:
         self.MDB_rr_node_id = get_var(GeneralVarInfo.MDB_rr_node_key)
         self.door_skin_intrusion_window_name = get_var(GeneralVarInfo.door_skin_intrusion_window_key)
         self.door_panel_intrusion_window_name = get_var(GeneralVarInfo.door_panel_intrusion_window_key)
+        self.barrier_impact_speed_value = get_var(GeneralVarInfo.barrier_impact_speed_value_key)
 
         return self
 

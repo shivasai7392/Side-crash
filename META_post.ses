@@ -1,4 +1,5 @@
-$ Session File written by META version:22.0.0
-window size 1411,738
-write options outputsize workspace 1427,779
-options 4Ksupport scalefactor 1.250000
+$ Session File written by META version:22.1.1
+window size 1008,727
+write options outputsize workspace 1024,768
+options 4Ksupport enable
+options 4Ksupport scalefactor 1.250
