@@ -1,4 +1,31 @@
 Log File written by META version:22.1.1
-Created at Thu Jun  9 16:04:29 2022
+Created at Fri Jun 10 15:22:05 2022
 
 
+Welcome to <font color="#b60f27">META</font> Post Processor
+ version:  22.1.1, compiled on: Mar  3 2022, 18:06:52
+ built:	64-bit sn: cbdaa344c18f
+ platform:  Windows 8664 6 2  9200 little-endian
+ company:  BETA CAE Systems India Pvt. Ltd.
+ Graphics:
+ 	Vendor: NVIDIA Corporation
+ 	Renderer: Quadro P2000/PCIe/SSE2
+ 	OpenGL Version: 4.6
+ 	Driver Version: 511.69
+ 	Device Memory: 2093 MB
+ 	Graphics Mode: High Performance
+Reading file C:/software/BETA/meta_post_v22.1.1/config/default/settings/META.defaults
+Reading file C:/Users/s.krishna/.BETA/META/version_22.1.1/default/settings/META.defaults
+ERROR: File: C:/Users/s.krishna/.BETA/META/version_22.1.1/default/settings/META.defaults, line: 32 syntax error Keyword: plot_align_header Empty value is not accepted!
+Generating code...
+Code generation completed.
+running...
+['C:\\software\\BETA\\meta_post_v22.1.1\\..\\shared_v22.1.1\\win64\\meta_post.exe', '-b', '-exec', "script execute run_wrapper.py::main(r'')", '-inputjson', 'D/input.json']
+Traceback (most recent call last):
+  File "run_wrapper.py", line 27, in __beta_tmp_Afr0d1ti_func_name__
+  File "D:\META\SIDECRASH\__scripts__\github\Side-crash\src\run.py", line 50, in main
+    user_input.get_user_input_from_json()
+  File "D:\META\SIDECRASH\__scripts__\github\Side-crash\src\user_input.py", line 44, in get_user_input_from_json
+    csd
+NameError: name 'csd' is not defined
+finished.

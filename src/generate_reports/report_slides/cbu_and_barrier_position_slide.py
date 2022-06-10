@@ -141,6 +141,12 @@ class CBUAndBarrierPositionSlide():
                 elif shape.name == "Table 4":
                     #getting the table object
                     table_obj = shape.table
+                    #getting the static mdb abd ground planes masses
+                    mdb_mass_text_frame = table_obj.rows[4].cells[1].text_frame
+                    mdb_mass = float(mdb_mass_text_frame.paragraphs[0].text)
+                    ground_planes_text_frame = table_obj.rows[5].cells[1].text_frame
+                    groud_planes_mass = float(ground_planes_text_frame.paragraphs[0].text)
+                    cae_mass = float(self.general_input.total_mass_value)*1000 - mdb_mass - groud_planes_mass
                     # If test_mass_value not in null,none,""
                     if self.general_input.test_mass_value not in ["null","none",""]:
                         #getting row 1 object and inserting test mass value in cell 1
@@ -178,13 +184,9 @@ class CBUAndBarrierPositionSlide():
                         #getting row 6 object and inserting total mass value in cell 1
                         text_frame = table_obj.rows[6].cells[1].text_frame
                         font = text_frame.paragraphs[0].font
-                        mdb_mass_text_frame = table_obj.rows[4].cells[1].text_frame
-                        mdb_mass = float(mdb_mass_text_frame.paragraphs[0].text)
-                        ground_planes_text_frame = table_obj.rows[5].cells[1].text_frame
-                        groud_planes_mass = float(ground_planes_text_frame.paragraphs[0].text)
                         font.name = 'Arial'
                         font.size = Pt(11)
-                        text_frame.paragraphs[0].text = str(round(float(self.general_input.total_mass_value)*1000 - mdb_mass - groud_planes_mass ,2))
+                        text_frame.paragraphs[0].text = str(round(cae_mass, 2))
                     else:
                         self.logger.info("ERROR : META 2D variable '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key))
                         self.logger.info("")
@@ -195,7 +197,7 @@ class CBUAndBarrierPositionSlide():
                         font = text_frame.paragraphs[0].font
                         font.name = 'Arial'
                         font.size = Pt(11)
-                        text_frame.paragraphs[0].text = str(round((float(self.general_input.test_mass_value)-float(self.general_input.total_mass_value))*1000,2))
+                        text_frame.paragraphs[0].text = str(round((cae_mass - float(self.general_input.test_mass_value)*1000),2))
                     else:
                         self.logger.info("ERROR : META 2D variable '{}' '{}' is not available or invalid. Please update.".format(GeneralVarInfo.total_mass_key,GeneralVarInfo.test_mass_key))
                         self.logger.info("")

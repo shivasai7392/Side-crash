@@ -10,6 +10,8 @@
 import os
 from datetime import datetime
 import sys
+import argparse
+
 
 from meta import utils
 from meta import windows
@@ -32,7 +34,7 @@ def main(*args):
     Returns:
         [Int]: 0 always
     """
-    utils.MetaCommand('options session controldraw disable')
+
     messenger = utils.Messenger()
     append_libs_path()
     # Getting the config directory filepath

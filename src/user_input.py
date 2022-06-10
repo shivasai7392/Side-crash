@@ -37,6 +37,11 @@ class UserInput():
     def get_user_input_from_json(self):
         """This method retrieves the input field values from a json file given bu user as input
         """
+        from meta import session
+
+        prog_args = session.ProgramArguments()
+        print(prog_args)
+        csd
         json_path = UserInput.set_param_from_cmd_input("Please enter the input json path")
         json_loader = JsonLoader(json_path)
         input_json_dict = json_loader.load_json()
